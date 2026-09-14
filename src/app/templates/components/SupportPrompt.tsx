@@ -13,6 +13,7 @@ export default function SupportPrompt({ supportUrl, downloadUrl, onDismiss }: Pr
 
   return (
     <div
+      data-testid="support-prompt"
       className="fixed inset-0 z-50 flex items-center justify-center"
       style={{ background: 'rgba(23,19,14,0.46)' }}
     >

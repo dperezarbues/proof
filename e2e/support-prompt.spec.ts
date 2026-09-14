@@ -1,7 +1,10 @@
 import { expect, test } from '@playwright/test'
+import en from '../messages/en.json'
 
 // WASM compilation can take up to 60 s on first load
 const GENERATE_TIMEOUT = 60_000
+
+const t = en.supportPrompt
 
 test.describe('Support prompt (pre-download modal)', () => {
   test.beforeEach(async ({ page }) => {
@@ -33,16 +36,21 @@ test.describe('Support prompt (pre-download modal)', () => {
     // Click Download — should intercept and show support modal
     await page.getByRole('button', { name: 'Download' }).click()
 
-    // If NEXT_PUBLIC_SUPPORT_URL is configured the modal appears;
-    // if not, the file downloads silently (no modal to assert)
-    const modal = page.getByText('Your PDF is ready')
+    // Existence is keyed off the component's own test id, not its copy — a
+    // wording or redesign change can't silently turn this into a permanent
+    // skip the way asserting on rendered text did before.
+    const modal = page.getByTestId('support-prompt')
     const isConfigured = await modal.isVisible().catch(() => false)
 
     if (isConfigured) {
       await expect(modal).toBeVisible()
-      await expect(page.getByRole('link', { name: 'Sponsor on GitHub' })).toBeVisible()
-      await expect(page.getByRole('link', { name: 'Star' })).toBeVisible()
-      await expect(page.getByRole('button', { name: 'Maybe later' })).toBeVisible()
+      // Content is checked separately, against the live translation source —
+      // this fails loudly if the wrong copy renders, but doesn't need
+      // updating every time the copy itself changes.
+      await expect(modal.getByText(t.ready)).toBeVisible()
+      await expect(modal.getByRole('link', { name: t.sponsorGitHub })).toBeVisible()
+      await expect(modal.getByRole('link', { name: t.star })).toBeVisible()
+      await expect(modal.getByRole('button', { name: t.maybeLater })).toBeVisible()
     } else {
       test.skip()
     }
@@ -58,13 +66,13 @@ test.describe('Support prompt (pre-download modal)', () => {
 
     await page.getByRole('button', { name: 'Download' }).click()
 
-    const modal = page.getByText('Your PDF is ready')
+    const modal = page.getByTestId('support-prompt')
     if (!(await modal.isVisible().catch(() => false))) {
       test.skip()
       return
     }
 
-    await page.getByRole('button', { name: 'Maybe later' }).click()
+    await modal.getByRole('button', { name: t.maybeLater }).click()
     await expect(modal).not.toBeVisible()
   })
 
@@ -78,12 +86,12 @@ test.describe('Support prompt (pre-download modal)', () => {
 
     // First click — show prompt (only if configured)
     await page.getByRole('button', { name: 'Download' }).click()
-    const modal = page.getByText('Your PDF is ready')
+    const modal = page.getByTestId('support-prompt')
     if (!(await modal.isVisible().catch(() => false))) {
       test.skip()
       return
     }
-    await page.getByRole('button', { name: 'Maybe later' }).click()
+    await modal.getByRole('button', { name: t.maybeLater }).click()
 
     // Second click — sessionStorage key is set, no modal
     await page.getByRole('button', { name: 'Download' }).click()
