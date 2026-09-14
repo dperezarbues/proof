@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 
 export const dynamic = 'force-static'
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://cv-web.app'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://proofcv-dusky.vercel.app'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
