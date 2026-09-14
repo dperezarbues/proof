@@ -118,7 +118,7 @@ function StepNav({ active, onChange }: { active: Tab; onChange: (t: Tab) => void
             role="tab"
             aria-selected={on}
             onClick={() => onChange(id)}
-            className="flex-1 flex items-center justify-center gap-1.5 py-3.5 cursor-pointer relative"
+            className="flex-1 flex flex-col items-center justify-center gap-0.5 py-3.5 cursor-pointer relative"
             style={{
               marginBottom: -1,
               background: 'none',

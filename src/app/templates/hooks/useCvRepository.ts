@@ -91,8 +91,6 @@ export function useCvRepository() {
   function togglePrivateMode(enabled: boolean) {
     if (enabled) enablePrivateMode()
     else disablePrivateMode()
-    if (cvList.length > 0) setItem(KEYS.cvs, JSON.stringify(cvList))
-    if (currentCvId) setItem(KEYS.currentCv, currentCvId)
     setPrivateModeState(enabled)
   }
 

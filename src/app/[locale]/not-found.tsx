@@ -222,7 +222,7 @@ export default async function NotFound() {
           >
             Error 404 ·{' '}
             <a
-              href="https://github.com/dperezarbues/cvault/issues"
+              href="https://github.com/dperezarbues/proof/issues"
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: 'var(--c-accent)', textDecoration: 'none' }}

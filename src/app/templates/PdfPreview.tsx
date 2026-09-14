@@ -131,7 +131,7 @@ export default function PdfPreview({
       </div>
 
       <div className="flex-1 relative min-h-0" data-testid="pdf-preview-area">
-        <PdfJsViewer src={currentPdf} />
+        <PdfJsViewer src={currentPdf} reserveBottom={!isGenerating && isSample} />
 
         {isGenerating && (
           <div

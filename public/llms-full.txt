@@ -1,14 +1,14 @@
-# CVault — Full Reference for LLMs
+# Proof — Full Reference for LLMs
 
-> Privacy-first CV editor that compiles PDFs using Typst. CV data is stored in the browser; sent to the server only transiently during PDF compilation and immediately discarded.
+> Privacy-first CV editor that compiles PDFs using Typst. CV data is stored in the browser and compiled to PDF entirely client-side via a WebAssembly build of Typst — nothing is ever sent to a server.
 
-This file contains the complete reference for generating valid CVault data — CV content JSON schema, layout structure, and all style parameters. No external links need to be followed.
+This file contains the complete reference for generating valid Proof data — CV content JSON schema, layout structure, and all style parameters. No external links need to be followed.
 
 ---
 
-## What CVault does
+## What Proof does
 
-Users maintain their CV as a JSON file stored locally in the browser. They select a template, customise layout and style through a visual editor, and generate a high-quality PDF compiled by Typst on the server. The data is processed transiently and immediately discarded — no server-side storage.
+Users maintain their CV as a JSON file stored locally in the browser. They select a template, customise layout and style through a visual editor, and generate a high-quality PDF compiled by Typst entirely in the browser via WebAssembly. No data ever leaves the device, and there is no server-side storage.
 
 **Templates available:** default, modern, minimal, sidebar
 

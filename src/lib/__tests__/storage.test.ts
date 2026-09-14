@@ -104,6 +104,40 @@ describe('isPrivateMode', () => {
   })
 })
 
+// ── Private mode migration (enable/disable) ──────────────────────────────────
+// Regression coverage: enablePrivateMode() used to only flip the flag, leaving
+// whatever was already in localStorage on disk — defeating private mode for
+// any CV saved before it was turned on. See storage.ts migrate().
+
+describe('private mode migration', () => {
+  it('enablePrivateMode moves existing data into sessionStorage and purges localStorage', () => {
+    mockLS._data[KEYS.cvs] = '["cv"]'
+    mockLS._data[KEYS.currentCv] = 'id-1'
+
+    enablePrivateMode()
+
+    expect(mockSS._data[KEYS.cvs]).toBe('["cv"]')
+    expect(mockSS._data[KEYS.currentCv]).toBe('id-1')
+    expect(mockLS._data[KEYS.cvs]).toBeUndefined()
+    expect(mockLS._data[KEYS.currentCv]).toBeUndefined()
+  })
+
+  it('disablePrivateMode moves session data back into localStorage and purges sessionStorage', () => {
+    mockSS._data['proof-private'] = '1'
+    mockSS._data[KEYS.cvs] = '["cv"]'
+
+    disablePrivateMode()
+
+    expect(mockLS._data[KEYS.cvs]).toBe('["cv"]')
+    expect(mockSS._data[KEYS.cvs]).toBeUndefined()
+  })
+
+  it('does not write a destination key when the source has none', () => {
+    enablePrivateMode()
+    expect(KEYS.cvs in mockSS._data).toBe(false)
+  })
+})
+
 // ── removeItem ────────────────────────────────────────────────────────────────
 
 describe('removeItem', () => {

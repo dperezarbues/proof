@@ -96,6 +96,13 @@
     "openEditor": "Abrir el editor",
     "reportIssue": "Reportar un problema"
   },
+  "error": {
+    "headline": "Algo se rompió.",
+    "body": "Se produjo un error inesperado. Sus CVs guardados están intactos — viven en su navegador, no en nuestros servidores — así que reintentar debería devolverle a donde estaba.",
+    "retry": "Reintentar",
+    "backHome": "Volver al inicio",
+    "reportIssue": "Reportar un problema"
+  },
   "onboarding": {
     "title": "Bienvenido a Proof",
     "subtitle": "Un editor de CV respetuoso con la privacidad. Sus datos se almacenan en este navegador — nada se guarda en el servidor.",

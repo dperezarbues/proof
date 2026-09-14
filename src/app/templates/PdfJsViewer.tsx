@@ -8,7 +8,15 @@ const ZOOM_STEP = 0.15
 const ZOOM_MIN = 0.5
 const ZOOM_MAX = 2.0
 
-export default function PdfJsViewer({ src }: { src: string }) {
+export default function PdfJsViewer({
+  src,
+  reserveBottom = false,
+}: {
+  src: string
+  /** True while a bottom banner (e.g. the sample-CTA bar) is covering the
+   * viewer's own bottom-right corner, so zoom controls need to sit higher. */
+  reserveBottom?: boolean
+}) {
   const containerRef = useRef<HTMLDivElement>(null)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   const [renderState, setRenderState] = useState<RenderState>('idle')
@@ -153,9 +161,10 @@ export default function PdfJsViewer({ src }: { src: string }) {
         </div>
       )}
 
-      {/* Zoom controls — outside scroll area so they stay fixed in place */}
+      {/* Zoom controls — outside scroll area so they stay fixed in place.
+          Shifted up when a bottom banner would otherwise sit underneath them. */}
       <div
-        className="absolute bottom-4 right-4 z-10 flex items-center rounded overflow-hidden shadow-lg"
+        className={`absolute ${reserveBottom ? 'bottom-16' : 'bottom-4'} right-4 z-10 flex items-center rounded overflow-hidden shadow-lg transition-[bottom]`}
         style={{ background: 'var(--c-ink)' }}
       >
         <button

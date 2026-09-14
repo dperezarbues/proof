@@ -15,13 +15,13 @@ const storageData: Record<string, string> = {}
 
 vi.mock('@/lib/storage', () => ({
   KEYS: {
-    styleOverrides: 'cvault-style-overrides',
-    layoutOverrides: 'cvault-layout-overrides',
-    saves: 'cvault-saves',
-    cvs: 'cvault-cvs',
-    currentCv: 'cvault-current-cv',
-    onboarded: 'cvault-onboarded',
-    supportPrompted: 'cvault-support-prompted',
+    styleOverrides: 'proof-style-overrides',
+    layoutOverrides: 'proof-layout-overrides',
+    saves: 'proof-saves',
+    cvs: 'proof-cvs',
+    currentCv: 'proof-current-cv',
+    onboarded: 'proof-onboarded',
+    supportPrompted: 'proof-support-prompted',
   },
   getItem: (k: string) => storageData[k] ?? null,
   setItem: (k: string, v: string) => {
@@ -29,7 +29,7 @@ vi.mock('@/lib/storage', () => ({
   },
 }))
 
-const KEY = 'cvault-style-overrides'
+const KEY = 'proof-style-overrides'
 
 beforeEach(() => {
   for (const k in storageData) delete storageData[k]
@@ -53,13 +53,13 @@ describe('loadSaves', () => {
       layout: minLayout,
       style: {},
     }
-    storageData['cvault-saves'] = JSON.stringify([save])
+    storageData['proof-saves'] = JSON.stringify([save])
     expect(loadSaves()).toHaveLength(1)
     expect(loadSaves()[0].name).toBe('My Save')
   })
 
   it('returns [] for corrupt storage', () => {
-    storageData['cvault-saves'] = 'not-json'
+    storageData['proof-saves'] = 'not-json'
     expect(loadSaves()).toEqual([])
   })
 })
@@ -75,7 +75,7 @@ describe('persistSaves', () => {
       style: {},
     }
     persistSaves([save])
-    const stored = JSON.parse(storageData['cvault-saves'])
+    const stored = JSON.parse(storageData['proof-saves'])
     expect(stored).toHaveLength(1)
     expect(stored[0].id).toBe('1')
   })
@@ -83,7 +83,7 @@ describe('persistSaves', () => {
 
 // ── loadLayoutOverride / persistLayoutOverride / clearLayoutOverride ──────────
 
-const LAYOUT_KEY = 'cvault-layout-overrides'
+const LAYOUT_KEY = 'proof-layout-overrides'
 const sampleLayout = { header: { style: 'split' }, sections: [{ id: 'summary', breakable: true }] }
 
 describe('loadLayoutOverride', () => {

@@ -81,18 +81,36 @@ export function isPrivateMode(): boolean {
   }
 }
 
-/** Activates private mode for the current tab — all data is stored in sessionStorage. */
+/** Moves every known key from one backend to the other, then purges the source. */
+function migrate(from: Storage, to: Storage): void {
+  for (const key of Object.values(KEYS)) {
+    try {
+      const val = from.getItem(key)
+      if (val !== null) to.setItem(key, val)
+      from.removeItem(key)
+    } catch (err) {
+      devWarn('migrate', err)
+    }
+  }
+}
+
+/**
+ * Activates private mode for the current tab: moves all data into sessionStorage
+ * and purges it from localStorage first, so nothing already on disk survives.
+ */
 export function enablePrivateMode(): void {
   try {
+    migrate(localStorage, sessionStorage)
     sessionStorage.setItem(PRIVATE_FLAG, '1')
   } catch (err) {
     devWarn('enablePrivateMode', err)
   }
 }
 
-/** Deactivates private mode for the current tab. */
+/** Deactivates private mode for the current tab, moving data back to localStorage. */
 export function disablePrivateMode(): void {
   try {
+    migrate(sessionStorage, localStorage)
     sessionStorage.removeItem(PRIVATE_FLAG)
   } catch (err) {
     devWarn('disablePrivateMode', err)

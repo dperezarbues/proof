@@ -1,8 +1,6 @@
-# CVault
+# Proof
 
 Privacy-first CV editor that generates polished PDFs from a structured JSON file. Runs entirely in your browser — your data never leaves your device.
-
-**Live:** [cvault.dev](https://cvault.dev)
 
 ## What it does
 
