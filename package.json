@@ -26,13 +26,13 @@
     "@myriaddreamin/typst-ts-web-compiler": "^0.7.0",
     "@types/qrcode": "^1.5.6",
     "@vercel/analytics": "^2.0.1",
-    "next": "16.2.7",
-    "next-intl": "^4.13.0",
-    "pdfjs-dist": "6.0.227",
+    "next": "16.3.4",
+    "next-intl": "^4.14.2",
+    "pdfjs-dist": "6.3.289",
     "qrcode": "^1.5.4",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "zod": "^4.4.3"
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
