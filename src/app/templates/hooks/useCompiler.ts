@@ -68,18 +68,18 @@ export function useCompiler({
     const layoutData = layoutRef.current()
     const cv = cvRef.current
 
-    let qrSvg: string | undefined
-    const style = (layoutData as { style?: Record<string, unknown> }).style ?? {}
-    if (style.show_qr === 'true') {
-      const qrUrl = resolveQrUrlRef.current(cv, style)
-      qrSvg = await QRCode.toString(qrUrl, { type: 'svg', margin: 0 })
-    }
-
     setCompileState(isCompilerReady() ? 'compiling' : 'loading')
     onGeneratingRef.current(true)
     if (!isCompilerReady()) onCompilerReady(() => setCompileState('compiling'))
 
     try {
+      let qrSvg: string | undefined
+      const style = (layoutData as { style?: Record<string, unknown> }).style ?? {}
+      if (style.show_qr === 'true') {
+        const qrUrl = resolveQrUrlRef.current(cv, style)
+        qrSvg = await QRCode.toString(qrUrl, { type: 'svg', margin: 0 })
+      }
+
       const url = await compileTypst({
         templateId,
         cvContent: cv,

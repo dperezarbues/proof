@@ -96,6 +96,13 @@
     "openEditor": "Editor öffnen",
     "reportIssue": "Problem melden"
   },
+  "error": {
+    "headline": "Etwas ist schiefgelaufen.",
+    "body": "Ein unerwarteter Fehler ist aufgetreten. Ihre gespeicherten Lebensläufe sind unberührt — sie liegen in Ihrem Browser, nicht auf unseren Servern — ein erneuter Versuch sollte Sie zurückbringen.",
+    "retry": "Erneut versuchen",
+    "backHome": "Zurück zur Startseite",
+    "reportIssue": "Problem melden"
+  },
   "onboarding": {
     "title": "Willkommen bei Proof",
     "subtitle": "Ein datenschutzfreundlicher Lebenslauf-Editor. Ihre Daten werden in diesem Browser gespeichert — serverseitig wird nichts gespeichert.",

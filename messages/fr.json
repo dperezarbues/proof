@@ -96,6 +96,13 @@
     "openEditor": "Ouvrir l'éditeur",
     "reportIssue": "Signaler un problème"
   },
+  "error": {
+    "headline": "Quelque chose s'est cassé.",
+    "body": "Une erreur inattendue s'est produite. Vos CV enregistrés sont intacts — ils vivent dans votre navigateur, pas sur nos serveurs — réessayer devrait vous ramener où vous étiez.",
+    "retry": "Réessayer",
+    "backHome": "Retour à l'accueil",
+    "reportIssue": "Signaler un problème"
+  },
   "onboarding": {
     "title": "Bienvenue sur Proof",
     "subtitle": "Un éditeur de CV respectueux de la vie privée. Vos données sont stockées dans ce navigateur — rien n'est enregistré côté serveur.",

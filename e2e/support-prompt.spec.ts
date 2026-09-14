@@ -8,7 +8,7 @@ test.describe('Support prompt (pre-download modal)', () => {
     await page.goto('/en/editor')
     await page.evaluate(() => {
       localStorage.setItem('proof-onboarded', '1')
-      sessionStorage.removeItem('cvault-support-prompted')
+      sessionStorage.removeItem('proof-support-prompted')
     })
     await page.reload()
     await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
@@ -35,13 +35,13 @@ test.describe('Support prompt (pre-download modal)', () => {
 
     // If NEXT_PUBLIC_SUPPORT_URL is configured the modal appears;
     // if not, the file downloads silently (no modal to assert)
-    const modal = page.getByText('Enjoying CVault?')
+    const modal = page.getByText('Your PDF is ready')
     const isConfigured = await modal.isVisible().catch(() => false)
 
     if (isConfigured) {
       await expect(modal).toBeVisible()
-      await expect(page.getByRole('link', { name: /Support the project/i })).toBeVisible()
-      await expect(page.getByRole('link', { name: 'Free Download' })).toBeVisible()
+      await expect(page.getByRole('link', { name: 'Sponsor on GitHub' })).toBeVisible()
+      await expect(page.getByRole('link', { name: 'Star' })).toBeVisible()
       await expect(page.getByRole('button', { name: 'Maybe later' })).toBeVisible()
     } else {
       test.skip()
@@ -58,7 +58,7 @@ test.describe('Support prompt (pre-download modal)', () => {
 
     await page.getByRole('button', { name: 'Download' }).click()
 
-    const modal = page.getByText('Enjoying CVault?')
+    const modal = page.getByText('Your PDF is ready')
     if (!(await modal.isVisible().catch(() => false))) {
       test.skip()
       return
@@ -78,7 +78,7 @@ test.describe('Support prompt (pre-download modal)', () => {
 
     // First click — show prompt (only if configured)
     await page.getByRole('button', { name: 'Download' }).click()
-    const modal = page.getByText('Enjoying CVault?')
+    const modal = page.getByText('Your PDF is ready')
     if (!(await modal.isVisible().catch(() => false))) {
       test.skip()
       return

@@ -96,6 +96,13 @@
     "openEditor": "Open the editor",
     "reportIssue": "Report an issue"
   },
+  "error": {
+    "headline": "Something broke.",
+    "body": "An unexpected error occurred. Your saved CVs are untouched — they live in your browser, not on our servers — so retrying should get you right back to where you were.",
+    "retry": "Try again",
+    "backHome": "Back to home",
+    "reportIssue": "Report an issue"
+  },
   "onboarding": {
     "title": "Welcome to Proof",
     "subtitle": "A privacy-first CV editor. Your data is stored in this browser — nothing is saved server-side.",
