@@ -1,5 +1,7 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
+
 export default function SpacingRow({
   pre,
   post,
@@ -11,6 +13,7 @@ export default function SpacingRow({
   onChange: (pre: number, post: number) => void
   onClear: () => void
 }) {
+  const t = useTranslations('editor')
   return (
     <div
       className="flex items-center gap-2 px-2 py-1.5 text-xs border-t"
@@ -68,7 +71,7 @@ export default function SpacingRow({
         onMouseLeave={(e) => {
           e.currentTarget.style.color = 'var(--c-faint)'
         }}
-        title="Reset to template default"
+        title={t('resetToDefault')}
       >
         ×
       </button>

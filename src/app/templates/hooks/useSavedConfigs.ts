@@ -1,9 +1,10 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { KEYS } from '@/lib/storage'
 import { parseLayoutStructure, parseStyleValues } from '../layout-serializer'
 import { LayoutImportSchema } from '../schemas'
-import { loadSaves, persistSaves } from '../storage-helpers'
+import { loadSaves, mutateSaves } from '../storage-helpers'
 import type { LayoutData, LayoutStructure, SavedConfig, StyleParam, StyleValues } from '../types'
 
 export function useSavedConfigs({
@@ -30,7 +31,22 @@ export function useSavedConfigs({
     [saves, templateId],
   )
 
-  function handleSave(name: string) {
+  // localStorage is shared across tabs — resync so another tab's save/delete
+  // doesn't leave this tab looking at a saves list that's already stale.
+  useEffect(() => {
+    function onStorage(e: StorageEvent) {
+      if (e.key !== KEYS.saves) return
+      setSaves(loadSaves())
+    }
+    window.addEventListener('storage', onStorage)
+    return () => window.removeEventListener('storage', onStorage)
+  }, [])
+
+  /** Returns false if the save failed (e.g. storage quota exceeded) so the caller (SaveModal)
+   *  can show an error instead of closing as if it had succeeded. Goes through mutateSaves so
+   *  the new entry is appended to whatever is CURRENTLY persisted, not this tab's possibly-stale
+   *  in-memory `saves` — another tab may have added/removed saved configs since this tab hydrated. */
+  function handleSave(name: string): boolean {
     const config: SavedConfig = {
       id: crypto.randomUUID(),
       name,
@@ -39,11 +55,12 @@ export function useSavedConfigs({
       layout: getLayoutSnapshot(),
       style,
     }
-    const updated = [...saves, config]
+    const updated = mutateSaves((current) => [...current, config])
+    if (updated === null) return false
     setSaves(updated)
-    persistSaves(updated)
     setShowSaveModal(false)
     onSaved()
+    return true
   }
 
   function handleLoad(config: SavedConfig) {
@@ -52,9 +69,9 @@ export function useSavedConfigs({
   }
 
   function handleDelete(id: string) {
-    const updated = saves.filter((s) => s.id !== id)
+    const updated = mutateSaves((current) => current.filter((s) => s.id !== id))
+    if (updated === null) return
     setSaves(updated)
-    persistSaves(updated)
   }
 
   function handleImport(e: React.ChangeEvent<HTMLInputElement>) {

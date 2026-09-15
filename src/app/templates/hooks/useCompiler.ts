@@ -68,27 +68,32 @@ export function useCompiler({
     const layoutData = layoutRef.current()
     const cv = cvRef.current
 
-    let qrSvg: string | undefined
-    const style = (layoutData as { style?: Record<string, unknown> }).style ?? {}
-    if (style.show_qr === 'true') {
-      const qrUrl = resolveQrUrlRef.current(cv, style)
-      qrSvg = await QRCode.toString(qrUrl, { type: 'svg', margin: 0 })
-    }
-
     setCompileState(isCompilerReady() ? 'compiling' : 'loading')
     onGeneratingRef.current(true)
     if (!isCompilerReady()) onCompilerReady(() => setCompileState('compiling'))
 
     try {
+      let qrSvg: string | undefined
+      const style = (layoutData as { style?: Record<string, unknown> }).style ?? {}
+      if (style.show_qr === 'true') {
+        const qrUrl = resolveQrUrlRef.current(cv, style)
+        qrSvg = await QRCode.toString(qrUrl, { type: 'svg', margin: 0 })
+      }
+
       const url = await compileTypst({
         templateId,
         cvContent: cv,
         layoutJson: JSON.stringify(layoutData),
         qrSvg,
       })
-      onPdfRef.current(url)
+      // cvContent can change while this compile is in flight (cold WASM
+      // loads take several seconds) — e.g. the CV being compiled gets
+      // deleted, or another one becomes active. A stale result must never
+      // overwrite what's now on screen; the pendingRef retry below already
+      // re-triggers a fresh compile for whatever content is current.
+      if (cvRef.current === cv) onPdfRef.current(url)
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err))
+      if (cvRef.current === cv) setError(err instanceof Error ? err.message : String(err))
     } finally {
       compileStateRef.current = 'idle'
       setCompileState('idle')

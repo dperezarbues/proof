@@ -18,6 +18,27 @@ const fromCommas = (s: string): string[] =>
     .map((l) => l.trim())
     .filter(Boolean)
 
+function extraKeys(raw: Record<string, unknown>, known: Set<string>): Record<string, unknown> {
+  const out: Record<string, unknown> = {}
+  for (const [k, v] of Object.entries(raw)) {
+    if (!known.has(k)) out[k] = v
+  }
+  return out
+}
+
+const GENERIC_ITEM_KEYS = new Set([
+  'title',
+  'subtitle',
+  'period',
+  'description',
+  'highlights',
+  'tags',
+])
+const CONTACT_KEYS = new Set(['type', 'key', 'value'])
+const SKILL_GROUP_KEYS = new Set(['name', 'entries'])
+const LANGUAGE_KEYS = new Set(['title', 'language', 'subtitle', 'level'])
+const IDENTITY_KEYS = new Set(['name', 'headline', 'contact'])
+
 function parseItem(raw: Record<string, unknown>): GenericItem {
   return {
     title: String(raw.title ?? ''),
@@ -26,11 +47,12 @@ function parseItem(raw: Record<string, unknown>): GenericItem {
     description: String(raw.description ?? ''),
     highlights: toLines(raw.highlights),
     tags: toCommas(raw.tags),
+    _extra: extraKeys(raw, GENERIC_ITEM_KEYS),
   }
 }
 
 function serializeItem(item: GenericItem): Record<string, unknown> {
-  const out: Record<string, unknown> = {}
+  const out: Record<string, unknown> = { ...item._extra }
   if (item.title) out.title = item.title
   if (item.subtitle) out.subtitle = item.subtitle
   if (item.period) out.period = item.period
@@ -51,6 +73,7 @@ function parseSkills(arr: unknown): SkillGroup[] {
   return (arr as Record<string, unknown>[]).map((g) => ({
     name: String(g.name ?? ''),
     entries: toCommas(g.entries),
+    _extra: extraKeys(g, SKILL_GROUP_KEYS),
   }))
 }
 
@@ -63,6 +86,7 @@ function parseLanguages(arr: unknown): GenericItem[] {
     description: '',
     highlights: '',
     tags: '',
+    _extra: extraKeys(l, LANGUAGE_KEYS),
   }))
 }
 
@@ -87,6 +111,7 @@ export function jsonToCvForm(raw: Record<string, unknown>): CvFormData {
       type: String(c.type ?? 'web'),
       key: String(c.key ?? ''),
       value: String(c.value ?? ''),
+      _extra: extraKeys(c, CONTACT_KEYS),
     }))
   }
 
@@ -100,6 +125,7 @@ export function jsonToCvForm(raw: Record<string, unknown>): CvFormData {
       name: String(identity.name ?? ''),
       headline: String(identity.headline ?? ''),
       contact,
+      _extra: extraKeys(identity, IDENTITY_KEYS),
     },
     summary: String(raw.summary ?? ''),
     experience: parseItems(raw.experience),
@@ -117,9 +143,12 @@ export function cvFormToJson(form: CvFormData): Record<string, unknown> {
   const result: Record<string, unknown> = {
     ...form._extra,
     identity: {
+      ...form.identity._extra,
       name: form.identity.name,
       headline: form.identity.headline,
-      contact: form.identity.contact.filter((c) => c.value.trim()),
+      contact: form.identity.contact
+        .filter((c) => c.value.trim())
+        .map((c) => ({ ...c._extra, type: c.type, key: c.key, value: c.value })),
     },
   }
 
@@ -138,11 +167,13 @@ export function cvFormToJson(form: CvFormData): Record<string, unknown> {
     'skills',
     form.skills
       .filter((g) => g.name)
-      .map((g) => ({ name: g.name, entries: fromCommas(g.entries) })),
+      .map((g) => ({ ...g._extra, name: g.name, entries: fromCommas(g.entries) })),
   )
   addIfNonEmpty(
     'languages',
-    form.languages.filter((l) => l.title).map((l) => ({ title: l.title, subtitle: l.subtitle })),
+    form.languages
+      .filter((l) => l.title)
+      .map((l) => ({ ...l._extra, title: l.title, subtitle: l.subtitle })),
   )
   addIfNonEmpty('certifications', ser(form.certifications))
   addIfNonEmpty('side_projects', ser(form.side_projects))

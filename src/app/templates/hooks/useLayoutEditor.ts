@@ -1,10 +1,11 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { serializeForTypst, serializeLayout, usedIds } from '../layout-serializer'
 import type { SectionDef } from '../section-defs'
 import { loadLayoutOverride, persistLayoutOverride } from '../storage-helpers'
-import type { Panel, StyleParam } from '../types'
+import type { LayoutEditorHandle, Panel, StyleParam } from '../types'
 import { useCompiler } from './useCompiler'
 import { useEditorState } from './useEditorState'
 import { useSavedConfigs } from './useSavedConfigs'
@@ -29,20 +30,25 @@ export function useLayoutEditor({
   onPdfChange: (url: string) => void
   onGenerating: (v: boolean) => void
 }) {
+  const t = useTranslations('editor')
   const [activePanel, setActivePanel] = useState<Panel>('layout')
+  const [layoutStorageError, setLayoutStorageError] = useState<string | null>(null)
 
   // Restore any previously persisted layout for this template, falling back to the default
   const [restoredLayout] = useState(() => loadLayoutOverride(templateId) ?? initialLayout)
   const editorState = useEditorState(restoredLayout)
   const styling = useStyleState(initialLayout, styleParams, templateId)
 
-  // Persist layout changes so they survive page refreshes and navigation
+  // Persist layout changes so they survive page refreshes and navigation. Surfaces a failure
+  // (e.g. quota exceeded) instead of silently dropping it — the change still applies for this
+  // session (editorState.layout already reflects it), it just won't survive a reload.
   useEffect(() => {
-    persistLayoutOverride(
+    const ok = persistLayoutOverride(
       templateId,
       serializeLayout(editorState.layout) as Record<string, unknown>,
     )
-  }, [editorState.layout, templateId])
+    setLayoutStorageError(ok ? null : t('autosaveError'))
+  }, [editorState.layout, templateId, t])
 
   const compiler = useCompiler({
     templateId,
@@ -105,30 +111,20 @@ export function useLayoutEditor({
     [allSidebarIds, sidebarSet, usedInMain],
   )
 
+  // setLayout is intentionally excluded from the editor handle below — layout mutations should go through the named actions, not a raw setter.
+  const { setLayout: _setLayout, ...editorActions } = editorState
+
   return {
     activePanel,
     setActivePanel,
+    storageError: layoutStorageError ?? styling.storageError,
     editor: {
-      layout: editorState.layout,
-      sensors: editorState.sensors,
+      ...editorActions,
       hasSidebar,
       available,
       availableSb,
       getLabel,
-      setHeader: editorState.setHeader,
-      updateSection: editorState.updateSection,
-      handleDragEnd: editorState.handleDragEnd,
-      handleSidebarDragEnd: editorState.handleSidebarDragEnd,
-      addFullSection: editorState.addFullSection,
-      addColumnsGroup: editorState.addColumnsGroup,
-      removeSection: editorState.removeSection,
-      updateColumn: editorState.updateColumn,
-      updateSpacing: editorState.updateSpacing,
-      addSidebarSection: editorState.addSidebarSection,
-      removeSidebarSection: editorState.removeSidebarSection,
-      toggleSidebarBreakable: editorState.toggleSidebarBreakable,
-      updateSidebarSpacing: editorState.updateSidebarSpacing,
-    },
+    } satisfies LayoutEditorHandle & { getLabel: (id: string) => string },
     style: {
       style: styling.style,
       setStyleValue: styling.setStyleValue,

@@ -1,4 +1,4 @@
-import { getItem, KEYS, setItem } from '@/lib/storage'
+import { getItem, KEYS, mutateStored, setItem } from '@/lib/storage'
 import type { SavedConfig, StyleOverrides } from './types'
 
 export function loadSaves(): SavedConfig[] {
@@ -9,8 +9,13 @@ export function loadSaves(): SavedConfig[] {
   }
 }
 
-export function persistSaves(saves: SavedConfig[]) {
-  setItem(KEYS.saves, JSON.stringify(saves))
+/** Returns the new list on success, or null if the write failed (e.g. quota exceeded) — callers
+ *  on the save path must surface that rather than assuming it worked. Goes through mutateStored
+ *  so the mutation applies to whatever is CURRENTLY persisted, not a stale in-memory snapshot. */
+export function mutateSaves(
+  mutate: (current: SavedConfig[]) => SavedConfig[],
+): SavedConfig[] | null {
+  return mutateStored(KEYS.saves, loadSaves, mutate)
 }
 
 type ScopedOverrides = Record<string, StyleOverrides>
@@ -41,18 +46,21 @@ export function persistStyleOverride(
   templateId: string,
   canonicalKey: string,
   value: string | number,
-) {
-  const scoped = readScoped()
-  scoped[templateId] = { ...(scoped[templateId] ?? {}), [canonicalKey]: value }
-  setItem(KEYS.styleOverrides, JSON.stringify(scoped))
+): boolean {
+  const next = mutateStored(KEYS.styleOverrides, readScoped, (scoped) => ({
+    ...scoped,
+    [templateId]: { ...(scoped[templateId] ?? {}), [canonicalKey]: value },
+  }))
+  return next !== null
 }
 
-export function clearStyleOverrides(templateId: string, canonicalKeys: string[]) {
-  const scoped = readScoped()
-  const bucket = { ...(scoped[templateId] ?? {}) }
-  for (const k of canonicalKeys) delete bucket[k]
-  scoped[templateId] = bucket
-  setItem(KEYS.styleOverrides, JSON.stringify(scoped))
+export function clearStyleOverrides(templateId: string, canonicalKeys: string[]): boolean {
+  const next = mutateStored(KEYS.styleOverrides, readScoped, (scoped) => {
+    const bucket = { ...(scoped[templateId] ?? {}) }
+    for (const k of canonicalKeys) delete bucket[k]
+    return { ...scoped, [templateId]: bucket }
+  })
+  return next !== null
 }
 
 // ── Layout overrides ──────────────────────────────────────────────────────────
@@ -71,14 +79,21 @@ export function loadLayoutOverride(templateId: string): Record<string, unknown> 
   return readScopedLayouts()[templateId] ?? null
 }
 
-export function persistLayoutOverride(templateId: string, layout: Record<string, unknown>): void {
-  const scoped = readScopedLayouts()
-  scoped[templateId] = layout
-  setItem(KEYS.layoutOverrides, JSON.stringify(scoped))
+export function persistLayoutOverride(
+  templateId: string,
+  layout: Record<string, unknown>,
+): boolean {
+  const next = mutateStored(KEYS.layoutOverrides, readScopedLayouts, (scoped) => ({
+    ...scoped,
+    [templateId]: layout,
+  }))
+  return next !== null
 }
 
-export function clearLayoutOverride(templateId: string): void {
-  const scoped = readScopedLayouts()
-  delete scoped[templateId]
-  setItem(KEYS.layoutOverrides, JSON.stringify(scoped))
+export function clearLayoutOverride(templateId: string): boolean {
+  const next = mutateStored(KEYS.layoutOverrides, readScopedLayouts, (scoped) => {
+    const { [templateId]: _removed, ...rest } = scoped
+    return rest
+  })
+  return next !== null
 }

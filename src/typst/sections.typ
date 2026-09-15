@@ -1,11 +1,13 @@
 #import "styles.typ": *
 #import "components.typ": *
+#import "i18n.typ": section-title
 
 #let data = normalize-cv(json(sys.inputs.at("cv_file", default: "/src/data/cv.json")))
+#let lang = data.at("_cv_language", default: "en")
 
 // ── Summary ───────────────────────────────────────────────────────────────────
 #let render-summary(pre: section-pre, post: section-post) = [
-  #cv-section("Summary", pre: pre, post: post, id: "summary")
+  #cv-section(section-title("summary", lang), pre: pre, post: post, id: "summary")
   #for (i, para) in data.summary.split("\n\n").enumerate() {
     if i > 0 { v(sp-xl) }
     text(size: fs-md)[#parse-links(para)]
@@ -14,7 +16,7 @@
 
 // ── Experience ────────────────────────────────────────────────────────────────
 #let render-experience(pre: section-pre, post: section-post) = [
-  #cv-section("Experience", pre: pre, post: post, id: "experience")
+  #cv-section(section-title("experience", lang), pre: pre, post: post, id: "experience")
   #for (ji, job) in data.experience.enumerate() {
     if ji > 0 { v(sp-xl) }
     block(breakable: false)[
@@ -51,7 +53,7 @@
 
 // ── Awards ────────────────────────────────────────────────────────────────────
 #let render-awards(pre: section-pre, post: section-post) = [
-  #cv-section("Awards", pre: pre, post: post, id: "awards")
+  #cv-section(section-title("awards", lang), pre: pre, post: post, id: "awards")
   #for (i, award) in data.awards.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -75,7 +77,7 @@
 
 // ── Skills ────────────────────────────────────────────────────────────────────
 #let render-skills(pre: section-pre, post: section-post) = [
-  #cv-section("Skills", pre: pre, post: post, id: "skills")
+  #cv-section(section-title("skills", lang), pre: pre, post: post, id: "skills")
   #set par(justify: false)
   #set text(hyphenate: false)
   #let dot    = "\u{00a0}· "
@@ -93,7 +95,7 @@
 
 // ── Education ─────────────────────────────────────────────────────────────────
 #let render-education(pre: section-pre, post: section-post) = [
-  #cv-section("Education", pre: pre, post: post, id: "education")
+  #cv-section(section-title("education", lang), pre: pre, post: post, id: "education")
   #for (i, edu) in data.education.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -122,7 +124,7 @@
 
 // ── Languages ─────────────────────────────────────────────────────────────────
 #let render-languages(pre: section-pre, post: section-post) = [
-  #cv-section("Languages", pre: pre, post: post, id: "languages")
+  #cv-section(section-title("languages", lang), pre: pre, post: post, id: "languages")
   #set text(hyphenate: false)
   #for lang in data.languages [
     #text(size: fs-md)[*#lang.title* ]#text(size: fs-sm, fill: c-muted, lang.at("subtitle", default: ""))#h(gap-lg)
@@ -131,7 +133,7 @@
 
 // ── Certifications ────────────────────────────────────────────────────────────
 #let render-certifications(pre: section-pre, post: section-post) = [
-  #cv-section("Certifications", pre: pre, post: post, id: "certifications")
+  #cv-section(section-title("certifications", lang), pre: pre, post: post, id: "certifications")
   #for (i, cert) in data.certifications.enumerate() {
     let tags    = cert.at("tags", default: ())
     let expired = "expired" in tags
@@ -145,7 +147,7 @@
 
 // ── Side Projects ─────────────────────────────────────────────────────────────
 #let render-side-projects(pre: section-pre, post: section-post) = [
-  #cv-section("Side Projects & Interests", pre: pre, post: post, id: "side_projects")
+  #cv-section(section-title("side_projects", lang), pre: pre, post: post, id: "side_projects")
   #for (i, proj) in data.side_projects.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -171,7 +173,7 @@
 #let render-core-strengths(pre: section-pre, post: section-post) = {
   if "core_strengths" not in data { return }
   [
-    #cv-section("Core Strengths", pre: pre, post: post, id: "core_strengths")
+    #cv-section(section-title("core_strengths", lang), pre: pre, post: post, id: "core_strengths")
     #set par(justify: false)
     #set text(hyphenate: false)
     #for s in data.core_strengths { pill(s); h(pill-gap) }
@@ -182,7 +184,7 @@
 #let render-leadership-profile(pre: section-pre, post: section-post) = {
   if "leadership_profile" not in data { return }
   [
-    #cv-section("Leadership Profile", pre: pre, post: post, id: "leadership_profile")
+    #cv-section(section-title("leadership_profile", lang), pre: pre, post: post, id: "leadership_profile")
     #let lp = data.leadership_profile
     #let sub = lp.at("subtitle", default: "")
     #if sub != "" {

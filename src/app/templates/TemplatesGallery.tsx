@@ -1,7 +1,6 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import MarkProof from '@/components/proof/MarkProof'
@@ -9,403 +8,25 @@ import { Link } from '@/i18n/navigation'
 import { getItem, KEYS, setItem } from '@/lib/storage'
 import { initTypstWorker } from '@/lib/typst-compile'
 import CvDataModal, { type CvEntry } from './CvDataModal'
+import { DataTab } from './components/DataTab'
+import { MonoTag, SbBtn } from './components/GalleryAtoms'
+import { StepNav } from './components/StepNav'
+import { TemplateTab } from './components/TemplateTab'
+import { type CvLanguage, getCvLanguage, setCvLanguage } from './cv-language'
 import type { EditorTab } from './EditorShell'
 import { useCvRepository } from './hooks/useCvRepository'
 import OnboardingModal from './OnboardingModal'
 import PdfPreview from './PdfPreview'
 import type { SectionDef } from './section-defs'
 import { DEFAULT_SECTIONS } from './section-defs'
-import type { CompileState, Layout, Template } from './types'
+import type { CompileState, Layout, Tab, Template } from './types'
 
 const EditorShell = dynamic(() => import('./EditorShell'), { ssr: false })
-
-// ── types ─────────────────────────────────────────────────────────────────────
-
-type Tab = 'data' | 'template' | 'layout' | 'style'
 
 type CvModalState =
   | { mode: 'new' }
   | { mode: 'import'; content: string; name: string }
   | { mode: 'edit'; entry: CvEntry }
-
-// ── atoms ─────────────────────────────────────────────────────────────────────
-
-function MonoTag({ children }: { children: React.ReactNode }) {
-  return (
-    <span
-      className="font-mono text-[9.5px] tracking-[0.12em] uppercase"
-      style={{ color: 'var(--c-faint)' }}
-    >
-      {children}
-    </span>
-  )
-}
-
-function AccentTag({ children }: { children: React.ReactNode }) {
-  return (
-    <span
-      className="font-mono text-[9.5px] tracking-[0.12em] uppercase"
-      style={{ color: 'var(--c-accent)' }}
-    >
-      {children}
-    </span>
-  )
-}
-
-function SbBtn({
-  children,
-  variant = 'ghost',
-  full,
-  onClick,
-  disabled,
-  title,
-  type = 'button',
-  ...rest
-}: {
-  children: React.ReactNode
-  variant?: 'primary' | 'dark' | 'ghost'
-  full?: boolean
-  onClick?: () => void
-  disabled?: boolean
-  title?: string
-  type?: 'button' | 'submit'
-  [key: `data-${string}`]: string | undefined
-}) {
-  const base = `${full ? 'flex w-full' : 'inline-flex'} items-center justify-center gap-1.5 px-3.5 py-2.5 font-bold text-[12px] rounded-[3px] uppercase tracking-[0.03em] whitespace-nowrap transition-opacity disabled:opacity-40`
-  const variants: Record<string, React.CSSProperties> = {
-    primary: { background: 'var(--c-accent)', color: '#fff' },
-    dark: { background: 'var(--c-ink)', color: 'var(--c-paper)' },
-    ghost: { color: 'var(--c-ink2)', boxShadow: 'inset 0 0 0 1.3px var(--c-line)' },
-  }
-  return (
-    <button
-      type={type}
-      className={base}
-      style={variants[variant]}
-      onClick={onClick}
-      disabled={disabled}
-      title={title}
-      {...rest}
-    >
-      {children}
-    </button>
-  )
-}
-
-// ── step nav ──────────────────────────────────────────────────────────────────
-
-function StepNav({ active, onChange }: { active: Tab; onChange: (t: Tab) => void }) {
-  const t = useTranslations('editor')
-  const steps: [Tab, string][] = [
-    ['data', t('tabData')],
-    ['template', t('tabTemplate')],
-    ['layout', t('tabLayout')],
-    ['style', t('tabStyle')],
-  ]
-  return (
-    <div
-      className="flex"
-      style={{ borderBottom: '1px solid var(--c-line)', padding: '0 8px' }}
-      role="tablist"
-      aria-label="Editor steps"
-    >
-      {steps.map(([id, label], i) => {
-        const on = id === active
-        return (
-          <button
-            key={id}
-            type="button"
-            role="tab"
-            aria-selected={on}
-            onClick={() => onChange(id)}
-            className="flex-1 flex items-center justify-center gap-1.5 py-3.5 cursor-pointer relative"
-            style={{
-              marginBottom: -1,
-              background: 'none',
-              border: 'none',
-              borderBottom: on ? '2.5px solid var(--c-accent)' : '2.5px solid transparent',
-            }}
-          >
-            <span
-              className="font-mono text-[10.5px]"
-              style={{ color: on ? 'var(--c-accent)' : 'var(--c-faint)' }}
-            >
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <span
-              className="font-bold text-[12.5px] uppercase tracking-[0.02em]"
-              style={{ color: on ? 'var(--c-ink)' : 'var(--c-sub)' }}
-            >
-              {label}
-            </span>
-          </button>
-        )
-      })}
-    </div>
-  )
-}
-
-// ── data tab ──────────────────────────────────────────────────────────────────
-
-function DataTab({
-  cvList,
-  currentCv,
-  hydrated,
-  importRef,
-  onNewCv,
-  onImportFile,
-  onSelectCv,
-  onEditCv,
-  onDownloadCv,
-  onDeleteCv,
-}: {
-  cvList: CvEntry[]
-  currentCv: CvEntry | null
-  hydrated: boolean
-  importRef: React.RefObject<HTMLInputElement | null>
-  onNewCv: () => void
-  onImportFile: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onSelectCv: (id: string) => void
-  onEditCv: (e: CvEntry) => void
-  onDownloadCv: (e: CvEntry) => void
-  onDeleteCv: (id: string) => void
-}) {
-  const t = useTranslations('editor')
-  return (
-    <div className="p-4 space-y-4">
-      {/* CV list */}
-      <div>
-        <div className="flex items-center justify-between mb-2.5">
-          <AccentTag>{t('yourCVs')}</AccentTag>
-          <div className="flex gap-2">
-            <input
-              ref={importRef}
-              type="file"
-              accept=".json"
-              className="hidden"
-              onChange={onImportFile}
-            />
-            <SbBtn onClick={() => importRef.current?.click()}>{t('import')}</SbBtn>
-            <SbBtn variant="dark" onClick={onNewCv} title={t('newCV')} data-testid="new-cv-btn">
-              {t('newCV')}
-            </SbBtn>
-          </div>
-        </div>
-
-        {hydrated && cvList.length === 0 ? (
-          <p className="text-[12px] py-4 text-center" style={{ color: 'var(--c-faint)' }}>
-            {t('noCVsYet')}
-          </p>
-        ) : (
-          <div className="space-y-1">
-            {cvList.map((entry) => {
-              const active = currentCv?.id === entry.id
-              return (
-                <div
-                  key={entry.id}
-                  className="flex items-center gap-1 rounded-[3px] group"
-                  style={{
-                    background: active ? 'var(--c-accent-soft)' : 'transparent',
-                  }}
-                >
-                  <button
-                    type="button"
-                    className="flex-1 flex items-center gap-2 px-2.5 py-2 text-left"
-                    onClick={() => onSelectCv(entry.id)}
-                  >
-                    <span
-                      className="shrink-0 w-1.5 h-1.5 rounded-full"
-                      style={{ background: active ? 'var(--c-accent)' : 'transparent' }}
-                    />
-                    <span
-                      className="flex-1 text-[13px] truncate font-medium"
-                      style={{ color: active ? 'var(--c-accent-deep)' : 'var(--c-ink)' }}
-                    >
-                      {entry.name}
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onEditCv(entry)}
-                    title={t('editCVDataTitle')}
-                    className="px-1.5 py-2 text-[13px] opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{ color: 'var(--c-sub)' }}
-                  >
-                    ✎
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onDownloadCv(entry)}
-                    title={t('downloadJSON')}
-                    className="px-1.5 py-2 text-[13px] opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{ color: 'var(--c-sub)' }}
-                  >
-                    ↓
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onDeleteCv(entry.id)}
-                    title={t('delete')}
-                    className="px-1.5 py-2 text-[13px] opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{ color: 'var(--c-sub)' }}
-                  >
-                    ×
-                  </button>
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Schema card */}
-      <div
-        className="rounded-[4px] p-3.5"
-        style={{ background: 'var(--c-card)', boxShadow: 'inset 0 0 0 1px var(--c-line)' }}
-      >
-        <AccentTag>01</AccentTag>
-        <div className="font-bold text-[13px] mt-1 mb-2" style={{ color: 'var(--c-ink)' }}>
-          {t('getSchema')}
-        </div>
-        <div
-          className="flex items-center gap-2 rounded-[3px] px-2.5 py-2 mb-2.5"
-          style={{ background: 'var(--c-ink)' }}
-        >
-          <span className="font-mono text-[11px] flex-1" style={{ color: 'rgba(255,255,255,0.8)' }}>
-            cv.schema.json
-          </span>
-          <span className="font-mono text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            2 KB
-          </span>
-        </div>
-        <div className="flex gap-2">
-          <Link
-            href="/for-llms"
-            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 font-bold text-[12px] rounded-[3px] uppercase tracking-wider"
-            style={{ background: 'var(--c-ink)', color: 'var(--c-paper)' }}
-          >
-            {t('download')}
-          </Link>
-          <a
-            href="/llms-full.txt"
-            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 font-bold text-[12px] rounded-[3px] uppercase tracking-wider"
-            style={{ boxShadow: 'inset 0 0 0 1.3px var(--c-line)', color: 'var(--c-ink2)' }}
-          >
-            llms.txt
-          </a>
-        </div>
-      </div>
-
-      {/* Privacy note */}
-      <div className="flex items-center gap-2 px-0.5">
-        <span
-          className="font-mono text-[10.5px] tracking-[0.02em]"
-          style={{ color: 'var(--c-faint)' }}
-        >
-          {t('processedLocally')}
-        </span>
-      </div>
-    </div>
-  )
-}
-
-// ── template tab ──────────────────────────────────────────────────────────────
-
-function TemplateTab({
-  templates,
-  activeTemplate,
-  activeLayout,
-  onSelectTemplate,
-  onSelectLayout,
-}: {
-  templates: Template[]
-  activeTemplate: Template
-  activeLayout: Layout
-  onSelectTemplate: (t: Template) => void
-  onSelectLayout: (l: Layout) => void
-}) {
-  const t = useTranslations('editor')
-  return (
-    <div className="p-4">
-      <div
-        className="font-bold text-[15px] uppercase tracking-[0.01em] mb-1"
-        style={{ color: 'var(--c-ink)' }}
-      >
-        {t('chooseTemplate')}
-      </div>
-      <p className="text-[12px] mb-4" style={{ color: 'var(--c-sub)' }}>
-        {templates.length} {t('templatesMoreOnWay')}
-      </p>
-
-      <div className="grid grid-cols-2 gap-3">
-        {templates.map((t) => {
-          const on = activeTemplate.id === t.id
-          return (
-            <button
-              key={t.id}
-              type="button"
-              data-testid={`template-btn-${t.id}`}
-              onClick={() => onSelectTemplate(t)}
-              className="relative rounded-[3px] p-2 text-left transition-shadow"
-              style={{
-                background: '#fff',
-                boxShadow: on ? `0 0 0 2px var(--c-accent)` : 'inset 0 0 0 1px var(--c-line)',
-              }}
-            >
-              {/* Template thumbnail */}
-              <div
-                className="h-24 mb-2 overflow-hidden relative"
-                style={{ background: '#f5f5f5', boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.06)' }}
-              >
-                <Image
-                  src={`/thumbnails/${t.id}.png`}
-                  alt={`${t.name} template preview`}
-                  fill
-                  className="object-cover object-top"
-                  sizes="152px"
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-[12px]" style={{ color: 'var(--c-ink)' }}>
-                  {t.name}
-                </span>
-                {on && (
-                  <span className="text-[18px]" style={{ color: 'var(--c-accent)' }}>
-                    ✓
-                  </span>
-                )}
-              </div>
-            </button>
-          )
-        })}
-      </div>
-
-      {activeTemplate.layouts.length > 1 && (
-        <div className="mt-5">
-          <AccentTag>{t('layoutVariant')}</AccentTag>
-          <div className="flex gap-2 mt-2.5">
-            {activeTemplate.layouts.map((l) => (
-              <button
-                key={l.id}
-                type="button"
-                data-testid={`layout-btn-${l.id}`}
-                onClick={() => onSelectLayout(l)}
-                className="flex-1 py-2 rounded-[3px] font-bold text-[12px] uppercase tracking-[0.02em] transition-opacity"
-                style={{
-                  background: activeLayout.id === l.id ? 'var(--c-ink)' : 'transparent',
-                  color: activeLayout.id === l.id ? 'var(--c-paper)' : 'var(--c-ink2)',
-                  boxShadow: activeLayout.id === l.id ? 'none' : 'inset 0 0 0 1.3px var(--c-line)',
-                }}
-              >
-                {l.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
 
 // ── main component ────────────────────────────────────────────────────────────
 
@@ -439,6 +60,13 @@ export default function TemplatesGallery({
     }
   }, [])
 
+  /** Every previewPdf update must go through here — it's the only place that
+   * revokes the outgoing blob URL, so a call site can never forget to. */
+  function replacePreviewPdf(next: string | null) {
+    if (previewPdfRef.current?.startsWith('blob:')) URL.revokeObjectURL(previewPdfRef.current)
+    setPreviewPdf(next)
+  }
+
   const repo = useCvRepository()
   const { cvList, currentCv, hydrated, privateMode } = repo
 
@@ -466,22 +94,46 @@ export default function TemplatesGallery({
     }
   }, [currentCv])
 
+  const cvLanguage = useMemo(
+    () => (currentCv ? getCvLanguage(currentCv.content) : 'en'),
+    [currentCv],
+  )
+
+  function handleSetCvLanguage(lang: CvLanguage) {
+    if (!currentCv) return
+    repo.saveCv({ ...currentCv, content: setCvLanguage(currentCv.content, lang) })
+  }
+
   const samplePdf = `/samples/${activeTemplate.id}.pdf`
   const isSample = previewPdf === null
   const currentPdf = previewPdf ?? samplePdf
   const activeLayoutData = layoutData[activeTemplate.id]?.[activeLayout.id] ?? null
   const isEditable = activeLayoutData !== null
 
-  function handleSaveCv(entry: CvEntry) {
-    const isFirst = repo.saveCv(entry)
+  function handleSaveCv(entry: CvEntry): boolean {
+    const { isFirst, ok } = repo.saveCv(entry)
+    if (!ok) return false
     setCvModal(null)
     if (isFirst) setGenerateTrigger((t) => t + 1)
+    return true
+  }
+
+  function handleDeleteCv(id: string) {
+    // deleteCv() never touches previewPdf — without this, deleting the CV
+    // currently on screen leaves its rendered PDF (and blob URL) sitting
+    // there indefinitely. If another CV becomes active, the normal
+    // content-change effect will recompile for it shortly after; if this was
+    // the last CV, there's nothing left to recompile, so this is the only
+    // thing that clears the now-deleted person's data off the screen.
+    const wasActive = currentCv?.id === id
+    repo.deleteCv(id)
+    if (wasActive) replacePreviewPdf(null)
   }
 
   function handleClearData() {
     if (!confirm(t('clearDataConfirm'))) return
     repo.clearData()
-    setPreviewPdf(null)
+    replacePreviewPdf(null)
   }
 
   function handleImportFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -504,13 +156,13 @@ export default function TemplatesGallery({
   function selectTemplate(t: Template) {
     setActiveTemplate(t)
     setActiveLayout(t.layouts[0])
-    setPreviewPdf(null)
+    replacePreviewPdf(null)
     if (activeTab === 'layout' || activeTab === 'style') setActiveTab('layout')
   }
 
   function selectLayout(l: Layout) {
     setActiveLayout(l)
-    setPreviewPdf(null)
+    replacePreviewPdf(null)
   }
 
   const handleCompileInfo = useCallback(
@@ -634,8 +286,12 @@ export default function TemplatesGallery({
                 {currentCv ? currentCv.name : t('noCVLoaded')}
               </span>
             </div>
-            <SbBtn variant="dark" onClick={() => setCvModal({ mode: 'new' })} title="New CV">
-              + New
+            <SbBtn
+              variant="dark"
+              onClick={() => setCvModal({ mode: 'new' })}
+              title={t('newCvTitle')}
+            >
+              {t('newCV')}
             </SbBtn>
           </div>
         </div>
@@ -674,12 +330,14 @@ export default function TemplatesGallery({
               currentCv={currentCv}
               hydrated={hydrated}
               importRef={importRef}
+              cvLanguage={cvLanguage}
               onNewCv={() => setCvModal({ mode: 'new' })}
               onImportFile={handleImportFile}
               onSelectCv={repo.selectCv}
               onEditCv={(e) => setCvModal({ mode: 'edit', entry: e })}
               onDownloadCv={repo.downloadCv}
-              onDeleteCv={repo.deleteCv}
+              onDeleteCv={handleDeleteCv}
+              onSetCvLanguage={handleSetCvLanguage}
             />
           )}
 
@@ -709,13 +367,10 @@ export default function TemplatesGallery({
                 cvContent={currentCv?.content ?? ''}
                 generateTrigger={generateTrigger}
                 activeTab={editorTab}
-                onPdfChange={(url) =>
-                  setPreviewPdf((prev) => {
-                    if (prev?.startsWith('blob:')) URL.revokeObjectURL(prev)
-                    setMobilePanel(false) // show the result on mobile
-                    return url
-                  })
-                }
+                onPdfChange={(url) => {
+                  replacePreviewPdf(url)
+                  setMobilePanel(false) // show the result on mobile
+                }}
                 onGenerating={setIsGenerating}
                 onCompileInfo={handleCompileInfo}
               />
@@ -749,7 +404,7 @@ export default function TemplatesGallery({
                 download
                 className="inline-flex items-center justify-center px-3.5 py-2.5 rounded-[3px] font-bold text-[12px] transition-opacity hover:opacity-80"
                 style={{ boxShadow: 'inset 0 0 0 1.3px var(--c-line)', color: 'var(--c-ink2)' }}
-                title="Download PDF"
+                title={t('downloadPDF')}
               >
                 ↓
               </a>
@@ -798,7 +453,7 @@ export default function TemplatesGallery({
             <button
               type="button"
               onClick={() => setShowWelcome(true)}
-              title="Help"
+              title={t('help')}
               className="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[11px] leading-none transition-opacity hover:opacity-70"
               style={{ boxShadow: 'inset 0 0 0 1px var(--c-line)', color: 'var(--c-sub)' }}
             >
@@ -818,7 +473,7 @@ export default function TemplatesGallery({
           isSample={isSample}
           isGenerating={isGenerating}
           currentCv={currentCv}
-          onReset={() => setPreviewPdf(null)}
+          onReset={() => replacePreviewPdf(null)}
           onGenerate={() => setGenerateTrigger((t) => t + 1)}
           onNewCv={() => setCvModal({ mode: 'new' })}
           onImport={() => importRef.current?.click()}
@@ -873,6 +528,7 @@ export default function TemplatesGallery({
           privateMode={privateMode}
           onPrivateToggle={repo.togglePrivateMode}
           onDismiss={dismissWelcome}
+          cvCount={cvList.length}
         />
       )}
 

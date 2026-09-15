@@ -357,6 +357,13 @@
         },
         {
           "group": "Sidebar",
+          "key": "sidebar_ink",
+          "label": "Names & titles",
+          "type": "color",
+          "default": "#ffffff"
+        },
+        {
+          "group": "Sidebar",
           "key": "sidebar_width",
           "label": "Width",
           "type": "range",

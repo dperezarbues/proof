@@ -2,6 +2,7 @@
 
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { DEFAULT_POST, DEFAULT_PRE } from '../layout-serializer'
 import SpacingRow from './SpacingRow'
@@ -29,6 +30,7 @@ export default function SectionCard({
   onSpacingChange,
   children,
 }: Props) {
+  const t = useTranslations('editor')
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: sortableId,
   })
@@ -74,7 +76,7 @@ export default function SectionCard({
           onClick={toggleSpacing}
           className="text-xs px-1 leading-none transition-colors"
           style={{ color: hasCustomSpacing ? 'var(--c-accent)' : 'var(--c-faint)' }}
-          title="Per-section spacing"
+          title={t('perSectionSpacing')}
         >
           ↕
         </button>

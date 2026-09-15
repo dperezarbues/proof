@@ -49,6 +49,7 @@ function getWorker(): Worker {
       pending.delete(id)
     }
     readyListeners.length = 0
+    worker?.terminate()
     worker = null
     workerReady = false
   }
@@ -85,7 +86,7 @@ export async function compileTypst(options: {
     const id = nextId++
     const timer = setTimeout(() => {
       pending.delete(id)
-      reject(new Error('Compile timed out after 30 s'))
+      reject(new Error(`Compile timed out after ${COMPILE_TIMEOUT_MS / 1000}s`))
     }, COMPILE_TIMEOUT_MS)
 
     pending.set(id, {

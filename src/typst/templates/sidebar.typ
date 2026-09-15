@@ -21,6 +21,7 @@
 #let sb-accent = if "sidebar_accent"      in style { rgb(style.sidebar_accent)     } else { rgb("#5b9bd5") }
 #let sb-link   = if "sidebar_link_color"  in style { rgb(style.sidebar_link_color) } else { sb-accent }
 #let sb-text   = if "sidebar_text"        in style { rgb(style.sidebar_text)       } else { rgb("#bcc8d4") }
+#let sb-ink    = if "sidebar_ink"         in style { rgb(style.sidebar_ink)        } else { white }
 #let sb-muted  = sb-text.transparentize(35%)
 
 // ── Typography overrides ──────────────────────────────────────────────────────
@@ -85,7 +86,7 @@
   #sb-section("Languages", id: "languages", pre: pre, post: post)
   #set text(size: sb-fs-xs)
   #for lang in data.languages [
-    #text(weight: "bold", fill: white)[#lang.title]#h(sp-sm)#text(fill: sb-text)[#lang.at("subtitle", default: "")] \
+    #text(weight: "bold", fill: sb-ink)[#lang.title]#h(sp-sm)#text(fill: sb-text)[#lang.at("subtitle", default: "")] \
   ]
 ]
 
@@ -94,7 +95,7 @@
   #for (i, cert) in data.certifications.enumerate() {
     if i > 0 { v(sp-xs) }
     [
-      #text(size: sb-fs-2xs, fill: white)[#cert.title] \
+      #text(size: sb-fs-2xs, fill: sb-ink)[#cert.title] \
       #text(size: sb-fs-2xs, fill: sb-muted)[#cert.at("subtitle", default: "")]
     ]
   }
@@ -120,7 +121,7 @@
       #grid(
         columns: (1fr, auto),
         gutter: sp-xs,
-        text(size: sb-fs-xs, weight: "bold", fill: white, edu.title),
+        text(size: sb-fs-xs, weight: "bold", fill: sb-ink, edu.title),
         text(size: sb-fs-2xs, fill: sb-muted, period),
       )
       #if subtitle != "" {
@@ -138,7 +139,7 @@
     block(breakable: false)[
       #let subtitle = award.at("subtitle", default: "")
       #bookmark(award.title + if subtitle != "" { " · " + subtitle } else { "" }, level: 2)
-      #text(size: sb-fs-xs, weight: "bold", fill: white)[#award.title] \
+      #text(size: sb-fs-xs, weight: "bold", fill: sb-ink)[#award.title] \
       #if subtitle != "" { text(size: sb-fs-2xs, fill: sb-muted)[#subtitle] }
       #let desc = award.at("description", default: "")
       #if desc != "" {
@@ -156,7 +157,7 @@
     block(breakable: false)[
       #let subtitle = proj.at("subtitle", default: "")
       #bookmark(proj.title, level: 2)
-      #text(size: sb-fs-xs, weight: "bold", fill: white)[#proj.title]
+      #text(size: sb-fs-xs, weight: "bold", fill: sb-ink)[#proj.title]
       #if subtitle != "" { h(sp-sm); text(size: sb-fs-2xs, fill: sb-muted)[#subtitle] }
       #let desc = proj.at("description", default: "")
       #if desc != "" {
@@ -191,7 +192,7 @@
       } else if type(item) == dictionary {
         let title    = item.at("title",    default: item.at("name", default: ""))
         let subtitle = item.at("subtitle", default: "")
-        [#text(size: sb-fs-xs, weight: "bold", fill: white)[#title] \ ]
+        [#text(size: sb-fs-xs, weight: "bold", fill: sb-ink)[#title] \ ]
         if subtitle != "" { [#text(size: sb-fs-2xs, fill: sb-muted)[#subtitle] \ ] }
         let desc = item.at("description", default: "")
         if desc != "" { [#text(size: sb-fs-2xs, fill: sb-text)[#parse-links(desc)] \ ] }
@@ -239,7 +240,7 @@
   #set par(justify: true)
   #show link: set text(fill: sb-link)
 
-  #par(justify: false)[#text(size: fs-2xl, weight: "bold", fill: white)[#id.name]]
+  #par(justify: false)[#text(size: fs-2xl, weight: "bold", fill: sb-ink)[#id.name]]
   #v(sp-sm)
   #text(size: sb-fs-xs, fill: sb-text)[#id.headline]
 

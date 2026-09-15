@@ -8,11 +8,20 @@ const ZOOM_STEP = 0.15
 const ZOOM_MIN = 0.5
 const ZOOM_MAX = 2.0
 
-export default function PdfJsViewer({ src }: { src: string }) {
+export default function PdfJsViewer({
+  src,
+  reserveBottom = false,
+}: {
+  src: string
+  /** True while a bottom banner (e.g. the sample-CTA bar) is covering the
+   * viewer's own bottom-right corner, so zoom controls need to sit higher. */
+  reserveBottom?: boolean
+}) {
   const containerRef = useRef<HTMLDivElement>(null)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   const [renderState, setRenderState] = useState<RenderState>('idle')
   const [renderError, setRenderError] = useState<string>('')
+  const [renderedSrc, setRenderedSrc] = useState('')
   const renderGenRef = useRef(0)
   const lastSrcRef = useRef('')
   const [zoom, setZoom] = useState(1.0)
@@ -39,6 +48,15 @@ export default function PdfJsViewer({ src }: { src: string }) {
 
         if (renderGenRef.current !== gen) return
 
+        // pdfjs v6 uses Map.prototype.getOrInsertComputed (ES2025, Chrome 136+)
+        // biome-ignore lint/suspicious/noExplicitAny: polyfilling a non-standard prototype method
+        const proto = Map.prototype as any
+        if (typeof proto.getOrInsertComputed !== 'function') {
+          proto.getOrInsertComputed = function <K, V>(key: K, callbackFn: (k: K) => V): V {
+            if (!this.has(key)) this.set(key, callbackFn(key))
+            return this.get(key)
+          }
+        }
         const pdfjs = await import('pdfjs-dist')
         if (renderGenRef.current !== gen) return
 
@@ -60,7 +78,7 @@ export default function PdfJsViewer({ src }: { src: string }) {
           const renderViewport = page.getViewport({ scale: cssScale * dpr })
 
           const wrapper = document.createElement('div')
-          wrapper.style.cssText = `position:relative;width:${Math.floor(cssViewport.width)}px;height:${Math.floor(cssViewport.height)}px;margin:${i > 1 ? '8' : '0'}px auto 0`
+          wrapper.style.cssText = `position:relative;width:${Math.floor(cssViewport.width)}px;height:${Math.floor(cssViewport.height)}px;margin:${i > 1 ? '8' : '0'}px auto 0;--total-scale-factor:${((cssScale * 96) / 72).toFixed(6)};--scale-round-x:1px;--scale-round-y:1px`
 
           const canvas = document.createElement('canvas')
           canvas.width = Math.floor(renderViewport.width)
@@ -72,9 +90,7 @@ export default function PdfJsViewer({ src }: { src: string }) {
           textLayerDiv.className = 'textLayer'
           wrapper.appendChild(textLayerDiv)
 
-          const ctx = canvas.getContext('2d')
-          if (!ctx) throw new Error('canvas 2d context unavailable')
-          await page.render({ canvasContext: ctx, viewport: renderViewport }).promise
+          await page.render({ canvas, viewport: renderViewport }).promise
           if (renderGenRef.current !== gen) return
 
           const textContent = await page.getTextContent()
@@ -93,6 +109,7 @@ export default function PdfJsViewer({ src }: { src: string }) {
 
         if (renderGenRef.current !== gen) return
         container.replaceChildren(...pages)
+        setRenderedSrc(src)
         setRenderState('ready')
       } catch (err) {
         if (err instanceof Error && err.name === 'AbortError') return
@@ -115,6 +132,7 @@ export default function PdfJsViewer({ src }: { src: string }) {
       data-testid="pdfjs-viewer"
       data-pdf-src={src}
       data-render-state={renderState}
+      data-rendered-src={renderedSrc}
     >
       <div
         ref={scrollAreaRef}
@@ -143,9 +161,10 @@ export default function PdfJsViewer({ src }: { src: string }) {
         </div>
       )}
 
-      {/* Zoom controls — outside scroll area so they stay fixed in place */}
+      {/* Zoom controls — outside scroll area so they stay fixed in place.
+          Shifted up when a bottom banner would otherwise sit underneath them. */}
       <div
-        className="absolute bottom-4 right-4 z-10 flex items-center rounded overflow-hidden shadow-lg"
+        className={`absolute ${reserveBottom ? 'bottom-16' : 'bottom-4'} right-4 z-10 flex items-center rounded overflow-hidden shadow-lg transition-[bottom]`}
         style={{ background: 'var(--c-ink)' }}
       >
         <button

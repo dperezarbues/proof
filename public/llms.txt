@@ -1,8 +1,8 @@
-# CVault
+# Proof
 
-> Privacy-first CV editor that compiles beautiful PDFs using Typst. CV data is stored in the browser; sent to the server only transiently during PDF compilation and immediately discarded.
+> Privacy-first CV editor that compiles beautiful PDFs using Typst. CV data is stored in the browser and compiled to PDF entirely client-side via a WebAssembly build of Typst — nothing is ever sent to a server.
 
-CVault allows users to maintain their CV as structured JSON, choose from 4 professional templates (Default, Modern, Minimal, Sidebar), customise layout and style through a visual editor, and download high-quality typeset PDFs.
+Proof allows users to maintain their CV as structured JSON, choose from 4 professional templates (Default, Modern, Minimal, Sidebar), customise layout and style through a visual editor, and download high-quality typeset PDFs.
 
 ## Docs
 
@@ -11,7 +11,7 @@ CVault allows users to maintain their CV as structured JSON, choose from 4 profe
 
 ## Quick start for agents
 
-To help a user create a CV for CVault:
+To help a user create a CV for Proof:
 
 1. Collect their information (name, headline, contact, work history, education, skills, etc.)
 2. Produce a JSON file conforming to the CV JSON schema at /for-llms

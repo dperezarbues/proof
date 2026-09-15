@@ -27,11 +27,25 @@ cp src/typst/icons/*.svg  public/typst/icons/
 # Fonts (New Computer Modern) are committed in public/fonts/ — no download needed.
 
 # ── 3. PDF.js worker ─────────────────────────────────────────────────────────
+# pdfjs-dist's whole 6.x line calls Math.sumPrecise() in its font-substitution
+# path with no feature check, and no browser engine implements that method yet
+# (it's an unshipped TC39 proposal) — the call throws, substitution aborts, and
+# specific glyphs silently fail to draw. The generated PDF itself is always
+# correct (confirmed via extracted text and opening the download elsewhere);
+# only pdf.js's own in-browser canvas preview is affected. Prepend a tiny,
+# feature-detected polyfill ahead of the vendored worker code as a stopgap —
+# safe because every call site here just sums an array of plain integers
+# (byte-aligned glyph-table sizes), so a plain running-sum is exactly correct;
+# it only activates when the real method is genuinely absent, so it becomes an
+# inert no-op once pdf.js or the platform actually fixes this upstream.
 PDF_WORKER_SRC="node_modules/pdfjs-dist/build/pdf.worker.min.mjs"
 PDF_WORKER_DST="public/pdf.worker.min.mjs"
 if [ ! -f "$PDF_WORKER_DST" ] || [ "$PDF_WORKER_SRC" -nt "$PDF_WORKER_DST" ]; then
   echo "→ Copying PDF.js worker…"
-  cp "$PDF_WORKER_SRC" "$PDF_WORKER_DST"
+  {
+    echo 'if (typeof Math.sumPrecise !== "function") { Math.sumPrecise = function (values) { let s = 0; for (const v of values) s += v; return s } }'
+    cat "$PDF_WORKER_SRC"
+  } > "$PDF_WORKER_DST"
 fi
 
 echo "✓ WASM setup complete."

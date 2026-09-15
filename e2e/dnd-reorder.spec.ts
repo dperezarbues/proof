@@ -5,7 +5,7 @@ const EDITOR_URL = '/en/editor'
 test.describe('DnD — section reorder via pointer', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(EDITOR_URL)
-    await page.evaluate(() => localStorage.setItem('cvault-onboarded', '1'))
+    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
     await page.reload()
     // Suppress Next.js dev overlay so it doesn't intercept pointer events
     await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })

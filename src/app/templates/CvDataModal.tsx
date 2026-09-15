@@ -20,7 +20,9 @@ interface Props {
   entry?: CvEntry // undefined = new
   initialContent?: string // for import mode
   initialName?: string // suggested name for import
-  onSave: (entry: CvEntry) => void
+  /** Returns false if the save failed (e.g. storage quota exceeded) — the modal stays open and
+   *  shows an error instead of closing as if the save had succeeded. */
+  onSave: (entry: CvEntry) => boolean
   onCancel: () => void
 }
 
@@ -70,7 +72,7 @@ export default function CvDataModal({
       setMode('editor')
       setError(null)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Invalid JSON')
+      setError(e instanceof Error ? e.message : t('invalidJson'))
     }
   }
 
@@ -79,13 +81,13 @@ export default function CvDataModal({
       setJsonContent(JSON.stringify(JSON.parse(jsonContent), null, 2))
       setError(null)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Invalid JSON')
+      setError(e instanceof Error ? e.message : t('invalidJson'))
     }
   }
 
   function handleSave() {
     if (!name.trim()) {
-      setError('Name is required')
+      setError(t('nameRequired'))
       return
     }
 
@@ -94,7 +96,7 @@ export default function CvDataModal({
       const json = cvFormToJson(formData)
       const result = CvSchema.safeParse(json)
       if (!result.success) {
-        setError(result.error.issues[0]?.message ?? 'Invalid CV structure')
+        setError(result.error.issues[0]?.message ?? t('invalidCvStructure'))
         return
       }
       content = JSON.stringify(json)
@@ -103,23 +105,24 @@ export default function CvDataModal({
       try {
         parsed = JSON.parse(jsonContent)
       } catch (e) {
-        setError(e instanceof Error ? e.message : 'Invalid JSON')
+        setError(e instanceof Error ? e.message : t('invalidJson'))
         return
       }
       const result = CvSchema.safeParse(parsed)
       if (!result.success) {
-        setError(result.error.issues[0]?.message ?? 'Invalid CV structure')
+        setError(result.error.issues[0]?.message ?? t('invalidCvStructure'))
         return
       }
       content = jsonContent
     }
 
-    onSave({
+    const ok = onSave({
       id: entry?.id ?? crypto.randomUUID(),
       name: name.trim(),
       content,
       updatedAt: Date.now(),
     })
+    if (!ok) setError(t('saveStorageError'))
   }
 
   return (

@@ -1,57 +1,40 @@
 'use client'
 
-import { closestCenter, DndContext, type SensorDescriptor } from '@dnd-kit/core'
+import { closestCenter, DndContext } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import type { LayoutStructure } from '../types'
+import { useContext } from 'react'
+import { LabelCtx } from '../contexts'
+import type { LayoutEditorHandle } from '../types'
 import SortableCard from './SortableCard'
 import SortableSidebarChip from './SortableSidebarChip'
 
 type Props = {
-  layout: LayoutStructure
-  hasSidebar: boolean
-  sensors: SensorDescriptor<object>[]
-  available: string[]
-  availableSb: string[]
-  getLabel: (id: string) => string
-  setHeader: (style: 'split' | 'stacked') => void
-  handleDragEnd: (e: import('@dnd-kit/core').DragEndEvent) => void
-  handleSidebarDragEnd: (e: import('@dnd-kit/core').DragEndEvent) => void
-  addFullSection: (id: string) => void
-  addColumnsGroup: () => void
-  removeSection: (key: string) => void
-  updateSection: (
-    key: string,
-    fn: (s: import('../types').EditorSection) => import('../types').EditorSection,
-  ) => void
-  updateColumn: (key: string, ci: number, secs: string[]) => void
-  updateSpacing: (key: string, pre: number | undefined, post: number | undefined) => void
-  addSidebarSection: (id: string) => void
-  removeSidebarSection: (id: string) => void
-  toggleSidebarBreakable: (id: string) => void
-  updateSidebarSpacing: (id: string, pre: number | undefined, post: number | undefined) => void
+  editor: LayoutEditorHandle
 }
 
 export default function LayoutPanel({
-  layout,
-  hasSidebar,
-  sensors,
-  available,
-  availableSb,
-  getLabel,
-  setHeader,
-  handleDragEnd,
-  handleSidebarDragEnd,
-  addFullSection,
-  addColumnsGroup,
-  removeSection,
-  updateSection,
-  updateColumn,
-  updateSpacing,
-  addSidebarSection,
-  removeSidebarSection,
-  toggleSidebarBreakable,
-  updateSidebarSpacing,
+  editor: {
+    layout,
+    hasSidebar,
+    sensors,
+    available,
+    availableSb,
+    setHeader,
+    handleDragEnd,
+    handleSidebarDragEnd,
+    addFullSection,
+    addColumnsGroup,
+    removeSection,
+    updateSection,
+    updateColumn,
+    updateSpacing,
+    addSidebarSection,
+    removeSidebarSection,
+    toggleSidebarBreakable,
+    updateSidebarSpacing,
+  },
 }: Props) {
+  const getLabel = useContext(LabelCtx)
   return (
     <>
       {hasSidebar ? (

@@ -2,6 +2,8 @@ export type ContactItem = {
   type: string
   key: string
   value: string
+  /** Preserves any fields on this contact entry the form doesn't know about. */
+  _extra?: Record<string, unknown>
 }
 
 export type GenericItem = {
@@ -11,11 +13,15 @@ export type GenericItem = {
   description: string
   highlights: string // one per line
   tags: string // comma-separated
+  /** Preserves any fields on this item the form doesn't know about. */
+  _extra?: Record<string, unknown>
 }
 
 export type SkillGroup = {
   name: string
   entries: string // comma-separated
+  /** Preserves any fields on this skill group the form doesn't know about. */
+  _extra?: Record<string, unknown>
 }
 
 export type CvFormData = {
@@ -23,6 +29,8 @@ export type CvFormData = {
     name: string
     headline: string
     contact: ContactItem[]
+    /** Preserves any identity fields the form doesn't know about (e.g. photo, location). */
+    _extra?: Record<string, unknown>
   }
   summary: string
   experience: GenericItem[]

@@ -54,6 +54,7 @@ const SHARED_TYP_FILES: Array<{ vPath: string; publicPath: string }> = [
   { vPath: '/src/typst/tokens.typ', publicPath: '/typst/tokens.typ' },
   { vPath: '/src/typst/styles.typ', publicPath: '/typst/styles.typ' },
   { vPath: '/src/typst/components.typ', publicPath: '/typst/components.typ' },
+  { vPath: '/src/typst/i18n.typ', publicPath: '/typst/i18n.typ' },
   { vPath: '/src/typst/sections.typ', publicPath: '/typst/sections.typ' },
 ]
 
@@ -142,7 +143,10 @@ self.onmessage = async (e: MessageEvent<CompileRequest | WorkerInitMessage>) => 
 
   if ('type' in data && data.type === 'init') {
     pendingTemplateIds = data.templateIds.filter((id) => ALLOWED_TEMPLATES.has(id))
-    ensureInit()
+    // Best-effort warmup — swallow failures here rather than leaving an
+    // unhandled rejection. A real compile request retries ensureInit() itself
+    // (see below) and reports any error through the normal CompileResponse path.
+    ensureInit().catch(() => {})
     return
   }
 

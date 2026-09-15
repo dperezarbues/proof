@@ -7,10 +7,27 @@ type Props = {
   privateMode: boolean
   onPrivateToggle: (enabled: boolean) => void
   onDismiss: () => void
+  /** How many CVs are currently saved — toggling private mode moves storage, so with
+   *  existing CVs on the line we confirm first rather than letting a stray click move
+   *  or expose someone's data without warning. */
+  cvCount: number
 }
 
-export default function OnboardingModal({ privateMode, onPrivateToggle, onDismiss }: Props) {
+export default function OnboardingModal({
+  privateMode,
+  onPrivateToggle,
+  onDismiss,
+  cvCount,
+}: Props) {
   const t = useTranslations('onboarding')
+
+  function handlePrivateToggle(enabled: boolean) {
+    if (cvCount > 0) {
+      const message = enabled ? t('confirmEnablePrivate') : t('confirmDisablePrivate')
+      if (!confirm(message)) return
+    }
+    onPrivateToggle(enabled)
+  }
 
   const steps = [
     { step: '1', title: t('step1Title'), body: t('step1Body') },
@@ -111,7 +128,7 @@ export default function OnboardingModal({ privateMode, onPrivateToggle, onDismis
               type="checkbox"
               id="private-mode-toggle"
               checked={privateMode}
-              onChange={(e) => onPrivateToggle(e.target.checked)}
+              onChange={(e) => handlePrivateToggle(e.target.checked)}
               style={{ marginTop: 2, flexShrink: 0 }}
             />
             <label

@@ -2,7 +2,7 @@
  * Verifies that configured style params are actually applied in the rendered PDF —
  * not just that a new compilation was triggered.
  *
- * Colors       → canvas getImageData() at coordinates derived from text-layer span positions.
+ * Colors       → pdfjs getOperatorList() scans fill-colour operators in the compiled PDF blob.
  * Font sizes   → before/after comparison of text-layer span inline fontSize style.
  * Font family  → NOT tested here.  Only "New Computer Modern" fonts are bundled in
  *                /public/fonts/, so all font-family options produce identical output.
@@ -13,6 +13,7 @@
  * "2020 – Present" (muted / period), "Job Title" (entry title).
  */
 
+import { inflateRawSync, inflateSync } from 'node:zlib'
 import { expect, type Locator, type Page, test } from '@playwright/test'
 import {
   COMPILE_TIMEOUT,
@@ -46,51 +47,86 @@ async function setupWithPdf(page: Page): Promise<string> {
 // ── content helpers ───────────────────────────────────────────────────────────
 
 /**
- * Samples the canvas pixel colour at a point within a text-layer span.
+ * Scans every `r g b scn` / `r g b rg` fill-colour operator in the compiled PDF and returns
+ * the one where `channel` most dominates the other two.
  *
- * The bounding box and getImageData call are batched into a single page.evaluate
- * so scroll position cannot shift the element between the two measurements.
- *
- * The darkest pixel in a 5×5 sample area is returned — this hits the glyph body
- * rather than an anti-aliased edge or inter-character gap.  For anti-aliased text
- * on a light background, the sampled pixel is a blend of the text colour and the
- * background; use channel-dominance assertions rather than hard channel cutoffs.
+ * Approach: fetch the blob in the browser (only place a blob: URL is accessible),
+ * return as base64, then decompress PDF FlateDecode content streams in Node.js
+ * using node:zlib and regex-scan for the `rg` PDF operator.  This avoids any
+ * pdfjs dependency in the evaluate context — bare npm specifiers can't be
+ * resolved inside page.evaluate.
  */
-async function sampleColorAtSpan(
+async function pdfDominantFillColor(
   page: Page,
-  span: Locator,
+  channel: 'r' | 'g' | 'b',
 ): Promise<{ r: number; g: number; b: number }> {
-  await span.scrollIntoViewIfNeeded()
+  const src = await page
+    .locator('[data-testid="pdfjs-viewer"]')
+    .getAttribute('data-pdf-src')
+  if (!src) throw new Error('data-pdf-src not found on viewer')
 
-  return span.evaluate((el) => {
-    const box = el.getBoundingClientRect()
-    // Sample slightly left of center to reduce the chance of landing on a
-    // gap between characters.
-    const vx = box.left + box.width * 0.3
-    const vy = box.top + box.height * 0.45
-
-    const canvas = document.querySelector<HTMLCanvasElement>(
-      '[data-testid="pdfjs-viewer"] canvas',
-    )
-    if (!canvas) throw new Error('PDF canvas not found')
-    const rect = canvas.getBoundingClientRect()
-    const dpr = window.devicePixelRatio || 1
-    const cx = Math.round((vx - rect.left) * dpr)
-    const cy = Math.round((vy - rect.top) * dpr)
-    // Clamp both origin and extent so the sample never reads outside canvas bounds.
-    const x0 = Math.max(0, Math.min(cx - 2, canvas.width - 5))
-    const y0 = Math.max(0, Math.min(cy - 2, canvas.height - 5))
-    const ctx = canvas.getContext('2d')
-    if (!ctx) throw new Error('2d context unavailable')
-    const { data } = ctx.getImageData(x0, y0, 5, 5)
-    // Find the darkest pixel — most likely to be the glyph, not the background.
-    let best = { r: 255, g: 255, b: 255, luma: 255 * 3 }
-    for (let i = 0; i < data.length; i += 4) {
-      const luma = data[i] + data[i + 1] + data[i + 2]
-      if (luma < best.luma) best = { r: data[i], g: data[i + 1], b: data[i + 2], luma }
+  // Transfer PDF bytes from browser to Node.js as base64.
+  const base64: string = await page.evaluate(async (blobUrl) => {
+    const buf = await (await fetch(blobUrl)).arrayBuffer()
+    const bytes = new Uint8Array(buf)
+    let binary = ''
+    const CHUNK = 8192
+    for (let i = 0; i < bytes.length; i += CHUNK) {
+      binary += String.fromCharCode(...bytes.subarray(i, Math.min(i + CHUNK, bytes.length)))
     }
-    return { r: best.r, g: best.g, b: best.b }
-  })
+    return btoa(binary)
+  }, src)
+
+  const pdfBytes = Buffer.from(base64, 'base64')
+
+  // Scan all FlateDecode content streams for DeviceRGB fill colour operators.
+  // Typst uses `scn` (after setting /DeviceRGB color space); `rg` is kept as fallback.
+  const RG_PATTERN = /([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+(?:scn|rg)/g
+  const STREAM_LF = Buffer.from('stream\n')
+  const STREAM_CRLF = Buffer.from('stream\r\n')
+  const ENDSTREAM = Buffer.from('endstream')
+
+  let best = { r: 255, g: 255, b: 255, dom: -999 }
+  let pos = 0
+
+  while (pos < pdfBytes.length) {
+    const i1 = pdfBytes.indexOf(STREAM_LF, pos)
+    const i2 = pdfBytes.indexOf(STREAM_CRLF, pos)
+    if (i1 === -1 && i2 === -1) break
+
+    let dataStart: number
+    if (i1 !== -1 && (i2 === -1 || i1 <= i2)) {
+      dataStart = i1 + STREAM_LF.length
+      pos = i1 + 1
+    } else {
+      dataStart = i2 + STREAM_CRLF.length
+      pos = i2 + 1
+    }
+
+    const endIdx = pdfBytes.indexOf(ENDSTREAM, dataStart)
+    if (endIdx === -1) break
+
+    const raw = pdfBytes.subarray(dataStart, endIdx)
+    let text: string
+    try {
+      text = inflateSync(raw).toString('latin1')
+    } catch {
+      try { text = inflateRawSync(raw).toString('latin1') } catch { continue }
+    }
+
+    RG_PATTERN.lastIndex = 0
+    let m: RegExpExecArray | null
+    while ((m = RG_PATTERN.exec(text)) !== null) {
+      const r = Math.round(parseFloat(m[1]) * 255)
+      const g = Math.round(parseFloat(m[2]) * 255)
+      const b = Math.round(parseFloat(m[3]) * 255)
+      const dom =
+        channel === 'r' ? r - Math.max(g, b) : channel === 'g' ? g - Math.max(r, b) : b - Math.max(r, g)
+      if (dom > best.dom) best = { r, g, b, dom }
+    }
+  }
+
+  return { r: best.r, g: best.g, b: best.b }
 }
 
 /**
@@ -104,8 +140,10 @@ async function sampleColorAtSpan(
  */
 async function getSpanFontSizePx(span: Locator): Promise<number> {
   return span.evaluate((el: HTMLElement) => {
-    const match = el.style.fontSize.match(/([\d.]+)px\s*\)/)
-    if (!match) throw new Error(`unexpected fontSize format: "${el.style.fontSize}"`)
+    // pdfjs v6 sets --font-height inline (PDF pt value labelled as px); v4 set fontSize directly
+    const val = el.style.getPropertyValue('--font-height') || el.style.fontSize
+    const match = val.match(/([\d.]+)/)
+    if (!match) throw new Error(`unexpected fontSize: fontSize="${el.style.fontSize}" --font-height="${val}"`)
     return parseFloat(match[1])
   })
 }
@@ -129,7 +167,10 @@ async function countSpansAtSize(page: Page, targetPt: number, tol = 0.3): Promis
     ({ target, tolerance }) =>
       Array.from(document.querySelectorAll('[data-testid="pdfjs-viewer"] .textLayer span'))
         .filter((el) => {
-          const match = (el as HTMLElement).style.fontSize.match(/([\d.]+)px\s*\)/)
+          const htmlEl = el as HTMLElement
+          // pdfjs v6: --font-height stores the PDF pt value; v4: fontSize inline style
+          const val = htmlEl.style.getPropertyValue('--font-height') || htmlEl.style.fontSize
+          const match = val.match(/([\d.]+)/)
           return match ? Math.abs(parseFloat(match[1]) - target) <= tolerance : false
         }).length,
     { target: targetPt, tolerance: tol },
@@ -151,14 +192,12 @@ test.describe('PDF content — colours', () => {
     await setColor(page, 'heading_color', '#cc0000')
     await waitForNewPdf(page, old)
 
-    const span = textLayerSpan(page, /Your Name/)
-    await expect(span).toBeVisible()
-    const { r, g, b } = await sampleColorAtSpan(page, span)
-    const label = `rgb(${r},${g},${b})`
-    // Assert channel dominance rather than hard bounds — anti-aliasing blends the
-    // text colour with the background but red is always the dominant channel.
-    expect(r, `red dominant for #cc0000: ${label}`).toBeGreaterThan(g + 10)
-    expect(r, `red dominant for #cc0000: ${label}`).toBeGreaterThan(b + 10)
+    await expect(async () => {
+      const { r, g, b } = await pdfDominantFillColor(page, 'r')
+      const label = `rgb(${r},${g},${b})`
+      expect(r, `red dominant for #cc0000: ${label}`).toBeGreaterThan(g + 10)
+      expect(r, `red dominant for #cc0000: ${label}`).toBeGreaterThan(b + 10)
+    }).toPass({ timeout: COMPILE_TIMEOUT, intervals: [1000] })
   })
 
   test('body colour is applied to body text', async ({ page }) => {
@@ -170,13 +209,12 @@ test.describe('PDF content — colours', () => {
     await setColor(page, 'body_color', '#0000cc')
     await waitForNewPdf(page, old)
 
-    // Use the start of the sentence to avoid matching a split span mid-word.
-    const span = textLayerSpan(page, /Your professional summary/)
-    await expect(span).toBeVisible()
-    const { r, g, b } = await sampleColorAtSpan(page, span)
-    const label = `rgb(${r},${g},${b})`
-    expect(b, `blue dominant for #0000cc: ${label}`).toBeGreaterThan(r + 10)
-    expect(b, `blue dominant for #0000cc: ${label}`).toBeGreaterThan(g + 10)
+    await expect(async () => {
+      const { r, g, b } = await pdfDominantFillColor(page, 'b')
+      const label = `rgb(${r},${g},${b})`
+      expect(b, `blue dominant for #0000cc: ${label}`).toBeGreaterThan(r + 10)
+      expect(b, `blue dominant for #0000cc: ${label}`).toBeGreaterThan(g + 10)
+    }).toPass({ timeout: COMPILE_TIMEOUT, intervals: [1000] })
   })
 
   test('muted colour is applied to period / meta text', async ({ page }) => {
@@ -190,13 +228,12 @@ test.describe('PDF content — colours', () => {
     await setColor(page, 'muted_color', '#009900')
     await waitForNewPdf(page, old)
 
-    // Full period string from the starter experience entry — unique in the document.
-    const span = textLayerSpan(page, /2020/)
-    await expect(span).toBeVisible()
-    const { r, g, b } = await sampleColorAtSpan(page, span)
-    const label = `rgb(${r},${g},${b})`
-    expect(g, `green dominant for #009900: ${label}`).toBeGreaterThan(r + 20)
-    expect(g, `green dominant for #009900: ${label}`).toBeGreaterThan(b + 20)
+    await expect(async () => {
+      const { r, g, b } = await pdfDominantFillColor(page, 'g')
+      const label = `rgb(${r},${g},${b})`
+      expect(g, `green dominant for #009900: ${label}`).toBeGreaterThan(r + 20)
+      expect(g, `green dominant for #009900: ${label}`).toBeGreaterThan(b + 20)
+    }).toPass({ timeout: COMPILE_TIMEOUT, intervals: [1000] })
   })
 })
 
@@ -220,10 +257,12 @@ test.describe('PDF content — font sizes', () => {
     await setRange(page, 'name_size', 24)
     await waitForNewPdf(page, old)
 
-    const newSpan = textLayerSpan(page, /Your Name/)
-    await expect(newSpan).toBeVisible()
-    const largeSize = await getSpanFontSizePx(newSpan)
-    expect(largeSize).toBeGreaterThan(defaultSize * 1.25)
+    await expect(async () => {
+      const span = textLayerSpan(page, /Your Name/)
+      await expect(span).toBeVisible()
+      const largeSize = await getSpanFontSizePx(span)
+      expect(largeSize).toBeGreaterThan(defaultSize * 1.25)
+    }).toPass({ timeout: COMPILE_TIMEOUT, intervals: [500] })
   })
 
   test('body text size change is reflected in summary text span', async ({ page }) => {
@@ -240,10 +279,12 @@ test.describe('PDF content — font sizes', () => {
     await setRange(page, 'body_size', 11)
     await waitForNewPdf(page, old)
 
-    const newSpan = textLayerSpan(page, /Your professional summary/)
-    await expect(newSpan).toBeVisible()
-    const largeSize = await getSpanFontSizePx(newSpan)
-    expect(largeSize).toBeGreaterThan(defaultSize * 1.20)
+    await expect(async () => {
+      const span = textLayerSpan(page, /Your professional summary/)
+      await expect(span).toBeVisible()
+      const largeSize = await getSpanFontSizePx(span)
+      expect(largeSize).toBeGreaterThan(defaultSize * 1.20)
+    }).toPass({ timeout: COMPILE_TIMEOUT, intervals: [500] })
   })
 
   test('entry title size change is reflected in the job title span', async ({ page }) => {
@@ -261,10 +302,12 @@ test.describe('PDF content — font sizes', () => {
     await setRange(page, 'entry_size', 12)
     await waitForNewPdf(page, old)
 
-    const newSpan = textLayerSpan(page, /Job Title/)
-    await expect(newSpan).toBeVisible()
-    const largeSize = await getSpanFontSizePx(newSpan)
-    expect(largeSize).toBeGreaterThan(defaultSize * 1.20)
+    await expect(async () => {
+      const span = textLayerSpan(page, /Job Title/)
+      await expect(span).toBeVisible()
+      const largeSize = await getSpanFontSizePx(span)
+      expect(largeSize).toBeGreaterThan(defaultSize * 1.20)
+    }).toPass({ timeout: COMPILE_TIMEOUT, intervals: [500] })
   })
 
   test('section label size change is reflected in the section heading spans', async ({ page }) => {
@@ -287,10 +330,11 @@ test.describe('PDF content — font sizes', () => {
     await setRange(page, 'section_heading_size', 10)
     await waitForNewPdf(page, old)
 
-    // The 7.5 pt spans should have moved to 10 pt.
-    const afterAt10 = await countSpansAtSize(page, 10)
-    expect(afterAt10, 'section heading spans should exist at new 10 pt').toBeGreaterThan(0)
-    const afterAt7_5 = await countSpansAtSize(page, 7.5)
-    expect(afterAt7_5, 'no spans should remain at old 7.5 pt').toBe(0)
+    await expect(async () => {
+      const afterAt10 = await countSpansAtSize(page, 10)
+      expect(afterAt10, 'section heading spans should exist at new 10 pt').toBeGreaterThan(0)
+      const afterAt7_5 = await countSpansAtSize(page, 7.5)
+      expect(afterAt7_5, 'no spans should remain at old 7.5 pt').toBe(0)
+    }).toPass({ timeout: COMPILE_TIMEOUT, intervals: [500] })
   })
 })

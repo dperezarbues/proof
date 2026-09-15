@@ -18,7 +18,7 @@ test.describe('Accessibility — axe-core regression', () => {
 
   test('editor page (onboarded) has no structural violations', async ({ page }) => {
     await page.goto('/en/editor')
-    await page.evaluate(() => localStorage.setItem('cvault-onboarded', '1'))
+    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
     await page.reload()
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
@@ -31,7 +31,7 @@ test.describe('Accessibility — axe-core regression', () => {
 
   test('CV data modal (Editor tab) has no structural violations', async ({ page }) => {
     await page.goto('/en/editor')
-    await page.evaluate(() => localStorage.setItem('cvault-onboarded', '1'))
+    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
     await page.reload()
     await page.getByTitle('New CV').click()
     await expect(page.getByRole('heading', { name: 'New CV' })).toBeVisible()
@@ -46,7 +46,7 @@ test.describe('Accessibility — axe-core regression', () => {
 
   test('CV data modal (JSON tab) has no structural violations', async ({ page }) => {
     await page.goto('/en/editor')
-    await page.evaluate(() => localStorage.setItem('cvault-onboarded', '1'))
+    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
     await page.reload()
     await page.getByTitle('New CV').click()
     await page.getByRole('button', { name: 'JSON', exact: true }).click()
@@ -64,7 +64,7 @@ test.describe('Accessibility — axe-core regression', () => {
     page,
   }) => {
     await page.goto('/en/editor')
-    await page.evaluate(() => localStorage.setItem('cvault-onboarded', '1'))
+    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
     await page.reload()
 
     // Open the layout editor panel where DnD drag handles live
@@ -84,7 +84,7 @@ test.describe('Accessibility — axe-core regression', () => {
   test('mobile panel (dialog role, aria-modal) has no structural violations', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 })
     await page.goto('/en/editor')
-    await page.evaluate(() => localStorage.setItem('cvault-onboarded', '1'))
+    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
     await page.reload()
     await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
     // Open the panel so the dialog role and aria-modal are active during the scan

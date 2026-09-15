@@ -7,7 +7,7 @@ test.describe('PDF generation (WASM)', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/en/editor')
     await page.evaluate(() => {
-      localStorage.setItem('cvault-onboarded', '1')
+      localStorage.setItem('proof-onboarded', '1')
     })
     await page.reload()
     await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
@@ -22,6 +22,13 @@ test.describe('PDF generation (WASM)', () => {
   test('Generate PDF produces a preview blob URL', async ({ page }) => {
     test.setTimeout(GENERATE_TIMEOUT + 10_000)
     const iframe = page.locator('[data-testid="pdfjs-viewer"]')
+
+    // Creating this CV already auto-triggered a first compile (it's the very
+    // first CV in a fresh browser). Let that settle and reset back to a known
+    // sample state before testing an explicit Generate click, rather than
+    // racing the initial src check against that auto-compile.
+    await expect(page.getByText('Generating PDF…')).not.toBeVisible({ timeout: GENERATE_TIMEOUT })
+    await page.getByRole('button', { name: 'Reset' }).click()
     const initialSrc = await iframe.getAttribute('data-pdf-src')
     expect(initialSrc).toMatch(/\.pdf$/) // starts as sample
 

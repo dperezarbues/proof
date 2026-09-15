@@ -1,8 +1,8 @@
-import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Archivo, Space_Mono } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
+import Analytics from '@/components/Analytics'
 import { type Locale, routing } from '@/i18n/routing'
 
 const archivo = Archivo({

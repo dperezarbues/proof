@@ -80,6 +80,21 @@ export default function PdfPreview({
     triggerDownload()
   }
 
+  const generatingSpinner = (
+    <>
+      <div
+        className="w-8 h-8 border-[3px] border-t-transparent rounded-full animate-spin"
+        style={{ borderColor: 'var(--c-accent)', borderTopColor: 'transparent' }}
+      />
+      <p className="text-sm font-medium" style={{ color: 'var(--c-ink2)' }}>
+        {t('generatingPDF')}
+      </p>
+      <p className="text-xs" style={{ color: 'var(--c-sub)' }}>
+        {t('runningTypst')}
+      </p>
+    </>
+  )
+
   return (
     <div className="flex-1 flex flex-col min-w-0 min-h-0">
       <div
@@ -131,24 +146,32 @@ export default function PdfPreview({
       </div>
 
       <div className="flex-1 relative min-h-0" data-testid="pdf-preview-area">
-        <PdfJsViewer src={currentPdf} />
-
-        {isGenerating && (
+        {/* First-ever compile for this CV — no real PDF exists yet, so there's
+            nothing to dim. Skip mounting the sample PDF entirely rather than
+            showing it (even briefly, even under a translucent spinner): a
+            solid loading state reads as "building your PDF", not "we lost
+            your data and reverted to the placeholder person". */}
+        {isGenerating && isSample ? (
           <div
             className="absolute inset-0 flex flex-col items-center justify-center gap-3"
-            style={{ background: 'rgba(241,235,223,0.85)' }}
+            style={{ background: 'var(--c-paper)' }}
+            data-testid="first-compile-loading"
           >
-            <div
-              className="w-8 h-8 border-[3px] border-t-transparent rounded-full animate-spin"
-              style={{ borderColor: 'var(--c-accent)', borderTopColor: 'transparent' }}
-            />
-            <p className="text-sm font-medium" style={{ color: 'var(--c-ink2)' }}>
-              {t('generatingPDF')}
-            </p>
-            <p className="text-xs" style={{ color: 'var(--c-sub)' }}>
-              {t('runningTypst')}
-            </p>
+            {generatingSpinner}
           </div>
+        ) : (
+          <>
+            <PdfJsViewer src={currentPdf} reserveBottom={!isGenerating && isSample} />
+
+            {isGenerating && (
+              <div
+                className="absolute inset-0 flex flex-col items-center justify-center gap-3"
+                style={{ background: 'rgba(241,235,223,0.85)' }}
+              >
+                {generatingSpinner}
+              </div>
+            )}
+          </>
         )}
 
         {!isGenerating && isSample && (

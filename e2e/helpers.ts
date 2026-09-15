@@ -1,5 +1,5 @@
 /**
- * Shared Playwright helpers for the CVault e2e suite.
+ * Shared Playwright helpers for the Proof e2e suite.
  *
  * Extracted from the individual spec files to eliminate copy-paste duplication
  * across style-shared-params, style-template-params, layout-options, and
@@ -20,13 +20,10 @@ export async function openEditor(page: Page) {
 /**
  * Waits for a new PDF blob to appear AND for the viewer to finish rendering it.
  *
- * Both conditions are checked inside the same `toPass` retry predicate so there
- * is no race window between "blob changed" and "render-state ready" that a rapid
- * second recompile could exploit.
- *
- * The inner render-state check uses a short 100 ms timeout so it fails fast on
- * attempts where the canvas is still painting, letting the outer loop retry
- * quickly rather than blocking for the full default timeout.
+ * Uses `data-rendered-src` (set by PdfJsViewer after replaceChildren completes)
+ * rather than `data-render-state` to avoid a React render-cycle race where
+ * `data-pdf-src` updates one cycle before the effect sets render-state to
+ * 'loading' — causing a stale 'ready' check to succeed prematurely.
  */
 export async function waitForNewPdf(page: Page, oldSrc: string) {
   const viewer = page.locator('[data-testid="pdfjs-viewer"]')
@@ -34,7 +31,9 @@ export async function waitForNewPdf(page: Page, oldSrc: string) {
     const src = await viewer.getAttribute('data-pdf-src')
     expect(src).toMatch(/^blob:/)
     expect(src).not.toEqual(oldSrc)
-    await expect(viewer).toHaveAttribute('data-render-state', 'ready', { timeout: 100 })
+    // data-rendered-src is only set after replaceChildren — guarantees the new
+    // text layer is in the DOM when this predicate succeeds.
+    await expect(viewer).toHaveAttribute('data-rendered-src', src!, { timeout: 100 })
   }).toPass({ timeout: COMPILE_TIMEOUT + 20_000, intervals: [500] })
 }
 
