@@ -17,6 +17,7 @@ type CompileInfo = { compileState: CompileState; compilerReady: boolean; error: 
 type Props = {
   initialLayout: Record<string, unknown>
   templateId: string
+  layoutId: string
   styleParams?: StyleParam[]
   sections?: SectionDef[]
   cvContent: string
@@ -30,6 +31,7 @@ type Props = {
 export default function EditorShell({
   initialLayout,
   templateId,
+  layoutId,
   styleParams = [],
   sections,
   cvContent,
@@ -43,6 +45,7 @@ export default function EditorShell({
   const { editor, style, compiler, saved, storageError } = useLayoutEditor({
     initialLayout,
     templateId,
+    layoutId,
     styleParams,
     sections,
     cvContent,

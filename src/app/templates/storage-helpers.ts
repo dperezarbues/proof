@@ -64,8 +64,19 @@ export function clearStyleOverrides(templateId: string, canonicalKeys: string[])
 }
 
 // ── Layout overrides ──────────────────────────────────────────────────────────
+//
+// Scoped by (templateId, layoutId), not just templateId: a template like
+// "default" has multiple structurally distinct base layouts (Split/Classic/
+// Alt), so an override persisted while editing one variant must never be
+// reapplied when switching to a different variant of the same template —
+// that would silently discard whichever variant's own JSON should be in
+// effect, making the layout-variant switcher appear to do nothing.
 
 type ScopedLayouts = Record<string, Record<string, unknown>>
+
+function scopeKey(templateId: string, layoutId: string): string {
+  return `${templateId}::${layoutId}`
+}
 
 function readScopedLayouts(): ScopedLayouts {
   try {
@@ -75,24 +86,29 @@ function readScopedLayouts(): ScopedLayouts {
   }
 }
 
-export function loadLayoutOverride(templateId: string): Record<string, unknown> | null {
-  return readScopedLayouts()[templateId] ?? null
+export function loadLayoutOverride(
+  templateId: string,
+  layoutId: string,
+): Record<string, unknown> | null {
+  return readScopedLayouts()[scopeKey(templateId, layoutId)] ?? null
 }
 
 export function persistLayoutOverride(
   templateId: string,
+  layoutId: string,
   layout: Record<string, unknown>,
 ): boolean {
   const next = mutateStored(KEYS.layoutOverrides, readScopedLayouts, (scoped) => ({
     ...scoped,
-    [templateId]: layout,
+    [scopeKey(templateId, layoutId)]: layout,
   }))
   return next !== null
 }
 
-export function clearLayoutOverride(templateId: string): boolean {
+export function clearLayoutOverride(templateId: string, layoutId: string): boolean {
+  const key = scopeKey(templateId, layoutId)
   const next = mutateStored(KEYS.layoutOverrides, readScopedLayouts, (scoped) => {
-    const { [templateId]: _removed, ...rest } = scoped
+    const { [key]: _removed, ...rest } = scoped
     return rest
   })
   return next !== null

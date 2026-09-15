@@ -362,6 +362,7 @@ export default function TemplatesGallery({
                 key={`${activeTemplate.id}-${activeLayout.id}`}
                 initialLayout={activeLayoutData}
                 templateId={activeTemplate.id}
+                layoutId={activeLayout.id}
                 styleParams={activeTemplate.styleParams ?? []}
                 sections={activeSections}
                 cvContent={currentCv?.content ?? ''}

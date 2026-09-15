@@ -115,60 +115,82 @@ describe('mutateSaves', () => {
 })
 
 // ── loadLayoutOverride / persistLayoutOverride / clearLayoutOverride ──────────
+// Scoped by (templateId, layoutId): a template can have multiple structurally
+// distinct layout variants (e.g. default's Split/Classic/Alt), so an override
+// persisted on one variant must never bleed into another variant of the same
+// template — see storage-helpers.ts's scopeKey().
 
 const LAYOUT_KEY = 'proof-layout-overrides'
 const sampleLayout = { header: { style: 'split' }, sections: [{ id: 'summary', breakable: true }] }
 
 describe('loadLayoutOverride', () => {
   it('returns null for empty storage', () => {
-    expect(loadLayoutOverride('default')).toBeNull()
+    expect(loadLayoutOverride('default', 'default')).toBeNull()
   })
 
-  it('returns the persisted layout for the requested template', () => {
-    storageData[LAYOUT_KEY] = JSON.stringify({ default: sampleLayout })
-    expect(loadLayoutOverride('default')).toEqual(sampleLayout)
+  it('returns the persisted layout for the requested template+layout pair', () => {
+    storageData[LAYOUT_KEY] = JSON.stringify({ 'default::default': sampleLayout })
+    expect(loadLayoutOverride('default', 'default')).toEqual(sampleLayout)
   })
 
   it('returns null for an unknown template', () => {
-    storageData[LAYOUT_KEY] = JSON.stringify({ default: sampleLayout })
-    expect(loadLayoutOverride('modern')).toBeNull()
+    storageData[LAYOUT_KEY] = JSON.stringify({ 'default::default': sampleLayout })
+    expect(loadLayoutOverride('modern', 'default')).toBeNull()
+  })
+
+  it('does not bleed across layout variants of the same template', () => {
+    storageData[LAYOUT_KEY] = JSON.stringify({ 'default::default': sampleLayout })
+    expect(loadLayoutOverride('default', 'classic')).toBeNull()
   })
 
   it('returns {} for corrupt storage', () => {
     storageData[LAYOUT_KEY] = 'not-json'
-    expect(loadLayoutOverride('default')).toBeNull()
+    expect(loadLayoutOverride('default', 'default')).toBeNull()
   })
 })
 
 describe('persistLayoutOverride', () => {
-  it('saves the layout under the template bucket', () => {
-    persistLayoutOverride('default', sampleLayout as Record<string, unknown>)
+  it('saves the layout under the template+layout bucket', () => {
+    persistLayoutOverride('default', 'default', sampleLayout as Record<string, unknown>)
     const saved = JSON.parse(storageData[LAYOUT_KEY])
-    expect(saved.default).toEqual(sampleLayout)
+    expect(saved['default::default']).toEqual(sampleLayout)
   })
 
   it('does not affect other templates', () => {
     storageData[LAYOUT_KEY] = JSON.stringify({
-      modern: { header: { style: 'stacked' }, sections: [] },
+      'modern::default': { header: { style: 'stacked' }, sections: [] },
     })
-    persistLayoutOverride('default', sampleLayout as Record<string, unknown>)
+    persistLayoutOverride('default', 'default', sampleLayout as Record<string, unknown>)
     const saved = JSON.parse(storageData[LAYOUT_KEY])
-    expect(saved.modern.header.style).toBe('stacked')
-    expect(saved.default).toEqual(sampleLayout)
+    expect(saved['modern::default'].header.style).toBe('stacked')
+    expect(saved['default::default']).toEqual(sampleLayout)
+  })
+
+  it('does not affect other layout variants of the same template', () => {
+    storageData[LAYOUT_KEY] = JSON.stringify({
+      'default::classic': { header: { style: 'stacked' }, sections: [] },
+    })
+    persistLayoutOverride('default', 'default', sampleLayout as Record<string, unknown>)
+    const saved = JSON.parse(storageData[LAYOUT_KEY])
+    expect(saved['default::classic'].header.style).toBe('stacked')
+    expect(saved['default::default']).toEqual(sampleLayout)
   })
 })
 
 describe('clearLayoutOverride', () => {
-  it('removes the template bucket', () => {
-    storageData[LAYOUT_KEY] = JSON.stringify({ default: sampleLayout, modern: {} })
-    clearLayoutOverride('default')
+  it('removes only the requested template+layout bucket', () => {
+    storageData[LAYOUT_KEY] = JSON.stringify({
+      'default::default': sampleLayout,
+      'default::classic': {},
+    })
+    clearLayoutOverride('default', 'default')
     const saved = JSON.parse(storageData[LAYOUT_KEY])
-    expect(saved.default).toBeUndefined()
-    expect(saved.modern).toBeDefined()
+    expect(saved['default::default']).toBeUndefined()
+    expect(saved['default::classic']).toBeDefined()
   })
 
   it('is a no-op for empty storage', () => {
-    expect(() => clearLayoutOverride('default')).not.toThrow()
+    expect(() => clearLayoutOverride('default', 'default')).not.toThrow()
   })
 })
 
