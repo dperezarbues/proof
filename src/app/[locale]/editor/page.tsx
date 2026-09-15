@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { setRequestLocale } from 'next-intl/server'
+import { ClientLocaleProvider } from '@/components/ClientLocaleProvider'
 import { type Locale, routing } from '@/i18n/routing'
 import TemplatesGallery from '../../templates/TemplatesGallery'
 import type { StyleParam, Template } from '../../templates/types'
@@ -45,5 +46,9 @@ export default async function EditorPage({ params }: { params: Promise<{ locale:
     }
   }
 
-  return <TemplatesGallery templates={templatesData} layoutData={layoutData} />
+  return (
+    <ClientLocaleProvider>
+      <TemplatesGallery templates={templatesData} layoutData={layoutData} />
+    </ClientLocaleProvider>
+  )
 }
