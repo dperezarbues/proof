@@ -142,10 +142,16 @@ export default function PdfJsViewer({
         <div ref={containerRef} />
       </div>
 
-      {renderState === 'loading' && (
+      {/* Covers stale content the instant `src` changes, not just once the effect below
+          gets around to setting renderState — React commits/paints the new `src` prop
+          before that effect runs, and without this the old canvas (bound to a template
+          that no longer matches currentPdf) is briefly visible underneath whatever chrome
+          (e.g. the sample banner) also reacted to the same prop change. */}
+      {(renderState === 'loading' || renderedSrc !== src) && (
         <div
           className="absolute inset-0 flex items-center justify-center"
           style={{ background: 'var(--c-paper-deep)' }}
+          data-testid="pdfjs-loading-cover"
         >
           <div
             className="w-8 h-8 border-[3px] border-t-transparent rounded-full animate-spin"
@@ -154,7 +160,10 @@ export default function PdfJsViewer({
         </div>
       )}
       {renderState === 'error' && (
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ background: 'var(--c-paper-deep)' }}
+        >
           <p className="text-sm" style={{ color: 'var(--c-sub)' }}>
             {renderError || 'Failed to render PDF'}
           </p>

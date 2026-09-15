@@ -119,15 +119,27 @@ export function useCompiler({
     if (generateTrigger > 0 && compileStateRef.current === 'idle' && cv) generate()
   }, [generateTrigger, generate])
 
-  // Auto-generate on any layout, style, or CV content change (debounced)
-  const isFirstRender = useRef(true)
+  // Auto-generate on any layout, style, or CV content change (debounced) —
+  // except the first time this mount ever sees real content, which compiles
+  // immediately instead. That first appearance is either a fresh mount
+  // racing CV hydration from storage (cvContent starts empty, then becomes
+  // real once loaded), or EditorShell remounting after a template/layout
+  // switch (cvContent is already real on this instance's very first render,
+  // since the CV was already loaded before the switch) — in both cases
+  // there's no rapid interactive editing in flight to debounce against, so
+  // waiting only means momentarily showing stale/wrong preview content (the
+  // sample PDF, or — worse, for the remount case — never triggering a
+  // compile at all, since nothing else changes afterward to re-fire this
+  // effect) for no benefit.
+  const hasGeneratedRef = useRef(false)
   // biome-ignore lint/correctness/useExhaustiveDependencies: getLayoutData and cvContent are hook params that change reactively
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false
+    if (!cvRef.current) return
+    if (!hasGeneratedRef.current) {
+      hasGeneratedRef.current = true
+      generate()
       return
     }
-    if (!cvRef.current) return
     const timer = setTimeout(() => generate(), AUTO_GENERATE_DELAY_MS)
     return () => clearTimeout(timer)
   }, [getLayoutData, cvContent, generate])
