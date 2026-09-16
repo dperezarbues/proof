@@ -4,14 +4,18 @@ import { useEffect } from 'react'
 import { routing } from '@/i18n/routing'
 
 /**
- * Static-export locale-detection redirect shim, shared by the three routes
- * that live outside the [locale] segment (/, /editor, /terms) and therefore
- * have no server to do this properly. Each is its own standalone HTML
- * document — the root layout is a bare passthrough with no <html>/<body> of
- * its own (see src/app/layout.tsx) — so this renders that shell itself,
+ * Static-export locale-detection redirect shim, shared by the routes that
+ * live outside the [locale] segment (/, /editor, /terms, /for-llms) and
+ * therefore have no server to do this properly. Each is its own standalone
+ * HTML document — the root layout is a bare passthrough with no <html>/<body>
+ * of its own (see src/app/layout.tsx) — so this renders that shell itself,
  * including a <meta refresh> fallback for when JS is unavailable.
  */
-export default function LocaleRedirect({ path }: { path: '' | '/editor' | '/terms' }) {
+export default function LocaleRedirect({
+  path,
+}: {
+  path: '' | '/editor' | '/terms' | '/for-llms'
+}) {
   useEffect(() => {
     const lang = navigator.language.slice(0, 2).toLowerCase()
     const locale = routing.locales.includes(lang as (typeof routing.locales)[number])

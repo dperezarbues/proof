@@ -1,6 +1,6 @@
-import { expect, test } from '@playwright/test'
+import { test } from '@playwright/test'
 
-// /, /editor, /terms are static-export shims outside the [locale] segment —
+// /, /editor, /terms, /for-llms are static-export shims outside the [locale] segment —
 // there's no server to do locale detection, so each renders a bare HTML
 // document (own <html>, no parent layout) that redirects client-side based
 // on navigator.language, with a <meta refresh> fallback for no-JS.
@@ -34,6 +34,14 @@ test.describe('Locale-detection redirect shims', () => {
     const page = await context.newPage()
     await page.goto('/terms')
     await page.waitForURL('**/es/terms/')
+    await context.close()
+  })
+
+  test('/for-llms redirects preserving the path', async ({ browser }) => {
+    const context = await browser.newContext({ locale: 'de-DE' })
+    const page = await context.newPage()
+    await page.goto('/for-llms')
+    await page.waitForURL('**/de/for-llms/')
     await context.close()
   })
 })

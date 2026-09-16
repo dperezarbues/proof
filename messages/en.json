@@ -294,9 +294,144 @@
     "s6p1": "If anything material changes — particularly around data handling — this page will be updated. The date below reflects the last revision.",
     "s6date": "Last updated: May 2025"
   },
-  "llms": {
-    "metaTitle": "CV Schema for LLMs — Proof",
-    "home": "← Home",
-    "openEditor": "Open editor →"
+  "forLlms": {
+    "metaTitle": "Schema Reference — Proof",
+    "metaDescription": "Complete CV JSON schema and layout/style reference for Proof. For LLMs and agents generating CV data.",
+    "breadcrumb": "Schema reference",
+    "title": "Schema Reference",
+    "intro": "Complete reference for generating valid Proof data. Covers the CV content JSON, layout structure, and all style parameters for each template. Intended for LLMs and agents producing CV files for import.",
+    "toc": {
+      "cvJson": "CV JSON",
+      "sections": "Sections",
+      "layout": "Layout JSON",
+      "style": "Style params",
+      "tips": "Tips"
+    },
+    "section1": {
+      "heading": "1 · CV JSON schema",
+      "intro": "The CV is a single JSON object. All sections are optional except <code>identity</code>. Text fields in <code>highlights</code>, <code>description</code>, and <code>summary</code> support Markdown-style links: <code>[text](https://url)</code>.",
+      "contactHeading": "identity.contact — type values",
+      "contactTypes": {
+        "email": "Renders as mailto: link",
+        "phone": "Renders as tel: link",
+        "location": "Plain text, no link",
+        "linkedin": "Uses LinkedIn icon",
+        "github": "Uses GitHub icon",
+        "medium": "Uses Medium icon",
+        "facebook": "Uses Facebook icon",
+        "web": "Generic globe icon"
+      },
+      "contactNote": "The visual editor's own type picker only offers 6 of these (no medium or facebook) — writing JSON directly gets you the full set above."
+    },
+    "section2": {
+      "heading": "2 · Available section IDs",
+      "intro": "These are the built-in section IDs that the editor and templates know about. The sidebar template can also render any of these in the left column.",
+      "tableId": "ID",
+      "tableKey": "JSON key",
+      "tableNotes": "Notes",
+      "notes": {
+        "summary": "string",
+        "experience": "array",
+        "education": "array",
+        "skills": "array of groups",
+        "languages": "array",
+        "certifications": "array",
+        "awards": "array",
+        "side_projects": "array",
+        "contact": "sidebar only — renders contact list",
+        "core_strengths": "string[] of short strings, rendered as pills. Available on every template — not sidebar-only. Section title is translated (en/es/de/fr).",
+        "leadership_profile": "single object, not an array: { subtitle?, highlights? }. No title/name — renders under a fixed, translated heading."
+      },
+      "customNote": "Custom sections: any top-level key not listed above is rendered generically under a heading made from the key name. Supported shapes: a plain string; a string[] (rendered as bullets); an array of objects with title (or name)/subtitle/period and either highlights (string[]) or description; or a single object (not an array) with subtitle and either highlights or description — the same shape leadership_profile uses."
+    },
+    "section3": {
+      "heading": "3 · Layout JSON structure",
+      "intro": "When you generate a PDF from the editor, a layout JSON is compiled alongside the CV data. You can also produce layout JSON directly to control section order, columns, and per-section spacing.",
+      "topLevelFields": "Top-level fields",
+      "fields": {
+        "header": "Always required as {\"style\": \"split\" | \"stacked\"} — the import validator rejects any other value — but only the default template actually reads it, toggling between a side-by-side and a stacked name/headline/contact header. Every other template (minimal, modern, sidebar, and the rest) has a single fixed header layout and silently ignores this field, so pick either value for them; it has no visible effect.",
+        "sections": "Array of main-column section entries (see below).",
+        "sidebar_sections": "Sidebar template only. Array of sidebar section entries.",
+        "style": "Style overrides (see §4). Applied on top of template defaults."
+      },
+      "sectionEntryFull": "Section entry — full type",
+      "fieldsEntry": {
+        "id": "Section ID from §2.",
+        "breakable": "Whether Typst may insert a page break before this block. Default: true.",
+        "pre_spacing": "Space above the section title. Overrides template default.",
+        "post_spacing": "Space below the section rule. Overrides template default."
+      },
+      "sectionEntryColumns": "Section entry — columns type",
+      "fieldsColumns": {
+        "type": "Must be \"columns\" to activate this variant.",
+        "columns": "Number of columns. Default: 2.",
+        "content": "Array of column contents; each element is an array of section IDs for that column."
+      },
+      "completeExamples": "Complete layout examples",
+      "exampleDefaultMinimal": "Default / Minimal",
+      "exampleSidebar": "Sidebar"
+    },
+    "section4": {
+      "heading": "4 · Style parameters",
+      "intro": "Style values live in the <code>style</code> key of the layout JSON. All are optional — omit any to use the template default.",
+      "commonHeading": "Common — all templates",
+      "tableKey": "Key",
+      "tableType": "Type",
+      "tableRange": "Range / options",
+      "tableDefault": "Default",
+      "commonNote": "section_pre / section_post aren't in a shared param list technically — every template declares them individually — but all 10 use the same range shown above except sidebar, which widens both (see its own table below). headline_size and section_rule_gap are template-specific, not universal; see the per-template table next.",
+      "accentHeading": "accent_color — every template, different default per template",
+      "accentIntro": "All 10 templates declare an <code>accent_color</code> param under this exact key — it's not shared/universal in the schema sense (each template sets its own range and default), but every template has one. 7 of the 10 also have <code>headline_size</code> (8–14pt, default 10) — all except minimal, sidebar, and editorial. <code>section_rule_gap</code> (0–0.5em, default 0.2) exists on only default, sidebar, and timeline.",
+      "tableTemplate": "Template",
+      "tableAccentDefault": "accent_color default",
+      "bannerHeading": "Template-specific —",
+      "tablePurpose": "Purpose",
+      "bannerPurpose": {
+        "header_bg": "Dark band header background — banner only"
+      },
+      "sidebarHeading": "Template-specific —",
+      "sidebarNote": "Sidebar also widens its shared section_pre/section_post ranges: 0.2–1.5em (default 0.5) and 0.05–0.8em (default 0.2) respectively, instead of the 0.2–0.9 / 0.05–0.4 every other template uses.",
+      "sidebarPurpose": {
+        "sidebar_bg": "Sidebar background colour",
+        "sidebar_accent": "Sidebar section heading colour",
+        "sidebar_link_color": "Links and icons in the sidebar",
+        "sidebar_text": "Body text in the sidebar",
+        "sidebar_ink": "Name and entry-title colour in the sidebar",
+        "sidebar_width": "Sidebar width in cm (4.5 – 9.0)",
+        "accent_color": "Links in the main column"
+      },
+      "exampleHeading": "Style embedded in layout — example (banner template)",
+      "exampleNote": "<code>header.style</code> is still required by the schema even though banner ignores it (see §3) — pick either value."
+    },
+    "section5": {
+      "heading": "5 · Tips for agents",
+      "tips": {
+        "contactTypes": {
+          "title": "Collect contact types carefully",
+          "body": "Use the exact type strings (email, phone, location, linkedin, github, medium, facebook, web). The \"key\" field is the display label — it can be anything (\"Email\", \"E-mail\", \"Work email\" all render fine). The \"value\" for linkedin/github should be the full URL or just the path (both work)."
+        },
+        "summaryParagraphs": {
+          "title": "summary uses \\n\\n for paragraphs",
+          "body": "The summary field is plain text. To create multiple paragraphs, separate them with a double newline (\\n\\n). Single newlines are treated as spaces."
+        },
+        "tags": {
+          "title": "Tags are decorative pills",
+          "body": "The \"tags\" array on experience, side_projects, and certifications renders as small grey pills at the bottom of the entry. Keep them short (1–3 words). For certifications, the special tag \"expired\" renders a warning style."
+        },
+        "links": {
+          "title": "Links work anywhere in text fields",
+          "body": "highlights, description, and summary all support [text](url) Markdown links. You can also link to another section in the PDF with [text](#section-id) — e.g. [see my projects](#side_projects)."
+        },
+        "omit": {
+          "title": "Omit sections you have no data for",
+          "body": "All top-level sections except identity are optional. Omitting them entirely is cleaner than including empty arrays."
+        },
+        "subtitle": {
+          "title": "subtitle is flexible",
+          "body": "There is no strict format for subtitle. Common conventions: \"Company · Location\" for experience, \"Degree · Field\" for education, \"Issuer · Year\" for certifications. The · separator is just a display convention."
+        }
+      }
+    },
+    "footerTagline": "Proof schema reference"
   }
 }

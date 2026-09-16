@@ -294,9 +294,144 @@
     "s6p1": "Si algo relevante cambia — especialmente en relación con el manejo de datos — esta página se actualizará. La fecha a continuación refleja la última revisión.",
     "s6date": "Última actualización: mayo de 2025"
   },
-  "llms": {
-    "metaTitle": "Esquema de CV para LLMs — Proof",
-    "home": "← Inicio",
-    "openEditor": "Abrir editor →"
+  "forLlms": {
+    "metaTitle": "Referencia del esquema — Proof",
+    "metaDescription": "Referencia completa del esquema JSON del CV y de los parámetros de layout/estilo de Proof. Para LLMs y agentes que generan datos de CV.",
+    "breadcrumb": "Referencia del esquema",
+    "title": "Referencia del esquema",
+    "intro": "Referencia completa para generar datos válidos para Proof. Cubre el JSON de contenido del CV, la estructura del layout y todos los parámetros de estilo de cada plantilla. Pensada para LLMs y agentes que producen archivos de CV para importar.",
+    "toc": {
+      "cvJson": "JSON del CV",
+      "sections": "Secciones",
+      "layout": "JSON del layout",
+      "style": "Parámetros de estilo",
+      "tips": "Consejos"
+    },
+    "section1": {
+      "heading": "1 · Esquema JSON del CV",
+      "intro": "El CV es un único objeto JSON. Todas las secciones son opcionales excepto <code>identity</code>. Los campos de texto en <code>highlights</code>, <code>description</code> y <code>summary</code> admiten enlaces con sintaxis Markdown: <code>[texto](https://url)</code>.",
+      "contactHeading": "identity.contact — valores de type",
+      "contactTypes": {
+        "email": "Se muestra como enlace mailto:",
+        "phone": "Se muestra como enlace tel:",
+        "location": "Texto plano, sin enlace",
+        "linkedin": "Usa el icono de LinkedIn",
+        "github": "Usa el icono de GitHub",
+        "medium": "Usa el icono de Medium",
+        "facebook": "Usa el icono de Facebook",
+        "web": "Icono genérico de globo"
+      },
+      "contactNote": "El selector de type del editor visual solo ofrece 6 de estos (no incluye medium ni facebook) — escribiendo el JSON directamente se obtiene el conjunto completo de arriba."
+    },
+    "section2": {
+      "heading": "2 · IDs de sección disponibles",
+      "intro": "Estos son los IDs de sección integrados que reconocen el editor y las plantillas. La plantilla sidebar también puede mostrar cualquiera de ellos en la columna izquierda.",
+      "tableId": "ID",
+      "tableKey": "Clave JSON",
+      "tableNotes": "Notas",
+      "notes": {
+        "summary": "string",
+        "experience": "array",
+        "education": "array",
+        "skills": "array de grupos",
+        "languages": "array",
+        "certifications": "array",
+        "awards": "array",
+        "side_projects": "array",
+        "contact": "solo en sidebar — muestra la lista de contacto",
+        "core_strengths": "array de strings cortos, se muestra como píldoras. Disponible en todas las plantillas — no es exclusivo de sidebar. El título de la sección está traducido (en/es/de/fr).",
+        "leadership_profile": "un único objeto, no un array: { subtitle?, highlights? }. Sin title/name — se muestra bajo un encabezado fijo y traducido."
+      },
+      "customNote": "Secciones personalizadas: cualquier clave de nivel superior no listada arriba se muestra de forma genérica bajo un encabezado generado a partir del nombre de la clave. Formas admitidas: un string simple; un array de strings (se muestra como lista con viñetas); un array de objetos con title (o name)/subtitle/period y, además, highlights (array de strings) o description; o un único objeto (no un array) con subtitle y, además, highlights o description — la misma forma que usa leadership_profile."
+    },
+    "section3": {
+      "heading": "3 · Estructura del JSON del layout",
+      "intro": "Al generar un PDF desde el editor, se compila un JSON de layout junto con los datos del CV. También puede producir el JSON de layout directamente para controlar el orden de las secciones, las columnas y el espaciado por sección.",
+      "topLevelFields": "Campos de nivel superior",
+      "fields": {
+        "header": "Siempre obligatorio como {\"style\": \"split\" | \"stacked\"} — el validador de importación rechaza cualquier otro valor — pero solo la plantilla default lo utiliza realmente, alternando entre una cabecera con nombre/titular/contacto en paralelo o apilada. El resto de plantillas (minimal, modern, sidebar y las demás) tienen una única cabecera fija e ignoran silenciosamente este campo, así que puede elegir cualquiera de los dos valores para ellas; no tiene ningún efecto visible.",
+        "sections": "Array de entradas de sección de la columna principal (ver más abajo).",
+        "sidebar_sections": "Solo para la plantilla sidebar. Array de entradas de sección de la barra lateral.",
+        "style": "Sobrescrituras de estilo (ver §4). Se aplican sobre los valores por defecto de la plantilla."
+      },
+      "sectionEntryFull": "Entrada de sección — tipo completo",
+      "fieldsEntry": {
+        "id": "ID de sección del §2.",
+        "breakable": "Si Typst puede insertar un salto de página antes de este bloque. Por defecto: true.",
+        "pre_spacing": "Espacio por encima del título de la sección. Sobrescribe el valor por defecto de la plantilla.",
+        "post_spacing": "Espacio por debajo de la línea de la sección. Sobrescribe el valor por defecto de la plantilla."
+      },
+      "sectionEntryColumns": "Entrada de sección — tipo columns",
+      "fieldsColumns": {
+        "type": "Debe ser \"columns\" para activar esta variante.",
+        "columns": "Número de columnas. Por defecto: 2.",
+        "content": "Array con el contenido de las columnas; cada elemento es un array de IDs de sección para esa columna."
+      },
+      "completeExamples": "Ejemplos completos de layout",
+      "exampleDefaultMinimal": "Default / Minimal",
+      "exampleSidebar": "Sidebar"
+    },
+    "section4": {
+      "heading": "4 · Parámetros de estilo",
+      "intro": "Los valores de estilo residen en la clave <code>style</code> del JSON de layout. Todos son opcionales — omita cualquiera para usar el valor por defecto de la plantilla.",
+      "commonHeading": "Comunes — todas las plantillas",
+      "tableKey": "Clave",
+      "tableType": "Tipo",
+      "tableRange": "Rango / opciones",
+      "tableDefault": "Por defecto",
+      "commonNote": "section_pre / section_post no forman técnicamente parte de una lista de parámetros compartida — cada plantilla los declara individualmente — pero las 10 usan el mismo rango mostrado arriba excepto sidebar, que amplía ambos (ver su propia tabla más abajo). headline_size y section_rule_gap son específicos de cada plantilla, no universales; ver la siguiente tabla por plantilla.",
+      "accentHeading": "accent_color — todas las plantillas, con un valor por defecto distinto en cada una",
+      "accentIntro": "Las 10 plantillas declaran un parámetro <code>accent_color</code> con exactamente esta clave — no es compartido/universal en el sentido del esquema (cada plantilla fija su propio rango y valor por defecto), pero todas lo tienen. 7 de las 10 también tienen <code>headline_size</code> (8–14pt, por defecto 10) — todas excepto minimal, sidebar y editorial. <code>section_rule_gap</code> (0–0.5em, por defecto 0.2) solo existe en default, sidebar y timeline.",
+      "tableTemplate": "Plantilla",
+      "tableAccentDefault": "accent_color por defecto",
+      "bannerHeading": "Específico de plantilla —",
+      "tablePurpose": "Propósito",
+      "bannerPurpose": {
+        "header_bg": "Fondo de la franja oscura de la cabecera — solo banner"
+      },
+      "sidebarHeading": "Específico de plantilla —",
+      "sidebarNote": "sidebar también amplía sus rangos compartidos de section_pre/section_post: 0.2–1.5em (por defecto 0.5) y 0.05–0.8em (por defecto 0.2) respectivamente, en lugar de 0.2–0.9 / 0.05–0.4 que usan el resto de plantillas.",
+      "sidebarPurpose": {
+        "sidebar_bg": "Color de fondo de la barra lateral",
+        "sidebar_accent": "Color de los encabezados de sección de la barra lateral",
+        "sidebar_link_color": "Enlaces e iconos en la barra lateral",
+        "sidebar_text": "Texto del cuerpo en la barra lateral",
+        "sidebar_ink": "Color del nombre y de los títulos de entrada en la barra lateral",
+        "sidebar_width": "Ancho de la barra lateral en cm (4.5 – 9.0)",
+        "accent_color": "Enlaces en la columna principal"
+      },
+      "exampleHeading": "Estilo embebido en el layout — ejemplo (plantilla banner)",
+      "exampleNote": "<code>header.style</code> sigue siendo obligatorio según el esquema aunque banner lo ignore (ver §3) — elija cualquiera de los dos valores."
+    },
+    "section5": {
+      "heading": "5 · Consejos para agentes",
+      "tips": {
+        "contactTypes": {
+          "title": "Recoja los tipos de contacto con cuidado",
+          "body": "Use exactamente estas cadenas de type (email, phone, location, linkedin, github, medium, facebook, web). El campo \"key\" es la etiqueta que se muestra — puede ser cualquier cosa (\"Email\", \"Correo\", \"Correo de trabajo\" se muestran todas bien). El \"value\" de linkedin/github puede ser la URL completa o solo la ruta (ambas funcionan)."
+        },
+        "summaryParagraphs": {
+          "title": "summary usa \\n\\n para los párrafos",
+          "body": "El campo summary es texto plano. Para crear varios párrafos, sepárelos con un salto de línea doble (\\n\\n). Los saltos de línea simples se tratan como espacios."
+        },
+        "tags": {
+          "title": "Los tags son píldoras decorativas",
+          "body": "El array \"tags\" en experience, side_projects y certifications se muestra como pequeñas píldoras grises al final de la entrada. Manténgalos cortos (1–3 palabras). En certifications, el tag especial \"expired\" se muestra con un estilo de advertencia."
+        },
+        "links": {
+          "title": "Los enlaces funcionan en cualquier campo de texto",
+          "body": "highlights, description y summary admiten todos enlaces Markdown [texto](url). También puede enlazar a otra sección dentro del PDF con [texto](#id-de-seccion) — por ejemplo [ver mis proyectos](#side_projects)."
+        },
+        "omit": {
+          "title": "Omita las secciones para las que no tenga datos",
+          "body": "Todas las secciones de nivel superior salvo identity son opcionales. Omitirlas por completo es más limpio que incluir arrays vacíos."
+        },
+        "subtitle": {
+          "title": "subtitle es flexible",
+          "body": "No existe un formato estricto para subtitle. Convenciones habituales: \"Empresa · Ubicación\" para experience, \"Titulación · Especialidad\" para education, \"Emisor · Año\" para certifications. El separador · es solo una convención visual."
+        }
+      }
+    },
+    "footerTagline": "Referencia del esquema de Proof"
   }
 }

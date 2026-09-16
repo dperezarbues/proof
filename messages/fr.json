@@ -294,9 +294,144 @@
     "s6p1": "Si quelque chose de substantiel change — notamment concernant le traitement des données — cette page sera mise à jour. La date ci-dessous reflète la dernière révision.",
     "s6date": "Dernière mise à jour : mai 2025"
   },
-  "llms": {
-    "metaTitle": "Schéma de CV pour LLM — Proof",
-    "home": "← Accueil",
-    "openEditor": "Ouvrir l'éditeur →"
+  "forLlms": {
+    "metaTitle": "Référence du schéma — Proof",
+    "metaDescription": "Référence complète du schéma JSON du CV et des paramètres de mise en page/style de Proof. Pour les LLM et agents qui génèrent des données de CV.",
+    "breadcrumb": "Référence du schéma",
+    "title": "Référence du schéma",
+    "intro": "Référence complète pour générer des données valides pour Proof. Couvre le JSON de contenu du CV, la structure de mise en page et tous les paramètres de style de chaque modèle. Destinée aux LLM et agents qui produisent des fichiers de CV à importer.",
+    "toc": {
+      "cvJson": "JSON du CV",
+      "sections": "Sections",
+      "layout": "JSON de mise en page",
+      "style": "Paramètres de style",
+      "tips": "Conseils"
+    },
+    "section1": {
+      "heading": "1 · Schéma JSON du CV",
+      "intro": "Le CV est un unique objet JSON. Toutes les sections sont optionnelles sauf <code>identity</code>. Les champs texte dans <code>highlights</code>, <code>description</code> et <code>summary</code> prennent en charge les liens de type Markdown : <code>[texte](https://url)</code>.",
+      "contactHeading": "identity.contact — valeurs de type",
+      "contactTypes": {
+        "email": "Affiché comme lien mailto:",
+        "phone": "Affiché comme lien tel:",
+        "location": "Texte brut, sans lien",
+        "linkedin": "Utilise l'icône LinkedIn",
+        "github": "Utilise l'icône GitHub",
+        "medium": "Utilise l'icône Medium",
+        "facebook": "Utilise l'icône Facebook",
+        "web": "Icône générique de globe"
+      },
+      "contactNote": "Le sélecteur de type de l'éditeur visuel n'en propose que 6 (ni medium ni facebook) — en écrivant le JSON directement, vous obtenez l'ensemble complet ci-dessus."
+    },
+    "section2": {
+      "heading": "2 · IDs de section disponibles",
+      "intro": "Voici les IDs de section intégrés que connaissent l'éditeur et les modèles. Le modèle sidebar peut aussi afficher n'importe lequel d'entre eux dans la colonne de gauche.",
+      "tableId": "ID",
+      "tableKey": "Clé JSON",
+      "tableNotes": "Remarques",
+      "notes": {
+        "summary": "string",
+        "experience": "array",
+        "education": "array",
+        "skills": "array de groupes",
+        "languages": "array",
+        "certifications": "array",
+        "awards": "array",
+        "side_projects": "array",
+        "contact": "sidebar uniquement — affiche la liste de contact",
+        "core_strengths": "array de strings courts, affichés sous forme de pastilles. Disponible sur tous les modèles — pas réservé à sidebar. Le titre de la section est traduit (en/es/de/fr).",
+        "leadership_profile": "un objet unique, pas un array : { subtitle?, highlights? }. Sans title/name — affiché sous un titre fixe et traduit."
+      },
+      "customNote": "Sections personnalisées : toute clé de premier niveau non listée ci-dessus est affichée de façon générique sous un titre construit à partir du nom de la clé. Formes prises en charge : un simple string ; un array de strings (affiché en liste à puces) ; un array d'objets avec title (ou name)/subtitle/period et, en plus, highlights (array de strings) ou description ; ou un objet unique (pas un array) avec subtitle et, en plus, highlights ou description — la même forme qu'utilise leadership_profile."
+    },
+    "section3": {
+      "heading": "3 · Structure du JSON de mise en page",
+      "intro": "Lorsque vous générez un PDF depuis l'éditeur, un JSON de mise en page est compilé avec les données du CV. Vous pouvez aussi produire ce JSON directement pour contrôler l'ordre des sections, les colonnes et l'espacement par section.",
+      "topLevelFields": "Champs de premier niveau",
+      "fields": {
+        "header": "Toujours requis sous la forme {\"style\": \"split\" | \"stacked\"} — le validateur d'import rejette toute autre valeur — mais seul le modèle default l'utilise réellement, en basculant entre un en-tête nom/titre/contact côte à côte ou empilé. Tous les autres modèles (minimal, modern, sidebar et les autres) ont une mise en page d'en-tête unique et fixe, et ignorent silencieusement ce champ — choisissez donc l'une ou l'autre valeur pour eux ; cela n'a aucun effet visible.",
+        "sections": "Array des entrées de section de la colonne principale (voir ci-dessous).",
+        "sidebar_sections": "Modèle sidebar uniquement. Array des entrées de section de la barre latérale.",
+        "style": "Surcharges de style (voir §4). Appliquées par-dessus les valeurs par défaut du modèle."
+      },
+      "sectionEntryFull": "Entrée de section — type complet",
+      "fieldsEntry": {
+        "id": "ID de section du §2.",
+        "breakable": "Si Typst peut insérer un saut de page avant ce bloc. Par défaut : true.",
+        "pre_spacing": "Espace au-dessus du titre de section. Remplace la valeur par défaut du modèle.",
+        "post_spacing": "Espace sous la ligne de section. Remplace la valeur par défaut du modèle."
+      },
+      "sectionEntryColumns": "Entrée de section — type columns",
+      "fieldsColumns": {
+        "type": "Doit être \"columns\" pour activer cette variante.",
+        "columns": "Nombre de colonnes. Par défaut : 2.",
+        "content": "Array du contenu des colonnes ; chaque élément est un array d'IDs de section pour cette colonne."
+      },
+      "completeExamples": "Exemples complets de mise en page",
+      "exampleDefaultMinimal": "Default / Minimal",
+      "exampleSidebar": "Sidebar"
+    },
+    "section4": {
+      "heading": "4 · Paramètres de style",
+      "intro": "Les valeurs de style se trouvent dans la clé <code>style</code> du JSON de mise en page. Toutes sont optionnelles — omettez-en une pour utiliser la valeur par défaut du modèle.",
+      "commonHeading": "Communs — tous les modèles",
+      "tableKey": "Clé",
+      "tableType": "Type",
+      "tableRange": "Plage / options",
+      "tableDefault": "Par défaut",
+      "commonNote": "section_pre / section_post ne font pas techniquement partie d'une liste de paramètres partagée — chaque modèle les déclare individuellement — mais les 10 utilisent la même plage indiquée ci-dessus sauf sidebar, qui élargit les deux (voir son propre tableau plus bas). headline_size et section_rule_gap sont spécifiques à chaque modèle, pas universels ; voir le tableau par modèle qui suit.",
+      "accentHeading": "accent_color — tous les modèles, avec une valeur par défaut différente pour chacun",
+      "accentIntro": "Les 10 modèles déclarent un paramètre <code>accent_color</code> sous exactement cette clé — il n'est pas partagé/universel au sens du schéma (chaque modèle fixe sa propre plage et sa propre valeur par défaut), mais chaque modèle en a un. 7 des 10 ont aussi <code>headline_size</code> (8–14pt, par défaut 10) — tous sauf minimal, sidebar et editorial. <code>section_rule_gap</code> (0–0.5em, par défaut 0.2) n'existe que pour default, sidebar et timeline.",
+      "tableTemplate": "Modèle",
+      "tableAccentDefault": "accent_color par défaut",
+      "bannerHeading": "Spécifique au modèle —",
+      "tablePurpose": "Rôle",
+      "bannerPurpose": {
+        "header_bg": "Fond de la bande sombre de l'en-tête — banner uniquement"
+      },
+      "sidebarHeading": "Spécifique au modèle —",
+      "sidebarNote": "sidebar élargit aussi ses plages partagées section_pre/section_post : 0.2–1.5em (par défaut 0.5) et 0.05–0.8em (par défaut 0.2) respectivement, au lieu de 0.2–0.9 / 0.05–0.4 utilisées par tous les autres modèles.",
+      "sidebarPurpose": {
+        "sidebar_bg": "Couleur de fond de la barre latérale",
+        "sidebar_accent": "Couleur des titres de section de la barre latérale",
+        "sidebar_link_color": "Liens et icônes dans la barre latérale",
+        "sidebar_text": "Texte courant dans la barre latérale",
+        "sidebar_ink": "Couleur du nom et des titres d'entrée dans la barre latérale",
+        "sidebar_width": "Largeur de la barre latérale en cm (4.5 – 9.0)",
+        "accent_color": "Liens dans la colonne principale"
+      },
+      "exampleHeading": "Style intégré dans la mise en page — exemple (modèle banner)",
+      "exampleNote": "<code>header.style</code> reste requis par le schéma même si banner l'ignore (voir §3) — choisissez l'une ou l'autre valeur."
+    },
+    "section5": {
+      "heading": "5 · Conseils pour les agents",
+      "tips": {
+        "contactTypes": {
+          "title": "Recueillez les types de contact avec soin",
+          "body": "Utilisez exactement ces chaînes de type (email, phone, location, linkedin, github, medium, facebook, web). Le champ \"key\" est le libellé affiché — il peut être n'importe quoi (\"Email\", \"E-mail\", \"Email professionnel\" s'affichent tous correctement). Le \"value\" de linkedin/github peut être l'URL complète ou seulement le chemin (les deux fonctionnent)."
+        },
+        "summaryParagraphs": {
+          "title": "summary utilise \\n\\n pour les paragraphes",
+          "body": "Le champ summary est du texte brut. Pour créer plusieurs paragraphes, séparez-les par un double saut de ligne (\\n\\n). Les sauts de ligne simples sont traités comme des espaces."
+        },
+        "tags": {
+          "title": "Les tags sont des pastilles décoratives",
+          "body": "L'array \"tags\" sur experience, side_projects et certifications s'affiche sous forme de petites pastilles grises en bas de l'entrée. Gardez-les courtes (1–3 mots). Pour certifications, le tag spécial \"expired\" s'affiche avec un style d'avertissement."
+        },
+        "links": {
+          "title": "Les liens fonctionnent dans n'importe quel champ texte",
+          "body": "highlights, description et summary prennent tous en charge les liens Markdown [texte](url). Vous pouvez aussi lier vers une autre section du PDF avec [texte](#id-de-section) — par exemple [voir mes projets](#side_projects)."
+        },
+        "omit": {
+          "title": "Omettez les sections pour lesquelles vous n'avez pas de données",
+          "body": "Toutes les sections de premier niveau sauf identity sont optionnelles. Les omettre entièrement est plus propre que d'inclure des arrays vides."
+        },
+        "subtitle": {
+          "title": "subtitle est flexible",
+          "body": "Il n'existe pas de format strict pour subtitle. Conventions courantes : \"Entreprise · Lieu\" pour experience, \"Diplôme · Spécialité\" pour education, \"Émetteur · Année\" pour certifications. Le séparateur · n'est qu'une convention d'affichage."
+        }
+      }
+    },
+    "footerTagline": "Référence du schéma Proof"
   }
 }

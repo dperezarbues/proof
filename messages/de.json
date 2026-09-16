@@ -294,9 +294,144 @@
     "s6p1": "Wenn sich etwas Wesentliches ändert — insbesondere in Bezug auf den Umgang mit Daten — wird diese Seite aktualisiert. Das folgende Datum gibt die letzte Überarbeitung an.",
     "s6date": "Zuletzt aktualisiert: Mai 2025"
   },
-  "llms": {
-    "metaTitle": "Lebenslauf-Schema für LLMs — Proof",
-    "home": "← Startseite",
-    "openEditor": "Editor öffnen →"
+  "forLlms": {
+    "metaTitle": "Schema-Referenz — Proof",
+    "metaDescription": "Vollständige Referenz für das CV-JSON-Schema sowie die Layout-/Stilparameter von Proof. Für LLMs und Agenten, die CV-Daten generieren.",
+    "breadcrumb": "Schema-Referenz",
+    "title": "Schema-Referenz",
+    "intro": "Vollständige Referenz zum Erzeugen gültiger Proof-Daten. Umfasst das CV-Inhalts-JSON, die Layout-Struktur und alle Stilparameter jeder Vorlage. Gedacht für LLMs und Agenten, die CV-Dateien zum Import erzeugen.",
+    "toc": {
+      "cvJson": "CV-JSON",
+      "sections": "Abschnitte",
+      "layout": "Layout-JSON",
+      "style": "Stilparameter",
+      "tips": "Tipps"
+    },
+    "section1": {
+      "heading": "1 · CV-JSON-Schema",
+      "intro": "Der Lebenslauf ist ein einzelnes JSON-Objekt. Alle Abschnitte sind optional außer <code>identity</code>. Textfelder in <code>highlights</code>, <code>description</code> und <code>summary</code> unterstützen Markdown-Links: <code>[Text](https://url)</code>.",
+      "contactHeading": "identity.contact — Werte für type",
+      "contactTypes": {
+        "email": "Wird als mailto:-Link dargestellt",
+        "phone": "Wird als tel:-Link dargestellt",
+        "location": "Reiner Text, kein Link",
+        "linkedin": "Verwendet das LinkedIn-Symbol",
+        "github": "Verwendet das GitHub-Symbol",
+        "medium": "Verwendet das Medium-Symbol",
+        "facebook": "Verwendet das Facebook-Symbol",
+        "web": "Generisches Weltkugel-Symbol"
+      },
+      "contactNote": "Die type-Auswahl im visuellen Editor bietet nur 6 davon (kein medium oder facebook) — beim direkten Schreiben des JSON erhalten Sie den vollständigen Satz oben."
+    },
+    "section2": {
+      "heading": "2 · Verfügbare Abschnitts-IDs",
+      "intro": "Dies sind die eingebauten Abschnitts-IDs, die Editor und Vorlagen kennen. Die Vorlage sidebar kann jede davon zusätzlich in der linken Spalte darstellen.",
+      "tableId": "ID",
+      "tableKey": "JSON-Schlüssel",
+      "tableNotes": "Hinweise",
+      "notes": {
+        "summary": "string",
+        "experience": "array",
+        "education": "array",
+        "skills": "array von Gruppen",
+        "languages": "array",
+        "certifications": "array",
+        "awards": "array",
+        "side_projects": "array",
+        "contact": "nur sidebar — zeigt die Kontaktliste an",
+        "core_strengths": "array kurzer strings, dargestellt als Pillen. Auf jeder Vorlage verfügbar — nicht nur bei sidebar. Der Abschnittstitel ist übersetzt (en/es/de/fr).",
+        "leadership_profile": "ein einzelnes Objekt, kein array: { subtitle?, highlights? }. Ohne title/name — wird unter einer festen, übersetzten Überschrift dargestellt."
+      },
+      "customNote": "Benutzerdefinierte Abschnitte: Jeder oben nicht aufgeführte Schlüssel auf oberster Ebene wird generisch unter einer aus dem Schlüsselnamen gebildeten Überschrift dargestellt. Unterstützte Formen: ein einfacher string; ein string-array (als Aufzählung dargestellt); ein array von Objekten mit title (oder name)/subtitle/period sowie entweder highlights (string-array) oder description; oder ein einzelnes Objekt (kein array) mit subtitle sowie entweder highlights oder description — dieselbe Form, die leadership_profile verwendet."
+    },
+    "section3": {
+      "heading": "3 · Struktur des Layout-JSON",
+      "intro": "Beim Erzeugen eines PDFs im Editor wird zusammen mit den CV-Daten ein Layout-JSON kompiliert. Sie können das Layout-JSON auch direkt erzeugen, um Abschnittsreihenfolge, Spalten und Abstände pro Abschnitt zu steuern.",
+      "topLevelFields": "Felder auf oberster Ebene",
+      "fields": {
+        "header": "Immer erforderlich als {\"style\": \"split\" | \"stacked\"} — der Import-Validator lehnt jeden anderen Wert ab — aber nur die Vorlage default liest den Wert tatsächlich aus und wechselt zwischen einer nebeneinander- und einer gestapelten Darstellung von Name/Headline/Kontakt. Alle anderen Vorlagen (minimal, modern, sidebar und die übrigen) haben ein einziges festes Kopfzeilen-Layout und ignorieren dieses Feld stillschweigend — wählen Sie für sie also einen beliebigen der beiden Werte; er hat keine sichtbare Wirkung.",
+        "sections": "Array der Abschnittseinträge der Hauptspalte (siehe unten).",
+        "sidebar_sections": "Nur für die Vorlage sidebar. Array der Abschnittseinträge der Seitenleiste.",
+        "style": "Stil-Überschreibungen (siehe §4). Werden über die Vorlagen-Standardwerte gelegt."
+      },
+      "sectionEntryFull": "Abschnittseintrag — vollständiger Typ",
+      "fieldsEntry": {
+        "id": "Abschnitts-ID aus §2.",
+        "breakable": "Ob Typst vor diesem Block einen Seitenumbruch einfügen darf. Standard: true.",
+        "pre_spacing": "Abstand über dem Abschnittstitel. Überschreibt den Vorlagen-Standardwert.",
+        "post_spacing": "Abstand unter der Abschnittslinie. Überschreibt den Vorlagen-Standardwert."
+      },
+      "sectionEntryColumns": "Abschnittseintrag — Typ columns",
+      "fieldsColumns": {
+        "type": "Muss \"columns\" sein, um diese Variante zu aktivieren.",
+        "columns": "Anzahl der Spalten. Standard: 2.",
+        "content": "Array der Spalteninhalte; jedes Element ist ein array von Abschnitts-IDs für diese Spalte."
+      },
+      "completeExamples": "Vollständige Layout-Beispiele",
+      "exampleDefaultMinimal": "Default / Minimal",
+      "exampleSidebar": "Sidebar"
+    },
+    "section4": {
+      "heading": "4 · Stilparameter",
+      "intro": "Stilwerte liegen im Schlüssel <code>style</code> des Layout-JSON. Alle sind optional — lassen Sie einen weg, um den Vorlagen-Standardwert zu verwenden.",
+      "commonHeading": "Gemeinsam — alle Vorlagen",
+      "tableKey": "Schlüssel",
+      "tableType": "Typ",
+      "tableRange": "Bereich / Optionen",
+      "tableDefault": "Standard",
+      "commonNote": "section_pre / section_post gehören technisch nicht zu einer gemeinsamen Parameterliste — jede Vorlage deklariert sie einzeln —, aber alle 10 verwenden denselben oben gezeigten Bereich außer sidebar, das beide erweitert (siehe die eigene Tabelle unten). headline_size und section_rule_gap sind vorlagenspezifisch, nicht universell; siehe die folgende Tabelle je Vorlage.",
+      "accentHeading": "accent_color — jede Vorlage, mit jeweils eigenem Standardwert",
+      "accentIntro": "Alle 10 Vorlagen deklarieren einen Parameter <code>accent_color</code> unter genau diesem Schlüssel — im Sinne des Schemas ist er nicht gemeinsam/universell (jede Vorlage legt ihren eigenen Bereich und Standardwert fest), aber jede Vorlage hat einen. 7 der 10 haben außerdem <code>headline_size</code> (8–14pt, Standard 10) — alle außer minimal, sidebar und editorial. <code>section_rule_gap</code> (0–0.5em, Standard 0.2) existiert nur bei default, sidebar und timeline.",
+      "tableTemplate": "Vorlage",
+      "tableAccentDefault": "accent_color Standardwert",
+      "bannerHeading": "Vorlagenspezifisch —",
+      "tablePurpose": "Zweck",
+      "bannerPurpose": {
+        "header_bg": "Hintergrund des dunklen Kopfzeilenbands — nur banner"
+      },
+      "sidebarHeading": "Vorlagenspezifisch —",
+      "sidebarNote": "sidebar erweitert außerdem seine gemeinsamen Bereiche für section_pre/section_post: 0.2–1.5em (Standard 0.5) bzw. 0.05–0.8em (Standard 0.2), statt der 0.2–0.9 / 0.05–0.4, die alle anderen Vorlagen verwenden.",
+      "sidebarPurpose": {
+        "sidebar_bg": "Hintergrundfarbe der Seitenleiste",
+        "sidebar_accent": "Farbe der Abschnittsüberschriften in der Seitenleiste",
+        "sidebar_link_color": "Links und Symbole in der Seitenleiste",
+        "sidebar_text": "Fließtext in der Seitenleiste",
+        "sidebar_ink": "Farbe von Name und Eintragstiteln in der Seitenleiste",
+        "sidebar_width": "Breite der Seitenleiste in cm (4.5 – 9.0)",
+        "accent_color": "Links in der Hauptspalte"
+      },
+      "exampleHeading": "In das Layout eingebetteter Stil — Beispiel (Vorlage banner)",
+      "exampleNote": "<code>header.style</code> ist laut Schema weiterhin erforderlich, auch wenn banner es ignoriert (siehe §3) — wählen Sie einen beliebigen der beiden Werte."
+    },
+    "section5": {
+      "heading": "5 · Tipps für Agenten",
+      "tips": {
+        "contactTypes": {
+          "title": "Kontakttypen sorgfältig erfassen",
+          "body": "Verwenden Sie genau diese type-Zeichenketten (email, phone, location, linkedin, github, medium, facebook, web). Das Feld \"key\" ist die angezeigte Bezeichnung — es kann beliebig lauten (\"Email\", \"E-Mail\", \"Geschäftliche E-Mail\" werden alle korrekt dargestellt). Der \"value\" für linkedin/github kann die vollständige URL oder nur der Pfad sein (beides funktioniert)."
+        },
+        "summaryParagraphs": {
+          "title": "summary verwendet \\n\\n für Absätze",
+          "body": "Das Feld summary ist reiner Text. Um mehrere Absätze zu erzeugen, trennen Sie sie mit einem doppelten Zeilenumbruch (\\n\\n). Einzelne Zeilenumbrüche werden wie Leerzeichen behandelt."
+        },
+        "tags": {
+          "title": "Tags sind dekorative Pillen",
+          "body": "Das array \"tags\" bei experience, side_projects und certifications wird als kleine graue Pillen am Ende des Eintrags dargestellt. Halten Sie sie kurz (1–3 Wörter). Bei certifications wird der besondere Tag \"expired\" in einem Warnstil dargestellt."
+        },
+        "links": {
+          "title": "Links funktionieren in jedem Textfeld",
+          "body": "highlights, description und summary unterstützen alle Markdown-Links [Text](url). Sie können im PDF auch auf einen anderen Abschnitt verlinken mit [Text](#abschnitts-id) — z. B. [siehe meine Projekte](#side_projects)."
+        },
+        "omit": {
+          "title": "Lassen Sie Abschnitte ohne Daten weg",
+          "body": "Alle Abschnitte auf oberster Ebene außer identity sind optional. Sie ganz wegzulassen ist sauberer, als leere arrays anzugeben."
+        },
+        "subtitle": {
+          "title": "subtitle ist flexibel",
+          "body": "Für subtitle gibt es kein festes Format. Übliche Konventionen: \"Firma · Ort\" bei experience, \"Abschluss · Fachrichtung\" bei education, \"Aussteller · Jahr\" bei certifications. Das Trennzeichen · ist lediglich eine Darstellungskonvention."
+        }
+      }
+    },
+    "footerTagline": "Proof-Schema-Referenz"
   }
 }

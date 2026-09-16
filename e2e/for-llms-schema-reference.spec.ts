@@ -1,19 +1,16 @@
 import { expect, test } from '@playwright/test'
 import { openEditor } from './helpers'
 
-// Regression: /for-llms sits outside the [locale] segment (deliberately
-// English-only developer documentation) and the root layout
-// (src/app/layout.tsx) is a bare passthrough with no <html>/<body> of its
-// own — every locale-scoped page gets that structure from
-// [locale]/layout.tsx, but this route never reaches it. The page never
-// rendered its own <html>/<body> either, so it had NO valid document
-// structure anywhere in its render tree (Next's own dev overlay flags this
-// as a runtime error) and silently fell back to system fonts instead of the
-// site's Archivo/Space Mono typeface, since those only exist as CSS
-// variables set by [locale]/layout.tsx's next/font instances.
+// The schema reference now lives at /[locale]/for-llms, a real translated
+// page like the rest of the site (src/app/[locale]/layout.tsx provides its
+// <html>/<body> and Archivo/Space Mono fonts, same as every other locale
+// route). Bare /for-llms is now just a LocaleRedirect shim to it — see
+// locale-redirect-shims.spec.ts for that redirect behaviour. Schema field
+// names, JSON examples, and type vocabulary stay in English at every
+// locale; only the surrounding prose is translated.
 test.describe('/for-llms schema reference page', () => {
   test('renders a valid document with the site fonts, no runtime error', async ({ page }) => {
-    const resp = await page.goto('/for-llms')
+    const resp = await page.goto('/en/for-llms')
     expect(resp?.status()).toBe(200)
 
     await expect(page.getByText('Runtime Error')).not.toBeVisible()
@@ -30,10 +27,26 @@ test.describe('/for-llms schema reference page', () => {
   // sidebar-only (it's available on every template) and never mentioned
   // leadership_profile at all, despite both being real, implemented sections.
   test('documents core_strengths and leadership_profile accurately', async ({ page }) => {
-    await page.goto('/for-llms')
+    await page.goto('/en/for-llms')
     await expect(page.getByText('core_strengths').first()).toBeVisible()
     await expect(page.getByText(/not sidebar-only/)).toBeVisible()
     await expect(page.getByText('leadership_profile').first()).toBeVisible()
+  })
+
+  // The page is now genuinely localized — switching languages should
+  // translate the surrounding prose while schema keys stay in English.
+  test('the language switcher translates prose but keeps schema keys in English', async ({
+    page,
+  }) => {
+    await page.goto('/en/for-llms')
+    await expect(page.getByRole('heading', { name: 'Schema Reference' })).toBeVisible()
+
+    await page.getByLabel('Language').selectOption('es')
+    await page.waitForURL('**/es/for-llms/')
+    await expect(page.getByRole('heading', { name: 'Referencia del esquema' })).toBeVisible()
+    // "identity" is a schema key referenced inside translated prose — it
+    // must survive untranslated regardless of locale.
+    await expect(page.getByText('identity', { exact: true }).first()).toBeVisible()
   })
 
   // Regression: the style-parameters example JSON used a fictional font
