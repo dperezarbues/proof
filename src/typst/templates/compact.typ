@@ -163,13 +163,20 @@
 }
 
 // ── Header ────────────────────────────────────────────────────────────────────
+// One contact entry per line, not joined onto a single row: this sits in an
+// `auto`-width grid column next to the name/headline's `1fr` column below, and
+// an `auto` column sizes itself to its content's natural (unwrapped) width —
+// joining every entry with " · " made that width grow with the contact count,
+// squeezing the name/headline column down to near-nothing once someone had
+// more than 3-4 contact methods. Stacking one-per-line bounds the column to
+// the single longest entry instead, matching the same adjacent-auto-column
+// pattern default.typ already uses safely.
 #let contact-row = [
   #set par(justify: false)
   #set text(size: fs-sm, fill: c-muted)
-  #for (ci, entry) in id.contact.enumerate() {
-    if ci > 0 [  ·  ]
-    render-contact-entry(entry, show-icons: show-contact-icons, show-labels: show-contact-labels)
-  }
+  #for entry in id.contact [
+    #render-contact-entry(entry, show-icons: show-contact-icons, show-labels: show-contact-labels) \
+  ]
 ]
 
 #if show-qr {
