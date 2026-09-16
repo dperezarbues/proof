@@ -63,10 +63,20 @@ export function StyleSection({ t }: { t: ForLlmsT }) {
         </table>
       </div>
       <div style={{ marginTop: '-1rem', marginBottom: '1.5rem' }}>
-        {(['sizesNote', 'colorsNote', 'extrasNote', 'commonNote'] as const).map((key) => (
-          <p key={key} style={{ fontSize: 12, color: 'var(--c-faint)', marginBottom: '0.75rem' }}>
-            {t(`style.${key}`)}
-          </p>
+        {(['sizes', 'colors', 'extras', 'common'] as const).map((key) => (
+          <div key={key} style={{ marginBottom: '0.9rem' }}>
+            <p
+              style={{
+                fontSize: 11,
+                fontWeight: 700,
+                color: 'var(--c-ink)',
+                marginBottom: 2,
+              }}
+            >
+              {t(`style.notes.${key}.heading`)}
+            </p>
+            <p style={{ fontSize: 12, color: 'var(--c-sub)' }}>{t(`style.notes.${key}.body`)}</p>
+          </div>
         ))}
       </div>
 

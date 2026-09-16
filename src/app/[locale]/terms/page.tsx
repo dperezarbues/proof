@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import MarkProof from '@/components/proof/MarkProof'
-import { Link } from '@/i18n/navigation'
+import SiteFooter from '@/components/proof/SiteFooter'
+import SiteNav from '@/components/proof/SiteNav'
 import { type Locale, routing } from '@/i18n/routing'
 
 export function generateStaticParams() {
@@ -88,41 +88,7 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--c-paper)' }}>
-      <nav
-        style={{
-          maxWidth: 672,
-          margin: '0 auto',
-          padding: '1rem 1.5rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Link
-          href="/"
-          style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}
-        >
-          <MarkProof size={26} />
-          <span
-            style={{
-              fontWeight: 900,
-              fontSize: 15,
-              letterSpacing: '-0.02em',
-              color: 'var(--c-ink)',
-              fontFamily: 'var(--f-display)',
-            }}
-          >
-            Proof
-          </span>
-        </Link>
-        <Link
-          href="/editor"
-          className="inline-flex items-center gap-2 font-bold rounded-[3px] uppercase tracking-wider whitespace-nowrap transition-opacity hover:opacity-90 px-3.5 py-2 text-[13.5px]"
-          style={{ background: 'var(--c-accent)', color: '#fff' }}
-        >
-          {t('openEditor')}
-        </Link>
-      </nav>
+      <SiteNav />
 
       <div style={{ maxWidth: 672, margin: '0 auto', padding: '2.5rem 1.5rem' }}>
         <div style={{ marginBottom: '2rem' }}>
@@ -188,36 +154,9 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
             </Section>
           )
         })}
-
-        <div
-          style={{
-            borderTop: '1px solid var(--c-line)',
-            paddingTop: '1.5rem',
-            paddingBottom: '1.5rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Link href="/" style={{ fontSize: 13, color: 'var(--c-faint)', textDecoration: 'none' }}>
-            {t('backHome')}
-          </Link>
-          <Link
-            href="/editor"
-            style={{
-              fontSize: 13,
-              fontWeight: 600,
-              padding: '0.375rem 0.875rem',
-              background: 'var(--c-accent)',
-              color: 'white',
-              borderRadius: 4,
-              textDecoration: 'none',
-            }}
-          >
-            {t('openEditor')}
-          </Link>
-        </div>
       </div>
+
+      <SiteFooter />
     </div>
   )
 }

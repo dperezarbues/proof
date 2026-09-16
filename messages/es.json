@@ -44,7 +44,8 @@
         "title": "Importar & verificar",
         "body": "Vuelva a cargar el JSON. Elija una plantilla, ajuste los detalles y compile a PDF — completamente en su dispositivo."
       }
-    ]
+    ],
+    "viewDocs": "Ver documentación →"
   },
   "makeYours": {
     "badge": "Luego hágalo suyo",
@@ -427,7 +428,24 @@
       "tableType": "Tipo",
       "tableRange": "Rango / opciones",
       "tableDefault": "Por defecto",
-      "commonNote": "section_pre / section_post no forman técnicamente parte de una lista de parámetros compartida — cada plantilla los declara individualmente — pero las 10 usan el mismo rango mostrado arriba excepto sidebar, que amplía ambos (ver su propia tabla más abajo). headline_size y section_rule_gap son específicos de cada plantilla, no universales; ver la siguiente tabla por plantilla.",
+      "notes": {
+        "sizes": {
+          "heading": "Tamaños",
+          "body": "Qué controla cada tamaño: name_size — el nombre en la parte superior. headline_size (específico de cada plantilla, ver más abajo) — el titular/rol debajo del nombre. entry_size — el título de cada entrada (puesto, titulación, nombre del proyecto). body_size — el texto del cuerpo y los puntos destacados (body_size − 0.5pt se usa automáticamente para un par de elementos de texto secundarios más pequeños). section_heading_size — los propios títulos de sección («EXPERIENCE», «EDUCATION»), con section_heading_size − 1pt usado automáticamente para píldoras y notas al pie más pequeñas."
+        },
+        "colors": {
+          "heading": "Colores",
+          "body": "Qué controla cada color: heading_color — el nombre y el título de cada entrada. body_color — el texto del cuerpo y los puntos destacados. muted_color — metadatos como el nombre de la empresa y los rangos de fechas. Las píldoras, las etiquetas y el texto de notas al pie usan un color fijo que los parámetros de estilo no pueden sobrescribir."
+        },
+        "extras": {
+          "heading": "Interruptores",
+          "body": "show_footer solo imprime el número de página (p. ej. «2 / 5») en texto pequeño abajo a la derecha de cada página — nada más. show_qr coloca un pequeño código QR en la cabecera, enlazando a qr_url (o a la primera entrada de contacto linkedin si qr_url queda vacío); disponible en todas las plantillas. show_contact_icons y show_contact_labels no son independientes: con show_contact_icons activado, cada entrada de contacto muestra su icono de marca y show_contact_labels no tiene ningún efecto — las etiquetas solo aparecen cuando los iconos están desactivados."
+        },
+        "common": {
+          "heading": "Notas sobre la tabla",
+          "body": "section_pre / section_post no forman técnicamente parte de una lista de parámetros compartida — cada plantilla los declara individualmente — pero las 10 usan el mismo rango mostrado arriba excepto sidebar, que amplía ambos (ver su propia tabla más abajo). headline_size y section_rule_gap son específicos de cada plantilla, no universales; ver la siguiente tabla por plantilla."
+        }
+      },
       "accentHeading": "accent_color — todas las plantillas, con un valor por defecto distinto en cada una",
       "accentIntro": "Las 10 plantillas declaran un parámetro <code>accent_color</code> con exactamente esta clave — no es compartido/universal en el sentido del esquema (cada plantilla fija su propio rango y valor por defecto), pero todas lo tienen. 7 de las 10 también tienen <code>headline_size</code> (8–14pt, por defecto 10) — todas excepto minimal, sidebar y editorial. <code>section_rule_gap</code> (0–0.5em, por defecto 0.2) solo existe en default, sidebar y timeline.",
       "tableTemplate": "Plantilla",
@@ -449,10 +467,7 @@
         "accent_color": "Enlaces en la columna principal"
       },
       "exampleHeading": "Estilo embebido en el layout — ejemplo (plantilla banner)",
-      "exampleNote": "<code>header.style</code> sigue siendo obligatorio según el esquema aunque banner lo ignore (ver §3) — elija cualquiera de los dos valores.",
-      "extrasNote": "show_footer solo imprime el número de página (p. ej. «2 / 5») en texto pequeño abajo a la derecha de cada página — nada más. show_qr coloca un pequeño código QR en la cabecera, enlazando a qr_url (o a la primera entrada de contacto linkedin si qr_url queda vacío); disponible en todas las plantillas. show_contact_icons y show_contact_labels no son independientes: con show_contact_icons activado, cada entrada de contacto muestra su icono de marca y show_contact_labels no tiene ningún efecto — las etiquetas solo aparecen cuando los iconos están desactivados.",
-      "sizesNote": "Qué controla cada tamaño: name_size — el nombre en la parte superior. headline_size (específico de cada plantilla, ver más abajo) — el titular/rol debajo del nombre. entry_size — el título de cada entrada (puesto, titulación, nombre del proyecto). body_size — el texto del cuerpo y los puntos destacados (body_size − 0.5pt se usa automáticamente para un par de elementos de texto secundarios más pequeños). section_heading_size — los propios títulos de sección («EXPERIENCE», «EDUCATION»), con section_heading_size − 1pt usado automáticamente para píldoras y notas al pie más pequeñas.",
-      "colorsNote": "Qué controla cada color: heading_color — el nombre y el título de cada entrada. body_color — el texto del cuerpo y los puntos destacados. muted_color — metadatos como el nombre de la empresa y los rangos de fechas. Las píldoras, las etiquetas y el texto de notas al pie usan un color fijo que los parámetros de estilo no pueden sobrescribir."
+      "exampleNote": "<code>header.style</code> sigue siendo obligatorio según el esquema aunque banner lo ignore (ver §3) — elija cualquiera de los dos valores."
     },
     "tips": {
       "heading": "5 · Consejos para agentes",
@@ -483,6 +498,7 @@
         }
       }
     },
-    "footerTagline": "Referencia del esquema de Proof"
+    "footerTagline": "Referencia del esquema de Proof",
+    "plainTextNote": "También disponible como texto plano — para pegar directamente en una IA o usar en scripts:"
   }
 }

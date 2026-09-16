@@ -1,122 +1,17 @@
 import Image from 'next/image'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
+import Btn from '@/components/proof/Btn'
 import CropMarks from '@/components/proof/CropMarks'
-import MarkProof from '@/components/proof/MarkProof'
 import MonoLabel from '@/components/proof/MonoLabel'
 import RegMark from '@/components/proof/RegMark'
+import SiteFooter from '@/components/proof/SiteFooter'
+import SiteNav from '@/components/proof/SiteNav'
 import { Link } from '@/i18n/navigation'
 import { type Locale, routing } from '@/i18n/routing'
-
-type BtnVariant = 'primary' | 'dark' | 'ghost'
-type BtnSize = 'sm' | 'md' | 'lg'
-
-const BTN_STYLES: Record<BtnVariant, React.CSSProperties> = {
-  primary: { background: 'var(--c-accent)', color: '#fff' },
-  dark: { background: 'var(--c-ink)', color: 'var(--c-paper)' },
-  ghost: {
-    background: 'transparent',
-    color: 'var(--c-ink)',
-    boxShadow: 'inset 0 0 0 1.5px var(--c-ink)',
-  },
-}
-
-function Btn({
-  href,
-  children,
-  variant = 'primary',
-  size = 'md',
-}: {
-  href: Parameters<typeof Link>[0]['href']
-  children: React.ReactNode
-  variant?: BtnVariant
-  size?: BtnSize
-}) {
-  const pad = size === 'lg' ? 'px-7 py-4' : size === 'sm' ? 'px-3.5 py-2' : 'px-5 py-3'
-  const text = size === 'lg' ? 'text-[15px]' : 'text-[13.5px]'
-  return (
-    <Link
-      href={href}
-      className={`inline-flex items-center gap-2 font-bold rounded-[3px] uppercase tracking-wider whitespace-nowrap transition-opacity hover:opacity-90 ${pad} ${text}`}
-      style={BTN_STYLES[variant]}
-    >
-      {children}
-    </Link>
-  )
-}
+import { GITHUB_REPO } from '@/lib/site-links'
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
-}
-
-// ── nav ───────────────────────────────────────────────────────────────────────
-
-async function PNav() {
-  const t = await getTranslations('nav')
-  return (
-    <nav
-      className="flex items-center justify-between px-4 py-3 md:px-8 md:py-4 lg:px-14 lg:py-5"
-      style={{ borderBottom: '1.5px solid var(--c-ink)' }}
-    >
-      <Link
-        href="/"
-        className="flex items-center gap-2 md:gap-3"
-        style={{ textDecoration: 'none' }}
-      >
-        <MarkProof size={26} />
-        <span
-          className="font-black text-[20px] md:text-[22px] tracking-[-0.02em]"
-          style={{ color: 'var(--c-ink)' }}
-        >
-          Proof
-        </span>
-        <MonoLabel className="ml-1">Beta</MonoLabel>
-      </Link>
-
-      {/* Nav links — hidden on mobile */}
-      <div className="hidden md:flex items-center gap-5 lg:gap-8">
-        <a
-          href="#editor"
-          className="font-semibold text-[13px] lg:text-[14px]"
-          style={{ color: 'var(--c-ink2)', textDecoration: 'none', cursor: 'pointer' }}
-        >
-          {t('editor')}
-        </a>
-        <a
-          href="#templates"
-          className="font-semibold text-[13px] lg:text-[14px]"
-          style={{ color: 'var(--c-ink2)', textDecoration: 'none', cursor: 'pointer' }}
-        >
-          {t('templates')}
-        </a>
-        <a
-          href="#privacy"
-          className="font-semibold text-[13px] lg:text-[14px]"
-          style={{ color: 'var(--c-ink2)', textDecoration: 'none', cursor: 'pointer' }}
-        >
-          {t('privacy')}
-        </a>
-        <Link
-          href="/for-llms"
-          className="font-semibold text-[13px] lg:text-[14px]"
-          style={{ color: 'var(--c-ink2)', textDecoration: 'none', cursor: 'pointer' }}
-        >
-          {t('schema')}
-        </Link>
-        <LanguageSwitcher />
-        <Btn href="/editor" variant="dark">
-          {t('openEditor')}
-        </Btn>
-      </div>
-
-      {/* Mobile CTA only */}
-      <div className="md:hidden">
-        <Btn href="/editor" variant="dark">
-          {t('editorMobile')}
-        </Btn>
-      </div>
-    </nav>
-  )
 }
 
 // ── hero ──────────────────────────────────────────────────────────────────────
@@ -239,7 +134,7 @@ async function PHero() {
           <Btn href="/editor" variant="primary" size="lg">
             {t('openEditor')}
           </Btn>
-          <Btn href="/for-llms" variant="ghost" size="lg">
+          <Btn href="/llms-full.txt" download variant="ghost" size="lg">
             {t('downloadSchema')}
           </Btn>
         </div>
@@ -371,13 +266,21 @@ async function PAiBand() {
           >
             {SCHEMA_SNIPPET}
           </pre>
-          <div className="px-4 pb-4 md:px-5 md:pb-5">
-            <Link
-              href="/for-llms"
-              className="flex items-center justify-center w-full py-3 font-bold text-[12px] md:text-[13px] uppercase tracking-wider rounded-[3px] text-white transition-opacity hover:opacity-90"
+          <div className="px-4 pb-4 md:px-5 md:pb-5 flex gap-2">
+            <a
+              href="/llms-full.txt"
+              download
+              className="flex-1 flex items-center justify-center py-3 font-bold text-[12px] md:text-[13px] uppercase tracking-wider rounded-[3px] text-white transition-opacity hover:opacity-90"
               style={{ background: 'var(--c-accent)' }}
             >
               {t('downloadSchema')}
+            </a>
+            <Link
+              href="/for-llms"
+              className="flex-1 flex items-center justify-center py-3 font-bold text-[12px] md:text-[13px] uppercase tracking-wider rounded-[3px] text-white transition-opacity hover:opacity-90"
+              style={{ boxShadow: 'inset 0 0 0 1.3px rgba(255,255,255,0.25)' }}
+            >
+              {t('viewDocs')}
             </Link>
           </div>
         </div>
@@ -555,7 +458,7 @@ async function PTemplates() {
         {TEMPLATES.map((tmpl, i) => (
           <Link
             key={tmpl.id}
-            href="/editor"
+            href={{ pathname: '/editor', query: { template: tmpl.id } }}
             className="group relative rounded-[3px] p-2 md:p-3 transition-shadow"
             style={{ background: '#fff', boxShadow: 'inset 0 0 0 1px var(--c-line)' }}
           >
@@ -634,8 +537,6 @@ async function PPrivacy() {
 }
 
 // ── open source ───────────────────────────────────────────────────────────────
-
-const GITHUB_REPO = 'https://github.com/dperezarbues/proof'
 
 type OsRowProps = {
   href: string
@@ -825,53 +726,6 @@ async function PCta() {
   )
 }
 
-// ── footer ────────────────────────────────────────────────────────────────────
-
-async function PFooter() {
-  const t = await getTranslations('footer')
-  return (
-    <footer
-      className="flex flex-col gap-4 md:flex-row items-start md:items-center justify-between px-4 py-6 md:px-8 lg:px-14 md:py-8"
-      style={{ borderTop: '1.5px solid var(--c-ink)' }}
-    >
-      <div className="flex items-center gap-2.5 md:gap-3">
-        <MarkProof size={22} />
-        <span className="font-mono text-[12px]" style={{ color: 'var(--c-sub)' }}>
-          {t('tagline')}
-        </span>
-      </div>
-      <div
-        className="flex flex-wrap gap-4 md:gap-6 font-mono text-[12px]"
-        style={{ color: 'var(--c-faint)' }}
-      >
-        <Link href="/for-llms" className="hover:opacity-70 transition-opacity">
-          {t('schemaRef')}
-        </Link>
-        <Link href="/terms" className="hover:opacity-70 transition-opacity">
-          {t('privacyTerms')}
-        </Link>
-        <a
-          href="https://github.com"
-          className="hover:opacity-70 transition-opacity"
-          rel="noopener noreferrer"
-        >
-          GitHub
-        </a>
-        {process.env.NEXT_PUBLIC_SUPPORT_URL && (
-          <a
-            href={process.env.NEXT_PUBLIC_SUPPORT_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:opacity-70 transition-opacity"
-          >
-            {t('support')}
-          </a>
-        )}
-      </div>
-    </footer>
-  )
-}
-
 // ── page ──────────────────────────────────────────────────────────────────────
 
 export default async function LandingPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -880,7 +734,7 @@ export default async function LandingPage({ params }: { params: Promise<{ locale
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--c-paper)', color: 'var(--c-ink)' }}>
-      <PNav />
+      <SiteNav />
       <PHero />
       <PAiBand />
       <PMakeYours />
@@ -888,7 +742,7 @@ export default async function LandingPage({ params }: { params: Promise<{ locale
       <PPrivacy />
       <POpenSource />
       <PCta />
-      <PFooter />
+      <SiteFooter />
     </div>
   )
 }

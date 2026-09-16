@@ -36,7 +36,7 @@ test.describe('Landing — mobile (375×667)', () => {
   test('nav links are hidden, mobile CTA is shown', async ({ page }) => {
     // These links live in a `hidden md:flex` container — not visible on mobile
     // Use href-based selector to target the specific anchor (getByRole skips display:none)
-    const editorAnchor = page.locator('nav a[href="#editor"]')
+    const editorAnchor = page.locator('nav a[href$="#editor"]')
     await expect(editorAnchor).toBeHidden()
 
     // Mobile-only "Editor →" button is visible
@@ -87,7 +87,10 @@ test.describe('Landing — mobile (375×667)', () => {
   })
 
   test('CTA section button is full-width', async ({ page }) => {
-    const ctaBtn = page.locator('section').filter({ hasText: 'Make your proof.' }).getByRole('link', { name: /Open the editor/i })
+    const ctaBtn = page
+      .locator('section')
+      .filter({ hasText: 'Make your proof.' })
+      .getByRole('link', { name: /Open the editor/i })
     await expect(ctaBtn).toBeVisible()
     const box = await ctaBtn.boundingBox()
     // On mobile the button fills the available width (no shrink-0, not flex-row)
@@ -102,9 +105,9 @@ test.describe('Landing — tablet (768×1024)', () => {
   })
 
   test('nav links are visible at tablet width', async ({ page }) => {
-    await expect(page.locator('nav a[href="#editor"]')).toBeVisible()
-    await expect(page.locator('nav a[href="#templates"]')).toBeVisible()
-    await expect(page.locator('nav a[href="#privacy"]')).toBeVisible()
+    await expect(page.locator('nav a[href$="#editor"]')).toBeVisible()
+    await expect(page.locator('nav a[href$="#templates"]')).toBeVisible()
+    await expect(page.locator('nav a[href$="#privacy"]')).toBeVisible()
   })
 
   test('mobile CTA button is hidden at tablet width', async ({ page }) => {
@@ -144,9 +147,9 @@ test.describe('Landing — desktop (1280×800)', () => {
 
   test('all nav links and full open-editor CTA are visible', async ({ page }) => {
     const nav = page.getByRole('navigation')
-    await expect(page.locator('nav a[href="#editor"]')).toBeVisible()
-    await expect(page.locator('nav a[href="#templates"]')).toBeVisible()
-    await expect(page.locator('nav a[href="#privacy"]')).toBeVisible()
+    await expect(page.locator('nav a[href$="#editor"]')).toBeVisible()
+    await expect(page.locator('nav a[href$="#templates"]')).toBeVisible()
+    await expect(page.locator('nav a[href$="#privacy"]')).toBeVisible()
     await expect(nav.getByRole('link', { name: 'Schema', exact: true })).toBeVisible()
     await expect(nav.getByRole('link', { name: /Open editor →/ })).toBeVisible()
   })
@@ -301,7 +304,9 @@ test.describe('Editor — tablet (768×1024)', () => {
   })
 
   test('Generate PDF button is always visible in sidebar', async ({ page }) => {
-    await expect(page.locator('.editor-aside').getByRole('button', { name: /Generate PDF/i })).toBeVisible()
+    await expect(
+      page.locator('.editor-aside').getByRole('button', { name: /Generate PDF/i }),
+    ).toBeVisible()
   })
 
   test('PDF preview is to the right of the sidebar', async ({ page }) => {

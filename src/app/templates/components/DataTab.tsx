@@ -182,20 +182,21 @@ export function DataTab({
           </span>
         </div>
         <div className="flex gap-2">
-          <Link
-            href="/for-llms"
+          <a
+            href="/llms-full.txt"
+            download
             className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 font-bold text-[12px] rounded-[3px] uppercase tracking-wider"
             style={{ background: 'var(--c-ink)', color: 'var(--c-paper)' }}
           >
             {t('download')}
-          </Link>
-          <a
-            href="/llms-full.txt"
+          </a>
+          <Link
+            href="/for-llms"
             className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 font-bold text-[12px] rounded-[3px] uppercase tracking-wider"
             style={{ boxShadow: 'inset 0 0 0 1.3px var(--c-line)', color: 'var(--c-ink2)' }}
           >
-            llms.txt
-          </a>
+            Docs →
+          </Link>
         </div>
       </div>
 

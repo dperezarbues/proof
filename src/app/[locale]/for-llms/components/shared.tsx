@@ -1,5 +1,4 @@
 import type { getTranslations } from 'next-intl/server'
-import { Link } from '@/i18n/navigation'
 
 export type ForLlmsT = Awaited<ReturnType<typeof getTranslations>>
 
@@ -181,37 +180,5 @@ export function SectionLabel({ children }: { children: React.ReactNode }) {
     >
       {children}
     </p>
-  )
-}
-
-type BtnVariant = 'primary' | 'dark' | 'ghost'
-const BTN_STYLES: Record<BtnVariant, React.CSSProperties> = {
-  primary: { background: 'var(--c-accent)', color: '#fff' },
-  dark: { background: 'var(--c-ink)', color: 'var(--c-paper)' },
-  ghost: {
-    background: 'transparent',
-    color: 'var(--c-ink)',
-    boxShadow: 'inset 0 0 0 1.5px var(--c-ink)',
-  },
-}
-
-// Locale-aware equivalent of ProofButton — that component uses plain
-// next/link, which would drop the current locale (falling back to
-// browser-language detection) when navigating from a real [locale] page.
-export function EditorButton({
-  variant = 'primary',
-  children,
-}: {
-  variant?: BtnVariant
-  children: React.ReactNode
-}) {
-  return (
-    <Link
-      href="/editor"
-      className="inline-flex items-center gap-2 font-bold rounded-[3px] uppercase tracking-wider whitespace-nowrap transition-opacity hover:opacity-90 px-3.5 py-2 text-[13.5px]"
-      style={BTN_STYLES[variant]}
-    >
-      {children}
-    </Link>
   )
 }

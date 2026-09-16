@@ -128,6 +128,8 @@ test.describe('Accessibility — axe-core regression', () => {
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
       .disableRules(DISABLED_RULES)
+      // The PDF.js canvas viewer renders imperatively — exclude it from axe scan
+      .exclude('[data-testid="pdfjs-viewer"]')
       .analyze()
     expect(results.violations).toEqual([])
   })
@@ -145,6 +147,8 @@ test.describe('Accessibility — axe-core regression', () => {
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
       .disableRules(DISABLED_RULES)
+      // The PDF.js canvas viewer renders imperatively — exclude it from axe scan
+      .exclude('[data-testid="pdfjs-viewer"]')
       .analyze()
     expect(results.violations).toEqual([])
   })
@@ -172,6 +176,8 @@ test.describe('Accessibility — axe-core regression', () => {
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
       .disableRules(DISABLED_RULES)
+      // The PDF.js canvas viewer renders imperatively — exclude it from axe scan
+      .exclude('[data-testid="pdfjs-viewer"]')
       .analyze()
     expect(results.violations).toEqual([])
   })

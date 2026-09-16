@@ -44,7 +44,8 @@
         "title": "Importieren & prüfen",
         "body": "JSON zurückladen. Vorlage auswählen, feinabstimmen und als PDF kompilieren — vollständig auf Ihrem Gerät."
       }
-    ]
+    ],
+    "viewDocs": "Dokumentation ansehen →"
   },
   "makeYours": {
     "badge": "Dann machen Sie es Ihres",
@@ -427,7 +428,24 @@
       "tableType": "Typ",
       "tableRange": "Bereich / Optionen",
       "tableDefault": "Standard",
-      "commonNote": "section_pre / section_post gehören technisch nicht zu einer gemeinsamen Parameterliste — jede Vorlage deklariert sie einzeln —, aber alle 10 verwenden denselben oben gezeigten Bereich außer sidebar, das beide erweitert (siehe die eigene Tabelle unten). headline_size und section_rule_gap sind vorlagenspezifisch, nicht universell; siehe die folgende Tabelle je Vorlage.",
+      "notes": {
+        "sizes": {
+          "heading": "Größen",
+          "body": "Was jede Größe steuert: name_size — der Name oben. headline_size (vorlagenspezifisch, siehe unten) — die Rolle/Headline darunter. entry_size — der Titel jedes Eintrags (Jobtitel, Abschluss, Projektname). body_size — Fließtext und Aufzählungspunkte (body_size − 0,5pt wird automatisch für ein paar kleinere sekundäre Textelemente verwendet). section_heading_size — die Abschnittsüberschriften selbst („EXPERIENCE“, „EDUCATION“), wobei section_heading_size − 1pt automatisch für kleinere Pillen/Fußnotentext verwendet wird."
+        },
+        "colors": {
+          "heading": "Farben",
+          "body": "Was jede Farbe steuert: heading_color — der Name und jeder Eintragstitel. body_color — Fließtext und Aufzählungspunkte. muted_color — Metadaten wie Firmennamen und Datumsbereiche. Pillen, Tags und Fußnotentext verwenden eine feste Farbe, die Stilparameter nicht überschreiben können."
+        },
+        "extras": {
+          "heading": "Schalter",
+          "body": "show_footer druckt ausschließlich die Seitenzahl (z. B. „2 / 5“) in kleiner Schrift unten rechts auf jeder Seite — sonst nichts. show_qr platziert einen kleinen QR-Code in der Kopfzeile, der auf qr_url verweist (oder auf den ersten linkedin-Kontakteintrag, falls qr_url leer bleibt); bei allen Vorlagen verfügbar. show_contact_icons und show_contact_labels sind nicht unabhängig voneinander: Ist show_contact_icons aktiviert, zeigt jeder Kontakteintrag sein Marken-Symbol, und show_contact_labels hat dann überhaupt keine Wirkung — Beschriftungen erscheinen nur, wenn die Symbole ausgeschaltet sind."
+        },
+        "common": {
+          "heading": "Hinweise zur Tabelle",
+          "body": "section_pre / section_post gehören technisch nicht zu einer gemeinsamen Parameterliste — jede Vorlage deklariert sie einzeln —, aber alle 10 verwenden denselben oben gezeigten Bereich außer sidebar, das beide erweitert (siehe die eigene Tabelle unten). headline_size und section_rule_gap sind vorlagenspezifisch, nicht universell; siehe die folgende Tabelle je Vorlage."
+        }
+      },
       "accentHeading": "accent_color — jede Vorlage, mit jeweils eigenem Standardwert",
       "accentIntro": "Alle 10 Vorlagen deklarieren einen Parameter <code>accent_color</code> unter genau diesem Schlüssel — im Sinne des Schemas ist er nicht gemeinsam/universell (jede Vorlage legt ihren eigenen Bereich und Standardwert fest), aber jede Vorlage hat einen. 7 der 10 haben außerdem <code>headline_size</code> (8–14pt, Standard 10) — alle außer minimal, sidebar und editorial. <code>section_rule_gap</code> (0–0.5em, Standard 0.2) existiert nur bei default, sidebar und timeline.",
       "tableTemplate": "Vorlage",
@@ -449,10 +467,7 @@
         "accent_color": "Links in der Hauptspalte"
       },
       "exampleHeading": "In das Layout eingebetteter Stil — Beispiel (Vorlage banner)",
-      "exampleNote": "<code>header.style</code> ist laut Schema weiterhin erforderlich, auch wenn banner es ignoriert (siehe §3) — wählen Sie einen beliebigen der beiden Werte.",
-      "extrasNote": "show_footer druckt ausschließlich die Seitenzahl (z. B. „2 / 5“) in kleiner Schrift unten rechts auf jeder Seite — sonst nichts. show_qr platziert einen kleinen QR-Code in der Kopfzeile, der auf qr_url verweist (oder auf den ersten linkedin-Kontakteintrag, falls qr_url leer bleibt); bei allen Vorlagen verfügbar. show_contact_icons und show_contact_labels sind nicht unabhängig voneinander: Ist show_contact_icons aktiviert, zeigt jeder Kontakteintrag sein Marken-Symbol, und show_contact_labels hat dann überhaupt keine Wirkung — Beschriftungen erscheinen nur, wenn die Symbole ausgeschaltet sind.",
-      "sizesNote": "Was jede Größe steuert: name_size — der Name oben. headline_size (vorlagenspezifisch, siehe unten) — die Rolle/Headline darunter. entry_size — der Titel jedes Eintrags (Jobtitel, Abschluss, Projektname). body_size — Fließtext und Aufzählungspunkte (body_size − 0,5pt wird automatisch für ein paar kleinere sekundäre Textelemente verwendet). section_heading_size — die Abschnittsüberschriften selbst („EXPERIENCE“, „EDUCATION“), wobei section_heading_size − 1pt automatisch für kleinere Pillen/Fußnotentext verwendet wird.",
-      "colorsNote": "Was jede Farbe steuert: heading_color — der Name und jeder Eintragstitel. body_color — Fließtext und Aufzählungspunkte. muted_color — Metadaten wie Firmennamen und Datumsbereiche. Pillen, Tags und Fußnotentext verwenden eine feste Farbe, die Stilparameter nicht überschreiben können."
+      "exampleNote": "<code>header.style</code> ist laut Schema weiterhin erforderlich, auch wenn banner es ignoriert (siehe §3) — wählen Sie einen beliebigen der beiden Werte."
     },
     "tips": {
       "heading": "5 · Tipps für Agenten",
@@ -483,6 +498,7 @@
         }
       }
     },
-    "footerTagline": "Proof-Schema-Referenz"
+    "footerTagline": "Proof-Schema-Referenz",
+    "plainTextNote": "Auch als reiner Text verfügbar — zum direkten Einfügen in eine KI oder für Skripte:"
   }
 }

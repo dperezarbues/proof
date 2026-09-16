@@ -44,7 +44,8 @@
         "title": "Import & proof",
         "body": "Drop the JSON back in. Pick a template, fine-tune, and compile to PDF — entirely on your device."
       }
-    ]
+    ],
+    "viewDocs": "View documentation →"
   },
   "makeYours": {
     "badge": "Then make it yours",
@@ -427,7 +428,24 @@
       "tableType": "Type",
       "tableRange": "Range / options",
       "tableDefault": "Default",
-      "commonNote": "section_pre / section_post aren't in a shared param list technically — every template declares them individually — but all 10 use the same range shown above except sidebar, which widens both (see its own table below). headline_size and section_rule_gap are template-specific, not universal; see the per-template table next.",
+      "notes": {
+        "sizes": {
+          "heading": "Sizes",
+          "body": "What each size controls: name_size — the name at the top. headline_size (template-specific, see below) — the role/headline under it. entry_size — each entry's title (job title, degree, project name). body_size — body text and bullet highlights (body_size − 0.5pt is used automatically for a couple of smaller secondary text elements). section_heading_size — the section labels themselves (\"EXPERIENCE\", \"EDUCATION\"), with section_heading_size − 1pt used automatically for smaller pill/footnote text."
+        },
+        "colors": {
+          "heading": "Colors",
+          "body": "What each color controls: heading_color — the name and every entry title. body_color — body text and bullet highlights. muted_color — metadata like company names and date ranges. Pills, tags, and footnote text use a fixed color that style params can't override."
+        },
+        "extras": {
+          "heading": "Toggles",
+          "body": "show_footer prints only the page number (e.g. \"2 / 5\") in small text at the bottom-right of every page — nothing else. show_qr places a small QR code in the header, linking to qr_url (or the first linkedin contact entry if qr_url is left empty); supported on every template. show_contact_icons and show_contact_labels are not independent: when show_contact_icons is on, every contact entry shows its brand icon and show_contact_labels has no effect at all — labels only ever appear when icons are off."
+        },
+        "common": {
+          "heading": "Table notes",
+          "body": "section_pre / section_post aren't in a shared param list technically — every template declares them individually — but all 10 use the same range shown above except sidebar, which widens both (see its own table below). headline_size and section_rule_gap are template-specific, not universal; see the per-template table next."
+        }
+      },
       "accentHeading": "accent_color — every template, different default per template",
       "accentIntro": "All 10 templates declare an <code>accent_color</code> param under this exact key — it's not shared/universal in the schema sense (each template sets its own range and default), but every template has one. 7 of the 10 also have <code>headline_size</code> (8–14pt, default 10) — all except minimal, sidebar, and editorial. <code>section_rule_gap</code> (0–0.5em, default 0.2) exists on only default, sidebar, and timeline.",
       "tableTemplate": "Template",
@@ -449,10 +467,7 @@
         "accent_color": "Links in the main column"
       },
       "exampleHeading": "Style embedded in layout — example (banner template)",
-      "exampleNote": "<code>header.style</code> is still required by the schema even though banner ignores it (see §3) — pick either value.",
-      "extrasNote": "show_footer prints only the page number (e.g. \"2 / 5\") in small text at the bottom-right of every page — nothing else. show_qr places a small QR code in the header, linking to qr_url (or the first linkedin contact entry if qr_url is left empty); supported on every template. show_contact_icons and show_contact_labels are not independent: when show_contact_icons is on, every contact entry shows its brand icon and show_contact_labels has no effect at all — labels only ever appear when icons are off.",
-      "sizesNote": "What each size controls: name_size — the name at the top. headline_size (template-specific, see below) — the role/headline under it. entry_size — each entry's title (job title, degree, project name). body_size — body text and bullet highlights (body_size − 0.5pt is used automatically for a couple of smaller secondary text elements). section_heading_size — the section labels themselves (\"EXPERIENCE\", \"EDUCATION\"), with section_heading_size − 1pt used automatically for smaller pill/footnote text.",
-      "colorsNote": "What each color controls: heading_color — the name and every entry title. body_color — body text and bullet highlights. muted_color — metadata like company names and date ranges. Pills, tags, and footnote text use a fixed color that style params can't override."
+      "exampleNote": "<code>header.style</code> is still required by the schema even though banner ignores it (see §3) — pick either value."
     },
     "tips": {
       "heading": "5 · Tips for agents",
@@ -483,6 +498,7 @@
         }
       }
     },
-    "footerTagline": "Proof schema reference"
+    "footerTagline": "Proof schema reference",
+    "plainTextNote": "Also available as plain text — for pasting straight into an AI or scripting against:"
   }
 }

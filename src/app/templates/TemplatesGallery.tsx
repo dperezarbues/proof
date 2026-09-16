@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import MarkProof from '@/components/proof/MarkProof'
@@ -40,8 +41,15 @@ export default function TemplatesGallery({
 }) {
   const t = useTranslations('editor')
   const [activeTab, setActiveTab] = useState<Tab>('data')
-  const [activeTemplate, setActiveTemplate] = useState<Template>(templates[0])
-  const [activeLayout, setActiveLayout] = useState<Layout>(templates[0].layouts[0])
+
+  /** Deep link from the landing gallery: /editor?template=<id>. Read via a lazy
+   * initializer rather than an effect so the first paint is already the right
+   * template — an effect would flash the default one first. Unknown ids fall back. */
+  const initialTemplateId = useSearchParams().get('template')
+  const [activeTemplate, setActiveTemplate] = useState<Template>(
+    () => templates.find((tpl) => tpl.id === initialTemplateId) ?? templates[0],
+  )
+  const [activeLayout, setActiveLayout] = useState<Layout>(() => activeTemplate.layouts[0])
   const [previewPdf, setPreviewPdf] = useState<string | null>(null)
   const [isGenerating, setIsGenerating] = useState(false)
   const [generateTrigger, setGenerateTrigger] = useState(0)

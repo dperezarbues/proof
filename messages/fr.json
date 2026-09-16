@@ -44,7 +44,8 @@
         "title": "Importer & peaufiner",
         "body": "Redéposez le JSON. Choisissez un modèle, peaufinez les détails et compilez en PDF — entièrement sur votre appareil."
       }
-    ]
+    ],
+    "viewDocs": "Voir la documentation →"
   },
   "makeYours": {
     "badge": "Puis faites-en le vôtre",
@@ -427,7 +428,24 @@
       "tableType": "Type",
       "tableRange": "Plage / options",
       "tableDefault": "Par défaut",
-      "commonNote": "section_pre / section_post ne font pas techniquement partie d'une liste de paramètres partagée — chaque modèle les déclare individuellement — mais les 10 utilisent la même plage indiquée ci-dessus sauf sidebar, qui élargit les deux (voir son propre tableau plus bas). headline_size et section_rule_gap sont spécifiques à chaque modèle, pas universels ; voir le tableau par modèle qui suit.",
+      "notes": {
+        "sizes": {
+          "heading": "Tailles",
+          "body": "Ce que contrôle chaque taille : name_size — le nom en haut. headline_size (spécifique au modèle, voir plus bas) — le titre/poste en dessous. entry_size — le titre de chaque entrée (intitulé du poste, diplôme, nom du projet). body_size — le texte courant et les puces (body_size − 0,5pt est utilisé automatiquement pour quelques éléments de texte secondaires plus petits). section_heading_size — les titres de section eux-mêmes (« EXPERIENCE », « EDUCATION »), section_heading_size − 1pt étant utilisé automatiquement pour les pastilles et le texte de bas de page plus petits."
+        },
+        "colors": {
+          "heading": "Couleurs",
+          "body": "Ce que contrôle chaque couleur : heading_color — le nom et le titre de chaque entrée. body_color — le texte courant et les puces. muted_color — les métadonnées comme le nom de l'entreprise et les périodes. Les pastilles, tags et texte de bas de page utilisent une couleur fixe que les paramètres de style ne peuvent pas remplacer."
+        },
+        "extras": {
+          "heading": "Interrupteurs",
+          "body": "show_footer affiche uniquement le numéro de page (ex. « 2 / 5 ») en petit texte en bas à droite de chaque page — rien d'autre. show_qr place un petit code QR dans l'en-tête, pointant vers qr_url (ou vers la première entrée de contact linkedin si qr_url est laissé vide) ; pris en charge par tous les modèles. show_contact_icons et show_contact_labels ne sont pas indépendants : quand show_contact_icons est activé, chaque entrée de contact affiche son icône de marque et show_contact_labels n'a alors aucun effet — les libellés n'apparaissent que lorsque les icônes sont désactivées."
+        },
+        "common": {
+          "heading": "Remarques sur le tableau",
+          "body": "section_pre / section_post ne font pas techniquement partie d'une liste de paramètres partagée — chaque modèle les déclare individuellement — mais les 10 utilisent la même plage indiquée ci-dessus sauf sidebar, qui élargit les deux (voir son propre tableau plus bas). headline_size et section_rule_gap sont spécifiques à chaque modèle, pas universels ; voir le tableau par modèle qui suit."
+        }
+      },
       "accentHeading": "accent_color — tous les modèles, avec une valeur par défaut différente pour chacun",
       "accentIntro": "Les 10 modèles déclarent un paramètre <code>accent_color</code> sous exactement cette clé — il n'est pas partagé/universel au sens du schéma (chaque modèle fixe sa propre plage et sa propre valeur par défaut), mais chaque modèle en a un. 7 des 10 ont aussi <code>headline_size</code> (8–14pt, par défaut 10) — tous sauf minimal, sidebar et editorial. <code>section_rule_gap</code> (0–0.5em, par défaut 0.2) n'existe que pour default, sidebar et timeline.",
       "tableTemplate": "Modèle",
@@ -449,10 +467,7 @@
         "accent_color": "Liens dans la colonne principale"
       },
       "exampleHeading": "Style intégré dans la mise en page — exemple (modèle banner)",
-      "exampleNote": "<code>header.style</code> reste requis par le schéma même si banner l'ignore (voir §3) — choisissez l'une ou l'autre valeur.",
-      "extrasNote": "show_footer affiche uniquement le numéro de page (ex. « 2 / 5 ») en petit texte en bas à droite de chaque page — rien d'autre. show_qr place un petit code QR dans l'en-tête, pointant vers qr_url (ou vers la première entrée de contact linkedin si qr_url est laissé vide) ; pris en charge par tous les modèles. show_contact_icons et show_contact_labels ne sont pas indépendants : quand show_contact_icons est activé, chaque entrée de contact affiche son icône de marque et show_contact_labels n'a alors aucun effet — les libellés n'apparaissent que lorsque les icônes sont désactivées.",
-      "sizesNote": "Ce que contrôle chaque taille : name_size — le nom en haut. headline_size (spécifique au modèle, voir plus bas) — le titre/poste en dessous. entry_size — le titre de chaque entrée (intitulé du poste, diplôme, nom du projet). body_size — le texte courant et les puces (body_size − 0,5pt est utilisé automatiquement pour quelques éléments de texte secondaires plus petits). section_heading_size — les titres de section eux-mêmes (« EXPERIENCE », « EDUCATION »), section_heading_size − 1pt étant utilisé automatiquement pour les pastilles et le texte de bas de page plus petits.",
-      "colorsNote": "Ce que contrôle chaque couleur : heading_color — le nom et le titre de chaque entrée. body_color — le texte courant et les puces. muted_color — les métadonnées comme le nom de l'entreprise et les périodes. Les pastilles, tags et texte de bas de page utilisent une couleur fixe que les paramètres de style ne peuvent pas remplacer."
+      "exampleNote": "<code>header.style</code> reste requis par le schéma même si banner l'ignore (voir §3) — choisissez l'une ou l'autre valeur."
     },
     "tips": {
       "heading": "5 · Conseils pour les agents",
@@ -483,6 +498,7 @@
         }
       }
     },
-    "footerTagline": "Référence du schéma Proof"
+    "footerTagline": "Référence du schéma Proof",
+    "plainTextNote": "Également disponible en texte brut — à coller directement dans une IA ou à utiliser dans un script :"
   }
 }
