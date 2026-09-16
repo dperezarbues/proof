@@ -49,7 +49,7 @@ test.describe('PDF generation (WASM)', () => {
     await expect(page.getByText('preview', { exact: true })).toBeVisible()
 
     // Download button should appear
-    await expect(page.getByRole('button', { name: 'Download' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Download', exact: true })).toBeVisible()
   })
 
   test('PDF.js text layer is populated after generation (enables getByText in the viewer)', async ({
@@ -82,7 +82,7 @@ test.describe('PDF generation (WASM)', () => {
     await expect(page.getByText('Generating PDF…')).not.toBeVisible({
       timeout: GENERATE_TIMEOUT,
     })
-    await expect(page.getByRole('button', { name: 'Download' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Download', exact: true })).toBeVisible()
 
     // Reset
     await page.getByRole('button', { name: 'Reset' }).click()

@@ -12,7 +12,7 @@ describe('for-llms schema-data section spacing assumptions', () => {
     expect(SECTION_SPACING_IS_UNIFORM).toBe(true)
   })
 
-  it('the common table section_pre/section_post rows match what commonNote/section4 prose says', () => {
+  it('the common table section_pre/section_post rows match what commonNote/style prose says', () => {
     const pre = commonStyleRows.find((r) => r.key === 'section_pre')
     const post = commonStyleRows.find((r) => r.key === 'section_post')
     expect(pre).toMatchObject({ range: '0.2 – 0.9 em', default: '0.5' })

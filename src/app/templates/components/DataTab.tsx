@@ -91,6 +91,7 @@ export function DataTab({
                     type="button"
                     onClick={() => onEditCv(entry)}
                     title={t('editCVDataTitle')}
+                    aria-label={t('editCVDataTitle')}
                     className="px-1.5 py-2 text-[13px] opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{ color: 'var(--c-sub)' }}
                   >
@@ -100,6 +101,7 @@ export function DataTab({
                     type="button"
                     onClick={() => onDownloadCv(entry)}
                     title={t('downloadJSON')}
+                    aria-label={t('downloadJSON')}
                     className="px-1.5 py-2 text-[13px] opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{ color: 'var(--c-sub)' }}
                   >
@@ -109,6 +111,7 @@ export function DataTab({
                     type="button"
                     onClick={() => onDeleteCv(entry.id)}
                     title={t('delete')}
+                    aria-label={t('delete')}
                     className="px-1.5 py-2 text-[13px] opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{ color: 'var(--c-sub)' }}
                   >

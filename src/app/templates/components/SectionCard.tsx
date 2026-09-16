@@ -67,6 +67,7 @@ export default function SectionCard({
           {...listeners}
           className="cursor-grab active:cursor-grabbing select-none text-base leading-none px-0.5"
           style={{ color: 'var(--c-faint)' }}
+          aria-label={t('dragToReorder')}
         >
           ⠿
         </button>
@@ -77,6 +78,8 @@ export default function SectionCard({
           className="text-xs px-1 leading-none transition-colors"
           style={{ color: hasCustomSpacing ? 'var(--c-accent)' : 'var(--c-faint)' }}
           title={t('perSectionSpacing')}
+          aria-label={t('perSectionSpacing')}
+          aria-expanded={spacingOpen}
         >
           ↕
         </button>
@@ -105,6 +108,7 @@ export default function SectionCard({
           onMouseLeave={(e) => {
             e.currentTarget.style.color = 'var(--c-line)'
           }}
+          aria-label={t('removeSection')}
         >
           ×
         </button>

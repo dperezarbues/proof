@@ -187,7 +187,9 @@
     "editCVDataTitle": "Lebenslaufdaten bearbeiten",
     "downloadJSON": "JSON herunterladen",
     "delete": "Löschen",
-    "beta": "Beta"
+    "beta": "Beta",
+    "dragToReorder": "Zum Neuordnen ziehen",
+    "removeSection": "Abschnitt entfernen"
   },
   "pdfPreview": {
     "preview": "Vorschau",
@@ -277,22 +279,41 @@
     "subtitle": "Klare Sprache. Kein Juristendeutsch.",
     "openEditor": "Editor öffnen →",
     "backHome": "← Startseite",
-    "s1Title": "Ihre Lebenslaufdaten",
-    "s1p1": "Ihre Lebenslaufdaten werden ausschließlich im localStorage Ihres Browsers gespeichert. Sie verlassen Ihr Gerät nie, außer bei der PDF-Generierung (siehe unten). Wir haben keine Datenbank, keine Benutzerkonten und keine serverseitige Speicherung von Lebenslaufinhalten.",
-    "s1p2": "Wenn Sie Ihren Browser-Speicher leeren, sind Ihre Lebenslaufdaten verloren. Es gibt kein Cloud-Backup. Wir empfehlen, Ihr Lebenslauf-JSON regelmäßig über die Schaltfläche Herunterladen im Editor zu sichern.",
-    "s2Title": "PDF-Generierung",
-    "s2p1": "Wenn Sie auf « PDF generieren » klicken, verlassen Ihre Lebenslaufdaten Ihr Gerät nie. Der Typst-Compiler läuft vollständig in Ihrem Browser als WebAssembly-Modul (~6 MB, einmalig heruntergeladen und zwischengespeichert). Die Kompilierung erfolgt lokal; kein Lebenslaufinhalt wird zu irgendeinem Zeitpunkt an einen Server gesendet.",
-    "s2p2": "Die einzigen Netzwerkanfragen sind: das Laden des Compilers selbst (von dieser Website), das Laden von Schriften (ebenfalls von dieser Website) und das unten beschriebene Analyse-Signal. Ihre Lebenslaufdaten sind in keiner dieser Anfragen enthalten.",
-    "s3Title": "Analyse",
-    "s3p1": "Diese Website verwendet GoatCounter für grundlegende Verkehrsanalysen. GoatCounter erfasst Seitenaufrufe, Referrer-URLs, Browsertyp und Land — keine Cookies, kein Fingerprinting, keine personenbezogenen Daten, kein Cross-Site-Tracking.",
-    "s3p2": "GoatCounter ist open source und seine Datenschutzrichtlinie ist unter goatcounter.com/help/privacy verfügbar.",
-    "s4Title": "Cookies",
-    "s4p1": "Proof setzt keine Cookies. Layout-Speicherungen und Lebenslaufdaten werden in localStorage gespeichert, was kein Cookie ist und nie automatisch an den Server übertragen wird. GoatCounter setzt ebenfalls keine Cookies.",
-    "s5Title": "Open source",
-    "s5p1": "Proof ist open source. Sie können den Code gerne einsehen, selbst hosten oder dazu beitragen. Der Quellcode ist die zuverlässigste Beschreibung dessen, was das Tool tatsächlich tut.",
-    "s6Title": "Änderungen",
-    "s6p1": "Wenn sich etwas Wesentliches ändert — insbesondere in Bezug auf den Umgang mit Daten — wird diese Seite aktualisiert. Das folgende Datum gibt die letzte Überarbeitung an.",
-    "s6date": "Zuletzt aktualisiert: Mai 2025"
+    "sections": {
+      "cvData": {
+        "title": "Ihre Lebenslaufdaten",
+        "p1": "Ihre Lebenslaufdaten werden ausschließlich im localStorage Ihres Browsers gespeichert. Sie verlassen Ihr Gerät nie, außer bei der PDF-Generierung (siehe unten). Wir haben keine Datenbank, keine Benutzerkonten und keine serverseitige Speicherung von Lebenslaufinhalten.",
+        "p2": "Wenn Sie Ihren Browser-Speicher leeren, sind Ihre Lebenslaufdaten verloren. Es gibt kein Cloud-Backup. Wir empfehlen, Ihr Lebenslauf-JSON regelmäßig über die Schaltfläche Herunterladen im Editor zu sichern."
+      },
+      "pdfGeneration": {
+        "title": "PDF-Generierung",
+        "p1": "Wenn Sie auf „Generate PDF“ klicken, verlassen Ihre Lebenslaufdaten Ihr Gerät nie. Der <typst>Typst</typst>-Compiler läuft vollständig in Ihrem Browser als WebAssembly-Modul (~6 MB, einmal heruntergeladen und zwischengespeichert). Die Kompilierung erfolgt lokal; es werden zu keinem Zeitpunkt CV-Inhalte an einen Server gesendet.",
+        "p2": "Die einzigen Netzwerkanfragen sind: das Laden des Compilers selbst (von dieser Website), das Laden von Schriften (ebenfalls von dieser Website) und das unten beschriebene Analyse-Signal. Ihre Lebenslaufdaten sind in keiner dieser Anfragen enthalten."
+      },
+      "analytics": {
+        "title": "Analyse",
+        "p1": "Diese Website verwendet <goatcounter>GoatCounter</goatcounter> für einfache Zugriffsstatistiken. GoatCounter erfasst Seitenaufrufe, Referrer-URLs, Browsertyp und Land — ohne Cookies, ohne Fingerprinting, ohne personenbezogene Daten, ohne seitenübergreifendes Tracking.",
+        "p2": "GoatCounter ist Open Source, die Datenschutzerklärung ist verfügbar unter <privacy>goatcounter.com/help/privacy</privacy>."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "p1": "Proof setzt keine Cookies. Layout-Speicherungen und Lebenslaufdaten werden in localStorage gespeichert, was kein Cookie ist und nie automatisch an den Server übertragen wird. GoatCounter setzt ebenfalls keine Cookies."
+      },
+      "openSource": {
+        "title": "Open source",
+        "p1": "Proof ist open source. Sie können den Code gerne einsehen, selbst hosten oder dazu beitragen. Der Quellcode ist die zuverlässigste Beschreibung dessen, was das Tool tatsächlich tut."
+      },
+      "changes": {
+        "title": "Änderungen",
+        "p1": "Wenn sich etwas Wesentliches ändert — insbesondere in Bezug auf den Umgang mit Daten — wird diese Seite aktualisiert. Das folgende Datum gibt die letzte Überarbeitung an.",
+        "date": "Zuletzt aktualisiert: Mai 2025"
+      },
+      "noWarranty": {
+        "title": "Keine Gewährleistung",
+        "p1": "Proof wird „wie besehen“ bereitgestellt, ohne jegliche Gewährleistung, weder ausdrücklich noch stillschweigend — einschließlich keiner Zusicherung von Genauigkeit, Verfügbarkeit oder Eignung für einen bestimmten Zweck. Die Nutzung erfolgt auf eigenes Risiko. Wir haften nicht für Schäden, Datenverlust oder andere Probleme, die aus der Nutzung des Tools entstehen, einschließlich damit erstellter Lebensläufe — prüfen Sie Ihren Lebenslauf stets selbst, bevor Sie ihn irgendwohin senden.",
+        "p2": "Dies ist ein kostenloses Open-Source-Projekt, das von Freiwilligen nach bestem Wissen und Gewissen gepflegt wird — kein kommerzieller Dienst mit garantiertem Support, SLAs oder Verfügbarkeit."
+      }
+    }
   },
   "forLlms": {
     "metaTitle": "Schema-Referenz — Proof",
@@ -307,7 +328,7 @@
       "style": "Stilparameter",
       "tips": "Tipps"
     },
-    "section1": {
+    "cvJson": {
       "heading": "1 · CV-JSON-Schema",
       "intro": "Der Lebenslauf ist ein einzelnes JSON-Objekt. Alle Abschnitte sind optional außer <code>identity</code>. Textfelder in <code>highlights</code>, <code>description</code> und <code>summary</code> unterstützen Markdown-Links: <code>[Text](https://url)</code>.",
       "contactHeading": "identity.contact — Werte für type",
@@ -323,7 +344,7 @@
       },
       "contactNote": "Die type-Auswahl im visuellen Editor bietet nur 6 davon (kein medium oder facebook) — beim direkten Schreiben des JSON erhalten Sie den vollständigen Satz oben."
     },
-    "section2": {
+    "sectionIds": {
       "heading": "2 · Verfügbare Abschnitts-IDs",
       "intro": "Dies sind die eingebauten Abschnitts-IDs, die Editor und Vorlagen kennen. Die Vorlage sidebar kann jede davon zusätzlich in der linken Spalte darstellen.",
       "tableId": "ID",
@@ -338,13 +359,13 @@
         "certifications": "array",
         "awards": "array",
         "side_projects": "array",
-        "contact": "nur sidebar — zeigt die Kontaktliste an",
+        "contact": "nur sidebar — wird innerhalb von sidebar_sections verwendet; dieselbe id im regulären sections-Array oder bei jeder anderen Vorlage zeigt stillschweigend nichts an.",
         "core_strengths": "array kurzer strings, dargestellt als Pillen. Auf jeder Vorlage verfügbar — nicht nur bei sidebar. Der Abschnittstitel ist übersetzt (en/es/de/fr).",
         "leadership_profile": "ein einzelnes Objekt, kein array: { subtitle?, highlights? }. Ohne title/name — wird unter einer festen, übersetzten Überschrift dargestellt."
       },
       "customNote": "Benutzerdefinierte Abschnitte: Jeder oben nicht aufgeführte Schlüssel auf oberster Ebene wird generisch unter einer aus dem Schlüsselnamen gebildeten Überschrift dargestellt. Unterstützte Formen: ein einfacher string; ein string-array (als Aufzählung dargestellt); ein array von Objekten mit title (oder name)/subtitle/period sowie entweder highlights (string-array) oder description; oder ein einzelnes Objekt (kein array) mit subtitle sowie entweder highlights oder description — dieselbe Form, die leadership_profile verwendet."
     },
-    "section3": {
+    "layout": {
       "heading": "3 · Struktur des Layout-JSON",
       "intro": "Beim Erzeugen eines PDFs im Editor wird zusammen mit den CV-Daten ein Layout-JSON kompiliert. Sie können das Layout-JSON auch direkt erzeugen, um Abschnittsreihenfolge, Spalten und Abstände pro Abschnitt zu steuern.",
       "topLevelFields": "Felder auf oberster Ebene",
@@ -357,7 +378,7 @@
       "sectionEntryFull": "Abschnittseintrag — vollständiger Typ",
       "fieldsEntry": {
         "id": "Abschnitts-ID aus §2.",
-        "breakable": "Ob Typst vor diesem Block einen Seitenumbruch einfügen darf. Standard: true.",
+        "breakable": "Ob Typst den Inhalt dieses Abschnitts über einen Seitenumbruch hinweg aufteilen darf. Bei false bleibt der Abschnitt als Ganzes zusammen — passt er nicht mehr in den verbleibenden Platz auf der Seite, wandert der gesamte Abschnitt auf die nächste Seite, statt auf einer Seite zu beginnen und auf einer anderen fortzufahren. Standard: true.",
         "pre_spacing": "Abstand über dem Abschnittstitel. Überschreibt den Vorlagen-Standardwert.",
         "post_spacing": "Abstand unter der Abschnittslinie. Überschreibt den Vorlagen-Standardwert."
       },
@@ -369,9 +390,10 @@
       },
       "completeExamples": "Vollständige Layout-Beispiele",
       "exampleDefaultMinimal": "Default / Minimal",
-      "exampleSidebar": "Sidebar"
+      "exampleSidebar": "Sidebar",
+      "columnsNote": "columns akzeptiert jede Zahl, aber nur für 2, 3 und 4 ist eine passende Spaltenbreite (Gutter) hinterlegt — andere Werte verwenden ersatzweise den Gutter für 2 Spalten. columns sollte mit content.length übereinstimmen; bei einer Abweichung entsteht ein Raster mit einer falschen Anzahl an Spalten für die angegebenen Zellen."
     },
-    "section4": {
+    "style": {
       "heading": "4 · Stilparameter",
       "intro": "Stilwerte liegen im Schlüssel <code>style</code> des Layout-JSON. Alle sind optional — lassen Sie einen weg, um den Vorlagen-Standardwert zu verwenden.",
       "commonHeading": "Gemeinsam — alle Vorlagen",
@@ -401,9 +423,12 @@
         "accent_color": "Links in der Hauptspalte"
       },
       "exampleHeading": "In das Layout eingebetteter Stil — Beispiel (Vorlage banner)",
-      "exampleNote": "<code>header.style</code> ist laut Schema weiterhin erforderlich, auch wenn banner es ignoriert (siehe §3) — wählen Sie einen beliebigen der beiden Werte."
+      "exampleNote": "<code>header.style</code> ist laut Schema weiterhin erforderlich, auch wenn banner es ignoriert (siehe §3) — wählen Sie einen beliebigen der beiden Werte.",
+      "extrasNote": "show_footer druckt ausschließlich die Seitenzahl (z. B. „2 / 5“) in kleiner Schrift unten rechts auf jeder Seite — sonst nichts. show_qr platziert einen kleinen QR-Code in der Kopfzeile, der auf qr_url verweist (oder auf den ersten linkedin-Kontakteintrag, falls qr_url leer bleibt); bei allen Vorlagen verfügbar. show_contact_icons und show_contact_labels sind nicht unabhängig voneinander: Ist show_contact_icons aktiviert, zeigt jeder Kontakteintrag sein Marken-Symbol, und show_contact_labels hat dann überhaupt keine Wirkung — Beschriftungen erscheinen nur, wenn die Symbole ausgeschaltet sind.",
+      "sizesNote": "Was jede Größe steuert: name_size — der Name oben. headline_size (vorlagenspezifisch, siehe unten) — die Rolle/Headline darunter. entry_size — der Titel jedes Eintrags (Jobtitel, Abschluss, Projektname). body_size — Fließtext und Aufzählungspunkte (body_size − 0,5pt wird automatisch für ein paar kleinere sekundäre Textelemente verwendet). section_heading_size — die Abschnittsüberschriften selbst („EXPERIENCE“, „EDUCATION“), wobei section_heading_size − 1pt automatisch für kleinere Pillen/Fußnotentext verwendet wird.",
+      "colorsNote": "Was jede Farbe steuert: heading_color — der Name und jeder Eintragstitel. body_color — Fließtext und Aufzählungspunkte. muted_color — Metadaten wie Firmennamen und Datumsbereiche. Pillen, Tags und Fußnotentext verwenden eine feste Farbe, die Stilparameter nicht überschreiben können."
     },
-    "section5": {
+    "tips": {
       "heading": "5 · Tipps für Agenten",
       "tips": {
         "contactTypes": {

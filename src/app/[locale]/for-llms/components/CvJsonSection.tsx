@@ -13,9 +13,9 @@ const CONTACT_TYPES = [
 
 export function CvJsonSection({ t }: { t: ForLlmsT }) {
   return (
-    <Section id="cv-json" title={t('section1.heading')}>
+    <Section id="cv-json" title={t('cvJson.heading')}>
       <p style={{ fontSize: 13, color: 'var(--c-sub)', marginBottom: '1.25rem' }}>
-        {t.rich('section1.intro', { code: (chunks) => <InlineCode>{chunks}</InlineCode> })}
+        {t.rich('cvJson.intro', { code: (chunks) => <InlineCode>{chunks}</InlineCode> })}
       </p>
 
       <Code>{`{
@@ -99,7 +99,7 @@ export function CvJsonSection({ t }: { t: ForLlmsT }) {
 }`}</Code>
 
       <div style={{ marginTop: '1.5rem' }}>
-        <SectionLabel>{t('section1.contactHeading')}</SectionLabel>
+        <SectionLabel>{t('cvJson.contactHeading')}</SectionLabel>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {CONTACT_TYPES.map((ct) => (
             <div
@@ -111,19 +111,34 @@ export function CvJsonSection({ t }: { t: ForLlmsT }) {
                 border: '1px solid var(--c-line)',
               }}
             >
-              <code
-                style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--c-accent-deep)' }}
-              >
-                {ct}
-              </code>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                {/* biome-ignore lint/performance/noImgElement: static SVG icon from a build-time-copied
+                    asset (public/typst/icons/), not an optimizable photo — next/image adds no value here. */}
+                <img
+                  src={`/typst/icons/${ct}.svg`}
+                  alt=""
+                  width={13}
+                  height={13}
+                  style={{ opacity: 0.75 }}
+                />
+                <code
+                  style={{
+                    fontFamily: 'var(--f-mono)',
+                    fontSize: 11,
+                    color: 'var(--c-accent-deep)',
+                  }}
+                >
+                  {ct}
+                </code>
+              </div>
               <p style={{ fontSize: 11, color: 'var(--c-faint)', marginTop: 2 }}>
-                {t(`section1.contactTypes.${ct}`)}
+                {t(`cvJson.contactTypes.${ct}`)}
               </p>
             </div>
           ))}
         </div>
         <p style={{ fontSize: 12, color: 'var(--c-faint)', marginTop: 12 }}>
-          {t('section1.contactNote')}
+          {t('cvJson.contactNote')}
         </p>
       </div>
     </Section>

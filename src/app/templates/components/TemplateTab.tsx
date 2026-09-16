@@ -40,6 +40,7 @@ export function TemplateTab({
               type="button"
               data-testid={`template-btn-${tpl.id}`}
               onClick={() => onSelectTemplate(tpl)}
+              aria-pressed={on}
               className="relative rounded-[3px] p-2 text-left transition-shadow"
               style={{
                 background: '#fff',
@@ -84,6 +85,7 @@ export function TemplateTab({
                 type="button"
                 data-testid={`layout-btn-${l.id}`}
                 onClick={() => onSelectLayout(l)}
+                aria-pressed={activeLayout.id === l.id}
                 className="flex-1 py-2 rounded-[3px] font-bold text-[12px] uppercase tracking-[0.02em] transition-opacity"
                 style={{
                   background: activeLayout.id === l.id ? 'var(--c-ink)' : 'transparent',

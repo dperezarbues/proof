@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { downloadJson } from '../browser-utils'
+import { useModalDialogA11y } from '../hooks/useModalDialogA11y'
 import type { SavedConfig } from '../types'
 import { SbBtn } from './GalleryAtoms'
 
@@ -18,6 +19,7 @@ export function SaveModal({
   const t = useTranslations('editor')
   const [name, setName] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const dialogRef = useModalDialogA11y(onCancel)
 
   function trySave() {
     if (!name.trim()) return
@@ -29,9 +31,11 @@ export function SaveModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="save-preset-title"
+        tabIndex={-1}
         className="w-full max-w-[320px] mx-4 rounded-[6px] p-5"
         style={{ background: 'var(--c-paper)', boxShadow: '0 40px 100px rgba(0,0,0,0.4)' }}
       >
@@ -51,8 +55,6 @@ export function SaveModal({
           {t('layoutPresetHint')}
         </p>
         <input
-          // biome-ignore lint/a11y/noAutofocus: modal dialog — autofocus name field is the expected UX
-          autoFocus
           type="text"
           placeholder={t('layoutPresetPlaceholder')}
           value={name}
@@ -75,7 +77,7 @@ export function SaveModal({
           }}
         />
         {error && (
-          <p className="text-[12px] mb-3" style={{ color: 'var(--c-accent)' }}>
+          <p role="alert" className="text-[12px] mb-3" style={{ color: 'var(--c-error)' }}>
             {error}
           </p>
         )}
@@ -135,6 +137,7 @@ export function SavedList({
             className="px-1.5 py-1 text-[13px] transition-opacity hover:opacity-70"
             style={{ color: 'var(--c-sub)' }}
             title={t('loadPreset')}
+            aria-label={t('loadPreset')}
           >
             ↩
           </button>
@@ -155,6 +158,7 @@ export function SavedList({
             className="px-1.5 py-1 text-[13px] opacity-0 group-hover:opacity-100 transition-opacity"
             style={{ color: 'var(--c-sub)' }}
             title={t('downloadPreset')}
+            aria-label={t('downloadPreset')}
           >
             ↓
           </button>
@@ -164,6 +168,7 @@ export function SavedList({
             className="px-1.5 py-1 text-[13px] opacity-0 group-hover:opacity-100 transition-opacity"
             style={{ color: 'var(--c-sub)' }}
             title={t('delete')}
+            aria-label={t('delete')}
           >
             ×
           </button>

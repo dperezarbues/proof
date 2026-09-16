@@ -112,6 +112,7 @@ export default function LayoutPanel({
                 type="button"
                 key={v}
                 onClick={() => setHeader(v)}
+                aria-pressed={layout.header.style === v}
                 className="flex-1 text-xs py-1 rounded-[3px] transition-colors"
                 style={
                   layout.header.style === v

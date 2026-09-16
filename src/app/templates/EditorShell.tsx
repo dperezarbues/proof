@@ -71,8 +71,9 @@ export default function EditorShell({
 
       {storageError && (
         <p
+          role="alert"
           className="text-[11px] px-4 pt-2"
-          style={{ color: 'var(--c-accent)' }}
+          style={{ color: 'var(--c-error)' }}
           data-testid="autosave-error"
         >
           ⚠ {storageError}

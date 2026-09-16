@@ -21,6 +21,37 @@ export async function generateMetadata({
   }
 }
 
+// Order in which sections render — the only place ordering is decided;
+// each key looks up terms.sections.<key>.{title,p1,p2?,date?} in messages.
+const SECTION_ORDER = [
+  'cvData',
+  'pdfGeneration',
+  'analytics',
+  'cookies',
+  'openSource',
+  'changes',
+  'noWarranty',
+] as const
+
+// How many body paragraphs (p1, p2, ...) each section has, for sections
+// whose paragraphs are plain translated text. Sections with an inline link
+// (pdfGeneration, analytics) or extra content (changes' date line) render
+// their own JSX below instead of using this table.
+const PARAGRAPH_COUNT: Partial<Record<(typeof SECTION_ORDER)[number], number>> = {
+  cvData: 2,
+  cookies: 1,
+  openSource: 1,
+  noWarranty: 2,
+}
+
+function LinkTag(href: string) {
+  return (chunks: React.ReactNode) => (
+    <a href={href} style={{ color: 'var(--c-accent)' }} target="_blank" rel="noopener noreferrer">
+      {chunks}
+    </a>
+  )
+}
+
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div
@@ -31,6 +62,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
       }}
     >
       <p
+        data-testid="terms-section-title"
         style={{
           fontFamily: 'var(--f-mono)',
           fontSize: 10,
@@ -108,72 +140,54 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
           <p style={{ fontSize: 13, color: 'var(--c-faint)' }}>{t('subtitle')}</p>
         </div>
 
-        <Section title={t('s1Title')}>
-          <p>{t('s1p1')}</p>
-          <p>{t('s1p2')}</p>
-        </Section>
-
-        <Section title={t('s2Title')}>
-          <p>
-            {t('s2p1')}{' '}
-            <a
-              href="https://typst.app"
-              style={{ color: 'var(--c-accent)' }}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Typst
-            </a>{' '}
-            compiler runs entirely in your browser as a WebAssembly module (~6 MB, downloaded once
-            and cached). Compilation happens locally; no CV content is sent to any server at any
-            point.
-          </p>
-          <p>{t('s2p2')}</p>
-        </Section>
-
-        <Section title={t('s3Title')}>
-          <p>
-            {t('s3p1')}{' '}
-            <a
-              href="https://www.goatcounter.com"
-              style={{ color: 'var(--c-accent)' }}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GoatCounter
-            </a>{' '}
-            for basic traffic analytics. GoatCounter collects page views, referrer URLs, browser
-            type, and country — no cookies, no fingerprinting, no personal data, no cross-site
-            tracking.
-          </p>
-          <p>
-            {t('s3p2')}{' '}
-            <a
-              href="https://www.goatcounter.com/help/privacy"
-              style={{ color: 'var(--c-accent)' }}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              goatcounter.com/help/privacy
-            </a>
-            .
-          </p>
-        </Section>
-
-        <Section title={t('s4Title')}>
-          <p>{t('s4p1')}</p>
-        </Section>
-
-        <Section title={t('s5Title')}>
-          <p>{t('s5p1')}</p>
-        </Section>
-
-        <Section title={t('s6Title')}>
-          <p>{t('s6p1')}</p>
-          <p style={{ fontSize: 12, color: 'var(--c-faint)', paddingTop: '0.25rem' }}>
-            {t('s6date')}
-          </p>
-        </Section>
+        {SECTION_ORDER.map((key) => {
+          let body: React.ReactNode
+          if (key === 'pdfGeneration') {
+            body = (
+              <>
+                <p>
+                  {t.rich('sections.pdfGeneration.p1', { typst: LinkTag('https://typst.app') })}
+                </p>
+                <p>{t('sections.pdfGeneration.p2')}</p>
+              </>
+            )
+          } else if (key === 'analytics') {
+            body = (
+              <>
+                <p>
+                  {t.rich('sections.analytics.p1', {
+                    goatcounter: LinkTag('https://www.goatcounter.com'),
+                  })}
+                </p>
+                <p>
+                  {t.rich('sections.analytics.p2', {
+                    privacy: LinkTag('https://www.goatcounter.com/help/privacy'),
+                  })}
+                </p>
+              </>
+            )
+          } else if (key === 'changes') {
+            body = (
+              <>
+                <p>{t('sections.changes.p1')}</p>
+                <p style={{ fontSize: 12, color: 'var(--c-faint)', paddingTop: '0.25rem' }}>
+                  {t('sections.changes.date')}
+                </p>
+              </>
+            )
+          } else {
+            const count = PARAGRAPH_COUNT[key] ?? 1
+            body = Array.from({ length: count }, (_, i) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: fixed-length static paragraph list per section, never reordered
+              <p key={i}>{t(`sections.${key}.p${i + 1}`)}</p>
+            ))
+          }
+          return (
+            <Section key={key} title={t(`sections.${key}.title`)}>
+              {body}
+            </Section>
+          )
+        })}
 
         <div
           style={{

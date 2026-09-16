@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 import MarkProof from '@/components/proof/MarkProof'
+import { useModalDialogA11y } from './hooks/useModalDialogA11y'
 
 type Props = {
   privateMode: boolean
@@ -20,6 +21,7 @@ export default function OnboardingModal({
   cvCount,
 }: Props) {
   const t = useTranslations('onboarding')
+  const dialogRef = useModalDialogA11y(onDismiss)
 
   function handlePrivateToggle(enabled: boolean) {
     if (cvCount > 0) {
@@ -38,9 +40,11 @@ export default function OnboardingModal({
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm">
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="onboarding-title"
+        tabIndex={-1}
         className="w-full sm:max-w-[448px] sm:mx-4 sm:rounded-[6px] rounded-t-[12px] max-h-[90dvh] overflow-y-auto"
         style={{
           background: 'var(--c-paper)',

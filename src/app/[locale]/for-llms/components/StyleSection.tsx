@@ -14,26 +14,26 @@ export function StyleSection({ t }: { t: ForLlmsT }) {
   const richCode = { code: (chunks: React.ReactNode) => <InlineCode>{chunks}</InlineCode> }
 
   return (
-    <Section id="style" title={t('section4.heading')}>
+    <Section id="style" title={t('style.heading')}>
       <p style={{ fontSize: 13, color: 'var(--c-sub)', marginBottom: '1.25rem' }}>
-        {t.rich('section4.intro', richCode)}
+        {t.rich('style.intro', richCode)}
       </p>
 
-      <SectionLabel>{t('section4.commonHeading')}</SectionLabel>
+      <SectionLabel>{t('style.commonHeading')}</SectionLabel>
       <div style={{ overflowX: 'auto', marginBottom: '1.5rem' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
           <thead>
             <tr style={TABLE_HEAD}>
               <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>
-                {t('section4.tableKey')}
+                {t('style.tableKey')}
               </th>
               <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>
-                {t('section4.tableType')}
+                {t('style.tableType')}
               </th>
               <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>
-                {t('section4.tableRange')}
+                {t('style.tableRange')}
               </th>
-              <th style={{ paddingBottom: 8, fontWeight: 600 }}>{t('section4.tableDefault')}</th>
+              <th style={{ paddingBottom: 8, fontWeight: 600 }}>{t('style.tableDefault')}</th>
             </tr>
           </thead>
           <tbody style={{ fontFamily: 'var(--f-mono)' }}>
@@ -62,30 +62,27 @@ export function StyleSection({ t }: { t: ForLlmsT }) {
           </tbody>
         </table>
       </div>
-      <p
-        style={{
-          fontSize: 12,
-          color: 'var(--c-faint)',
-          marginTop: '-1rem',
-          marginBottom: '1.5rem',
-        }}
-      >
-        {t('section4.commonNote')}
-      </p>
+      <div style={{ marginTop: '-1rem', marginBottom: '1.5rem' }}>
+        {(['sizesNote', 'colorsNote', 'extrasNote', 'commonNote'] as const).map((key) => (
+          <p key={key} style={{ fontSize: 12, color: 'var(--c-faint)', marginBottom: '0.75rem' }}>
+            {t(`style.${key}`)}
+          </p>
+        ))}
+      </div>
 
-      <SectionLabel>{t('section4.accentHeading')}</SectionLabel>
+      <SectionLabel>{t('style.accentHeading')}</SectionLabel>
       <p style={{ fontSize: 12, color: 'var(--c-sub)', marginBottom: '0.75rem' }}>
-        {t.rich('section4.accentIntro', richCode)}
+        {t.rich('style.accentIntro', richCode)}
       </p>
       <div style={{ overflowX: 'auto', marginBottom: '1.5rem' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
           <thead>
             <tr style={TABLE_HEAD}>
               <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>
-                {t('section4.tableTemplate')}
+                {t('style.tableTemplate')}
               </th>
               <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>
-                {t('section4.tableAccentDefault')}
+                {t('style.tableAccentDefault')}
               </th>
               <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>headline_size</th>
               <th style={{ paddingBottom: 8, fontWeight: 600 }}>section_rule_gap</th>
@@ -112,7 +109,7 @@ export function StyleSection({ t }: { t: ForLlmsT }) {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '0.75rem' }}>
-        <SectionLabel>{t('section4.bannerHeading')}</SectionLabel>
+        <SectionLabel>{t('style.bannerHeading')}</SectionLabel>
         <Tag color="green">banner</Tag>
       </div>
       <div style={{ overflowX: 'auto', marginBottom: '1.5rem' }}>
@@ -120,12 +117,12 @@ export function StyleSection({ t }: { t: ForLlmsT }) {
           <thead>
             <tr style={TABLE_HEAD}>
               <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>
-                {t('section4.tableKey')}
+                {t('style.tableKey')}
               </th>
               <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>
-                {t('section4.tableDefault')}
+                {t('style.tableDefault')}
               </th>
-              <th style={{ paddingBottom: 8, fontWeight: 600 }}>{t('section4.tablePurpose')}</th>
+              <th style={{ paddingBottom: 8, fontWeight: 600 }}>{t('style.tablePurpose')}</th>
             </tr>
           </thead>
           <tbody style={{ fontFamily: 'var(--f-mono)' }}>
@@ -146,7 +143,7 @@ export function StyleSection({ t }: { t: ForLlmsT }) {
                     color: 'var(--c-sub)',
                   }}
                 >
-                  {t(`section4.bannerPurpose.${row.key}`)}
+                  {t(`style.bannerPurpose.${row.key}`)}
                 </td>
               </tr>
             ))}
@@ -155,23 +152,23 @@ export function StyleSection({ t }: { t: ForLlmsT }) {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '0.75rem' }}>
-        <SectionLabel>{t('section4.sidebarHeading')}</SectionLabel>
+        <SectionLabel>{t('style.sidebarHeading')}</SectionLabel>
         <Tag>sidebar</Tag>
       </div>
       <p style={{ fontSize: 12, color: 'var(--c-sub)', marginBottom: '0.75rem' }}>
-        {t('section4.sidebarNote')}
+        {t('style.sidebarNote')}
       </p>
       <div style={{ overflowX: 'auto', marginBottom: '1rem' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
           <thead>
             <tr style={TABLE_HEAD}>
               <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>
-                {t('section4.tableKey')}
+                {t('style.tableKey')}
               </th>
               <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>
-                {t('section4.tableDefault')}
+                {t('style.tableDefault')}
               </th>
-              <th style={{ paddingBottom: 8, fontWeight: 600 }}>{t('section4.tablePurpose')}</th>
+              <th style={{ paddingBottom: 8, fontWeight: 600 }}>{t('style.tablePurpose')}</th>
             </tr>
           </thead>
           <tbody style={{ fontFamily: 'var(--f-mono)' }}>
@@ -192,7 +189,7 @@ export function StyleSection({ t }: { t: ForLlmsT }) {
                     color: 'var(--c-sub)',
                   }}
                 >
-                  {t(`section4.sidebarPurpose.${row.key}`)}
+                  {t(`style.sidebarPurpose.${row.key}`)}
                 </td>
               </tr>
             ))}
@@ -201,10 +198,10 @@ export function StyleSection({ t }: { t: ForLlmsT }) {
       </div>
 
       <div style={{ marginTop: '1.5rem' }}>
-        <SectionLabel>{t('section4.exampleHeading')}</SectionLabel>
+        <SectionLabel>{t('style.exampleHeading')}</SectionLabel>
       </div>
       <p style={{ fontSize: 12, color: 'var(--c-sub)', marginBottom: '0.75rem' }}>
-        {t.rich('section4.exampleNote', richCode)}
+        {t.rich('style.exampleNote', richCode)}
       </p>
       <Code>{`{
   "header": { "style": "split" },

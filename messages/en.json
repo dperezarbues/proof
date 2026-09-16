@@ -187,7 +187,9 @@
     "editCVDataTitle": "Edit CV data",
     "downloadJSON": "Download JSON",
     "delete": "Delete",
-    "beta": "Beta"
+    "beta": "Beta",
+    "dragToReorder": "Drag to reorder",
+    "removeSection": "Remove section"
   },
   "pdfPreview": {
     "preview": "preview",
@@ -277,22 +279,41 @@
     "subtitle": "Plain English. No legalese.",
     "openEditor": "Open editor →",
     "backHome": "← Home",
-    "s1Title": "Your CV data",
-    "s1p1": "Your CV data is stored exclusively in your browser's localStorage. It never leaves your device except during PDF generation (see below). We have no database, no user accounts, and no server-side storage of CV content.",
-    "s1p2": "If you clear your browser storage, your CV data is gone. There is no cloud backup. We recommend downloading your CV JSON periodically using the Download button in the editor.",
-    "s2Title": "PDF generation",
-    "s2p1": "When you click \"Generate PDF\", your CV data never leaves your device. The Typst compiler runs entirely in your browser as a WebAssembly module (~6 MB, downloaded once and cached). Compilation happens locally; no CV content is sent to any server at any point.",
-    "s2p2": "The only network requests are: loading the compiler itself (from this site), loading fonts (also from this site), and the analytics beacon described below. Your CV data is never included in any of these requests.",
-    "s3Title": "Analytics",
-    "s3p1": "This site uses GoatCounter for basic traffic analytics. GoatCounter collects page views, referrer URLs, browser type, and country — no cookies, no fingerprinting, no personal data, no cross-site tracking.",
-    "s3p2": "GoatCounter is open source and its privacy policy is available at goatcounter.com/help/privacy.",
-    "s4Title": "Cookies",
-    "s4p1": "Proof sets no cookies. Layout saves and CV data are stored in localStorage, which is not a cookie and is never transmitted to the server automatically. GoatCounter also sets no cookies.",
-    "s5Title": "Open source",
-    "s5p1": "Proof is open source. You are welcome to inspect the code, self-host it, or contribute. The source code is the most authoritative description of what the tool actually does.",
-    "s6Title": "Changes",
-    "s6p1": "If anything material changes — particularly around data handling — this page will be updated. The date below reflects the last revision.",
-    "s6date": "Last updated: May 2025"
+    "sections": {
+      "cvData": {
+        "title": "Your CV data",
+        "p1": "Your CV data is stored exclusively in your browser's localStorage. It never leaves your device except during PDF generation (see below). We have no database, no user accounts, and no server-side storage of CV content.",
+        "p2": "If you clear your browser storage, your CV data is gone. There is no cloud backup. We recommend downloading your CV JSON periodically using the Download button in the editor."
+      },
+      "pdfGeneration": {
+        "title": "PDF generation",
+        "p1": "When you click \"Generate PDF\", your CV data never leaves your device. The <typst>Typst</typst> compiler runs entirely in your browser as a WebAssembly module (~6 MB, downloaded once and cached). Compilation happens locally; no CV content is sent to any server at any point.",
+        "p2": "The only network requests are: loading the compiler itself (from this site), loading fonts (also from this site), and the analytics beacon described below. Your CV data is never included in any of these requests."
+      },
+      "analytics": {
+        "title": "Analytics",
+        "p1": "This site uses <goatcounter>GoatCounter</goatcounter> for basic traffic analytics. GoatCounter collects page views, referrer URLs, browser type, and country — no cookies, no fingerprinting, no personal data, no cross-site tracking.",
+        "p2": "GoatCounter is open source and its privacy policy is available at <privacy>goatcounter.com/help/privacy</privacy>."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "p1": "Proof sets no cookies. Layout saves and CV data are stored in localStorage, which is not a cookie and is never transmitted to the server automatically. GoatCounter also sets no cookies."
+      },
+      "openSource": {
+        "title": "Open source",
+        "p1": "Proof is open source. You are welcome to inspect the code, self-host it, or contribute. The source code is the most authoritative description of what the tool actually does."
+      },
+      "changes": {
+        "title": "Changes",
+        "p1": "If anything material changes — particularly around data handling — this page will be updated. The date below reflects the last revision.",
+        "date": "Last updated: May 2025"
+      },
+      "noWarranty": {
+        "title": "No warranty",
+        "p1": "Proof is provided \"as is,\" with no warranty of any kind, express or implied — including no guarantee of accuracy, uptime, or fitness for a particular purpose. Use it at your own risk. We aren't liable for any damages, data loss, or other issues arising from your use of the tool, including CVs generated with it — always review your CV yourself before sending it anywhere.",
+        "p2": "This is a free, open-source project maintained on a best-effort basis by volunteers, not a commercial service with guaranteed support, SLAs, or uptime."
+      }
+    }
   },
   "forLlms": {
     "metaTitle": "Schema Reference — Proof",
@@ -307,7 +328,7 @@
       "style": "Style params",
       "tips": "Tips"
     },
-    "section1": {
+    "cvJson": {
       "heading": "1 · CV JSON schema",
       "intro": "The CV is a single JSON object. All sections are optional except <code>identity</code>. Text fields in <code>highlights</code>, <code>description</code>, and <code>summary</code> support Markdown-style links: <code>[text](https://url)</code>.",
       "contactHeading": "identity.contact — type values",
@@ -323,7 +344,7 @@
       },
       "contactNote": "The visual editor's own type picker only offers 6 of these (no medium or facebook) — writing JSON directly gets you the full set above."
     },
-    "section2": {
+    "sectionIds": {
       "heading": "2 · Available section IDs",
       "intro": "These are the built-in section IDs that the editor and templates know about. The sidebar template can also render any of these in the left column.",
       "tableId": "ID",
@@ -338,13 +359,13 @@
         "certifications": "array",
         "awards": "array",
         "side_projects": "array",
-        "contact": "sidebar only — renders contact list",
+        "contact": "sidebar only — usable inside sidebar_sections; the same id in the regular sections array, or on any other template, silently renders nothing.",
         "core_strengths": "string[] of short strings, rendered as pills. Available on every template — not sidebar-only. Section title is translated (en/es/de/fr).",
         "leadership_profile": "single object, not an array: { subtitle?, highlights? }. No title/name — renders under a fixed, translated heading."
       },
       "customNote": "Custom sections: any top-level key not listed above is rendered generically under a heading made from the key name. Supported shapes: a plain string; a string[] (rendered as bullets); an array of objects with title (or name)/subtitle/period and either highlights (string[]) or description; or a single object (not an array) with subtitle and either highlights or description — the same shape leadership_profile uses."
     },
-    "section3": {
+    "layout": {
       "heading": "3 · Layout JSON structure",
       "intro": "When you generate a PDF from the editor, a layout JSON is compiled alongside the CV data. You can also produce layout JSON directly to control section order, columns, and per-section spacing.",
       "topLevelFields": "Top-level fields",
@@ -357,7 +378,7 @@
       "sectionEntryFull": "Section entry — full type",
       "fieldsEntry": {
         "id": "Section ID from §2.",
-        "breakable": "Whether Typst may insert a page break before this block. Default: true.",
+        "breakable": "Whether Typst may split this section's content across a page break. false keeps the section atomic — if it doesn't fit in the remaining space on the page, the whole section moves to the next page instead of starting on one page and continuing on another. Default: true.",
         "pre_spacing": "Space above the section title. Overrides template default.",
         "post_spacing": "Space below the section rule. Overrides template default."
       },
@@ -369,9 +390,10 @@
       },
       "completeExamples": "Complete layout examples",
       "exampleDefaultMinimal": "Default / Minimal",
-      "exampleSidebar": "Sidebar"
+      "exampleSidebar": "Sidebar",
+      "columnsNote": "columns accepts any number, but only 2, 3, and 4 have a gutter width tuned for them — other values fall back to the 2-column gutter. columns should match content.length; a mismatch produces a grid with the wrong number of tracks for the cells you provided."
     },
-    "section4": {
+    "style": {
       "heading": "4 · Style parameters",
       "intro": "Style values live in the <code>style</code> key of the layout JSON. All are optional — omit any to use the template default.",
       "commonHeading": "Common — all templates",
@@ -401,9 +423,12 @@
         "accent_color": "Links in the main column"
       },
       "exampleHeading": "Style embedded in layout — example (banner template)",
-      "exampleNote": "<code>header.style</code> is still required by the schema even though banner ignores it (see §3) — pick either value."
+      "exampleNote": "<code>header.style</code> is still required by the schema even though banner ignores it (see §3) — pick either value.",
+      "extrasNote": "show_footer prints only the page number (e.g. \"2 / 5\") in small text at the bottom-right of every page — nothing else. show_qr places a small QR code in the header, linking to qr_url (or the first linkedin contact entry if qr_url is left empty); supported on every template. show_contact_icons and show_contact_labels are not independent: when show_contact_icons is on, every contact entry shows its brand icon and show_contact_labels has no effect at all — labels only ever appear when icons are off.",
+      "sizesNote": "What each size controls: name_size — the name at the top. headline_size (template-specific, see below) — the role/headline under it. entry_size — each entry's title (job title, degree, project name). body_size — body text and bullet highlights (body_size − 0.5pt is used automatically for a couple of smaller secondary text elements). section_heading_size — the section labels themselves (\"EXPERIENCE\", \"EDUCATION\"), with section_heading_size − 1pt used automatically for smaller pill/footnote text.",
+      "colorsNote": "What each color controls: heading_color — the name and every entry title. body_color — body text and bullet highlights. muted_color — metadata like company names and date ranges. Pills, tags, and footnote text use a fixed color that style params can't override."
     },
-    "section5": {
+    "tips": {
       "heading": "5 · Tips for agents",
       "tips": {
         "contactTypes": {

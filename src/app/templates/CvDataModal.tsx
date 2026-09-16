@@ -7,6 +7,7 @@ import cvStarter from '@/data/cv.starter.json'
 import { CvEditor } from './cv-editor/CvEditor'
 import { cvFormToJson, initFormData, jsonToCvForm } from './cv-editor/serialise'
 import type { CvFormData } from './cv-editor/types'
+import { useModalDialogA11y } from './hooks/useModalDialogA11y'
 import { CvSchema } from './schemas'
 
 export interface CvEntry {
@@ -57,6 +58,7 @@ export default function CvDataModal({
   const [formData, setFormData] = useState<CvFormData>(initial.formData)
   const [jsonContent, setJsonContent] = useState(defaultContent)
   const [error, setError] = useState<string | null>(null)
+  const dialogRef = useModalDialogA11y(onCancel)
 
   function switchToJson() {
     const json = cvFormToJson(formData)
@@ -128,9 +130,11 @@ export default function CvDataModal({
   return (
     <div className="fixed inset-0 z-50 flex sm:items-center sm:justify-center bg-black/60">
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="cv-modal-title"
+        tabIndex={-1}
         className="flex flex-col w-full sm:max-w-[672px] sm:mx-4 sm:rounded-[6px]"
         style={{
           background: 'var(--c-paper)',
@@ -337,10 +341,11 @@ export default function CvDataModal({
         {/* Error */}
         {error && (
           <p
+            role="alert"
             style={{
               padding: '0 1.25rem 4px',
               fontSize: 12,
-              color: 'var(--c-accent)',
+              color: 'var(--c-error)',
               flexShrink: 0,
             }}
           >

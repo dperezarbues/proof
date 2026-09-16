@@ -31,10 +31,10 @@ test.describe('Support prompt (pre-download modal)', () => {
     await expect(page.getByText('Generating PDF…')).not.toBeVisible({
       timeout: GENERATE_TIMEOUT,
     })
-    await expect(page.getByRole('button', { name: 'Download' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Download', exact: true })).toBeVisible()
 
     // Click Download — should intercept and show support modal
-    await page.getByRole('button', { name: 'Download' }).click()
+    await page.getByRole('button', { name: 'Download', exact: true }).click()
 
     // Existence is keyed off the component's own test id, not its copy — a
     // wording or redesign change can't silently turn this into a permanent
@@ -64,7 +64,7 @@ test.describe('Support prompt (pre-download modal)', () => {
       timeout: GENERATE_TIMEOUT,
     })
 
-    await page.getByRole('button', { name: 'Download' }).click()
+    await page.getByRole('button', { name: 'Download', exact: true }).click()
 
     const modal = page.getByTestId('support-prompt')
     if (!(await modal.isVisible().catch(() => false))) {
@@ -85,7 +85,7 @@ test.describe('Support prompt (pre-download modal)', () => {
     })
 
     // First click — show prompt (only if configured)
-    await page.getByRole('button', { name: 'Download' }).click()
+    await page.getByRole('button', { name: 'Download', exact: true }).click()
     const modal = page.getByTestId('support-prompt')
     if (!(await modal.isVisible().catch(() => false))) {
       test.skip()
@@ -94,7 +94,7 @@ test.describe('Support prompt (pre-download modal)', () => {
     await modal.getByRole('button', { name: t.maybeLater }).click()
 
     // Second click — sessionStorage key is set, no modal
-    await page.getByRole('button', { name: 'Download' }).click()
+    await page.getByRole('button', { name: 'Download', exact: true }).click()
     await expect(modal).not.toBeVisible()
   })
 })

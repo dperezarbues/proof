@@ -406,6 +406,7 @@ export default function TemplatesGallery({
                 className="inline-flex items-center justify-center px-3.5 py-2.5 rounded-[3px] font-bold text-[12px] transition-opacity hover:opacity-80"
                 style={{ boxShadow: 'inset 0 0 0 1.3px var(--c-line)', color: 'var(--c-ink2)' }}
                 title={t('downloadPDF')}
+                aria-label={t('downloadPDF')}
               >
                 ↓
               </a>
@@ -413,8 +414,9 @@ export default function TemplatesGallery({
           </div>
           {compileError && (
             <p
+              role="alert"
               className="font-mono text-[10px] truncate"
-              style={{ color: 'var(--c-accent)' }}
+              style={{ color: 'var(--c-error)' }}
               title={compileError}
             >
               ⚠ {compileError}
@@ -455,6 +457,7 @@ export default function TemplatesGallery({
               type="button"
               onClick={() => setShowWelcome(true)}
               title={t('help')}
+              aria-label={t('help')}
               className="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[11px] leading-none transition-opacity hover:opacity-70"
               style={{ boxShadow: 'inset 0 0 0 1px var(--c-line)', color: 'var(--c-sub)' }}
             >

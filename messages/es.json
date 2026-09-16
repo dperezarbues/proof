@@ -187,7 +187,9 @@
     "editCVDataTitle": "Editar datos del CV",
     "downloadJSON": "Descargar JSON",
     "delete": "Eliminar",
-    "beta": "Beta"
+    "beta": "Beta",
+    "dragToReorder": "Arrastrar para reordenar",
+    "removeSection": "Quitar sección"
   },
   "pdfPreview": {
     "preview": "vista previa",
@@ -277,22 +279,41 @@
     "subtitle": "En lenguaje claro. Sin jerga legal.",
     "openEditor": "Abrir editor →",
     "backHome": "← Inicio",
-    "s1Title": "Sus datos del CV",
-    "s1p1": "Sus datos del CV se almacenan exclusivamente en el localStorage de su navegador. Nunca abandonan su dispositivo, excepto durante la generación del PDF (ver más abajo). No tenemos base de datos, ni cuentas de usuario, ni almacenamiento del contenido del CV en el servidor.",
-    "s1p2": "Si borra el almacenamiento de su navegador, sus datos del CV se perderán. No hay copia de seguridad en la nube. Le recomendamos descargar periódicamente el JSON de su CV usando el botón Descargar del editor.",
-    "s2Title": "Generación de PDF",
-    "s2p1": "Cuando pulsa « Generar PDF », sus datos del CV nunca abandonan su dispositivo. El compilador Typst se ejecuta completamente en su navegador como módulo WebAssembly (~6 MB, descargado una vez y almacenado en caché). La compilación ocurre localmente; ningún contenido del CV se envía a ningún servidor en ningún momento.",
-    "s2p2": "Las únicas solicitudes de red son: cargar el propio compilador (desde este sitio), cargar fuentes (también desde este sitio) y la señal de análisis descrita a continuación. Sus datos del CV no están incluidos en ninguna de estas solicitudes.",
-    "s3Title": "Análisis",
-    "s3p1": "Este sitio usa GoatCounter para análisis básicos de tráfico. GoatCounter recopila páginas vistas, URL de referencia, tipo de navegador y país — sin cookies, sin fingerprinting, sin datos personales, sin rastreo entre sitios.",
-    "s3p2": "GoatCounter es open source y su política de privacidad está disponible en goatcounter.com/help/privacy.",
-    "s4Title": "Cookies",
-    "s4p1": "Proof no establece cookies. Los diseños guardados y los datos del CV se almacenan en localStorage, que no es una cookie y nunca se transmite automáticamente al servidor. GoatCounter tampoco establece cookies.",
-    "s5Title": "Open source",
-    "s5p1": "Proof es open source. Puede inspeccionar el código, alojarlo usted mismo o contribuir. El código fuente es la descripción más fiable de lo que la herramienta hace realmente.",
-    "s6Title": "Cambios",
-    "s6p1": "Si algo relevante cambia — especialmente en relación con el manejo de datos — esta página se actualizará. La fecha a continuación refleja la última revisión.",
-    "s6date": "Última actualización: mayo de 2025"
+    "sections": {
+      "cvData": {
+        "title": "Sus datos del CV",
+        "p1": "Sus datos del CV se almacenan exclusivamente en el localStorage de su navegador. Nunca abandonan su dispositivo, excepto durante la generación del PDF (ver más abajo). No tenemos base de datos, ni cuentas de usuario, ni almacenamiento del contenido del CV en el servidor.",
+        "p2": "Si borra el almacenamiento de su navegador, sus datos del CV se perderán. No hay copia de seguridad en la nube. Le recomendamos descargar periódicamente el JSON de su CV usando el botón Descargar del editor."
+      },
+      "pdfGeneration": {
+        "title": "Generación de PDF",
+        "p1": "Al hacer clic en «Generate PDF», sus datos de CV nunca salen de su dispositivo. El compilador <typst>Typst</typst> se ejecuta enteramente en su navegador como un módulo WebAssembly (~6 MB, descargado una vez y en caché). La compilación se realiza localmente; el contenido del CV nunca se envía a ningún servidor en ningún momento.",
+        "p2": "Las únicas solicitudes de red son: cargar el propio compilador (desde este sitio), cargar fuentes (también desde este sitio) y la señal de análisis descrita a continuación. Sus datos del CV no están incluidos en ninguna de estas solicitudes."
+      },
+      "analytics": {
+        "title": "Análisis",
+        "p1": "Este sitio usa <goatcounter>GoatCounter</goatcounter> para análisis básicos de tráfico. GoatCounter recopila páginas vistas, URLs de referencia, tipo de navegador y país — sin cookies, sin fingerprinting, sin datos personales, sin seguimiento entre sitios.",
+        "p2": "GoatCounter es de código abierto y su política de privacidad está disponible en <privacy>goatcounter.com/help/privacy</privacy>."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "p1": "Proof no establece cookies. Los diseños guardados y los datos del CV se almacenan en localStorage, que no es una cookie y nunca se transmite automáticamente al servidor. GoatCounter tampoco establece cookies."
+      },
+      "openSource": {
+        "title": "Open source",
+        "p1": "Proof es open source. Puede inspeccionar el código, alojarlo usted mismo o contribuir. El código fuente es la descripción más fiable de lo que la herramienta hace realmente."
+      },
+      "changes": {
+        "title": "Cambios",
+        "p1": "Si algo relevante cambia — especialmente en relación con el manejo de datos — esta página se actualizará. La fecha a continuación refleja la última revisión.",
+        "date": "Última actualización: mayo de 2025"
+      },
+      "noWarranty": {
+        "title": "Sin garantía",
+        "p1": "Proof se ofrece «tal cual», sin garantía de ningún tipo, expresa o implícita, incluyendo ninguna garantía de precisión, disponibilidad o idoneidad para un fin concreto. Lo usa bajo su propio riesgo. No nos hacemos responsables de ningún daño, pérdida de datos u otro problema derivado del uso de la herramienta, incluidos los CV generados con ella — revise siempre su CV usted mismo antes de enviarlo a cualquier sitio.",
+        "p2": "Este es un proyecto gratuito y de código abierto mantenido de forma voluntaria y según disponibilidad, no un servicio comercial con soporte garantizado, SLA ni disponibilidad garantizada."
+      }
+    }
   },
   "forLlms": {
     "metaTitle": "Referencia del esquema — Proof",
@@ -307,7 +328,7 @@
       "style": "Parámetros de estilo",
       "tips": "Consejos"
     },
-    "section1": {
+    "cvJson": {
       "heading": "1 · Esquema JSON del CV",
       "intro": "El CV es un único objeto JSON. Todas las secciones son opcionales excepto <code>identity</code>. Los campos de texto en <code>highlights</code>, <code>description</code> y <code>summary</code> admiten enlaces con sintaxis Markdown: <code>[texto](https://url)</code>.",
       "contactHeading": "identity.contact — valores de type",
@@ -323,7 +344,7 @@
       },
       "contactNote": "El selector de type del editor visual solo ofrece 6 de estos (no incluye medium ni facebook) — escribiendo el JSON directamente se obtiene el conjunto completo de arriba."
     },
-    "section2": {
+    "sectionIds": {
       "heading": "2 · IDs de sección disponibles",
       "intro": "Estos son los IDs de sección integrados que reconocen el editor y las plantillas. La plantilla sidebar también puede mostrar cualquiera de ellos en la columna izquierda.",
       "tableId": "ID",
@@ -338,13 +359,13 @@
         "certifications": "array",
         "awards": "array",
         "side_projects": "array",
-        "contact": "solo en sidebar — muestra la lista de contacto",
+        "contact": "solo en sidebar — se usa dentro de sidebar_sections; el mismo id en el array sections normal, o en cualquier otra plantilla, no muestra nada.",
         "core_strengths": "array de strings cortos, se muestra como píldoras. Disponible en todas las plantillas — no es exclusivo de sidebar. El título de la sección está traducido (en/es/de/fr).",
         "leadership_profile": "un único objeto, no un array: { subtitle?, highlights? }. Sin title/name — se muestra bajo un encabezado fijo y traducido."
       },
       "customNote": "Secciones personalizadas: cualquier clave de nivel superior no listada arriba se muestra de forma genérica bajo un encabezado generado a partir del nombre de la clave. Formas admitidas: un string simple; un array de strings (se muestra como lista con viñetas); un array de objetos con title (o name)/subtitle/period y, además, highlights (array de strings) o description; o un único objeto (no un array) con subtitle y, además, highlights o description — la misma forma que usa leadership_profile."
     },
-    "section3": {
+    "layout": {
       "heading": "3 · Estructura del JSON del layout",
       "intro": "Al generar un PDF desde el editor, se compila un JSON de layout junto con los datos del CV. También puede producir el JSON de layout directamente para controlar el orden de las secciones, las columnas y el espaciado por sección.",
       "topLevelFields": "Campos de nivel superior",
@@ -357,7 +378,7 @@
       "sectionEntryFull": "Entrada de sección — tipo completo",
       "fieldsEntry": {
         "id": "ID de sección del §2.",
-        "breakable": "Si Typst puede insertar un salto de página antes de este bloque. Por defecto: true.",
+        "breakable": "Si Typst puede dividir el contenido de esta sección entre dos páginas. Con false la sección se mantiene íntegra — si no cabe en el espacio restante de la página, toda la sección pasa a la siguiente en lugar de empezar en una página y continuar en otra. Por defecto: true.",
         "pre_spacing": "Espacio por encima del título de la sección. Sobrescribe el valor por defecto de la plantilla.",
         "post_spacing": "Espacio por debajo de la línea de la sección. Sobrescribe el valor por defecto de la plantilla."
       },
@@ -369,9 +390,10 @@
       },
       "completeExamples": "Ejemplos completos de layout",
       "exampleDefaultMinimal": "Default / Minimal",
-      "exampleSidebar": "Sidebar"
+      "exampleSidebar": "Sidebar",
+      "columnsNote": "columns acepta cualquier número, pero solo 2, 3 y 4 tienen un ancho de separación (gutter) ajustado específicamente — el resto de valores usa el gutter de 2 columnas. columns debe coincidir con content.length; si no coinciden, la cuadrícula tendrá un número de columnas distinto al de las celdas proporcionadas."
     },
-    "section4": {
+    "style": {
       "heading": "4 · Parámetros de estilo",
       "intro": "Los valores de estilo residen en la clave <code>style</code> del JSON de layout. Todos son opcionales — omita cualquiera para usar el valor por defecto de la plantilla.",
       "commonHeading": "Comunes — todas las plantillas",
@@ -401,9 +423,12 @@
         "accent_color": "Enlaces en la columna principal"
       },
       "exampleHeading": "Estilo embebido en el layout — ejemplo (plantilla banner)",
-      "exampleNote": "<code>header.style</code> sigue siendo obligatorio según el esquema aunque banner lo ignore (ver §3) — elija cualquiera de los dos valores."
+      "exampleNote": "<code>header.style</code> sigue siendo obligatorio según el esquema aunque banner lo ignore (ver §3) — elija cualquiera de los dos valores.",
+      "extrasNote": "show_footer solo imprime el número de página (p. ej. «2 / 5») en texto pequeño abajo a la derecha de cada página — nada más. show_qr coloca un pequeño código QR en la cabecera, enlazando a qr_url (o a la primera entrada de contacto linkedin si qr_url queda vacío); disponible en todas las plantillas. show_contact_icons y show_contact_labels no son independientes: con show_contact_icons activado, cada entrada de contacto muestra su icono de marca y show_contact_labels no tiene ningún efecto — las etiquetas solo aparecen cuando los iconos están desactivados.",
+      "sizesNote": "Qué controla cada tamaño: name_size — el nombre en la parte superior. headline_size (específico de cada plantilla, ver más abajo) — el titular/rol debajo del nombre. entry_size — el título de cada entrada (puesto, titulación, nombre del proyecto). body_size — el texto del cuerpo y los puntos destacados (body_size − 0.5pt se usa automáticamente para un par de elementos de texto secundarios más pequeños). section_heading_size — los propios títulos de sección («EXPERIENCE», «EDUCATION»), con section_heading_size − 1pt usado automáticamente para píldoras y notas al pie más pequeñas.",
+      "colorsNote": "Qué controla cada color: heading_color — el nombre y el título de cada entrada. body_color — el texto del cuerpo y los puntos destacados. muted_color — metadatos como el nombre de la empresa y los rangos de fechas. Las píldoras, las etiquetas y el texto de notas al pie usan un color fijo que los parámetros de estilo no pueden sobrescribir."
     },
-    "section5": {
+    "tips": {
       "heading": "5 · Consejos para agentes",
       "tips": {
         "contactTypes": {

@@ -43,7 +43,7 @@ test.describe('CSP violations on a real deployment', () => {
 
     // Triggers the download code path directly, same as clicking Download.
     const downloadPromise = page.waitForEvent('download')
-    await page.getByRole('button', { name: 'Download' }).click()
+    await page.getByRole('button', { name: 'Download', exact: true }).click()
     await downloadPromise
 
     expect(cspViolations).toEqual([])

@@ -2,7 +2,7 @@
 
 > Privacy-first CV editor that compiles beautiful PDFs using Typst. CV data is stored in the browser and compiled to PDF entirely client-side via a WebAssembly build of Typst — nothing is ever sent to a server.
 
-Proof allows users to maintain their CV as structured JSON, choose from 4 professional templates (Default, Modern, Minimal, Sidebar), customise layout and style through a visual editor, and download high-quality typeset PDFs.
+Proof allows users to maintain their CV as structured JSON, choose from 10 professional templates (Default, Modern, Minimal, Sidebar, Compact, Banner, Timeline, Academic, Tech, Editorial), customise layout and style through a visual editor, and download high-quality typeset PDFs.
 
 ## Docs
 
@@ -20,7 +20,7 @@ To help a user create a CV for Proof:
 
 ## CV JSON — top-level fields
 
-- `identity` — name (string), headline (string), contact (array of {type, value, key})
+- `identity` — name (string, required), headline (string), contact (array of {type, value, key})
 - `summary` — plain text; separate paragraphs with \n\n
 - `experience` — array: title, subtitle (Company · Location), period, highlights[], tags[]
 - `education` — array: title, subtitle (Degree · Field), period, description
@@ -29,17 +29,25 @@ To help a user create a CV for Proof:
 - `certifications` — array: {title, subtitle, tags[]}
 - `awards` — array: {title, subtitle, description}
 - `side_projects` — array: {title, subtitle, description, tags[]}
+- `core_strengths` — array of short strings, rendered as pills
+- `leadership_profile` — single object (not an array): {subtitle, highlights[]}
 
-Contact types: email, phone, location, linkedin, github, medium, web
+Contact types: email, phone, location, linkedin, github, medium, facebook, web
 
 Links in text fields use Markdown syntax: [text](https://url) or [text](#section-id) for internal PDF jumps.
 
 ## Templates
 
-- `default` — classic single-column with split header
-- `modern` — dark band header with accent colour
-- `minimal` — minimal typography, no decorative elements
-- `sidebar` — dark left sidebar with main content column
+- `default` — clean split header, sections configurable via layout JSON
+- `modern` — accent keyline top border, two-tone name, filled pills
+- `minimal` — no rules, typography-only structure
+- `sidebar` — dark navy sidebar (contact, skills, languages, certifications) + main column
+- `compact` — dense two-column body, fits a long CV on one page
+- `banner` — full-width dark header band, filled stack pills
+- `timeline` — experience on a dated rail with circular markers
+- `academic` — centred formal layout (Appointments / Selected Work headings)
+- `tech` — monospace `//`-prefixed section headers, flat tag grid for skills
+- `editorial` — magazine-style large italic display name, narrow meta column
 
 ## Optional
 

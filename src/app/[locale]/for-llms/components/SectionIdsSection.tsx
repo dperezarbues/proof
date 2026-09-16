@@ -16,9 +16,9 @@ const SECTION_IDS = [
 
 export function SectionIdsSection({ t }: { t: ForLlmsT }) {
   return (
-    <Section id="sections" title={t('section2.heading')}>
+    <Section id="sections" title={t('sectionIds.heading')}>
       <p style={{ fontSize: 13, color: 'var(--c-sub)', marginBottom: '1rem' }}>
-        {t('section2.intro')}
+        {t('sectionIds.intro')}
       </p>
       <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
@@ -34,12 +34,12 @@ export function SectionIdsSection({ t }: { t: ForLlmsT }) {
               }}
             >
               <th style={{ paddingBottom: 8, paddingRight: 24, fontWeight: 600 }}>
-                {t('section2.tableId')}
+                {t('sectionIds.tableId')}
               </th>
               <th style={{ paddingBottom: 8, paddingRight: 24, fontWeight: 600 }}>
-                {t('section2.tableKey')}
+                {t('sectionIds.tableKey')}
               </th>
-              <th style={{ paddingBottom: 8, fontWeight: 600 }}>{t('section2.tableNotes')}</th>
+              <th style={{ paddingBottom: 8, fontWeight: 600 }}>{t('sectionIds.tableNotes')}</th>
             </tr>
           </thead>
           <tbody>
@@ -67,7 +67,7 @@ export function SectionIdsSection({ t }: { t: ForLlmsT }) {
                   </code>
                 </td>
                 <td style={{ padding: '8px 0', fontSize: 12, color: 'var(--c-sub)' }}>
-                  {t(`section2.notes.${id}`)}
+                  {t(`sectionIds.notes.${id}`)}
                 </td>
               </tr>
             ))}
@@ -75,7 +75,7 @@ export function SectionIdsSection({ t }: { t: ForLlmsT }) {
         </table>
       </div>
       <p style={{ fontSize: 12, color: 'var(--c-faint)', marginTop: '1rem' }}>
-        {t('section2.customNote')}
+        {t('sectionIds.customNote')}
       </p>
     </Section>
   )

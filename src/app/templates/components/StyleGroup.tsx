@@ -17,6 +17,7 @@ export default function StyleGroup({
       <button
         type="button"
         onClick={() => setOpen((x) => !x)}
+        aria-expanded={open}
         className="flex items-center justify-between w-full py-2 text-left transition-colors"
         style={{ borderBottom: open ? '1px solid var(--c-line)' : undefined }}
       >

@@ -72,6 +72,7 @@ export default function SpacingRow({
           e.currentTarget.style.color = 'var(--c-faint)'
         }}
         title={t('resetToDefault')}
+        aria-label={t('resetToDefault')}
       >
         ×
       </button>

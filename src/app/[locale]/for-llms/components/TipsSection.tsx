@@ -4,7 +4,7 @@ const TIP_KEYS = ['contactTypes', 'summaryParagraphs', 'tags', 'links', 'omit', 
 
 export function TipsSection({ t }: { t: ForLlmsT }) {
   return (
-    <Section id="tips" title={t('section5.heading')}>
+    <Section id="tips" title={t('tips.heading')}>
       <div className="space-y-4">
         {TIP_KEYS.map((key) => (
           <div key={key} style={{ display: 'flex', gap: 16 }}>
@@ -20,10 +20,10 @@ export function TipsSection({ t }: { t: ForLlmsT }) {
             />
             <div>
               <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--c-ink)', marginBottom: 4 }}>
-                {t(`section5.tips.${key}.title`)}
+                {t(`tips.tips.${key}.title`)}
               </p>
               <p style={{ fontSize: 13, color: 'var(--c-sub)', lineHeight: 1.65 }}>
-                {t(`section5.tips.${key}.body`)}
+                {t(`tips.tips.${key}.body`)}
               </p>
             </div>
           </div>
