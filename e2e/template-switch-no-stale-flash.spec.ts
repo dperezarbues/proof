@@ -52,15 +52,32 @@ test.describe('Template switch does not flash stale content', () => {
     // mid-switch), the loading cover must be up — the old canvas must never
     // be left uncovered just because isGenerating/renderState haven't caught
     // up to the prop change yet.
+    //
+    // The three facts (pdf-src, rendered-src, whether the cover is present)
+    // must be read in a single round trip. Reading them via separate awaited
+    // page.* calls isn't atomic — the app can finish its re-render in the gap
+    // between two round trips, so by the time a later call runs it can
+    // observe a DIFFERENT, already-advanced moment than the one the earlier
+    // call sampled, producing a false "cover missing" failure despite the
+    // real synchronous JSX condition never being violated at any single
+    // instant. A single page.evaluate() reads all three atomically.
     const deadline = Date.now() + 2500
     let sampledMidSwitch = false
     while (Date.now() < deadline) {
-      const pdfSrc = await viewer.getAttribute('data-pdf-src').catch(() => null)
-      if (pdfSrc !== null && pdfSrc !== srcBefore) {
+      const sample = await page.evaluate(() => {
+        const el = document.querySelector('[data-testid="pdfjs-viewer"]')
+        return {
+          pdfSrc: el?.getAttribute('data-pdf-src') ?? null,
+          renderedSrc: el?.getAttribute('data-rendered-src') ?? null,
+          coverPresent: document.querySelector('[data-testid="pdfjs-loading-cover"]') !== null,
+        }
+      })
+      if (sample.pdfSrc !== null && sample.pdfSrc !== srcBefore) {
         sampledMidSwitch = true
-        const renderedSrc = await viewer.getAttribute('data-rendered-src')
-        if (pdfSrc !== renderedSrc) {
-          await expect(page.getByTestId('pdfjs-loading-cover')).toBeVisible()
+        if (sample.pdfSrc !== sample.renderedSrc && !sample.coverPresent) {
+          throw new Error(
+            `Stale content uncovered: pdf-src="${sample.pdfSrc}" rendered-src="${sample.renderedSrc}" but no loading cover was present.`,
+          )
         }
       }
       await page.waitForTimeout(10)

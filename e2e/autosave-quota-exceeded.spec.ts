@@ -27,7 +27,11 @@ test.describe('Layout/style autosave — storage quota exceeded', () => {
     })
 
     await expect(page.getByTestId('autosave-error')).not.toBeVisible()
-    await page.getByRole('button', { name: 'stacked', exact: true }).click()
+    const firstBreakCheckbox = page
+      .getByTestId('section-list')
+      .locator('input[type="checkbox"]')
+      .first()
+    await firstBreakCheckbox.click()
     await expect(page.getByTestId('autosave-error')).toBeVisible()
   })
 

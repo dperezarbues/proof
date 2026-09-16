@@ -19,7 +19,6 @@ export default function LayoutPanel({
     sensors,
     available,
     availableSb,
-    setHeader,
     handleDragEnd,
     handleSidebarDragEnd,
     addFullSection,
@@ -100,34 +99,6 @@ export default function LayoutPanel({
         </div>
       ) : (
         <div className="px-4 pb-3">
-          <p
-            className="text-xs font-mono uppercase tracking-wide mb-1.5"
-            style={{ color: 'var(--c-faint)' }}
-          >
-            Header style
-          </p>
-          <div className="flex gap-1 mb-3">
-            {(['split', 'stacked'] as const).map((v) => (
-              <button
-                type="button"
-                key={v}
-                onClick={() => setHeader(v)}
-                aria-pressed={layout.header.style === v}
-                className="flex-1 text-xs py-1 rounded-[3px] transition-colors"
-                style={
-                  layout.header.style === v
-                    ? { background: 'var(--c-ink)', color: 'var(--c-paper)', border: 'none' }
-                    : {
-                        color: 'var(--c-sub)',
-                        background: 'transparent',
-                        boxShadow: 'inset 0 0 0 1px var(--c-line)',
-                      }
-                }
-              >
-                {v}
-              </button>
-            ))}
-          </div>
           <p
             className="text-xs font-mono uppercase tracking-wide mb-1.5"
             style={{ color: 'var(--c-faint)' }}

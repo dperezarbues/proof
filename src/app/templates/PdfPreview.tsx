@@ -108,7 +108,7 @@ export default function PdfPreview({
           {showLayoutSuffix && (
             <>
               <span style={{ color: 'var(--c-line)' }}>·</span>
-              <span>{layoutName}</span>
+              <span data-testid="active-layout-name">{layoutName}</span>
             </>
           )}
           {!isSample && (

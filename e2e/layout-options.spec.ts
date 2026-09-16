@@ -1,6 +1,7 @@
 /**
- * Verifies Layout panel controls — header style, section add/remove, columns
- * group — each trigger a PDF recompile (new blob URL in the iframe).
+ * Verifies Layout panel controls — section add/remove, columns group, and
+ * the layout-variant picker — each trigger a PDF recompile (new blob URL in
+ * the iframe).
  */
 
 import { expect, type Page, test } from '@playwright/test'
@@ -23,35 +24,12 @@ async function setupWithPdf(page: Page): Promise<string> {
   return src
 }
 
-// ── Header style ──────────────────────────────────────────────────────────────
-
-test.describe('Layout — header style', () => {
-  test.beforeEach(async ({ page }) => { await openEditor(page) })
-
-  test('switching to stacked header triggers recompile', async ({ page }) => {
-    test.setTimeout(COMPILE_TIMEOUT * 2)
-    const old = await setupWithPdf(page)
-    await page.getByRole('button', { name: 'stacked', exact: true }).click()
-    await waitForNewPdf(page, old)
-  })
-
-  test('switching back to split header triggers recompile', async ({ page }) => {
-    test.setTimeout(COMPILE_TIMEOUT * 3)
-    const old = await setupWithPdf(page)
-    await page.getByRole('button', { name: 'stacked', exact: true }).click()
-    await waitForNewPdf(page, old)
-
-    const stackedSrc = await page.locator('[data-testid="pdfjs-viewer"]').getAttribute('data-pdf-src')
-    if (!stackedSrc) throw new Error('data-pdf-src not found after stacked compile')
-    await page.getByRole('button', { name: 'split', exact: true }).click()
-    await waitForNewPdf(page, stackedSrc)
-  })
-})
-
 // ── Section management ────────────────────────────────────────────────────────
 
 test.describe('Layout — section remove and add', () => {
-  test.beforeEach(async ({ page }) => { await openEditor(page) })
+  test.beforeEach(async ({ page }) => {
+    await openEditor(page)
+  })
 
   test('removing a section triggers recompile', async ({ page }) => {
     test.setTimeout(COMPILE_TIMEOUT * 2)
@@ -67,7 +45,9 @@ test.describe('Layout — section remove and add', () => {
     await page.locator('button[data-testid="remove-section"]').first().click()
     await waitForNewPdf(page, old)
 
-    const afterRemove = await page.locator('[data-testid="pdfjs-viewer"]').getAttribute('data-pdf-src')
+    const afterRemove = await page
+      .locator('[data-testid="pdfjs-viewer"]')
+      .getAttribute('data-pdf-src')
     if (!afterRemove) throw new Error('data-pdf-src not found after remove compile')
     const addDropdown = page.locator('select').filter({ hasText: '+ add section' })
     await addDropdown.selectOption({ index: 1 })
@@ -78,7 +58,9 @@ test.describe('Layout — section remove and add', () => {
 // ── Columns group ─────────────────────────────────────────────────────────────
 
 test.describe('Layout — columns group', () => {
-  test.beforeEach(async ({ page }) => { await openEditor(page) })
+  test.beforeEach(async ({ page }) => {
+    await openEditor(page)
+  })
 
   test('adding a columns group triggers recompile', async ({ page }) => {
     test.setTimeout(COMPILE_TIMEOUT * 2)
@@ -91,7 +73,9 @@ test.describe('Layout — columns group', () => {
 // ── Layout variant switcher ───────────────────────────────────────────────────
 
 test.describe('Layout — variant selection (default template)', () => {
-  test.beforeEach(async ({ page }) => { await openEditor(page) })
+  test.beforeEach(async ({ page }) => {
+    await openEditor(page)
+  })
 
   test('switching to Classic layout triggers recompile', async ({ page }) => {
     test.setTimeout(COMPILE_TIMEOUT * 2)

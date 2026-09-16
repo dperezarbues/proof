@@ -103,7 +103,6 @@ export type LayoutEditorHandle = {
   hasSidebar: boolean
   available: string[]
   availableSb: string[]
-  setHeader: (style: 'split' | 'stacked') => void
   handleDragEnd: (e: DragEndEvent) => void
   handleSidebarDragEnd: (e: DragEndEvent) => void
   addFullSection: (id: string) => void
