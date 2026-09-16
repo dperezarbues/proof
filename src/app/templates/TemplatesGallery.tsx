@@ -167,6 +167,17 @@ export default function TemplatesGallery({
     setActiveLayout(t.layouts[0])
     replacePreviewPdf(null)
     if (activeTab === 'layout' || activeTab === 'style') setActiveTab('layout')
+
+    // history.replaceState, not the Next.js router: this component only reads
+    // ?template= once, via the lazy initializer above, specifically to avoid
+    // the full-subtree remount that resolving a useSearchParams()-consuming
+    // Suspense boundary causes on first load of this statically-exported
+    // route (see the CV-language investigation this bug turned up). Routing
+    // this update through router.replace() would re-enter that same
+    // machinery on every template switch instead of only once at load.
+    const url = new URL(window.location.href)
+    url.searchParams.set('template', t.id)
+    window.history.replaceState(null, '', url)
   }
 
   function selectLayout(l: Layout) {

@@ -29,3 +29,27 @@ test('unknown ?template= value falls back to the default template', async ({ pag
   await expect(page.getByTestId('template-btn-default')).toHaveAttribute('aria-pressed', 'true')
   await expect(page.getByTestId('template-btn-modern')).toHaveAttribute('aria-pressed', 'false')
 })
+
+test('switching templates in-app keeps ?template= in sync, without remounting the gallery', async ({
+  page,
+}) => {
+  await openEditorWith(page, '?template=modern') // ends on the Template tab
+  await expect(page.getByTestId('template-btn-modern')).toHaveAttribute('aria-pressed', 'true')
+  expect(new URL(page.url()).searchParams.get('template')).toBe('modern')
+
+  await page.getByTestId('template-btn-sidebar').click()
+
+  await expect(page.getByTestId('template-btn-sidebar')).toHaveAttribute('aria-pressed', 'true')
+  await expect(page).toHaveURL(/[?&]template=sidebar(&|$)/)
+
+  // A remount of TemplatesGallery would reset its top-level activeTab state
+  // back to its 'data' default — the Template tab would silently stop being
+  // selected. That's the regression this guards against: keeping ?template=
+  // in sync via the Next.js router (instead of history.replaceState) would
+  // re-enter the useSearchParams()-consuming Suspense boundary and remount
+  // the whole gallery on every switch.
+  await expect(page.getByRole('tab', { name: /Template/i })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  )
+})
