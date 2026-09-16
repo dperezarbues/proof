@@ -1,6 +1,27 @@
+import { Archivo, Space_Mono } from 'next/font/google'
 import Link from 'next/link'
 import MarkProof from '@/components/proof/MarkProof'
 import ProofButton from '@/components/proof/ProofButton'
+
+// This route sits outside the [locale] segment (deliberately English-only
+// developer documentation — see the redirect comment in
+// src/app/[locale]/for-llms/page.tsx) and the root layout is a bare
+// passthrough with no <html>/<body> of its own (see src/app/layout.tsx), so
+// this page — unlike the locale-scoped pages — is responsible for rendering
+// its own complete HTML document, fonts included. Without this, the page had
+// no <html>/<body> anywhere in its render tree at all (a genuine, previously
+// unnoticed bug — Next.js's own dev overlay flags it as a runtime error) and
+// silently fell back to system fonts instead of the site's actual typeface,
+// since the --f-display/--f-mono variables normally come from
+// [locale]/layout.tsx's next/font instances, which this route never reaches.
+const archivo = Archivo({ subsets: ['latin'], variable: '--f-display', display: 'swap' })
+const spaceMono = Space_Mono({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  variable: '--f-mono',
+  display: 'swap',
+})
 
 export const metadata = {
   title: 'Schema Reference — Proof',
@@ -159,6 +180,16 @@ function Tag({
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function ForLlmsPage() {
+  return (
+    <html lang="en" className={`${archivo.variable} ${spaceMono.variable}`}>
+      <body>
+        <ForLlmsContent />
+      </body>
+    </html>
+  )
+}
+
+function ForLlmsContent() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--c-paper)' }}>
       {/* Nav */}
@@ -436,6 +467,7 @@ export default function ForLlmsPage() {
                 ['linkedin', 'Uses LinkedIn icon'],
                 ['github', 'Uses GitHub icon'],
                 ['medium', 'Uses Medium icon'],
+                ['facebook', 'Uses Facebook icon'],
                 ['web', 'Generic globe icon'],
               ].map(([t, d]) => (
                 <div
@@ -460,6 +492,10 @@ export default function ForLlmsPage() {
                 </div>
               ))}
             </div>
+            <p style={{ fontSize: 12, color: 'var(--c-faint)', marginTop: 12 }}>
+              The visual editor&apos;s own type picker only offers 6 of these (no medium or
+              facebook) — writing JSON directly gets you the full set above.
+            </p>
           </div>
         </Section>
 
@@ -498,7 +534,16 @@ export default function ForLlmsPage() {
                   ['awards', 'awards', 'array'],
                   ['side_projects', 'side_projects', 'array'],
                   ['contact', 'identity.contact', 'sidebar only — renders contact list'],
-                  ['core_strengths', 'core_strengths', 'sidebar only — string[] of bullet points'],
+                  [
+                    'core_strengths',
+                    'core_strengths',
+                    'string[] of short strings, rendered as pills. Available on every template — not sidebar-only. Section title is translated (en/es/de/fr).',
+                  ],
+                  [
+                    'leadership_profile',
+                    'leadership_profile',
+                    'single object, not an array: { subtitle?, highlights? }. No title/name — renders under a fixed, translated heading.',
+                  ],
                 ].map(([id, key, note]) => (
                   <tr
                     key={id}
@@ -531,8 +576,11 @@ export default function ForLlmsPage() {
             </table>
           </div>
           <p style={{ fontSize: 12, color: 'var(--c-faint)', marginTop: '1rem' }}>
-            Custom sections: any top-level key not listed above is rendered generically (supports
-            strings, string arrays, and arrays of objects with title/subtitle/description).
+            Custom sections: any top-level key not listed above is rendered generically under a
+            heading made from the key name. Supported shapes: a plain string; a string[] (rendered
+            as bullets); an array of objects with title (or name)/subtitle/period and either
+            highlights (string[]) or description; or a single object (not an array) with subtitle
+            and either highlights or description — the same shape leadership_profile uses.
           </p>
         </Section>
 
@@ -561,7 +609,7 @@ export default function ForLlmsPage() {
               name="header"
               type="object"
               req
-              desc='Controls the header style. For default/minimal: {"style": "split" | "stacked"}. For modern: {"style": "band"}. For sidebar: {"style": "sidebar"}.'
+              desc='Always required as {"style": "split" | "stacked"} — the import validator rejects any other value — but only the default template actually reads it, toggling between a side-by-side and a stacked name/headline/contact header. Every other template (minimal, modern, sidebar, and the rest) has a single fixed header layout and silently ignores this field, so pick either value for them; it has no visible effect.'
             />
             <Field
               name="sections"
@@ -765,11 +813,10 @@ export default function ForLlmsPage() {
                   [
                     'font_family',
                     'select',
-                    'New Computer Modern, Libertinus Serif, Helvetica Neue, Optima, Georgia',
+                    'New Computer Modern, EB Garamond, Crimson Pro, Lato, Source Sans 3',
                     'New Computer Modern',
                   ],
                   ['name_size', 'number', '12 – 24 pt', '17'],
-                  ['headline_size', 'number', '8 – 14 pt', '10'],
                   ['entry_size', 'number', '8.5 – 12 pt', '9.5'],
                   ['body_size', 'number', '7.5 – 11 pt', '8.5'],
                   ['section_heading_size', 'number', '6 – 10 pt', '7.5'],
@@ -779,7 +826,6 @@ export default function ForLlmsPage() {
                   ['line_height', 'number', '0.5 – 1.2 em', '0.7'],
                   ['section_pre', 'number', '0.2 – 0.9 em', '0.5'],
                   ['section_post', 'number', '0.05 – 0.4 em', '0.2'],
-                  ['section_rule_gap', 'number', '0 – 0.5 em', '0.2'],
                   ['show_footer', 'string', '"true" | "false"', '"false"'],
                   ['show_qr', 'string', '"true" | "false"', '"false"'],
                   ['qr_url', 'string', 'any URL', '""'],
@@ -810,6 +856,19 @@ export default function ForLlmsPage() {
               </tbody>
             </table>
           </div>
+          <p
+            style={{
+              fontSize: 12,
+              color: 'var(--c-faint)',
+              marginTop: '-1rem',
+              marginBottom: '1.5rem',
+            }}
+          >
+            section_pre / section_post aren&apos;t in a shared param list technically — every
+            template declares them individually — but all 10 use the same range shown above except
+            sidebar, which widens both (see its own table below). headline_size and section_rule_gap
+            are template-specific, not universal; see the per-template table next.
+          </p>
 
           <p
             style={{
@@ -821,8 +880,15 @@ export default function ForLlmsPage() {
               marginBottom: '0.75rem',
             }}
           >
-            Template-specific — <Tag color="blue">default</Tag> &amp;{' '}
-            <Tag color="blue">minimal</Tag>
+            accent_color — every template, different default per template
+          </p>
+          <p style={{ fontSize: 12, color: 'var(--c-sub)', marginBottom: '0.75rem' }}>
+            All 10 templates declare an <code>accent_color</code> param under this exact key —
+            it&apos;s not shared/universal in the schema sense (each template sets its own range and
+            default), but every template has one. 7 of the 10 also have <code>headline_size</code>{' '}
+            (8–14pt, default 10) — all except minimal, sidebar, and editorial.{' '}
+            <code>section_rule_gap</code> (0–0.5em, default 0.2) exists on only default, sidebar,
+            and timeline.
           </p>
           <div style={{ overflowX: 'auto', marginBottom: '1.5rem' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
@@ -837,85 +903,39 @@ export default function ForLlmsPage() {
                     textAlign: 'left',
                   }}
                 >
-                  <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>Key</th>
-                  <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>Default</th>
-                  <th style={{ paddingBottom: 8, fontWeight: 600 }}>Purpose</th>
-                </tr>
-              </thead>
-              <tbody style={{ fontFamily: 'var(--f-mono)' }}>
-                <tr style={{ borderTop: '1px solid var(--c-line2)', color: 'var(--c-ink2)' }}>
-                  <td style={{ padding: '6px 16px 6px 0', color: 'var(--c-accent-deep)' }}>
-                    accent_color
-                  </td>
-                  <td style={{ padding: '6px 16px 6px 0' }}>#1a56db</td>
-                  <td
-                    style={{
-                      padding: '6px 0',
-                      fontFamily: 'var(--f-display)',
-                      fontSize: 11,
-                      color: 'var(--c-sub)',
-                    }}
-                  >
-                    Hyperlinks and section accents
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <p
-            style={{
-              fontFamily: 'var(--f-mono)',
-              fontSize: 10,
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              color: 'var(--c-faint)',
-              marginBottom: '0.75rem',
-            }}
-          >
-            Template-specific — <Tag color="green">modern</Tag>
-          </p>
-          <div style={{ overflowX: 'auto', marginBottom: '1.5rem' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
-              <thead>
-                <tr
-                  style={{
-                    fontFamily: 'var(--f-mono)',
-                    fontSize: 10,
-                    letterSpacing: '0.16em',
-                    textTransform: 'uppercase',
-                    color: 'var(--c-faint)',
-                    textAlign: 'left',
-                  }}
-                >
-                  <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>Key</th>
-                  <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>Default</th>
-                  <th style={{ paddingBottom: 8, fontWeight: 600 }}>Purpose</th>
+                  <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>Template</th>
+                  <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>
+                    accent_color default
+                  </th>
+                  <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>
+                    headline_size
+                  </th>
+                  <th style={{ paddingBottom: 8, fontWeight: 600 }}>section_rule_gap</th>
                 </tr>
               </thead>
               <tbody style={{ fontFamily: 'var(--f-mono)' }}>
                 {[
-                  ['header_bg', '#111827', 'Dark band header background'],
-                  ['accent', '#3b82f6', 'Hyperlinks and accent elements'],
-                ].map(([k, d, p]) => (
+                  ['default', '#1a56db', 'yes', 'yes'],
+                  ['minimal', '#1a56db', '—', '—'],
+                  ['modern', '#3b82f6', 'yes', '—'],
+                  ['sidebar', '#1a56db', '—', 'yes'],
+                  ['compact', '#334155', 'yes', '—'],
+                  ['banner', '#2bb0a4', 'yes', '—'],
+                  ['timeline', '#0f766e', 'yes', 'yes'],
+                  ['academic', '#1a56db', 'yes', '—'],
+                  ['tech', '#0e9f6e', 'yes', '—'],
+                  ['editorial', '#9b3a2e', '—', '—'],
+                ].map(([tpl, hex, hs, srg]) => (
                   <tr
-                    key={k}
+                    key={tpl}
                     style={{ borderTop: '1px solid var(--c-line2)', color: 'var(--c-ink2)' }}
                   >
                     <td style={{ padding: '6px 16px 6px 0', color: 'var(--c-accent-deep)' }}>
-                      {k}
+                      {tpl}
                     </td>
-                    <td style={{ padding: '6px 16px 6px 0' }}>{d}</td>
-                    <td
-                      style={{
-                        padding: '6px 0',
-                        fontFamily: 'var(--f-display)',
-                        fontSize: 11,
-                        color: 'var(--c-sub)',
-                      }}
-                    >
-                      {p}
-                    </td>
+                    <td style={{ padding: '6px 16px 6px 0' }}>{hex}</td>
+                    <td style={{ padding: '6px 16px 6px 0', color: 'var(--c-sub)' }}>{hs}</td>
+                    <td style={{ padding: '6px 0', color: 'var(--c-sub)' }}>{srg}</td>
                   </tr>
                 ))}
               </tbody>
@@ -932,7 +952,70 @@ export default function ForLlmsPage() {
               marginBottom: '0.75rem',
             }}
           >
+            Template-specific — <Tag color="green">banner</Tag>
+          </p>
+          <div style={{ overflowX: 'auto', marginBottom: '1.5rem' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
+              <thead>
+                <tr
+                  style={{
+                    fontFamily: 'var(--f-mono)',
+                    fontSize: 10,
+                    letterSpacing: '0.16em',
+                    textTransform: 'uppercase',
+                    color: 'var(--c-faint)',
+                    textAlign: 'left',
+                  }}
+                >
+                  <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>Key</th>
+                  <th style={{ paddingBottom: 8, paddingRight: 16, fontWeight: 600 }}>Default</th>
+                  <th style={{ paddingBottom: 8, fontWeight: 600 }}>Purpose</th>
+                </tr>
+              </thead>
+              <tbody style={{ fontFamily: 'var(--f-mono)' }}>
+                {[['header_bg', '#243b53', 'Dark band header background — banner only']].map(
+                  ([k, d, p]) => (
+                    <tr
+                      key={k}
+                      style={{ borderTop: '1px solid var(--c-line2)', color: 'var(--c-ink2)' }}
+                    >
+                      <td style={{ padding: '6px 16px 6px 0', color: 'var(--c-accent-deep)' }}>
+                        {k}
+                      </td>
+                      <td style={{ padding: '6px 16px 6px 0' }}>{d}</td>
+                      <td
+                        style={{
+                          padding: '6px 0',
+                          fontFamily: 'var(--f-display)',
+                          fontSize: 11,
+                          color: 'var(--c-sub)',
+                        }}
+                      >
+                        {p}
+                      </td>
+                    </tr>
+                  ),
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          <p
+            style={{
+              fontFamily: 'var(--f-mono)',
+              fontSize: 10,
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: 'var(--c-faint)',
+              marginBottom: '0.75rem',
+            }}
+          >
             Template-specific — <Tag>sidebar</Tag>
+          </p>
+          <p style={{ fontSize: 12, color: 'var(--c-sub)', marginBottom: '0.75rem' }}>
+            Sidebar also widens its shared section_pre/section_post ranges: 0.2–1.5em (default 0.5)
+            and 0.05–0.8em (default 0.2) respectively, instead of the 0.2–0.9 / 0.05–0.4 every other
+            template uses.
           </p>
           <div style={{ overflowX: 'auto', marginBottom: '1rem' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
@@ -958,6 +1041,7 @@ export default function ForLlmsPage() {
                   ['sidebar_accent', '#5b9bd5', 'Sidebar section heading colour'],
                   ['sidebar_link_color', '#5b9bd5', 'Links and icons in the sidebar'],
                   ['sidebar_text', '#bcc8d4', 'Body text in the sidebar'],
+                  ['sidebar_ink', '#ffffff', 'Name and entry-title colour in the sidebar'],
                   ['sidebar_width', '6.5', 'Sidebar width in cm (4.5 – 9.0)'],
                   ['accent_color', '#1a56db', 'Links in the main column'],
                 ].map(([k, d, p]) => (
@@ -996,14 +1080,31 @@ export default function ForLlmsPage() {
               marginBottom: '0.75rem',
             }}
           >
-            Style embedded in layout — example
+            Style embedded in layout — example (banner template)
+          </p>
+          <p style={{ fontSize: 12, color: 'var(--c-sub)', marginBottom: '0.75rem' }}>
+            <code
+              style={{
+                fontFamily: 'var(--f-mono)',
+                fontSize: 11,
+                background: 'var(--c-card)',
+                padding: '2px 6px',
+                borderRadius: 3,
+                color: 'var(--c-ink)',
+              }}
+            >
+              header.style
+            </code>{' '}
+            is still required by the schema even though banner ignores it (see §3) — pick either
+            value.
           </p>
           <Code>{`{
-  "header": { "style": "band" },
+  "header": { "style": "split" },
   "style": {
-    "font_family":    "Helvetica Neue",
+    "font_family":    "Lato",
     "header_bg":      "#0f172a",
-    "accent":         "#f59e0b",
+    "accent_color":   "#f59e0b",
+    "headline_size":  11,
     "body_size":      9.0,
     "line_height":    0.75,
     "show_footer":    "true",
@@ -1022,7 +1123,7 @@ export default function ForLlmsPage() {
             {[
               {
                 title: 'Collect contact types carefully',
-                body: 'Use the exact type strings (email, phone, location, linkedin, github, medium, web). The "key" field is the display label — it can be anything ("Email", "E-mail", "Work email" all render fine). The "value" for linkedin/github should be the full URL or just the path (both work).',
+                body: 'Use the exact type strings (email, phone, location, linkedin, github, medium, facebook, web). The "key" field is the display label — it can be anything ("Email", "E-mail", "Work email" all render fine). The "value" for linkedin/github should be the full URL or just the path (both work).',
               },
               {
                 title: 'summary uses \\n\\n for paragraphs',
