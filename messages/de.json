@@ -337,7 +337,7 @@
       },
       "noWarranty": {
         "title": "Keine Gewährleistung",
-        "p1": "Proof wird „wie besehen“ bereitgestellt, ohne jegliche Gewährleistung, weder ausdrücklich noch stillschweigend — einschließlich keiner Zusicherung von Genauigkeit, Verfügbarkeit oder Eignung für einen bestimmten Zweck. Die Nutzung erfolgt auf eigenes Risiko. Wir haften nicht für Schäden, Datenverlust oder andere Probleme, die aus der Nutzung des Tools entstehen, einschließlich damit erstellter Lebensläufe — prüfen Sie Ihren Lebenslauf stets selbst, bevor Sie ihn irgendwohin senden.",
+        "p1": "Wir versprechen nicht, dass Proof fehlerfrei, immer verfügbar oder genau das Richtige für Sie ist — Sie nutzen es auf eigenes Risiko. Wir übernehmen keine Verantwortung für Schäden, Datenverlust oder andere Probleme, die durch die Nutzung entstehen, einschließlich der damit erstellten Lebensläufe. Prüfen Sie Ihren Lebenslauf immer selbst, bevor Sie ihn irgendwohin senden.",
         "p2": "Dies ist ein kostenloses Open-Source-Projekt, das von Freiwilligen nach bestem Wissen und Gewissen gepflegt wird — kein kommerzieller Dienst mit garantiertem Support, SLAs oder Verfügbarkeit."
       }
     }

@@ -337,7 +337,7 @@
       },
       "noWarranty": {
         "title": "No warranty",
-        "p1": "Proof is provided \"as is,\" with no warranty of any kind, express or implied — including no guarantee of accuracy, uptime, or fitness for a particular purpose. Use it at your own risk. We aren't liable for any damages, data loss, or other issues arising from your use of the tool, including CVs generated with it — always review your CV yourself before sending it anywhere.",
+        "p1": "We don't promise Proof is bug-free, always available, or a perfect fit for what you need — you use it at your own risk. We aren't responsible for any damage, lost data, or other problems that come from using it, including CVs it generates for you. Always double-check your CV yourself before sending it anywhere.",
         "p2": "This is a free, open-source project maintained on a best-effort basis by volunteers, not a commercial service with guaranteed support, SLAs, or uptime."
       }
     }

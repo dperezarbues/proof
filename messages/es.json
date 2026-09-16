@@ -337,7 +337,7 @@
       },
       "noWarranty": {
         "title": "Sin garantía",
-        "p1": "Proof se ofrece «tal cual», sin garantía de ningún tipo, expresa o implícita, incluyendo ninguna garantía de precisión, disponibilidad o idoneidad para un fin concreto. Lo usa bajo su propio riesgo. No nos hacemos responsables de ningún daño, pérdida de datos u otro problema derivado del uso de la herramienta, incluidos los CV generados con ella — revise siempre su CV usted mismo antes de enviarlo a cualquier sitio.",
+        "p1": "No prometemos que Proof esté libre de errores, disponible siempre o sea perfecto para lo que necesita — lo usa bajo su propio riesgo. No nos responsabilizamos de ningún daño, pérdida de datos u otro problema derivado de su uso, incluidos los CV que genera. Revise siempre su CV usted mismo antes de enviarlo a cualquier sitio.",
         "p2": "Este es un proyecto gratuito y de código abierto mantenido de forma voluntaria y según disponibilidad, no un servicio comercial con soporte garantizado, SLA ni disponibilidad garantizada."
       }
     }
