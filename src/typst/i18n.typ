@@ -23,6 +23,7 @@
     de: "Führungsprofil",
     fr: "Profil de Leadership",
   ),
+  contact: (en: "Contact", es: "Contacto", de: "Kontakt", fr: "Contact"),
 )
 
 /// Looks up the translated title for a known section id. Falls back to the

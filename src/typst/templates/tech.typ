@@ -1,6 +1,7 @@
 #import "../styles.typ": *
 #import "../components.typ": *
-#import "../sections.typ": data
+#import "../sections.typ": data, lang
+#import "../i18n.typ": section-title
 
 #let id = data.identity
 #let layout-raw  = sys.inputs.at("layout", default: "default")
@@ -55,7 +56,7 @@
 
 // ── Section render functions ───────────────────────────────────────────────────
 #let render-summary(pre: section-pre, post: section-post) = [
-  #tech-section("summary", pre: pre, post: post, id: "summary")
+  #tech-section(section-title("summary", lang), pre: pre, post: post, id: "summary")
   #text(size: fs-md)[
     #for (i, para) in data.summary.split("\n\n").enumerate() {
       if i > 0 { v(sp-xl) }
@@ -65,7 +66,7 @@
 ]
 
 #let render-experience(pre: section-pre, post: section-post) = [
-  #tech-section("experience", pre: pre, post: post, id: "experience")
+  #tech-section(section-title("experience", lang), pre: pre, post: post, id: "experience")
   #for (ji, job) in data.experience.enumerate() {
     if ji > 0 { v(sp-xl) }
     block(breakable: false)[
@@ -96,7 +97,7 @@
 
 // Skills: flat tag grid across all groups
 #let render-skills(pre: section-pre, post: section-post) = [
-  #tech-section("skills", pre: pre, post: post, id: "skills")
+  #tech-section(section-title("skills", lang), pre: pre, post: post, id: "skills")
   #set par(justify: false)
   #let all-entries = data.skills.map(g => g.entries).flatten()
   #for entry in all-entries {
@@ -106,7 +107,7 @@
 ]
 
 #let render-education(pre: section-pre, post: section-post) = [
-  #tech-section("education", pre: pre, post: post, id: "education")
+  #tech-section(section-title("education", lang), pre: pre, post: post, id: "education")
   #for (i, edu) in data.education.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -123,7 +124,7 @@
 ]
 
 #let render-languages(pre: section-pre, post: section-post) = [
-  #tech-section("languages", pre: pre, post: post, id: "languages")
+  #tech-section(section-title("languages", lang), pre: pre, post: post, id: "languages")
   #set par(justify: false)
   #for (i, lang) in data.languages.enumerate() {
     if i > 0 { h(gap-lg) }
@@ -134,7 +135,7 @@
 ]
 
 #let render-certifications(pre: section-pre, post: section-post) = [
-  #tech-section("certifications", pre: pre, post: post, id: "certifications")
+  #tech-section(section-title("certifications", lang), pre: pre, post: post, id: "certifications")
   #for (i, cert) in data.certifications.enumerate() {
     if i > 0 { v(sp-xs) }
     [
@@ -145,7 +146,7 @@
 ]
 
 #let render-awards(pre: section-pre, post: section-post) = [
-  #tech-section("awards", pre: pre, post: post, id: "awards")
+  #tech-section(section-title("awards", lang), pre: pre, post: post, id: "awards")
   #for (i, award) in data.awards.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -162,7 +163,7 @@
 ]
 
 #let render-side-projects(pre: section-pre, post: section-post) = [
-  #tech-section("projects", pre: pre, post: post, id: "side_projects")
+  #tech-section(section-title("side_projects", lang), pre: pre, post: post, id: "side_projects")
   #for (i, proj) in data.side_projects.enumerate() {
     if i > 0 { v(sp-xl) }
     block(breakable: false)[

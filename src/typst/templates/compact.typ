@@ -1,6 +1,7 @@
 #import "../styles.typ": *
 #import "../components.typ": *
-#import "../sections.typ": data
+#import "../sections.typ": data, lang
+#import "../i18n.typ": section-title
 
 #let id = data.identity
 #let layout-raw  = sys.inputs.at("layout", default: "default")
@@ -48,7 +49,7 @@
 ]
 
 #let render-experience(pre: section-pre, post: section-post) = [
-  #compact-section("Experience", pre: pre, post: post, id: "experience")
+  #compact-section(section-title("experience", lang), pre: pre, post: post, id: "experience")
   #for (ji, job) in data.experience.enumerate() {
     if ji > 0 { v(sp-xl) }
     block(breakable: false)[
@@ -74,7 +75,7 @@
 ]
 
 #let render-skills(pre: section-pre, post: section-post) = [
-  #compact-section("Skills", pre: pre, post: post, id: "skills")
+  #compact-section(section-title("skills", lang), pre: pre, post: post, id: "skills")
   #for (i, g) in data.skills.enumerate() {
     if i > 0 { v(sp-sm) }
     [
@@ -85,7 +86,7 @@
 ]
 
 #let render-education(pre: section-pre, post: section-post) = [
-  #compact-section("Education", pre: pre, post: post, id: "education")
+  #compact-section(section-title("education", lang), pre: pre, post: post, id: "education")
   #for (i, edu) in data.education.enumerate() {
     if i > 0 { v(sp-sm) }
     block(breakable: false)[
@@ -100,7 +101,7 @@
 ]
 
 #let render-languages(pre: section-pre, post: section-post) = [
-  #compact-section("Languages", pre: pre, post: post, id: "languages")
+  #compact-section(section-title("languages", lang), pre: pre, post: post, id: "languages")
   #set par(justify: false)
   #for lang in data.languages [
     #grid(columns: (1fr, auto),
@@ -110,7 +111,7 @@
 ]
 
 #let render-certifications(pre: section-pre, post: section-post) = [
-  #compact-section("Certifications", pre: pre, post: post, id: "certifications")
+  #compact-section(section-title("certifications", lang), pre: pre, post: post, id: "certifications")
   #for (i, cert) in data.certifications.enumerate() {
     if i > 0 { v(sp-xs) }
     [
@@ -121,7 +122,7 @@
 ]
 
 #let render-awards(pre: section-pre, post: section-post) = [
-  #compact-section("Awards", pre: pre, post: post, id: "awards")
+  #compact-section(section-title("awards", lang), pre: pre, post: post, id: "awards")
   #for (i, award) in data.awards.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -136,7 +137,7 @@
 ]
 
 #let render-side-projects(pre: section-pre, post: section-post) = [
-  #compact-section("Projects", pre: pre, post: post, id: "side_projects")
+  #compact-section(section-title("side_projects", lang), pre: pre, post: post, id: "side_projects")
   #for (i, proj) in data.side_projects.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[

@@ -1,6 +1,7 @@
 #import "../styles.typ": *
 #import "../components.typ": *
-#import "../sections.typ": data
+#import "../sections.typ": data, lang
+#import "../i18n.typ": section-title
 
 #let id = data.identity
 #let layout-raw  = sys.inputs.at("layout", default: "default")
@@ -38,7 +39,7 @@
 
 // ── Section render functions ───────────────────────────────────────────────────
 #let render-summary(pre: section-pre, post: section-post) = [
-  #academic-section("Abstract", pre: pre, post: post, id: "summary")
+  #academic-section(section-title("summary", lang), pre: pre, post: post, id: "summary")
   #set par(justify: true)
   #align(center)[
     #block(width: 85%)[
@@ -53,7 +54,7 @@
 
 // Experience shown as "Appointments": org first, then title
 #let render-experience(pre: section-pre, post: section-post) = [
-  #academic-section("Appointments", pre: pre, post: post, id: "experience")
+  #academic-section(section-title("experience", lang), pre: pre, post: post, id: "experience")
   #for (ji, job) in data.experience.enumerate() {
     if ji > 0 { v(sp-md) }
     block(breakable: false)[
@@ -74,7 +75,7 @@
 ]
 
 #let render-education(pre: section-pre, post: section-post) = [
-  #academic-section("Education", pre: pre, post: post, id: "education")
+  #academic-section(section-title("education", lang), pre: pre, post: post, id: "education")
   #for (i, edu) in data.education.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -93,7 +94,7 @@
 
 // Side projects shown as "Selected Work" with numbered citations
 #let render-side-projects(pre: section-pre, post: section-post) = [
-  #academic-section("Selected Work", pre: pre, post: post, id: "side_projects")
+  #academic-section(section-title("side_projects", lang), pre: pre, post: post, id: "side_projects")
   #for (i, proj) in data.side_projects.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -107,7 +108,7 @@
 ]
 
 #let render-skills(pre: section-pre, post: section-post) = [
-  #academic-section("Skills", pre: pre, post: post, id: "skills")
+  #academic-section(section-title("skills", lang), pre: pre, post: post, id: "skills")
   #set par(justify: false)
   #let groups = data.skills
   #grid(columns: groups.map(_ => 1fr), column-gutter: skills-gutter, ..groups.map(g => [
@@ -118,7 +119,7 @@
 ]
 
 #let render-languages(pre: section-pre, post: section-post) = [
-  #academic-section("Languages", pre: pre, post: post, id: "languages")
+  #academic-section(section-title("languages", lang), pre: pre, post: post, id: "languages")
   #set par(justify: false)
   #for (i, lang) in data.languages.enumerate() {
     if i > 0 { [; ] }
@@ -129,7 +130,7 @@
 ]
 
 #let render-certifications(pre: section-pre, post: section-post) = [
-  #academic-section("Certifications", pre: pre, post: post, id: "certifications")
+  #academic-section(section-title("certifications", lang), pre: pre, post: post, id: "certifications")
   #for (i, cert) in data.certifications.enumerate() {
     if i > 0 { v(sp-xs) }
     [
@@ -140,7 +141,7 @@
 ]
 
 #let render-awards(pre: section-pre, post: section-post) = [
-  #academic-section("Awards & Grants", pre: pre, post: post, id: "awards")
+  #academic-section(section-title("awards", lang), pre: pre, post: post, id: "awards")
   #for (i, award) in data.awards.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[

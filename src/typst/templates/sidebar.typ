@@ -1,6 +1,7 @@
 #import "../styles.typ": *
 #import "../components.typ": *
 #import "../sections.typ": *
+#import "../i18n.typ": section-title
 
 #let id = data.identity
 
@@ -63,7 +64,7 @@
 // ── Per-sidebar-section render functions ──────────────────────────────────────
 
 #let render-sb-contact(pre: section-pre, post: section-post) = [
-  #sb-section("Contact", id: "contact", pre: pre, post: post)
+  #sb-section(section-title("contact", lang), id: "contact", pre: pre, post: post)
   #set text(size: sb-fs-xs, fill: sb-text)
   #for entry in id.contact [
     #render-contact-entry(entry, show-icons: show-contact-icons, show-labels: show-contact-labels, icon-fill: sb-link) \
@@ -71,7 +72,7 @@
 ]
 
 #let render-sb-skills(pre: section-pre, post: section-post) = [
-  #sb-section("Skills", id: "skills", pre: pre, post: post)
+  #sb-section(section-title("skills", lang), id: "skills", pre: pre, post: post)
   #let dot = " · "
   #for (i, g) in data.skills.enumerate() {
     if i > 0 { v(sp-sm) }
@@ -83,7 +84,7 @@
 ]
 
 #let render-sb-languages(pre: section-pre, post: section-post) = [
-  #sb-section("Languages", id: "languages", pre: pre, post: post)
+  #sb-section(section-title("languages", lang), id: "languages", pre: pre, post: post)
   #set text(size: sb-fs-xs)
   #for lang in data.languages [
     #text(weight: "bold", fill: sb-ink)[#lang.title]#h(sp-sm)#text(fill: sb-text)[#lang.at("subtitle", default: "")] \
@@ -91,7 +92,7 @@
 ]
 
 #let render-sb-certifications(pre: section-pre, post: section-post) = [
-  #sb-section("Certifications", id: "certifications", pre: pre, post: post)
+  #sb-section(section-title("certifications", lang), id: "certifications", pre: pre, post: post)
   #for (i, cert) in data.certifications.enumerate() {
     if i > 0 { v(sp-xs) }
     [
@@ -102,7 +103,7 @@
 ]
 
 #let render-sb-summary(pre: section-pre, post: section-post) = [
-  #sb-section("Summary", id: "summary", pre: pre, post: post)
+  #sb-section(section-title("summary", lang), id: "summary", pre: pre, post: post)
   #set text(size: sb-fs-xs, fill: sb-text)
   #set par(justify: true)
   #for (i, para) in data.summary.split("\n\n").enumerate() {
@@ -112,7 +113,7 @@
 ]
 
 #let render-sb-education(pre: section-pre, post: section-post) = [
-  #sb-section("Education", id: "education", pre: pre, post: post)
+  #sb-section(section-title("education", lang), id: "education", pre: pre, post: post)
   #for (i, edu) in data.education.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -133,7 +134,7 @@
 ]
 
 #let render-sb-awards(pre: section-pre, post: section-post) = [
-  #sb-section("Awards", id: "awards", pre: pre, post: post)
+  #sb-section(section-title("awards", lang), id: "awards", pre: pre, post: post)
   #for (i, award) in data.awards.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -151,7 +152,7 @@
 ]
 
 #let render-sb-side-projects(pre: section-pre, post: section-post) = [
-  #sb-section("Side Projects", id: "side_projects", pre: pre, post: post)
+  #sb-section(section-title("side_projects", lang), id: "side_projects", pre: pre, post: post)
   #for (i, proj) in data.side_projects.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -171,7 +172,7 @@
 #let render-sb-core-strengths(pre: section-pre, post: section-post) = {
   if "core_strengths" not in data { return }
   [
-    #sb-section("Core Strengths", id: "core_strengths", pre: pre, post: post)
+    #sb-section(section-title("core_strengths", lang), id: "core_strengths", pre: pre, post: post)
     #for s in data.core_strengths [
       #text(size: sb-fs-2xs, fill: sb-text)[– #s] \
     ]
