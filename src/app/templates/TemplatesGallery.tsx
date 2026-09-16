@@ -19,6 +19,7 @@ import OnboardingModal from './OnboardingModal'
 import PdfPreview from './PdfPreview'
 import type { SectionDef } from './section-defs'
 import { DEFAULT_SECTIONS } from './section-defs'
+import { TAB_CONFIG } from './tab-config'
 import type { CompileState, Layout, Tab, Template } from './types'
 
 const EditorShell = dynamic(() => import('./EditorShell'), { ssr: false })
@@ -489,14 +490,7 @@ export default function TemplatesGallery({
           className="md:hidden shrink-0 flex h-14"
           style={{ borderTop: '1px solid var(--c-line)', background: 'var(--c-paper)' }}
         >
-          {(
-            [
-              ['data', t('tabData')],
-              ['template', t('tabTemplate')],
-              ['layout', t('tabLayout')],
-              ['style', t('tabStyle')],
-            ] as [Tab, string][]
-          ).map(([tab, label], i) => {
+          {TAB_CONFIG.map(({ id: tab, labelKey }, i) => {
             const on = mobilePanel && activeTab === tab
             return (
               <button
@@ -510,7 +504,7 @@ export default function TemplatesGallery({
                 <span className="font-mono text-[9px] tracking-wider">
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <span className="font-bold text-[10px] uppercase tracking-wide">{label}</span>
+                <span className="font-bold text-[10px] uppercase tracking-wide">{t(labelKey)}</span>
               </button>
             )
           })}

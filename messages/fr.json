@@ -28,28 +28,44 @@
     "h2Line1": "Apportez",
     "h2Line2": "votre IA.",
     "body": "La plupart des outils enferment vos données derrière un formulaire. Proof vous remet un schéma ouvert et s'efface — utilisez l'IA en laquelle vous avez déjà confiance.",
-    "step1Title": "Télécharger le schéma",
-    "step1Body": "Un seul fichier JSON documenté — le plan d'un CV complet : identité, expérience, compétences, et tout le reste.",
-    "step2Title": "Générer dans n'importe quelle IA",
-    "step2Body": "Collez-le dans l'IA de votre choix et décrivez-vous. Aucun prompt à copier, aucun modèle imposé. La conversation vous appartient.",
-    "step3Title": "Importer & peaufiner",
-    "step3Body": "Redéposez le JSON. Choisissez un modèle, peaufinez les détails et compilez en PDF — entièrement sur votre appareil.",
     "worksWith": "Compatible avec",
     "openFormat": "Format ouvert",
-    "downloadSchema": "↓ Télécharger le schéma"
+    "downloadSchema": "↓ Télécharger le schéma",
+    "steps": [
+      {
+        "title": "Télécharger le schéma",
+        "body": "Un seul fichier JSON documenté — le plan d'un CV complet : identité, expérience, compétences, et tout le reste."
+      },
+      {
+        "title": "Générer dans n'importe quelle IA",
+        "body": "Collez-le dans l'IA de votre choix et décrivez-vous. Aucun prompt à copier, aucun modèle imposé. La conversation vous appartient."
+      },
+      {
+        "title": "Importer & peaufiner",
+        "body": "Redéposez le JSON. Choisissez un modèle, peaufinez les détails et compilez en PDF — entièrement sur votre appareil."
+      }
+    ]
   },
   "makeYours": {
     "badge": "Puis faites-en le vôtre",
     "h2Line1": "Peaufinez-le",
     "h2Line2": "à la perfection.",
     "body": "Un éditeur en direct avec aperçu PDF en temps réel. Réorganisez, restylisez et recompilez jusqu'à ce que chaque ligne soit exactement là où vous le souhaitez.",
-    "feature1Title": "Dix modèles professionnels",
-    "feature1Body": "Changez de mise en page instantanément — d'autres arrivent bientôt.",
-    "feature2Title": "Glisser pour réorganiser",
-    "feature2Body": "Réorganisez les sections, activez les sauts de page.",
-    "feature3Title": "Personnaliser le style",
-    "feature3Body": "Couleur d'accentuation, police, espacement — tout en direct.",
-    "openEditor": "Ouvrir l'éditeur →"
+    "openEditor": "Ouvrir l'éditeur →",
+    "features": [
+      {
+        "title": "Dix modèles professionnels",
+        "body": "Changez de mise en page instantanément — d'autres arrivent bientôt."
+      },
+      {
+        "title": "Glisser pour réorganiser",
+        "body": "Réorganisez les sections, activez les sauts de page."
+      },
+      {
+        "title": "Personnaliser le style",
+        "body": "Couleur d'accentuation, police, espacement — tout en direct."
+      }
+    ]
   },
   "templates": {
     "badge": "Modèles",
@@ -60,10 +76,12 @@
     "h2Line1": "Zéro",
     "h2Line2": "stockage.",
     "body": "La compilation s'exécute dans votre navigateur via WebAssembly. Pas de serveur, pas de base de données, pas de journaux, pas de compte. Votre CV — et la conversation IA qui l'a créé — restent entièrement avec vous.",
-    "chip1": "Pas de compte",
-    "chip2": "Pas de cloud",
-    "chip3": "Pas de suivi",
-    "chip4": "Open source"
+    "chips": [
+      "Pas de compte",
+      "Pas de cloud",
+      "Pas de suivi",
+      "Open source"
+    ]
   },
   "openSource": {
     "badge": "Open source",
@@ -106,18 +124,26 @@
   "onboarding": {
     "title": "Bienvenue sur Proof",
     "subtitle": "Un éditeur de CV respectueux de la vie privée. Vos données sont stockées dans ce navigateur — rien n'est enregistré côté serveur.",
-    "step1Title": "Ajoutez votre CV",
-    "step1Body": "Utilisez « + Nouveau » pour créer un CV à partir du modèle, ou « ↑ Importer » pour charger un fichier JSON existant. Vous pouvez avoir plusieurs CV et passer de l'un à l'autre.",
-    "step2Title": "Choisissez un modèle & personnalisez",
-    "step2Body": "Sélectionnez un modèle dans la liste. Le panneau central vous permet de réorganiser les sections, d'activer les sauts de page et d'ajuster les couleurs, polices et espacements.",
-    "step3Title": "Générez votre PDF",
-    "step3Body": "Cliquez sur « Générer le PDF » dans le panneau éditeur. Votre CV est compilé avec Typst et le PDF apparaît dans l'aperçu. Téléchargez-le quand vous êtes satisfait.",
     "sharedComputer": "Je suis sur un ordinateur partagé",
     "sharedComputerNote": "Les données seront stockées en session et effacées automatiquement à la fermeture de cet onglet.",
     "confirmEnablePrivate": "Ceci déplace vos CV enregistrés vers le stockage temporaire de cet onglet. Ils seront définitivement supprimés dès la fermeture de cet onglet. Continuer ?",
     "confirmDisablePrivate": "Ceci enregistre vos CV dans le stockage permanent de ce navigateur, où ils resteront après la fermeture de l'onglet. Ne faites pas cela sur un ordinateur partagé ou public. Continuer ?",
     "reopenHint": "Rouvrir via le bouton ?",
-    "getStarted": "Commencer"
+    "getStarted": "Commencer",
+    "steps": [
+      {
+        "title": "Ajoutez votre CV",
+        "body": "Utilisez « + Nouveau » pour créer un CV à partir du modèle, ou « ↑ Importer » pour charger un fichier JSON existant. Vous pouvez avoir plusieurs CV et passer de l'un à l'autre."
+      },
+      {
+        "title": "Choisissez un modèle & personnalisez",
+        "body": "Sélectionnez un modèle dans la liste. Le panneau central vous permet de réorganiser les sections, d'activer les sauts de page et d'ajuster les couleurs, polices et espacements."
+      },
+      {
+        "title": "Générez votre PDF",
+        "body": "Cliquez sur « Générer le PDF » dans le panneau éditeur. Votre CV est compilé avec Typst et le PDF apparaît dans l'aperçu. Téléchargez-le quand vous êtes satisfait."
+      }
+    ]
   },
   "cvModal": {
     "titleNew": "Nouveau CV",

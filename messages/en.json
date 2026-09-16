@@ -28,28 +28,44 @@
     "h2Line1": "Bring your",
     "h2Line2": "own AI.",
     "body": "Most builders trap your data behind a form. Proof hands you an open schema and gets out of the way — use the AI you already trust.",
-    "step1Title": "Download the schema",
-    "step1Body": "One documented JSON file — the blueprint for a complete CV: identity, experience, skills, the lot.",
-    "step2Title": "Generate in any AI",
-    "step2Body": "Paste it into your AI of choice and describe yourself. No prompt to copy, no model lock-in. You own the conversation.",
-    "step3Title": "Import & proof",
-    "step3Body": "Drop the JSON back in. Pick a template, fine-tune, and compile to PDF — entirely on your device.",
     "worksWith": "Works with",
     "openFormat": "Open format",
-    "downloadSchema": "↓ Download schema"
+    "downloadSchema": "↓ Download schema",
+    "steps": [
+      {
+        "title": "Download the schema",
+        "body": "One documented JSON file — the blueprint for a complete CV: identity, experience, skills, the lot."
+      },
+      {
+        "title": "Generate in any AI",
+        "body": "Paste it into your AI of choice and describe yourself. No prompt to copy, no model lock-in. You own the conversation."
+      },
+      {
+        "title": "Import & proof",
+        "body": "Drop the JSON back in. Pick a template, fine-tune, and compile to PDF — entirely on your device."
+      }
+    ]
   },
   "makeYours": {
     "badge": "Then make it yours",
     "h2Line1": "Proof it",
     "h2Line2": "to perfection.",
     "body": "A live editor with a real-time PDF preview. Reorder, restyle, and re-compile until every line sits exactly where you want it.",
-    "feature1Title": "Ten pro templates",
-    "feature1Body": "Swap layouts instantly — more on the way.",
-    "feature2Title": "Drag-to-reorder",
-    "feature2Body": "Reorder sections, toggle page breaks.",
-    "feature3Title": "Tune the style",
-    "feature3Body": "Accent, typeface, spacing — all live.",
-    "openEditor": "Open editor →"
+    "openEditor": "Open editor →",
+    "features": [
+      {
+        "title": "Ten pro templates",
+        "body": "Swap layouts instantly — more on the way."
+      },
+      {
+        "title": "Drag-to-reorder",
+        "body": "Reorder sections, toggle page breaks."
+      },
+      {
+        "title": "Tune the style",
+        "body": "Accent, typeface, spacing — all live."
+      }
+    ]
   },
   "templates": {
     "badge": "Templates",
@@ -60,10 +76,12 @@
     "h2Line1": "Zero",
     "h2Line2": "storage.",
     "body": "Compilation runs in your browser via WebAssembly. No server, no database, no logs, no account. Your CV — and the AI conversation that made it — stay entirely with you.",
-    "chip1": "No account",
-    "chip2": "No cloud",
-    "chip3": "No tracking",
-    "chip4": "Open source"
+    "chips": [
+      "No account",
+      "No cloud",
+      "No tracking",
+      "Open source"
+    ]
   },
   "openSource": {
     "badge": "Open source",
@@ -106,18 +124,26 @@
   "onboarding": {
     "title": "Welcome to Proof",
     "subtitle": "A privacy-first CV editor. Your data is stored in this browser — nothing is saved server-side.",
-    "step1Title": "Add your CV",
-    "step1Body": "Use \"+ New\" to create a CV from the template, or \"↑ Import\" to load an existing JSON file. You can have multiple CVs and switch between them.",
-    "step2Title": "Pick a template & customise",
-    "step2Body": "Select a template from the list. The middle panel lets you reorder sections, toggle page breaks, and adjust colors, fonts, and spacing.",
-    "step3Title": "Generate your PDF",
-    "step3Body": "Hit \"Generate PDF\" in the editor panel. Your CV is compiled with Typst and the PDF appears in the preview. Download whenever you're happy.",
     "sharedComputer": "I'm on a shared computer",
     "sharedComputerNote": "Data will be stored in session storage and cleared automatically when this tab closes.",
     "confirmEnablePrivate": "This moves your saved CVs into this tab's temporary storage. They'll be permanently deleted as soon as you close this tab. Continue?",
     "confirmDisablePrivate": "This saves your CVs to this browser's permanent storage, where they'll persist after you close the tab. Don't do this on a shared or public computer. Continue?",
     "reopenHint": "Reopen via the ? button",
-    "getStarted": "Get started"
+    "getStarted": "Get started",
+    "steps": [
+      {
+        "title": "Add your CV",
+        "body": "Use \"+ New\" to create a CV from the template, or \"↑ Import\" to load an existing JSON file. You can have multiple CVs and switch between them."
+      },
+      {
+        "title": "Pick a template & customise",
+        "body": "Select a template from the list. The middle panel lets you reorder sections, toggle page breaks, and adjust colors, fonts, and spacing."
+      },
+      {
+        "title": "Generate your PDF",
+        "body": "Hit \"Generate PDF\" in the editor panel. Your CV is compiled with Typst and the PDF appears in the preview. Download whenever you're happy."
+      }
+    ]
   },
   "cvModal": {
     "titleNew": "New CV",

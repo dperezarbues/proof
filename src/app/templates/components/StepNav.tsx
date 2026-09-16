@@ -1,16 +1,11 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import { TAB_CONFIG } from '../tab-config'
 import type { Tab } from '../types'
 
 export function StepNav({ active, onChange }: { active: Tab; onChange: (t: Tab) => void }) {
   const t = useTranslations('editor')
-  const steps: [Tab, string][] = [
-    ['data', t('tabData')],
-    ['template', t('tabTemplate')],
-    ['layout', t('tabLayout')],
-    ['style', t('tabStyle')],
-  ]
   return (
     <div
       className="flex"
@@ -18,7 +13,7 @@ export function StepNav({ active, onChange }: { active: Tab; onChange: (t: Tab) 
       role="tablist"
       aria-label="Editor steps"
     >
-      {steps.map(([id, label], i) => {
+      {TAB_CONFIG.map(({ id, labelKey }, i) => {
         const on = id === active
         return (
           <button
@@ -45,7 +40,7 @@ export function StepNav({ active, onChange }: { active: Tab; onChange: (t: Tab) 
               className="font-bold text-[12.5px] uppercase tracking-[0.02em]"
               style={{ color: on ? 'var(--c-ink)' : 'var(--c-sub)' }}
             >
-              {label}
+              {t(labelKey)}
             </span>
           </button>
         )

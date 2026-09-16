@@ -35,10 +35,14 @@ test.describe('Template switch does not flash stale content', () => {
     // Slow the whole compile chain way down so the switch's async effect
     // chain (mount effects -> generate() -> isGenerating flips true) takes
     // long enough to sample reliably, instead of racing a sub-frame gap.
-    await page.route('**/wasm/typst-compiler.wasm', async (route) => {
-      await new Promise((r) => setTimeout(r, 1500))
-      await route.continue()
-    })
+    // A network-route delay on the WASM fetch doesn't work here — the
+    // compiler module loads once, eagerly, before this test's first
+    // Generate PDF click even runs, so nothing refetches it on the second
+    // (template-switch-triggered) compile; a route handler registered here
+    // never fires. CPU throttling via CDP slows the actual compile
+    // computation instead, which applies regardless of caching.
+    const client = await page.context().newCDPSession(page)
+    await client.send('Emulation.setCPUThrottlingRate', { rate: 20 })
 
     await page.getByRole('tab', { name: /Template/i }).click()
     await page.getByTestId('template-btn-modern').click()
@@ -61,6 +65,7 @@ test.describe('Template switch does not flash stale content', () => {
       }
       await page.waitForTimeout(10)
     }
+    await client.send('Emulation.setCPUThrottlingRate', { rate: 1 })
     expect(sampledMidSwitch).toBe(true)
   })
 })

@@ -28,28 +28,44 @@
     "h2Line1": "Bringen Sie",
     "h2Line2": "Ihre KI mit.",
     "body": "Die meisten Tools sperren Ihre Daten hinter einem Formular. Proof übergibt Ihnen ein offenes Schema und tritt in den Hintergrund — nutzen Sie die KI, der Sie bereits vertrauen.",
-    "step1Title": "Schema herunterladen",
-    "step1Body": "Eine dokumentierte JSON-Datei — der Bauplan für einen vollständigen Lebenslauf: Identität, Erfahrung, Fähigkeiten und mehr.",
-    "step2Title": "In beliebiger KI generieren",
-    "step2Body": "Fügen Sie es in Ihre bevorzugte KI ein und beschreiben Sie sich. Kein Prompt zu kopieren, kein Modell-Lock-in. Sie steuern das Gespräch.",
-    "step3Title": "Importieren & prüfen",
-    "step3Body": "JSON zurückladen. Vorlage auswählen, feinabstimmen und als PDF kompilieren — vollständig auf Ihrem Gerät.",
     "worksWith": "Kompatibel mit",
     "openFormat": "Offenes Format",
-    "downloadSchema": "↓ Schema herunterladen"
+    "downloadSchema": "↓ Schema herunterladen",
+    "steps": [
+      {
+        "title": "Schema herunterladen",
+        "body": "Eine dokumentierte JSON-Datei — der Bauplan für einen vollständigen Lebenslauf: Identität, Erfahrung, Fähigkeiten und mehr."
+      },
+      {
+        "title": "In beliebiger KI generieren",
+        "body": "Fügen Sie es in Ihre bevorzugte KI ein und beschreiben Sie sich. Kein Prompt zu kopieren, kein Modell-Lock-in. Sie steuern das Gespräch."
+      },
+      {
+        "title": "Importieren & prüfen",
+        "body": "JSON zurückladen. Vorlage auswählen, feinabstimmen und als PDF kompilieren — vollständig auf Ihrem Gerät."
+      }
+    ]
   },
   "makeYours": {
     "badge": "Dann machen Sie es Ihres",
     "h2Line1": "Zur Perfektion",
     "h2Line2": "verfeinert.",
     "body": "Ein Live-Editor mit Echtzeit-PDF-Vorschau. Umsortieren, neu gestalten und neu kompilieren, bis jede Zeile genau dort sitzt, wo Sie sie haben möchten.",
-    "feature1Title": "Zehn professionelle Vorlagen",
-    "feature1Body": "Layouts sofort wechseln — weitere sind in Planung.",
-    "feature2Title": "Per Drag-and-drop sortieren",
-    "feature2Body": "Abschnitte umsortieren, Seitenumbrüche ein- und ausschalten.",
-    "feature3Title": "Stil anpassen",
-    "feature3Body": "Akzentfarbe, Schriftart, Abstände — alles live.",
-    "openEditor": "Editor öffnen →"
+    "openEditor": "Editor öffnen →",
+    "features": [
+      {
+        "title": "Zehn professionelle Vorlagen",
+        "body": "Layouts sofort wechseln — weitere sind in Planung."
+      },
+      {
+        "title": "Per Drag-and-drop sortieren",
+        "body": "Abschnitte umsortieren, Seitenumbrüche ein- und ausschalten."
+      },
+      {
+        "title": "Stil anpassen",
+        "body": "Akzentfarbe, Schriftart, Abstände — alles live."
+      }
+    ]
   },
   "templates": {
     "badge": "Vorlagen",
@@ -60,10 +76,12 @@
     "h2Line1": "Kein",
     "h2Line2": "Speicher.",
     "body": "Die Kompilierung läuft über WebAssembly im Browser. Kein Server, keine Datenbank, keine Protokolle, kein Konto. Ihr Lebenslauf — und das KI-Gespräch, aus dem er entstand — bleiben vollständig bei Ihnen.",
-    "chip1": "Kein Konto",
-    "chip2": "Keine Cloud",
-    "chip3": "Kein Tracking",
-    "chip4": "Open source"
+    "chips": [
+      "Kein Konto",
+      "Keine Cloud",
+      "Kein Tracking",
+      "Open source"
+    ]
   },
   "openSource": {
     "badge": "Open source",
@@ -106,18 +124,26 @@
   "onboarding": {
     "title": "Willkommen bei Proof",
     "subtitle": "Ein datenschutzfreundlicher Lebenslauf-Editor. Ihre Daten werden in diesem Browser gespeichert — serverseitig wird nichts gespeichert.",
-    "step1Title": "Lebenslauf hinzufügen",
-    "step1Body": "Verwenden Sie « + Neu », um einen Lebenslauf aus der Vorlage zu erstellen, oder « ↑ Importieren », um eine vorhandene JSON-Datei zu laden. Sie können mehrere Lebensläufe anlegen und zwischen ihnen wechseln.",
-    "step2Title": "Vorlage auswählen & anpassen",
-    "step2Body": "Wählen Sie eine Vorlage aus der Liste. Im mittleren Bereich können Sie Abschnitte umsortieren, Seitenumbrüche ein- und ausschalten sowie Farben, Schriftarten und Abstände anpassen.",
-    "step3Title": "PDF generieren",
-    "step3Body": "Klicken Sie im Editor-Bereich auf « PDF generieren ». Ihr Lebenslauf wird mit Typst kompiliert und das PDF erscheint in der Vorschau. Laden Sie es herunter, wenn Sie zufrieden sind.",
     "sharedComputer": "Ich benutze einen gemeinsam genutzten Computer",
     "sharedComputerNote": "Daten werden im Sitzungsspeicher abgelegt und beim Schließen dieses Tabs automatisch gelöscht.",
     "confirmEnablePrivate": "Dadurch werden Ihre gespeicherten Lebensläufe in den temporären Speicher dieses Tabs verschoben. Sie werden unwiderruflich gelöscht, sobald Sie diesen Tab schließen. Fortfahren?",
     "confirmDisablePrivate": "Dadurch werden Ihre Lebensläufe im dauerhaften Speicher dieses Browsers gesichert und bleiben auch nach dem Schließen des Tabs erhalten. Tun Sie dies nicht auf einem gemeinsam genutzten oder öffentlichen Computer. Fortfahren?",
     "reopenHint": "Über die ?-Schaltfläche wieder öffnen",
-    "getStarted": "Loslegen"
+    "getStarted": "Loslegen",
+    "steps": [
+      {
+        "title": "Lebenslauf hinzufügen",
+        "body": "Verwenden Sie « + Neu », um einen Lebenslauf aus der Vorlage zu erstellen, oder « ↑ Importieren », um eine vorhandene JSON-Datei zu laden. Sie können mehrere Lebensläufe anlegen und zwischen ihnen wechseln."
+      },
+      {
+        "title": "Vorlage auswählen & anpassen",
+        "body": "Wählen Sie eine Vorlage aus der Liste. Im mittleren Bereich können Sie Abschnitte umsortieren, Seitenumbrüche ein- und ausschalten sowie Farben, Schriftarten und Abstände anpassen."
+      },
+      {
+        "title": "PDF generieren",
+        "body": "Klicken Sie im Editor-Bereich auf « PDF generieren ». Ihr Lebenslauf wird mit Typst kompiliert und das PDF erscheint in der Vorschau. Laden Sie es herunter, wenn Sie zufrieden sind."
+      }
+    ]
   },
   "cvModal": {
     "titleNew": "Neuer Lebenslauf",

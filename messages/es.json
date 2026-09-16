@@ -28,28 +28,44 @@
     "h2Line1": "Traiga",
     "h2Line2": "su propia IA.",
     "body": "La mayoría de las herramientas atrapan sus datos detrás de un formulario. Proof le entrega un esquema abierto y se aparta — use la IA en la que ya confía.",
-    "step1Title": "Descargar el esquema",
-    "step1Body": "Un único archivo JSON documentado — el plano de un CV completo: identidad, experiencia, habilidades y todo lo demás.",
-    "step2Title": "Generar en cualquier IA",
-    "step2Body": "Péguelo en la IA de su elección y descríbase. Sin prompt que copiar, sin bloqueo de modelo. Usted controla la conversación.",
-    "step3Title": "Importar & verificar",
-    "step3Body": "Vuelva a cargar el JSON. Elija una plantilla, ajuste los detalles y compile a PDF — completamente en su dispositivo.",
     "worksWith": "Compatible con",
     "openFormat": "Formato abierto",
-    "downloadSchema": "↓ Descargar esquema"
+    "downloadSchema": "↓ Descargar esquema",
+    "steps": [
+      {
+        "title": "Descargar el esquema",
+        "body": "Un único archivo JSON documentado — el plano de un CV completo: identidad, experiencia, habilidades y todo lo demás."
+      },
+      {
+        "title": "Generar en cualquier IA",
+        "body": "Péguelo en la IA de su elección y descríbase. Sin prompt que copiar, sin bloqueo de modelo. Usted controla la conversación."
+      },
+      {
+        "title": "Importar & verificar",
+        "body": "Vuelva a cargar el JSON. Elija una plantilla, ajuste los detalles y compile a PDF — completamente en su dispositivo."
+      }
+    ]
   },
   "makeYours": {
     "badge": "Luego hágalo suyo",
     "h2Line1": "Verifíquelo",
     "h2Line2": "a la perfección.",
     "body": "Un editor en vivo con vista previa de PDF en tiempo real. Reordene, rediseñe y recompile hasta que cada línea quede exactamente donde usted quiera.",
-    "feature1Title": "Diez plantillas profesionales",
-    "feature1Body": "Cambie de diseño al instante — más están en camino.",
-    "feature2Title": "Arrastrar para reordenar",
-    "feature2Body": "Reordene secciones, active o desactive saltos de página.",
-    "feature3Title": "Ajustar el estilo",
-    "feature3Body": "Color de acento, tipografía, espaciado — todo en vivo.",
-    "openEditor": "Abrir editor →"
+    "openEditor": "Abrir editor →",
+    "features": [
+      {
+        "title": "Diez plantillas profesionales",
+        "body": "Cambie de diseño al instante — más están en camino."
+      },
+      {
+        "title": "Arrastrar para reordenar",
+        "body": "Reordene secciones, active o desactive saltos de página."
+      },
+      {
+        "title": "Ajustar el estilo",
+        "body": "Color de acento, tipografía, espaciado — todo en vivo."
+      }
+    ]
   },
   "templates": {
     "badge": "Plantillas",
@@ -60,10 +76,12 @@
     "h2Line1": "Cero",
     "h2Line2": "almacenamiento.",
     "body": "La compilación se ejecuta en su navegador mediante WebAssembly. Sin servidor, sin base de datos, sin registros, sin cuenta. Su CV — y la conversación con la IA que lo generó — permanecen enteramente con usted.",
-    "chip1": "Sin cuenta",
-    "chip2": "Sin nube",
-    "chip3": "Sin rastreo",
-    "chip4": "Open source"
+    "chips": [
+      "Sin cuenta",
+      "Sin nube",
+      "Sin rastreo",
+      "Open source"
+    ]
   },
   "openSource": {
     "badge": "Open source",
@@ -106,18 +124,26 @@
   "onboarding": {
     "title": "Bienvenido a Proof",
     "subtitle": "Un editor de CV respetuoso con la privacidad. Sus datos se almacenan en este navegador — nada se guarda en el servidor.",
-    "step1Title": "Añada su CV",
-    "step1Body": "Use « + Nuevo » para crear un CV desde la plantilla, o « ↑ Importar » para cargar un archivo JSON existente. Puede tener varios CV y cambiar entre ellos.",
-    "step2Title": "Elija una plantilla & personalice",
-    "step2Body": "Seleccione una plantilla de la lista. El panel central le permite reordenar secciones, activar saltos de página y ajustar colores, fuentes y espaciados.",
-    "step3Title": "Genere su PDF",
-    "step3Body": "Pulse « Generar PDF » en el panel del editor. Su CV se compila con Typst y el PDF aparece en la vista previa. Descárguelo cuando esté satisfecho.",
     "sharedComputer": "Estoy en un ordenador compartido",
     "sharedComputerNote": "Los datos se almacenarán en el almacenamiento de sesión y se borrarán automáticamente al cerrar esta pestaña.",
     "confirmEnablePrivate": "Esto moverá sus CV guardados al almacenamiento temporal de esta pestaña. Se eliminarán permanentemente en cuanto cierre esta pestaña. ¿Continuar?",
     "confirmDisablePrivate": "Esto guardará sus CV en el almacenamiento permanente de este navegador, donde persistirán después de cerrar la pestaña. No haga esto en un ordenador compartido o público. ¿Continuar?",
     "reopenHint": "Reabrir con el botón ?",
-    "getStarted": "Comenzar"
+    "getStarted": "Comenzar",
+    "steps": [
+      {
+        "title": "Añada su CV",
+        "body": "Use « + Nuevo » para crear un CV desde la plantilla, o « ↑ Importar » para cargar un archivo JSON existente. Puede tener varios CV y cambiar entre ellos."
+      },
+      {
+        "title": "Elija una plantilla & personalice",
+        "body": "Seleccione una plantilla de la lista. El panel central le permite reordenar secciones, activar saltos de página y ajustar colores, fuentes y espaciados."
+      },
+      {
+        "title": "Genere su PDF",
+        "body": "Pulse « Generar PDF » en el panel del editor. Su CV se compila con Typst y el PDF aparece en la vista previa. Descárguelo cuando esté satisfecho."
+      }
+    ]
   },
   "cvModal": {
     "titleNew": "Nuevo CV",

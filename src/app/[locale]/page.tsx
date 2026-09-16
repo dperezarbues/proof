@@ -278,11 +278,7 @@ const AI_TOOLS = ['ChatGPT', 'Claude', 'Gemini', 'Copilot', 'Llama', '+ any']
 
 async function PAiBand() {
   const t = await getTranslations('aiBand')
-  const steps = [
-    { n: '01', t: t('step1Title'), b: t('step1Body') },
-    { n: '02', t: t('step2Title'), b: t('step2Body') },
-    { n: '03', t: t('step3Title'), b: t('step3Body') },
-  ]
+  const steps = t.raw('steps') as { title: string; body: string }[]
 
   return (
     <section
@@ -308,9 +304,9 @@ async function PAiBand() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-11 items-start">
         <div>
-          {steps.map((s) => (
+          {steps.map((s, i) => (
             <div
-              key={s.n}
+              key={s.title}
               className="flex gap-4 md:gap-5 py-4 md:py-5"
               style={{ borderTop: '1px solid rgba(255,255,255,0.14)' }}
             >
@@ -318,15 +314,15 @@ async function PAiBand() {
                 className="font-black text-[26px] md:text-[30px] min-w-[44px] md:min-w-[48px]"
                 style={{ color: 'var(--c-accent)' }}
               >
-                {s.n}
+                {String(i + 1).padStart(2, '0')}
               </span>
               <div>
-                <div className="font-bold text-[17px] md:text-[19px]">{s.t}</div>
+                <div className="font-bold text-[17px] md:text-[19px]">{s.title}</div>
                 <div
                   className="text-[13.5px] md:text-[14.5px] leading-[1.55] mt-1.5"
                   style={{ color: 'rgba(255,255,255,0.6)' }}
                 >
-                  {s.b}
+                  {s.body}
                 </div>
               </div>
             </div>
@@ -394,11 +390,7 @@ async function PAiBand() {
 
 async function PMakeYours() {
   const t = await getTranslations('makeYours')
-  const features = [
-    { t: t('feature1Title'), b: t('feature1Body') },
-    { t: t('feature2Title'), b: t('feature2Body') },
-    { t: t('feature3Title'), b: t('feature3Body') },
-  ]
+  const features = t.raw('features') as { title: string; body: string }[]
 
   return (
     <section
@@ -427,7 +419,7 @@ async function PMakeYours() {
           <div>
             {features.map((f) => (
               <div
-                key={f.t}
+                key={f.title}
                 className="flex gap-3 md:gap-3.5 py-3 md:py-3.5"
                 style={{ borderTop: '1px solid var(--c-line)' }}
               >
@@ -437,10 +429,10 @@ async function PMakeYours() {
                     className="font-bold text-[14.5px] md:text-[15.5px]"
                     style={{ color: 'var(--c-ink)' }}
                   >
-                    {f.t}
+                    {f.title}
                   </div>
                   <div className="text-[13px] mt-0.5" style={{ color: 'var(--c-sub)' }}>
-                    {f.b}
+                    {f.body}
                   </div>
                 </div>
               </div>
@@ -599,7 +591,7 @@ async function PTemplates() {
 
 async function PPrivacy() {
   const t = await getTranslations('privacy')
-  const chips = [t('chip1'), t('chip2'), t('chip3'), t('chip4')]
+  const chips = t.raw('chips') as string[]
 
   return (
     <section

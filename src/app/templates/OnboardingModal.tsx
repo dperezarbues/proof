@@ -31,11 +31,7 @@ export default function OnboardingModal({
     onPrivateToggle(enabled)
   }
 
-  const steps = [
-    { step: '1', title: t('step1Title'), body: t('step1Body') },
-    { step: '2', title: t('step2Title'), body: t('step2Body') },
-    { step: '3', title: t('step3Title'), body: t('step3Body') },
-  ]
+  const steps = t.raw('steps') as { title: string; body: string }[]
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm">
@@ -76,8 +72,8 @@ export default function OnboardingModal({
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {steps.map((s) => (
-              <div key={s.step} style={{ display: 'flex', gap: 14 }}>
+            {steps.map((s, i) => (
+              <div key={s.title} style={{ display: 'flex', gap: 14 }}>
                 <div
                   style={{
                     flexShrink: 0,
@@ -96,7 +92,7 @@ export default function OnboardingModal({
                     letterSpacing: '0',
                   }}
                 >
-                  {s.step}
+                  {i + 1}
                 </div>
                 <div>
                   <p
