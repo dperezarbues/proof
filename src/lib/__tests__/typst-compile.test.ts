@@ -15,7 +15,12 @@ async function loadModule() {
   return await import('../typst-compile')
 }
 
-const opts = () => ({ templateId: 'default', cvContent: '{}', layoutJson: '{}' })
+const opts = () => ({
+  templateId: 'default',
+  cv: { identity: { name: 'Ada' } },
+  language: 'en' as const,
+  layoutData: {},
+})
 
 beforeEach(() => {
   vi.resetModules()

@@ -3,6 +3,7 @@
 import QRCode from 'qrcode'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { compileTypst, isCompilerReady, onCompilerReady } from '@/lib/typst-compile'
+import { parseCvContent } from '../compile-input'
 import { resolveQrUrl as defaultResolveQrUrl } from '../cv-editor/cv-utils'
 import type { CompileState } from '../types'
 
@@ -19,7 +20,7 @@ export function useCompiler({
 }: {
   templateId: string
   cvContent: string
-  getLayoutData: () => object
+  getLayoutData: () => Record<string, unknown>
   generateTrigger?: number
   onPdfChange: (url: string) => void
   onGenerating: (v: boolean) => void
@@ -80,10 +81,12 @@ export function useCompiler({
         qrSvg = await QRCode.toString(qrUrl, { type: 'svg', margin: 0 })
       }
 
+      const { cv: cvJson, language } = parseCvContent(cv)
       const url = await compileTypst({
         templateId,
-        cvContent: cv,
-        layoutJson: JSON.stringify(layoutData),
+        cv: cvJson,
+        language,
+        layoutData,
         qrSvg,
       })
       // cvContent can change while this compile is in flight (cold WASM
