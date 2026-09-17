@@ -16,11 +16,20 @@ import { TemplateTab } from './components/TemplateTab'
 import { type CvLanguage, getCvLanguage, setCvLanguage } from './cv-language'
 import type { EditorTab } from './EditorShell'
 import { useCvRepository } from './hooks/useCvRepository'
+import { parseStyleValues } from './layout-serializer'
 import OnboardingModal from './OnboardingModal'
 import PdfPreview from './PdfPreview'
+import { type Design, ExportBundleSchema } from './schemas'
 import type { SectionDef } from './section-defs'
 import { DEFAULT_SECTIONS } from './section-defs'
-import { loadCurrentTemplate, persistCurrentTemplate } from './storage-helpers'
+import {
+  loadCurrentTemplate,
+  loadLayoutOverride,
+  loadStyleOverrides,
+  persistCurrentTemplate,
+  persistLayoutOverride,
+  persistStyleOverrides,
+} from './storage-helpers'
 import { TAB_CONFIG } from './tab-config'
 import type { CompileState, Layout, Tab, Template } from './types'
 
@@ -108,6 +117,13 @@ export default function TemplatesGallery({
   const [cvModal, setCvModal] = useState<CvModalState | null>(null)
   const [showWelcome, setShowWelcome] = useState(false)
   const importRef = useRef<HTMLInputElement>(null)
+  // Design (template+layout+style) extracted from an in-progress bundle
+  // import, applied once the CV part is actually saved — see handleSaveCv.
+  const [pendingImportDesign, setPendingImportDesign] = useState<Design | null>(null)
+  // Bumped on every applyImportedDesign call so EditorShell's key always
+  // changes, even when the imported design targets the template/layout
+  // that's already active — see applyImportedDesign for why that case needs it.
+  const [designImportNonce, setDesignImportNonce] = useState(0)
 
   useEffect(() => {
     if (!getItem(KEYS.onboarded)) setShowWelcome(true)
@@ -150,7 +166,38 @@ export default function TemplatesGallery({
     if (!ok) return false
     setCvModal(null)
     if (isFirst) setGenerateTrigger((t) => t + 1)
+    if (pendingImportDesign) {
+      applyImportedDesign(pendingImportDesign)
+      setPendingImportDesign(null)
+    }
     return true
+  }
+
+  /** Restores the template/layout/style captured in a bundle import. Design is
+   *  global (not per-CV, see the earlier discussion on why), so this just
+   *  becomes the new current design — same effect as loading a saved preset,
+   *  just arriving via a full CV+design file instead of a named preset. */
+  function applyImportedDesign(design: Design) {
+    const matchedTemplate = templates.find((tpl) => tpl.id === design.templateId)
+    if (!matchedTemplate) return // e.g. exported from a template that no longer exists
+    const matchedLayout =
+      matchedTemplate.layouts.find((l) => l.id === design.layoutId) ?? matchedTemplate.layouts[0]
+
+    persistLayoutOverride(design.templateId, matchedLayout.id, design.layout)
+    persistStyleOverrides(design.templateId, design.style)
+    persistCurrentTemplate(design.templateId, matchedLayout.id)
+
+    setActiveTemplate(matchedTemplate)
+    setActiveLayout(matchedLayout)
+    replacePreviewPdf(null)
+    // setActiveTemplate/setActiveLayout above are no-ops (same object
+    // references) when the import targets the template/layout that's
+    // ALREADY active — EditorShell wouldn't remount from those alone, so the
+    // overrides just persisted above would sit unread by the still-live
+    // useLayoutEditor/useStyleState instance. This forces the remount
+    // regardless, the same way a genuine template switch already does.
+    setDesignImportNonce((n) => n + 1)
+    syncTemplateUrlParam(matchedTemplate.id)
   }
 
   function handleDeleteCv(id: string) {
@@ -176,8 +223,31 @@ export default function TemplatesGallery({
     if (!file) return
     const reader = new FileReader()
     reader.onload = (ev) => {
-      const content = ev.target?.result as string
+      const raw = ev.target?.result as string
       const name = file.name.replace(/\.json$/i, '')
+
+      // A combined export wraps the CV under a `cv` key alongside an
+      // optional `design`; a bare CV file has `identity` at the top level
+      // instead. Only the former needs splitting before it reaches the
+      // modal, which only ever knows how to review/save plain CV JSON — for
+      // anything else (bare CV, malformed JSON, a bundle that fails to
+      // validate) `content` stays exactly what was read, unchanged from
+      // before this existed, and the modal's own parsing/validation reports it.
+      let content = raw
+      setPendingImportDesign(null)
+      try {
+        const parsed: unknown = JSON.parse(raw)
+        if (parsed && typeof parsed === 'object' && 'cv' in parsed) {
+          const result = ExportBundleSchema.safeParse(parsed)
+          if (result.success) {
+            content = JSON.stringify(result.data.cv)
+            setPendingImportDesign(result.data.design ?? null)
+          }
+        }
+      } catch {
+        // malformed JSON — let the modal report it, as before
+      }
+
       setCvModal({ mode: 'import', content, name })
     }
     reader.onerror = () => {
@@ -188,22 +258,60 @@ export default function TemplatesGallery({
     e.target.value = ''
   }
 
+  /** Bundles the CV with the currently active template/layout/style so a
+   *  single downloaded file can fully recreate what's on screen — otherwise
+   *  the app's only backup story ("download the JSON periodically", see
+   *  /terms) silently drops all presentation customization. Only meaningful
+   *  for the currently active CV: design is global, not per-entry (see the
+   *  earlier discussion), so there's no "this other saved CV's design" to
+   *  attach — downloading a different row falls back to data-only, as before. */
+  function downloadCvWithDesign(entry: CvEntry) {
+    if (entry.id !== currentCv?.id || !activeLayoutData) {
+      repo.downloadCv(entry)
+      return
+    }
+    const layout = (loadLayoutOverride(activeTemplate.id, activeLayout.id) ??
+      activeLayoutData) as Design['layout']
+    const style = parseStyleValues(
+      activeLayoutData,
+      activeTemplate.styleParams ?? [],
+      loadStyleOverrides(activeTemplate.id),
+    )
+    const design: Design = {
+      templateId: activeTemplate.id,
+      layoutId: activeLayout.id,
+      layout,
+      style,
+    }
+    const bundle = { cv: JSON.parse(entry.content), design }
+    const blob = new Blob([JSON.stringify(bundle, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${entry.name}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  // history.replaceState, not the Next.js router: this component only reads
+  // ?template= once, via the lazy initializer above, specifically to avoid
+  // the full-subtree remount that resolving a useSearchParams()-consuming
+  // Suspense boundary causes on first load of this statically-exported
+  // route (see the CV-language investigation this bug turned up). Routing
+  // this update through router.replace() would re-enter that same
+  // machinery on every template switch instead of only once at load.
+  function syncTemplateUrlParam(id: string) {
+    const url = new URL(window.location.href)
+    url.searchParams.set('template', id)
+    window.history.replaceState(null, '', url)
+  }
+
   function selectTemplate(t: Template) {
     setActiveTemplate(t)
     setActiveLayout(t.layouts[0])
     replacePreviewPdf(null)
     if (activeTab === 'layout' || activeTab === 'style') setActiveTab('layout')
-
-    // history.replaceState, not the Next.js router: this component only reads
-    // ?template= once, via the lazy initializer above, specifically to avoid
-    // the full-subtree remount that resolving a useSearchParams()-consuming
-    // Suspense boundary causes on first load of this statically-exported
-    // route (see the CV-language investigation this bug turned up). Routing
-    // this update through router.replace() would re-enter that same
-    // machinery on every template switch instead of only once at load.
-    const url = new URL(window.location.href)
-    url.searchParams.set('template', t.id)
-    window.history.replaceState(null, '', url)
+    syncTemplateUrlParam(t.id)
   }
 
   function selectLayout(l: Layout) {
@@ -381,7 +489,7 @@ export default function TemplatesGallery({
               onImportFile={handleImportFile}
               onSelectCv={repo.selectCv}
               onEditCv={(e) => setCvModal({ mode: 'edit', entry: e })}
-              onDownloadCv={repo.downloadCv}
+              onDownloadCv={downloadCvWithDesign}
               onDeleteCv={handleDeleteCv}
               onSetCvLanguage={handleSetCvLanguage}
             />
@@ -405,7 +513,7 @@ export default function TemplatesGallery({
           >
             {isEditable && activeLayoutData ? (
               <EditorShell
-                key={`${activeTemplate.id}-${activeLayout.id}`}
+                key={`${activeTemplate.id}-${activeLayout.id}-${designImportNonce}`}
                 initialLayout={activeLayoutData}
                 templateId={activeTemplate.id}
                 layoutId={activeLayout.id}

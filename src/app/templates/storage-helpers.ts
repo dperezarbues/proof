@@ -80,6 +80,17 @@ export function persistStyleOverride(
   return next !== null
 }
 
+/** Replaces the ENTIRE style-override bucket for `templateId` with `style` — unlike
+ *  persistStyleOverride (merges one key in), this is for restoring a previously exported design
+ *  wholesale, where leftover keys from whatever was there before must not survive the restore. */
+export function persistStyleOverrides(templateId: string, style: StyleOverrides): boolean {
+  const next = mutateStored(KEYS.styleOverrides, readScoped, (scoped) => ({
+    ...scoped,
+    [templateId]: { ...style },
+  }))
+  return next !== null
+}
+
 export function clearStyleOverrides(templateId: string, canonicalKeys: string[]): boolean {
   const next = mutateStored(KEYS.styleOverrides, readScoped, (scoped) => {
     const bucket = { ...(scoped[templateId] ?? {}) }

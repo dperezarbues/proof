@@ -47,6 +47,7 @@ export function DataTab({
               accept=".json"
               className="hidden"
               onChange={onImportFile}
+              data-testid="cv-import-input"
             />
             <SbBtn onClick={() => importRef.current?.click()}>{t('import')}</SbBtn>
             <SbBtn variant="dark" onClick={onNewCv} title={t('newCV')} data-testid="new-cv-btn">
