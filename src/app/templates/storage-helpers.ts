@@ -18,6 +18,32 @@ export function mutateSaves(
   return mutateStored(KEYS.saves, loadSaves, mutate)
 }
 
+// ── Current template + layout-variant selection ─────────────────────────────
+//
+// Just the *pointer* — which template/layout the user last had selected, so a
+// fresh visit returns to it instead of always resetting to Default. The
+// actual layout/style customization for that template is already handled by
+// loadLayoutOverride/loadStyleOverrides below, scoped per template — this
+// doesn't duplicate or override any of that.
+
+type CurrentTemplateRef = { templateId: string; layoutId: string }
+
+export function loadCurrentTemplate(): CurrentTemplateRef | null {
+  try {
+    const raw = getItem(KEYS.currentTemplate)
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as Partial<CurrentTemplateRef>
+    if (typeof parsed.templateId !== 'string' || typeof parsed.layoutId !== 'string') return null
+    return { templateId: parsed.templateId, layoutId: parsed.layoutId }
+  } catch {
+    return null
+  }
+}
+
+export function persistCurrentTemplate(templateId: string, layoutId: string): boolean {
+  return setItem(KEYS.currentTemplate, JSON.stringify({ templateId, layoutId }))
+}
+
 type ScopedOverrides = Record<string, StyleOverrides>
 
 function readScoped(): ScopedOverrides {

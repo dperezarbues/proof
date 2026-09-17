@@ -20,6 +20,7 @@ import OnboardingModal from './OnboardingModal'
 import PdfPreview from './PdfPreview'
 import type { SectionDef } from './section-defs'
 import { DEFAULT_SECTIONS } from './section-defs'
+import { loadCurrentTemplate, persistCurrentTemplate } from './storage-helpers'
 import { TAB_CONFIG } from './tab-config'
 import type { CompileState, Layout, Tab, Template } from './types'
 
@@ -44,12 +45,37 @@ export default function TemplatesGallery({
 
   /** Deep link from the landing gallery: /editor?template=<id>. Read via a lazy
    * initializer rather than an effect so the first paint is already the right
-   * template — an effect would flash the default one first. Unknown ids fall back. */
+   * template — an effect would flash the default one first. Unknown ids fall back.
+   * Takes priority over the persisted "last used" template below — an explicit
+   * deep link is a deliberate pick, not something a stale preference should override. */
   const initialTemplateId = useSearchParams().get('template')
-  const [activeTemplate, setActiveTemplate] = useState<Template>(
-    () => templates.find((tpl) => tpl.id === initialTemplateId) ?? templates[0],
-  )
-  const [activeLayout, setActiveLayout] = useState<Layout>(() => activeTemplate.layouts[0])
+  const [activeTemplate, setActiveTemplate] = useState<Template>(() => {
+    if (initialTemplateId) {
+      return templates.find((tpl) => tpl.id === initialTemplateId) ?? templates[0]
+    }
+    const persisted = loadCurrentTemplate()
+    return templates.find((tpl) => tpl.id === persisted?.templateId) ?? templates[0]
+  })
+  const [activeLayout, setActiveLayout] = useState<Layout>(() => {
+    if (!initialTemplateId) {
+      const persisted = loadCurrentTemplate()
+      const found =
+        persisted?.templateId === activeTemplate.id
+          ? activeTemplate.layouts.find((l) => l.id === persisted.layoutId)
+          : undefined
+      if (found) return found
+    }
+    return activeTemplate.layouts[0]
+  })
+
+  // Remembers the last selected template + layout variant so a fresh visit
+  // (no ?template= deep link) returns to it instead of always resetting to
+  // Default — that template's own layout/style customization is separately
+  // scoped per templateId (see loadLayoutOverride/loadStyleOverrides) and is
+  // untouched by this; this only remembers the *pointer*.
+  useEffect(() => {
+    persistCurrentTemplate(activeTemplate.id, activeLayout.id)
+  }, [activeTemplate.id, activeLayout.id])
   const [previewPdf, setPreviewPdf] = useState<string | null>(null)
   const [isGenerating, setIsGenerating] = useState(false)
   const [generateTrigger, setGenerateTrigger] = useState(0)

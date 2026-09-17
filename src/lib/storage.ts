@@ -10,6 +10,7 @@ const PRIVATE_FLAG = 'proof-private'
 export const KEYS = {
   cvs: 'proof-cvs',
   currentCv: 'proof-current-cv',
+  currentTemplate: 'proof-current-template',
   styleOverrides: 'proof-style-overrides',
   layoutOverrides: 'proof-layout-overrides',
   saves: 'proof-saves',
