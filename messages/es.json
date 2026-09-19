@@ -6,6 +6,7 @@
   "nav": {
     "editor": "Editor",
     "templates": "Plantillas",
+    "help": "Ayuda",
     "privacy": "Privacidad",
     "schema": "Esquema",
     "openEditor": "Abrir editor →",
@@ -339,6 +340,53 @@
         "title": "Sin garantía",
         "p1": "No prometemos que Proof esté libre de errores, disponible siempre o sea perfecto para lo que necesita — lo usa bajo su propio riesgo. No nos responsabilizamos de ningún daño, pérdida de datos u otro problema derivado de su uso, incluidos los CV que genera. Revise siempre su CV usted mismo antes de enviarlo a cualquier sitio.",
         "p2": "Este es un proyecto gratuito y de código abierto mantenido de forma voluntaria y según disponibilidad, no un servicio comercial con soporte garantizado, SLA ni disponibilidad garantizada."
+      }
+    }
+  },
+  "help": {
+    "metaTitle": "Cómo funciona Proof — Ayuda",
+    "metaDescription": "Una guía rápida del editor de CV de Proof: plantillas, maquetación, estilo, idioma del CV y copias de seguridad.",
+    "title": "Cómo funciona Proof",
+    "subtitle": "Una guía rápida del editor — sin rodeos.",
+    "sections": {
+      "gettingStarted": {
+        "title": "Añadir su CV",
+        "p1": "Pulse «+ Nuevo» en la pestaña Datos para empezar desde un CV en blanco, o «Importar» para cargar un archivo JSON de CV existente. Puede tener varios CV y cambiar entre ellos desde la misma lista — útil para adaptar distintas versiones a distintos puestos.",
+        "p2": "Todo lo que escribe se guarda automáticamente en este navegador a medida que avanza — no hay un paso de guardado aparte, y nada se envía a ningún sitio hasta que decide generar un PDF."
+      },
+      "templates": {
+        "title": "Elegir una plantilla",
+        "p1": "La pestaña Plantilla muestra todos los diseños disponibles. Elija uno y la vista previa se recompila para reflejarlo. Si una plantilla ofrece más de una variante de maquetación — por ejemplo, cabeceras Split o Classic — aparecen como un pequeño selector debajo de la galería de plantillas.",
+        "p2": "Cambiar de plantilla no toca los datos de su CV, solo cómo se renderiza. Cada plantilla recuerda su propia personalización de maquetación y estilo por separado, así que probar otro aspecto y volver más tarde restaura exactamente lo que tenía."
+      },
+      "layout": {
+        "title": "Organizar las secciones",
+        "p1": "La pestaña Maquetación controla qué secciones aparecen y en qué orden. Arrastre una sección para reordenarla, o coloque dos una junto a otra como grupo de columnas. Cada sección tiene su propio espaciado y un interruptor «mantener junto» para que no se divida de forma incómoda entre páginas.",
+        "p2": "La plantilla Sidebar tiene una segunda lista, separada, para lo que va en la barra lateral frente a la columna principal — el resto funciona igual."
+      },
+      "style": {
+        "title": "Personalizar la apariencia",
+        "p1": "La pestaña Estilo está agrupada en Tipografía, Colores, Espaciado y Extras — se aplican igual en todas las plantillas. Extras incluye cosas como mostrar un código QR, un pie de página, o iconos de contacto en lugar de texto plano.",
+        "p2": "Algunas plantillas añaden sus propios grupos además de los compartidos — el color de acento de Modern, o el ancho y fondo de la barra lateral de Sidebar, por ejemplo. Esos solo aparecen en las plantillas que realmente los usan."
+      },
+      "cvLanguage": {
+        "title": "Idioma del CV",
+        "p1": "En la pestaña Datos, «Idioma del CV» fija el idioma de los encabezados de sección en su PDF compilado — Resumen, Experiencia, etc. — independientemente del idioma en el que esté usando la aplicación. Alguien que use Proof en español puede generar igualmente un CV en inglés."
+      },
+      "generatingPdf": {
+        "title": "Generar y descargar el PDF",
+        "p1": "Pulse «Generar PDF» cuando quiera ver el resultado — Proof lo compila enteramente en su navegador con Typst, sin ningún servidor de por medio. La vista previa se actualiza automáticamente mientras sigue editando.",
+        "p2": "Cuando esté conforme, descárguelo directamente desde el panel de vista previa."
+      },
+      "savingAndBackup": {
+        "title": "Guardar, exportar y copia de seguridad",
+        "p1": "Proof no tiene cuenta ni almacenamiento en la nube — todo vive solo en este navegador. El botón Descargar junto a cada CV en la pestaña Datos incluye los datos del CV junto con la plantilla, maquetación y estilo que tenga configurados en ese momento, en un único archivo JSON.",
+        "p2": "Ese archivo es a la vez su copia de seguridad y su forma de mover un CV a otro navegador o dispositivo: al importarlo más tarde se restauran los datos y se recrea el aspecto, no solo el texto. Un archivo JSON con solo el CV, sin diseño adjunto, también se importa sin problema.",
+        "p3": "Las maquetaciones que personalice en la pestaña Maquetación también pueden guardarse como ajustes con nombre, independientes de cualquier CV concreto, y exportarse/importarse de la misma forma si quiere reutilizar un aspecto entre distintos CV."
+      },
+      "privacy": {
+        "title": "Privacidad",
+        "p1": "Todo esto — compilación, almacenamiento, todo — ocurre localmente en su navegador. Consulte la página de <terms>Privacidad y Términos</terms> para ver el panorama completo, incluido qué análisis limitado recopila este sitio."
       }
     }
   },

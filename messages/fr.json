@@ -6,6 +6,7 @@
   "nav": {
     "editor": "Éditeur",
     "templates": "Modèles",
+    "help": "Aide",
     "privacy": "Confidentialité",
     "schema": "Schéma",
     "openEditor": "Ouvrir l'éditeur →",
@@ -339,6 +340,53 @@
         "title": "Aucune garantie",
         "p1": "Nous ne garantissons pas que Proof soit sans bugs, toujours disponible ou parfaitement adapté à vos besoins — vous l'utilisez à vos propres risques. Nous ne sommes pas responsables des dommages, pertes de données ou autres problèmes liés à son utilisation, y compris les CV qu'il génère. Relisez toujours vous-même votre CV avant de l'envoyer où que ce soit.",
         "p2": "Il s'agit d'un projet gratuit et open source maintenu bénévolement, dans la mesure du possible, et non d'un service commercial avec support garanti, SLA ou disponibilité garantie."
+      }
+    }
+  },
+  "help": {
+    "metaTitle": "Comment fonctionne Proof — Aide",
+    "metaDescription": "Un guide rapide de l'éditeur de CV de Proof : modèles, mise en page, style, langue du CV et sauvegardes.",
+    "title": "Comment fonctionne Proof",
+    "subtitle": "Un guide rapide de l'éditeur — sans détour.",
+    "sections": {
+      "gettingStarted": {
+        "title": "Ajouter votre CV",
+        "p1": "Cliquez sur « + Nouveau » dans l'onglet Données pour partir d'un CV vierge, ou sur « Importer » pour charger un fichier JSON de CV existant. Vous pouvez conserver plusieurs CV et passer de l'un à l'autre depuis la même liste — utile pour adapter différentes versions à différents postes.",
+        "p2": "Tout ce que vous saisissez est enregistré automatiquement dans ce navigateur au fur et à mesure — il n'y a pas d'étape de sauvegarde séparée, et rien n'est envoyé nulle part tant que vous n'avez pas généré de PDF."
+      },
+      "templates": {
+        "title": "Choisir un modèle",
+        "p1": "L'onglet Modèle affiche tous les designs disponibles. Choisissez-en un et l'aperçu se recompile en conséquence. Si un modèle propose plusieurs variantes de mise en page — par exemple des en-têtes Split ou Classic —, elles apparaissent sous forme d'un petit sélecteur sous la grille de modèles.",
+        "p2": "Changer de modèle ne touche jamais aux données de votre CV, seulement à son rendu. Chaque modèle conserve sa propre personnalisation de mise en page et de style séparément — essayer un autre look puis revenir plus tard restaure exactement ce que vous aviez."
+      },
+      "layout": {
+        "title": "Organiser les sections",
+        "p1": "L'onglet Mise en page contrôle quelles sections apparaissent et dans quel ordre. Faites glisser une section pour la réordonner, ou placez-en deux côte à côte comme groupe de colonnes. Chaque section a son propre espacement et un interrupteur « garder ensemble » pour éviter qu'elle ne se coupe maladroitement entre deux pages.",
+        "p2": "Le modèle Sidebar dispose d'une seconde liste, séparée, pour ce qui va dans la barre latérale par rapport à la colonne principale — le reste fonctionne de la même façon."
+      },
+      "style": {
+        "title": "Personnaliser l'apparence",
+        "p1": "L'onglet Style est regroupé en Typographie, Couleurs, Espacement et Extras — ils s'appliquent de la même façon à tous les modèles. Extras comprend par exemple l'affichage d'un QR code, d'un pied de page, ou d'icônes de contact à la place du texte brut.",
+        "p2": "Certains modèles ajoutent leurs propres groupes en plus des groupes partagés — la couleur d'accent de Modern, ou la largeur et le fond de la barre latérale de Sidebar, par exemple. Ceux-ci n'apparaissent que pour les modèles qui les utilisent réellement."
+      },
+      "cvLanguage": {
+        "title": "Langue du CV",
+        "p1": "Dans l'onglet Données, « Langue du CV » définit la langue des titres de section dans votre PDF compilé — Résumé, Expérience, etc. — indépendamment de la langue dans laquelle vous naviguez sur l'application elle-même. Quelqu'un utilisant Proof en français peut tout de même générer un CV en anglais."
+      },
+      "generatingPdf": {
+        "title": "Générer & télécharger le PDF",
+        "p1": "Cliquez sur « Générer le PDF » dès que vous voulez voir le résultat — Proof le compile entièrement dans votre navigateur avec Typst, sans aucun serveur impliqué. L'aperçu se met à jour automatiquement pendant que vous continuez à modifier.",
+        "p2": "Une fois satisfait, téléchargez-le directement depuis le panneau d'aperçu."
+      },
+      "savingAndBackup": {
+        "title": "Enregistrer, exporter & sauvegarder",
+        "p1": "Proof n'a ni compte ni stockage cloud — tout vit uniquement dans ce navigateur. Le bouton Télécharger à côté de chaque CV dans l'onglet Données regroupe les données du CV avec le modèle, la mise en page et le style actuellement configurés, dans un seul fichier JSON.",
+        "p2": "Ce fichier est à la fois votre sauvegarde et votre moyen de déplacer un CV vers un autre navigateur ou appareil : l'importer plus tard restaure les données et recrée l'apparence, pas seulement le texte. Un fichier JSON contenant uniquement le CV, sans design associé, s'importe aussi très bien.",
+        "p3": "Les mises en page personnalisées dans l'onglet Mise en page peuvent aussi être enregistrées comme préréglages nommés, indépendants d'un CV en particulier, et exportées/importées de la même façon si vous souhaitez réutiliser un look sur différents CV."
+      },
+      "privacy": {
+        "title": "Confidentialité",
+        "p1": "Tout cela — compilation, stockage, tout — se passe localement dans votre navigateur. Consultez la page <terms>Confidentialité & Conditions</terms> pour la vue d'ensemble complète, y compris les analyses limitées collectées par ce site."
       }
     }
   },

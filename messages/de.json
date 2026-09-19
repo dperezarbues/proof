@@ -6,6 +6,7 @@
   "nav": {
     "editor": "Editor",
     "templates": "Vorlagen",
+    "help": "Hilfe",
     "privacy": "Datenschutz",
     "schema": "Schema",
     "openEditor": "Editor öffnen →",
@@ -339,6 +340,53 @@
         "title": "Keine Gewährleistung",
         "p1": "Wir versprechen nicht, dass Proof fehlerfrei, immer verfügbar oder genau das Richtige für Sie ist — Sie nutzen es auf eigenes Risiko. Wir übernehmen keine Verantwortung für Schäden, Datenverlust oder andere Probleme, die durch die Nutzung entstehen, einschließlich der damit erstellten Lebensläufe. Prüfen Sie Ihren Lebenslauf immer selbst, bevor Sie ihn irgendwohin senden.",
         "p2": "Dies ist ein kostenloses Open-Source-Projekt, das von Freiwilligen nach bestem Wissen und Gewissen gepflegt wird — kein kommerzieller Dienst mit garantiertem Support, SLAs oder Verfügbarkeit."
+      }
+    }
+  },
+  "help": {
+    "metaTitle": "So funktioniert Proof — Hilfe",
+    "metaDescription": "Eine kurze Anleitung zum CV-Editor von Proof: Vorlagen, Layout, Stil, Lebenslauf-Sprache und Backups.",
+    "title": "So funktioniert Proof",
+    "subtitle": "Eine kurze Anleitung zum Editor — ohne Umschweife.",
+    "sections": {
+      "gettingStarted": {
+        "title": "Lebenslauf hinzufügen",
+        "p1": "Klicken Sie im Tab Daten auf „+ Neu“, um mit einem leeren Lebenslauf zu beginnen, oder auf „Importieren“, um eine vorhandene Lebenslauf-JSON-Datei zu laden. Sie können mehrere Lebensläufe führen und in derselben Liste zwischen ihnen wechseln — praktisch, um verschiedene Versionen für verschiedene Stellen anzupassen.",
+        "p2": "Alles, was Sie eingeben, wird automatisch in diesem Browser gespeichert — es gibt keinen separaten Speicherschritt, und nichts wird irgendwohin gesendet, bis Sie ein PDF erzeugen."
+      },
+      "templates": {
+        "title": "Vorlage wählen",
+        "p1": "Der Tab Vorlage zeigt alle verfügbaren Designs. Wählen Sie eines aus, und die Vorschau wird entsprechend neu kompiliert. Bietet eine Vorlage mehr als eine Layout-Variante — etwa Split- oder Classic-Kopfzeilen —, erscheinen diese als kleine Auswahl unter dem Vorlagenraster.",
+        "p2": "Der Wechsel der Vorlage verändert nie Ihre Lebenslauf-Daten, nur die Darstellung. Jede Vorlage merkt sich ihre eigene Layout- und Stilanpassung getrennt — probieren Sie also ruhig ein anderes Aussehen aus und kehren Sie später zurück: Alles ist genau so wieder da, wie Sie es verlassen haben."
+      },
+      "layout": {
+        "title": "Abschnitte anordnen",
+        "p1": "Der Tab Layout bestimmt, welche Abschnitte erscheinen und in welcher Reihenfolge. Ziehen Sie einen Abschnitt, um ihn neu anzuordnen, oder platzieren Sie zwei nebeneinander als Spaltengruppe. Jeder Abschnitt hat einen eigenen Abstand und einen „Zusammenhalten“-Schalter, damit er nicht ungünstig über einen Seitenumbruch hinweg getrennt wird.",
+        "p2": "Die Vorlage Sidebar hat eine zweite, separate Liste dafür, was in die Seitenleiste kommt statt in die Hauptspalte — ansonsten funktioniert alles gleich."
+      },
+      "style": {
+        "title": "Erscheinungsbild anpassen",
+        "p1": "Der Tab Stil ist in Typografie, Farben, Abstände und Extras gruppiert — diese gelten gleichermaßen für jede Vorlage. Extras umfasst zum Beispiel einen QR-Code, eine Fußzeile oder Kontakt-Icons statt reinem Text.",
+        "p2": "Manche Vorlagen fügen zusätzlich eigene Gruppen hinzu — etwa die Akzentfarbe bei Modern oder Breite und Hintergrund der Seitenleiste bei Sidebar. Diese erscheinen nur bei Vorlagen, die sie tatsächlich nutzen."
+      },
+      "cvLanguage": {
+        "title": "Lebenslauf-Sprache",
+        "p1": "Im Tab Daten legt „Lebenslauf-Sprache“ die Sprache der Abschnittsüberschriften in Ihrem kompilierten PDF fest — Zusammenfassung, Berufserfahrung und so weiter — unabhängig davon, in welcher Sprache Sie die App gerade bedienen. Wer Proof auf Deutsch nutzt, kann trotzdem einen englischsprachigen Lebenslauf erzeugen."
+      },
+      "generatingPdf": {
+        "title": "PDF erzeugen & herunterladen",
+        "p1": "Klicken Sie auf „PDF generieren“, sobald Sie das Ergebnis sehen möchten — Proof kompiliert es vollständig in Ihrem Browser mit Typst, ganz ohne Server. Die Vorschau aktualisiert sich automatisch, während Sie weiter bearbeiten.",
+        "p2": "Sind Sie zufrieden, laden Sie es direkt aus dem Vorschaubereich herunter."
+      },
+      "savingAndBackup": {
+        "title": "Speichern, exportieren & sichern",
+        "p1": "Proof hat kein Konto und keinen Cloud-Speicher — alles lebt ausschließlich in diesem Browser. Der Download-Button neben jedem Lebenslauf im Tab Daten bündelt Ihre Lebenslauf-Daten zusammen mit der gerade eingestellten Vorlage, dem Layout und dem Stil in einer einzigen JSON-Datei.",
+        "p2": "Diese Datei ist zugleich Ihr Backup und Ihr Weg, einen Lebenslauf auf einen anderen Browser oder ein anderes Gerät zu übertragen: Beim späteren Importieren werden die Daten wiederhergestellt und das Aussehen neu erzeugt — nicht nur der Text. Eine reine Lebenslauf-JSON-Datei ohne Design lässt sich ebenfalls problemlos importieren.",
+        "p3": "Layouts, die Sie im Tab Layout angepasst haben, lassen sich zudem als benannte Vorlagen unabhängig von einem bestimmten Lebenslauf speichern und ebenso exportieren/importieren, wenn Sie ein Aussehen über mehrere Lebensläufe hinweg wiederverwenden möchten."
+      },
+      "privacy": {
+        "title": "Datenschutz",
+        "p1": "All das — Kompilierung, Speicherung, alles — geschieht lokal in Ihrem Browser. Das vollständige Bild, einschließlich der begrenzten Analysedaten, die diese Website erhebt, finden Sie auf der Seite <terms>Datenschutz & Nutzungsbedingungen</terms>."
       }
     }
   },

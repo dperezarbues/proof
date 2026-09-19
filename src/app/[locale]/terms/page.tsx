@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import PageSection from '@/components/proof/PageSection'
 import SiteFooter from '@/components/proof/SiteFooter'
 import SiteNav from '@/components/proof/SiteNav'
 import { type Locale, routing } from '@/i18n/routing'
@@ -49,35 +50,6 @@ function LinkTag(href: string) {
     <a href={href} style={{ color: 'var(--c-accent)' }} target="_blank" rel="noopener noreferrer">
       {chunks}
     </a>
-  )
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div
-      style={{
-        borderTop: '1px solid var(--c-line)',
-        paddingTop: '1.5rem',
-        paddingBottom: '1.5rem',
-      }}
-    >
-      <p
-        data-testid="terms-section-title"
-        style={{
-          fontFamily: 'var(--f-mono)',
-          fontSize: 10,
-          letterSpacing: '0.16em',
-          textTransform: 'uppercase',
-          color: 'var(--c-accent)',
-          marginBottom: '0.5rem',
-        }}
-      >
-        {title}
-      </p>
-      <div style={{ fontSize: 14, color: 'var(--c-sub)', lineHeight: 1.65 }} className="space-y-2">
-        {children}
-      </div>
-    </div>
   )
 }
 
@@ -149,9 +121,9 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
             ))
           }
           return (
-            <Section key={key} title={t(`sections.${key}.title`)}>
+            <PageSection key={key} title={t(`sections.${key}.title`)} testId="terms-section-title">
               {body}
-            </Section>
+            </PageSection>
           )
         })}
       </div>

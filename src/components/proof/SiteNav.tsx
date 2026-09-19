@@ -52,6 +52,13 @@ export default async function SiteNav() {
           {t('templates')}
         </Link>
         <Link
+          href="/help"
+          className="hidden md:inline font-semibold text-[13px] lg:text-[14px]"
+          style={{ color: 'var(--c-ink2)', textDecoration: 'none', cursor: 'pointer' }}
+        >
+          {t('help')}
+        </Link>
+        <Link
           href="/#privacy"
           className="hidden md:inline font-semibold text-[13px] lg:text-[14px]"
           style={{ color: 'var(--c-ink2)', textDecoration: 'none', cursor: 'pointer' }}

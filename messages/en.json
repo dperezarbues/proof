@@ -6,6 +6,7 @@
   "nav": {
     "editor": "Editor",
     "templates": "Templates",
+    "help": "Help",
     "privacy": "Privacy",
     "schema": "Schema",
     "openEditor": "Open editor →",
@@ -339,6 +340,53 @@
         "title": "No warranty",
         "p1": "We don't promise Proof is bug-free, always available, or a perfect fit for what you need — you use it at your own risk. We aren't responsible for any damage, lost data, or other problems that come from using it, including CVs it generates for you. Always double-check your CV yourself before sending it anywhere.",
         "p2": "This is a free, open-source project maintained on a best-effort basis by volunteers, not a commercial service with guaranteed support, SLAs, or uptime."
+      }
+    }
+  },
+  "help": {
+    "metaTitle": "How Proof works — Help",
+    "metaDescription": "A quick guide to using Proof's CV editor: templates, layout, style, CV language, and backups.",
+    "title": "How Proof works",
+    "subtitle": "A quick guide to the editor — no fluff.",
+    "sections": {
+      "gettingStarted": {
+        "title": "Adding your CV",
+        "p1": "Click \"+ New\" in the Data tab to start from a blank CV, or \"Import\" to load an existing CV JSON file. You can keep multiple CVs and switch between them from the same list — useful for tailoring different versions for different roles.",
+        "p2": "Everything you type is saved to this browser automatically as you go — there's no separate save step, and nothing is sent anywhere until you choose to generate a PDF."
+      },
+      "templates": {
+        "title": "Choosing a template",
+        "p1": "The Template tab shows every available design. Pick one and the preview recompiles to match. If a template offers more than one layout variant — Split or Classic headers, for example — they appear as a small picker underneath the template grid.",
+        "p2": "Switching templates doesn't touch your CV data, only how it's rendered. Each template remembers its own layout and style customization separately, so trying a different look and coming back later restores exactly what you had."
+      },
+      "layout": {
+        "title": "Arranging sections",
+        "p1": "The Layout tab controls which sections appear and in what order. Drag a section to reorder it, or place two side by side as a column group. Each section has its own spacing and a \"keep together\" toggle so it doesn't awkwardly split across a page break.",
+        "p2": "The Sidebar template has a second, separate list for what goes in the sidebar versus the main column — everything else works the same way."
+      },
+      "style": {
+        "title": "Customizing appearance",
+        "p1": "The Style tab is grouped into Typography, Colors, Spacing, and Extras — these apply the same way across every template. Extras includes things like showing a QR code, a footer, or contact icons instead of plain text.",
+        "p2": "Some templates add their own groups on top of the shared ones — Modern's accent color, or Sidebar's width and background, for instance. Those only show up for templates that actually use them."
+      },
+      "cvLanguage": {
+        "title": "CV language",
+        "p1": "In the Data tab, \"CV language\" sets the language of the section headings in your compiled PDF — Summary, Experience, and so on — independent of whatever language you're using to browse the app itself. Someone using Proof in Spanish can still generate an English-language CV."
+      },
+      "generatingPdf": {
+        "title": "Generating & downloading the PDF",
+        "p1": "Click \"Generate PDF\" whenever you're ready to see the result — Proof compiles it entirely in your browser using Typst, no server involved. The preview updates automatically as you keep editing.",
+        "p2": "When you're happy with it, download it directly from the preview panel."
+      },
+      "savingAndBackup": {
+        "title": "Saving, exporting & backup",
+        "p1": "Proof has no account and no cloud storage — everything lives in this browser only. The Download button next to each CV in the Data tab bundles your CV data together with whatever template, layout, and style you currently have set up, in one JSON file.",
+        "p2": "That file is both your backup and your way to move a CV to another browser or device: importing it later restores the data and recreates the look, not just the words. A plain CV-only JSON file with no design attached still imports fine too.",
+        "p3": "Layouts you've customized in the Layout tab can also be saved as named presets independent of any one CV, and exported/imported the same way, if you want to reuse a look across different CVs."
+      },
+      "privacy": {
+        "title": "Privacy",
+        "p1": "All of this — compiling, storage, everything — happens locally in your browser. See the <terms>Privacy & Terms</terms> page for the full picture, including what limited analytics this site collects."
       }
     }
   },
