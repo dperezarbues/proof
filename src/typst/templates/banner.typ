@@ -1,6 +1,7 @@
 #import "../styles.typ": *
 #import "../components.typ": *
-#import "../sections.typ": data
+#import "../sections.typ": data, lang
+#import "../i18n.typ": section-title
 
 #let id = data.identity
 #let layout-raw  = sys.inputs.at("layout", default: "default")
@@ -53,7 +54,7 @@
 
 // ── Section render functions ───────────────────────────────────────────────────
 #let render-summary(pre: section-pre, post: section-post) = [
-  #banner-section("Summary", pre: pre, post: post, id: "summary")
+  #banner-section(section-title("summary", lang), pre: pre, post: post, id: "summary")
   #text(size: fs-md)[
     #for (i, para) in data.summary.split("\n\n").enumerate() {
       if i > 0 { v(sp-xl) }
@@ -63,7 +64,7 @@
 ]
 
 #let render-experience(pre: section-pre, post: section-post) = [
-  #banner-section("Experience", pre: pre, post: post, id: "experience")
+  #banner-section(section-title("experience", lang), pre: pre, post: post, id: "experience")
   #for (ji, job) in data.experience.enumerate() {
     if ji > 0 { v(sp-xl) }
     block(breakable: false)[
@@ -93,7 +94,7 @@
 ]
 
 #let render-skills(pre: section-pre, post: section-post) = [
-  #banner-section("Skills", pre: pre, post: post, id: "skills")
+  #banner-section(section-title("skills", lang), pre: pre, post: post, id: "skills")
   #set par(justify: false)
   #set text(hyphenate: false)
   #let groups = data.skills
@@ -105,7 +106,7 @@
 ]
 
 #let render-education(pre: section-pre, post: section-post) = [
-  #banner-section("Education", pre: pre, post: post, id: "education")
+  #banner-section(section-title("education", lang), pre: pre, post: post, id: "education")
   #for (i, edu) in data.education.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -122,14 +123,14 @@
 ]
 
 #let render-languages(pre: section-pre, post: section-post) = [
-  #banner-section("Languages", pre: pre, post: post, id: "languages")
+  #banner-section(section-title("languages", lang), pre: pre, post: post, id: "languages")
   #for lang in data.languages [
     #text(weight: "bold", fill: c-ink)[#lang.title]#h(sp-sm)#text(fill: c-muted)[#lang.at("subtitle", default: "")] \
   ]
 ]
 
 #let render-certifications(pre: section-pre, post: section-post) = [
-  #banner-section("Certifications", pre: pre, post: post, id: "certifications")
+  #banner-section(section-title("certifications", lang), pre: pre, post: post, id: "certifications")
   #for (i, cert) in data.certifications.enumerate() {
     if i > 0 { v(sp-xs) }
     [
@@ -140,7 +141,7 @@
 ]
 
 #let render-awards(pre: section-pre, post: section-post) = [
-  #banner-section("Awards", pre: pre, post: post, id: "awards")
+  #banner-section(section-title("awards", lang), pre: pre, post: post, id: "awards")
   #for (i, award) in data.awards.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -157,7 +158,7 @@
 ]
 
 #let render-side-projects(pre: section-pre, post: section-post) = [
-  #banner-section("Projects", pre: pre, post: post, id: "side_projects")
+  #banner-section(section-title("side_projects", lang), pre: pre, post: post, id: "side_projects")
   #for (i, proj) in data.side_projects.enumerate() {
     if i > 0 { v(sp-xl) }
     block(breakable: false)[

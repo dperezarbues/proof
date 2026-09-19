@@ -145,6 +145,7 @@ export function GenericSection({ items, fields, addLabel, getTitle, onChange }: 
             <button
               type="button"
               onClick={() => toggle(i)}
+              aria-expanded={open.has(i)}
               className="flex-1 flex items-center gap-1 py-1.5 text-left min-w-0"
             >
               <span className="flex-1 text-xs font-medium text-gray-700 truncate min-w-0">

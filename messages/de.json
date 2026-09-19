@@ -6,6 +6,7 @@
   "nav": {
     "editor": "Editor",
     "templates": "Vorlagen",
+    "help": "Hilfe",
     "privacy": "Datenschutz",
     "schema": "Schema",
     "openEditor": "Editor öffnen →",
@@ -28,28 +29,45 @@
     "h2Line1": "Bringen Sie",
     "h2Line2": "Ihre KI mit.",
     "body": "Die meisten Tools sperren Ihre Daten hinter einem Formular. Proof übergibt Ihnen ein offenes Schema und tritt in den Hintergrund — nutzen Sie die KI, der Sie bereits vertrauen.",
-    "step1Title": "Schema herunterladen",
-    "step1Body": "Eine dokumentierte JSON-Datei — der Bauplan für einen vollständigen Lebenslauf: Identität, Erfahrung, Fähigkeiten und mehr.",
-    "step2Title": "In beliebiger KI generieren",
-    "step2Body": "Fügen Sie es in Ihre bevorzugte KI ein und beschreiben Sie sich. Kein Prompt zu kopieren, kein Modell-Lock-in. Sie steuern das Gespräch.",
-    "step3Title": "Importieren & prüfen",
-    "step3Body": "JSON zurückladen. Vorlage auswählen, feinabstimmen und als PDF kompilieren — vollständig auf Ihrem Gerät.",
     "worksWith": "Kompatibel mit",
     "openFormat": "Offenes Format",
-    "downloadSchema": "↓ Schema herunterladen"
+    "downloadSchema": "↓ Schema herunterladen",
+    "steps": [
+      {
+        "title": "Schema herunterladen",
+        "body": "Eine dokumentierte JSON-Datei — der Bauplan für einen vollständigen Lebenslauf: Identität, Erfahrung, Fähigkeiten und mehr."
+      },
+      {
+        "title": "In beliebiger KI generieren",
+        "body": "Fügen Sie es in Ihre bevorzugte KI ein und beschreiben Sie sich — und die Stelle, auf die Sie sich bewerben möchten, falls vorhanden. Kein Prompt zu kopieren, kein Modell-Lock-in. Sie steuern das Gespräch."
+      },
+      {
+        "title": "Importieren & prüfen",
+        "body": "JSON zurückladen. Vorlage auswählen, feinabstimmen und als PDF kompilieren — vollständig auf Ihrem Gerät."
+      }
+    ],
+    "viewDocs": "Dokumentation ansehen →"
   },
   "makeYours": {
     "badge": "Dann machen Sie es Ihres",
     "h2Line1": "Zur Perfektion",
     "h2Line2": "verfeinert.",
     "body": "Ein Live-Editor mit Echtzeit-PDF-Vorschau. Umsortieren, neu gestalten und neu kompilieren, bis jede Zeile genau dort sitzt, wo Sie sie haben möchten.",
-    "feature1Title": "Zehn professionelle Vorlagen",
-    "feature1Body": "Layouts sofort wechseln — weitere sind in Planung.",
-    "feature2Title": "Per Drag-and-drop sortieren",
-    "feature2Body": "Abschnitte umsortieren, Seitenumbrüche ein- und ausschalten.",
-    "feature3Title": "Stil anpassen",
-    "feature3Body": "Akzentfarbe, Schriftart, Abstände — alles live.",
-    "openEditor": "Editor öffnen →"
+    "openEditor": "Editor öffnen →",
+    "features": [
+      {
+        "title": "Zehn professionelle Vorlagen",
+        "body": "Layouts sofort wechseln — weitere sind in Planung."
+      },
+      {
+        "title": "Per Drag-and-drop sortieren",
+        "body": "Abschnitte umsortieren, Seitenumbrüche ein- und ausschalten."
+      },
+      {
+        "title": "Stil anpassen",
+        "body": "Akzentfarbe, Schriftart, Abstände — alles live."
+      }
+    ]
   },
   "templates": {
     "badge": "Vorlagen",
@@ -60,10 +78,12 @@
     "h2Line1": "Kein",
     "h2Line2": "Speicher.",
     "body": "Die Kompilierung läuft über WebAssembly im Browser. Kein Server, keine Datenbank, keine Protokolle, kein Konto. Ihr Lebenslauf — und das KI-Gespräch, aus dem er entstand — bleiben vollständig bei Ihnen.",
-    "chip1": "Kein Konto",
-    "chip2": "Keine Cloud",
-    "chip3": "Kein Tracking",
-    "chip4": "Open source"
+    "chips": [
+      "Kein Konto",
+      "Keine Cloud",
+      "Kein Tracking",
+      "Open source"
+    ]
   },
   "openSource": {
     "badge": "Open source",
@@ -96,19 +116,36 @@
     "openEditor": "Editor öffnen",
     "reportIssue": "Problem melden"
   },
+  "error": {
+    "headline": "Etwas ist schiefgelaufen.",
+    "body": "Ein unerwarteter Fehler ist aufgetreten. Ihre gespeicherten Lebensläufe sind unberührt — sie liegen in Ihrem Browser, nicht auf unseren Servern — ein erneuter Versuch sollte Sie zurückbringen.",
+    "retry": "Erneut versuchen",
+    "backHome": "Zurück zur Startseite",
+    "reportIssue": "Problem melden"
+  },
   "onboarding": {
     "title": "Willkommen bei Proof",
     "subtitle": "Ein datenschutzfreundlicher Lebenslauf-Editor. Ihre Daten werden in diesem Browser gespeichert — serverseitig wird nichts gespeichert.",
-    "step1Title": "Lebenslauf hinzufügen",
-    "step1Body": "Verwenden Sie « + Neu », um einen Lebenslauf aus der Vorlage zu erstellen, oder « ↑ Importieren », um eine vorhandene JSON-Datei zu laden. Sie können mehrere Lebensläufe anlegen und zwischen ihnen wechseln.",
-    "step2Title": "Vorlage auswählen & anpassen",
-    "step2Body": "Wählen Sie eine Vorlage aus der Liste. Im mittleren Bereich können Sie Abschnitte umsortieren, Seitenumbrüche ein- und ausschalten sowie Farben, Schriftarten und Abstände anpassen.",
-    "step3Title": "PDF generieren",
-    "step3Body": "Klicken Sie im Editor-Bereich auf « PDF generieren ». Ihr Lebenslauf wird mit Typst kompiliert und das PDF erscheint in der Vorschau. Laden Sie es herunter, wenn Sie zufrieden sind.",
     "sharedComputer": "Ich benutze einen gemeinsam genutzten Computer",
     "sharedComputerNote": "Daten werden im Sitzungsspeicher abgelegt und beim Schließen dieses Tabs automatisch gelöscht.",
+    "confirmEnablePrivate": "Dadurch werden Ihre gespeicherten Lebensläufe in den temporären Speicher dieses Tabs verschoben. Sie werden unwiderruflich gelöscht, sobald Sie diesen Tab schließen. Fortfahren?",
+    "confirmDisablePrivate": "Dadurch werden Ihre Lebensläufe im dauerhaften Speicher dieses Browsers gesichert und bleiben auch nach dem Schließen des Tabs erhalten. Tun Sie dies nicht auf einem gemeinsam genutzten oder öffentlichen Computer. Fortfahren?",
     "reopenHint": "Über die ?-Schaltfläche wieder öffnen",
-    "getStarted": "Loslegen"
+    "getStarted": "Loslegen",
+    "steps": [
+      {
+        "title": "Lebenslauf hinzufügen",
+        "body": "Verwenden Sie « + Neu », um einen Lebenslauf aus der Vorlage zu erstellen, oder « ↑ Importieren », um eine vorhandene JSON-Datei zu laden. Sie können mehrere Lebensläufe anlegen und zwischen ihnen wechseln."
+      },
+      {
+        "title": "Vorlage auswählen & anpassen",
+        "body": "Wählen Sie eine Vorlage aus der Liste. Im mittleren Bereich können Sie Abschnitte umsortieren, Seitenumbrüche ein- und ausschalten sowie Farben, Schriftarten und Abstände anpassen."
+      },
+      {
+        "title": "PDF generieren",
+        "body": "Klicken Sie im Editor-Bereich auf « PDF generieren ». Ihr Lebenslauf wird mit Typst kompiliert und das PDF erscheint in der Vorschau. Laden Sie es herunter, wenn Sie zufrieden sind."
+      }
+    ]
   },
   "cvModal": {
     "titleNew": "Neuer Lebenslauf",
@@ -121,7 +158,11 @@
     "format": "Formatieren",
     "dataStays": "Daten verbleiben in Ihrem Browser",
     "cancel": "Abbrechen",
-    "save": "Speichern"
+    "save": "Speichern",
+    "saveStorageError": "Speichern fehlgeschlagen – der Browser-Speicher ist voll oder nicht verfügbar. Schaffen Sie Speicherplatz oder wechseln Sie zum JSON-Tab und sichern Sie Ihre Daten anderweitig.",
+    "nameRequired": "Name ist erforderlich",
+    "invalidJson": "Ungültiges JSON",
+    "invalidCvStructure": "Ungültige Lebenslauf-Struktur"
   },
   "editor": {
     "tabData": "Daten",
@@ -132,14 +173,32 @@
     "noCVLoaded": "Kein Lebenslauf geladen",
     "noCVsYet": "Noch keine Lebensläufe — erstellen oder importieren Sie einen.",
     "newCV": "+ Neu",
+    "newCvTitle": "Neuer Lebenslauf",
+    "help": "Hilfe",
+    "perSectionSpacing": "Abschnittsabstand",
+    "resetToDefault": "Auf Vorlagenstandard zurücksetzen",
     "import": "↑ Importieren",
+    "cvLanguage": "Lebenslauf-Sprache",
+    "thisCv": "Dieser Lebenslauf",
+    "cvLanguageHint": "Legt die Abschnittsüberschriften des PDFs fest — unabhängig von der Oberflächensprache.",
     "getSchema": "Schema herunterladen",
     "download": "↓ Herunterladen",
     "processedLocally": "LOKAL VERARBEITET · NICHTS HOCHGELADEN",
     "chooseTemplate": "Vorlage auswählen",
     "templatesMoreOnWay": "Vorlagen — weitere folgen bald.",
     "layoutVariant": "Layout-Variante",
+    "saveLayoutAs": "Speichern als…",
     "savedLayouts": "Gespeicherte Layouts",
+    "layoutPresetTitle": "Konfiguration speichern",
+    "layoutPresetHint": "Speichert Layout und Stil im Browser-Speicher",
+    "layoutPresetPlaceholder": "Meine dunkle Seitenleiste",
+    "layoutPresetCancel": "Abbrechen",
+    "layoutPresetSave": "Speichern",
+    "layoutPresetError": "Speichern fehlgeschlagen – der Browser-Speicher ist voll oder nicht verfügbar.",
+    "noLayoutPresets": "Noch keine gespeicherten Konfigurationen",
+    "loadPreset": "Laden",
+    "downloadPreset": "Herunterladen",
+    "autosaveError": "Diese Änderung konnte nicht gespeichert werden – der Speicher ist voll. Sie geht beim Neuladen verloren.",
     "noStyleParams": "Keine Stil-Parameter",
     "noLayoutForTemplate": "Kein Layout für diese Vorlage",
     "editorSettings": "Editor-Einstellungen",
@@ -156,7 +215,9 @@
     "editCVDataTitle": "Lebenslaufdaten bearbeiten",
     "downloadJSON": "JSON herunterladen",
     "delete": "Löschen",
-    "beta": "Beta"
+    "beta": "Beta",
+    "dragToReorder": "Zum Neuordnen ziehen",
+    "removeSection": "Abschnitt entfernen"
   },
   "pdfPreview": {
     "preview": "Vorschau",
@@ -246,26 +307,246 @@
     "subtitle": "Klare Sprache. Kein Juristendeutsch.",
     "openEditor": "Editor öffnen →",
     "backHome": "← Startseite",
-    "s1Title": "Ihre Lebenslaufdaten",
-    "s1p1": "Ihre Lebenslaufdaten werden ausschließlich im localStorage Ihres Browsers gespeichert. Sie verlassen Ihr Gerät nie, außer bei der PDF-Generierung (siehe unten). Wir haben keine Datenbank, keine Benutzerkonten und keine serverseitige Speicherung von Lebenslaufinhalten.",
-    "s1p2": "Wenn Sie Ihren Browser-Speicher leeren, sind Ihre Lebenslaufdaten verloren. Es gibt kein Cloud-Backup. Wir empfehlen, Ihr Lebenslauf-JSON regelmäßig über die Schaltfläche Herunterladen im Editor zu sichern.",
-    "s2Title": "PDF-Generierung",
-    "s2p1": "Wenn Sie auf « PDF generieren » klicken, verlassen Ihre Lebenslaufdaten Ihr Gerät nie. Der Typst-Compiler läuft vollständig in Ihrem Browser als WebAssembly-Modul (~6 MB, einmalig heruntergeladen und zwischengespeichert). Die Kompilierung erfolgt lokal; kein Lebenslaufinhalt wird zu irgendeinem Zeitpunkt an einen Server gesendet.",
-    "s2p2": "Die einzigen Netzwerkanfragen sind: das Laden des Compilers selbst (von dieser Website), das Laden von Schriften (ebenfalls von dieser Website) und das unten beschriebene Analyse-Signal. Ihre Lebenslaufdaten sind in keiner dieser Anfragen enthalten.",
-    "s3Title": "Analyse",
-    "s3p1": "Diese Website verwendet GoatCounter für grundlegende Verkehrsanalysen. GoatCounter erfasst Seitenaufrufe, Referrer-URLs, Browsertyp und Land — keine Cookies, kein Fingerprinting, keine personenbezogenen Daten, kein Cross-Site-Tracking.",
-    "s3p2": "GoatCounter ist open source und seine Datenschutzrichtlinie ist unter goatcounter.com/help/privacy verfügbar.",
-    "s4Title": "Cookies",
-    "s4p1": "Proof setzt keine Cookies. Layout-Speicherungen und Lebenslaufdaten werden in localStorage gespeichert, was kein Cookie ist und nie automatisch an den Server übertragen wird. GoatCounter setzt ebenfalls keine Cookies.",
-    "s5Title": "Open source",
-    "s5p1": "Proof ist open source. Sie können den Code gerne einsehen, selbst hosten oder dazu beitragen. Der Quellcode ist die zuverlässigste Beschreibung dessen, was das Tool tatsächlich tut.",
-    "s6Title": "Änderungen",
-    "s6p1": "Wenn sich etwas Wesentliches ändert — insbesondere in Bezug auf den Umgang mit Daten — wird diese Seite aktualisiert. Das folgende Datum gibt die letzte Überarbeitung an.",
-    "s6date": "Zuletzt aktualisiert: Mai 2025"
+    "sections": {
+      "cvData": {
+        "title": "Ihre Lebenslaufdaten",
+        "p1": "Ihre Lebenslaufdaten werden ausschließlich im localStorage Ihres Browsers gespeichert. Sie verlassen Ihr Gerät nie, außer bei der PDF-Generierung (siehe unten). Wir haben keine Datenbank, keine Benutzerkonten und keine serverseitige Speicherung von Lebenslaufinhalten.",
+        "p2": "Wenn Sie Ihren Browser-Speicher leeren, sind Ihre Lebenslaufdaten verloren. Es gibt kein Cloud-Backup. Wir empfehlen, Ihr Lebenslauf-JSON regelmäßig über die Schaltfläche Herunterladen im Editor zu sichern."
+      },
+      "pdfGeneration": {
+        "title": "PDF-Generierung",
+        "p1": "Wenn Sie auf „Generate PDF“ klicken, verlassen Ihre Lebenslaufdaten Ihr Gerät nie. Der <typst>Typst</typst>-Compiler läuft vollständig in Ihrem Browser als WebAssembly-Modul (~6 MB, einmal heruntergeladen und zwischengespeichert). Die Kompilierung erfolgt lokal; es werden zu keinem Zeitpunkt CV-Inhalte an einen Server gesendet.",
+        "p2": "Die einzigen Netzwerkanfragen sind: das Laden des Compilers selbst (von dieser Website), das Laden von Schriften (ebenfalls von dieser Website) und das unten beschriebene Analyse-Signal. Ihre Lebenslaufdaten sind in keiner dieser Anfragen enthalten."
+      },
+      "analytics": {
+        "title": "Analyse",
+        "p1": "Diese Website verwendet <goatcounter>GoatCounter</goatcounter> für einfache Zugriffsstatistiken. GoatCounter erfasst Seitenaufrufe, Referrer-URLs, Browsertyp und Land — ohne Cookies, ohne Fingerprinting, ohne personenbezogene Daten, ohne seitenübergreifendes Tracking.",
+        "p2": "GoatCounter ist Open Source, die Datenschutzerklärung ist verfügbar unter <privacy>goatcounter.com/help/privacy</privacy>."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "p1": "Proof setzt keine Cookies. Layout-Speicherungen und Lebenslaufdaten werden in localStorage gespeichert, was kein Cookie ist und nie automatisch an den Server übertragen wird. GoatCounter setzt ebenfalls keine Cookies."
+      },
+      "openSource": {
+        "title": "Open source",
+        "p1": "Proof ist open source. Sie können den Code gerne einsehen, selbst hosten oder dazu beitragen. Der Quellcode ist die zuverlässigste Beschreibung dessen, was das Tool tatsächlich tut."
+      },
+      "changes": {
+        "title": "Änderungen",
+        "p1": "Wenn sich etwas Wesentliches ändert — insbesondere in Bezug auf den Umgang mit Daten — wird diese Seite aktualisiert. Das folgende Datum gibt die letzte Überarbeitung an.",
+        "date": "Zuletzt aktualisiert: Mai 2025"
+      },
+      "noWarranty": {
+        "title": "Keine Gewährleistung",
+        "p1": "Wir versprechen nicht, dass Proof fehlerfrei, immer verfügbar oder genau das Richtige für Sie ist — Sie nutzen es auf eigenes Risiko. Wir übernehmen keine Verantwortung für Schäden, Datenverlust oder andere Probleme, die durch die Nutzung entstehen, einschließlich der damit erstellten Lebensläufe. Prüfen Sie Ihren Lebenslauf immer selbst, bevor Sie ihn irgendwohin senden.",
+        "p2": "Dies ist ein kostenloses Open-Source-Projekt, das von Freiwilligen nach bestem Wissen und Gewissen gepflegt wird — kein kommerzieller Dienst mit garantiertem Support, SLAs oder Verfügbarkeit."
+      }
+    }
   },
-  "llms": {
-    "metaTitle": "Lebenslauf-Schema für LLMs — Proof",
-    "home": "← Startseite",
-    "openEditor": "Editor öffnen →"
+  "help": {
+    "metaTitle": "So funktioniert Proof — Hilfe",
+    "metaDescription": "Eine kurze Anleitung zum CV-Editor von Proof: Vorlagen, Layout, Stil, Lebenslauf-Sprache und Backups.",
+    "title": "So funktioniert Proof",
+    "subtitle": "Eine kurze Anleitung zum Editor — ohne Umschweife.",
+    "sections": {
+      "gettingStarted": {
+        "title": "Lebenslauf hinzufügen",
+        "p1": "Klicken Sie im Tab Daten auf „+ Neu“, um mit einem leeren Lebenslauf zu beginnen, oder auf „Importieren“, um eine vorhandene Lebenslauf-JSON-Datei zu laden. Sie können mehrere Lebensläufe führen und in derselben Liste zwischen ihnen wechseln — praktisch, um verschiedene Versionen für verschiedene Stellen anzupassen.",
+        "p2": "Alles, was Sie eingeben, wird automatisch in diesem Browser gespeichert — es gibt keinen separaten Speicherschritt, und nichts wird irgendwohin gesendet, bis Sie ein PDF erzeugen."
+      },
+      "templates": {
+        "title": "Vorlage wählen",
+        "p1": "Der Tab Vorlage zeigt alle verfügbaren Designs. Wählen Sie eines aus, und die Vorschau wird entsprechend neu kompiliert. Bietet eine Vorlage mehr als eine Layout-Variante — etwa Split- oder Classic-Kopfzeilen —, erscheinen diese als kleine Auswahl unter dem Vorlagenraster.",
+        "p2": "Der Wechsel der Vorlage verändert nie Ihre Lebenslauf-Daten, nur die Darstellung. Jede Vorlage merkt sich ihre eigene Layout- und Stilanpassung getrennt — probieren Sie also ruhig ein anderes Aussehen aus und kehren Sie später zurück: Alles ist genau so wieder da, wie Sie es verlassen haben."
+      },
+      "layout": {
+        "title": "Abschnitte anordnen",
+        "p1": "Der Tab Layout bestimmt, welche Abschnitte erscheinen und in welcher Reihenfolge. Ziehen Sie einen Abschnitt, um ihn neu anzuordnen, oder platzieren Sie zwei nebeneinander als Spaltengruppe. Jeder Abschnitt hat einen eigenen Abstand und einen „Zusammenhalten“-Schalter, damit er nicht ungünstig über einen Seitenumbruch hinweg getrennt wird.",
+        "p2": "Die Vorlage Sidebar hat eine zweite, separate Liste dafür, was in die Seitenleiste kommt statt in die Hauptspalte — ansonsten funktioniert alles gleich."
+      },
+      "style": {
+        "title": "Erscheinungsbild anpassen",
+        "p1": "Der Tab Stil ist in Typografie, Farben, Abstände und Extras gruppiert — diese gelten gleichermaßen für jede Vorlage. Extras umfasst zum Beispiel einen QR-Code, eine Fußzeile oder Kontakt-Icons statt reinem Text.",
+        "p2": "Manche Vorlagen fügen zusätzlich eigene Gruppen hinzu — etwa die Akzentfarbe bei Modern oder Breite und Hintergrund der Seitenleiste bei Sidebar. Diese erscheinen nur bei Vorlagen, die sie tatsächlich nutzen."
+      },
+      "cvLanguage": {
+        "title": "Lebenslauf-Sprache",
+        "p1": "Im Tab Daten legt „Lebenslauf-Sprache“ die Sprache der Abschnittsüberschriften in Ihrem kompilierten PDF fest — Zusammenfassung, Berufserfahrung und so weiter — unabhängig davon, in welcher Sprache Sie die App gerade bedienen. Wer Proof auf Deutsch nutzt, kann trotzdem einen englischsprachigen Lebenslauf erzeugen."
+      },
+      "generatingPdf": {
+        "title": "PDF erzeugen & herunterladen",
+        "p1": "Klicken Sie auf „PDF generieren“, sobald Sie das Ergebnis sehen möchten — Proof kompiliert es vollständig in Ihrem Browser mit Typst, ganz ohne Server. Die Vorschau aktualisiert sich automatisch, während Sie weiter bearbeiten.",
+        "p2": "Sind Sie zufrieden, laden Sie es direkt aus dem Vorschaubereich herunter."
+      },
+      "savingAndBackup": {
+        "title": "Speichern, exportieren & sichern",
+        "p1": "Proof hat kein Konto und keinen Cloud-Speicher — alles lebt ausschließlich in diesem Browser. Der Download-Button neben jedem Lebenslauf im Tab Daten bündelt Ihre Lebenslauf-Daten zusammen mit der gerade eingestellten Vorlage, dem Layout und dem Stil in einer einzigen JSON-Datei.",
+        "p2": "Diese Datei ist zugleich Ihr Backup und Ihr Weg, einen Lebenslauf auf einen anderen Browser oder ein anderes Gerät zu übertragen: Beim späteren Importieren werden die Daten wiederhergestellt und das Aussehen neu erzeugt — nicht nur der Text. Eine reine Lebenslauf-JSON-Datei ohne Design lässt sich ebenfalls problemlos importieren.",
+        "p3": "Layouts, die Sie im Tab Layout angepasst haben, lassen sich zudem als benannte Vorlagen unabhängig von einem bestimmten Lebenslauf speichern und ebenso exportieren/importieren, wenn Sie ein Aussehen über mehrere Lebensläufe hinweg wiederverwenden möchten."
+      },
+      "privacy": {
+        "title": "Datenschutz",
+        "p1": "All das — Kompilierung, Speicherung, alles — geschieht lokal in Ihrem Browser. Das vollständige Bild, einschließlich der begrenzten Analysedaten, die diese Website erhebt, finden Sie auf der Seite <terms>Datenschutz & Nutzungsbedingungen</terms>."
+      }
+    }
+  },
+  "forLlms": {
+    "metaTitle": "Schema-Referenz — Proof",
+    "metaDescription": "Vollständige Referenz für das CV-JSON-Schema sowie die Layout-/Stilparameter von Proof. Für LLMs und Agenten, die CV-Daten generieren.",
+    "breadcrumb": "Schema-Referenz",
+    "title": "Schema-Referenz",
+    "intro": "Vollständige Referenz zum Erzeugen gültiger Proof-Daten. Umfasst das CV-Inhalts-JSON, die Layout-Struktur und alle Stilparameter jeder Vorlage. Gedacht für LLMs und Agenten, die CV-Dateien zum Import erzeugen.",
+    "toc": {
+      "cvJson": "CV-JSON",
+      "sections": "Abschnitte",
+      "layout": "Layout-JSON",
+      "style": "Stilparameter",
+      "tips": "Tipps"
+    },
+    "cvJson": {
+      "heading": "1 · CV-JSON-Schema",
+      "intro": "Der Lebenslauf ist ein einzelnes JSON-Objekt. Alle Abschnitte sind optional außer <code>identity</code>. Textfelder in <code>highlights</code>, <code>description</code> und <code>summary</code> unterstützen Markdown-Links: <code>[Text](https://url)</code>.",
+      "contactHeading": "identity.contact — Werte für type",
+      "contactTypes": {
+        "email": "Wird als mailto:-Link dargestellt",
+        "phone": "Wird als tel:-Link dargestellt",
+        "location": "Reiner Text, kein Link",
+        "linkedin": "Verwendet das LinkedIn-Symbol",
+        "github": "Verwendet das GitHub-Symbol",
+        "medium": "Verwendet das Medium-Symbol",
+        "facebook": "Verwendet das Facebook-Symbol",
+        "web": "Generisches Weltkugel-Symbol"
+      },
+      "contactNote": "Die type-Auswahl im visuellen Editor bietet nur 6 davon (kein medium oder facebook) — beim direkten Schreiben des JSON erhalten Sie den vollständigen Satz oben."
+    },
+    "sectionIds": {
+      "heading": "2 · Verfügbare Abschnitts-IDs",
+      "intro": "Dies sind die eingebauten Abschnitts-IDs, die Editor und Vorlagen kennen. Die Vorlage sidebar kann jede davon zusätzlich in der linken Spalte darstellen.",
+      "tableId": "ID",
+      "tableKey": "JSON-Schlüssel",
+      "tableNotes": "Hinweise",
+      "notes": {
+        "summary": "string",
+        "experience": "array",
+        "education": "array",
+        "skills": "array von Gruppen",
+        "languages": "array",
+        "certifications": "array",
+        "awards": "array",
+        "side_projects": "array",
+        "contact": "nur sidebar — wird innerhalb von sidebar_sections verwendet; dieselbe id im regulären sections-Array oder bei jeder anderen Vorlage zeigt stillschweigend nichts an.",
+        "core_strengths": "array kurzer strings, dargestellt als Pillen. Auf jeder Vorlage verfügbar — nicht nur bei sidebar. Der Abschnittstitel ist übersetzt (en/es/de/fr).",
+        "leadership_profile": "ein einzelnes Objekt, kein array: '{ subtitle?, highlights? }'. Ohne title/name — wird unter einer festen, übersetzten Überschrift dargestellt."
+      },
+      "customNote": "Benutzerdefinierte Abschnitte: Jeder oben nicht aufgeführte Schlüssel auf oberster Ebene wird generisch unter einer aus dem Schlüsselnamen gebildeten Überschrift dargestellt. Unterstützte Formen: ein einfacher string; ein string-array (als Aufzählung dargestellt); ein array von Objekten mit title (oder name)/subtitle/period sowie entweder highlights (string-array) oder description; oder ein einzelnes Objekt (kein array) mit subtitle sowie entweder highlights oder description — dieselbe Form, die leadership_profile verwendet."
+    },
+    "layout": {
+      "heading": "3 · Struktur des Layout-JSON",
+      "intro": "Beim Erzeugen eines PDFs im Editor wird zusammen mit den CV-Daten ein Layout-JSON kompiliert. Sie können das Layout-JSON auch direkt erzeugen, um Abschnittsreihenfolge, Spalten und Abstände pro Abschnitt zu steuern.",
+      "topLevelFields": "Felder auf oberster Ebene",
+      "fields": {
+        "header": "Immer erforderlich als {\"style\": \"split\" | \"stacked\"} — der Import-Validator lehnt jeden anderen Wert ab — aber nur die Vorlage default liest den Wert tatsächlich aus und wechselt zwischen einer nebeneinander- und einer gestapelten Darstellung von Name/Headline/Kontakt. Alle anderen Vorlagen (minimal, modern, sidebar und die übrigen) haben ein einziges festes Kopfzeilen-Layout und ignorieren dieses Feld stillschweigend — wählen Sie für sie also einen beliebigen der beiden Werte; er hat keine sichtbare Wirkung.",
+        "sections": "Array der Abschnittseinträge der Hauptspalte (siehe unten).",
+        "sidebar_sections": "Nur für die Vorlage sidebar. Array der Abschnittseinträge der Seitenleiste.",
+        "style": "Stil-Überschreibungen (siehe §4). Werden über die Vorlagen-Standardwerte gelegt."
+      },
+      "sectionEntryFull": "Abschnittseintrag — vollständiger Typ",
+      "fieldsEntry": {
+        "id": "Abschnitts-ID aus §2.",
+        "breakable": "Ob Typst den Inhalt dieses Abschnitts über einen Seitenumbruch hinweg aufteilen darf. Bei false bleibt der Abschnitt als Ganzes zusammen — passt er nicht mehr in den verbleibenden Platz auf der Seite, wandert der gesamte Abschnitt auf die nächste Seite, statt auf einer Seite zu beginnen und auf einer anderen fortzufahren. Standard: true.",
+        "pre_spacing": "Abstand über dem Abschnittstitel. Überschreibt den Vorlagen-Standardwert.",
+        "post_spacing": "Abstand unter der Abschnittslinie. Überschreibt den Vorlagen-Standardwert."
+      },
+      "sectionEntryColumns": "Abschnittseintrag — Typ columns",
+      "fieldsColumns": {
+        "type": "Muss \"columns\" sein, um diese Variante zu aktivieren.",
+        "columns": "Anzahl der Spalten. Standard: 2.",
+        "content": "Array der Spalteninhalte; jedes Element ist ein array von Abschnitts-IDs für diese Spalte."
+      },
+      "completeExamples": "Vollständige Layout-Beispiele",
+      "exampleDefaultMinimal": "Default / Minimal",
+      "exampleSidebar": "Sidebar",
+      "columnsNote": "columns akzeptiert jede Zahl, aber nur für 2, 3 und 4 ist eine passende Spaltenbreite (Gutter) hinterlegt — andere Werte verwenden ersatzweise den Gutter für 2 Spalten. columns sollte mit content.length übereinstimmen; bei einer Abweichung entsteht ein Raster mit einer falschen Anzahl an Spalten für die angegebenen Zellen."
+    },
+    "style": {
+      "heading": "4 · Stilparameter",
+      "intro": "Stilwerte liegen im Schlüssel <code>style</code> des Layout-JSON. Alle sind optional — lassen Sie einen weg, um den Vorlagen-Standardwert zu verwenden.",
+      "commonHeading": "Gemeinsam — alle Vorlagen",
+      "tableKey": "Schlüssel",
+      "tableType": "Typ",
+      "tableRange": "Bereich / Optionen",
+      "tableDefault": "Standard",
+      "notes": {
+        "sizes": {
+          "heading": "Größen",
+          "body": "Was jede Größe steuert: name_size — der Name oben. headline_size (vorlagenspezifisch, siehe unten) — die Rolle/Headline darunter. entry_size — der Titel jedes Eintrags (Jobtitel, Abschluss, Projektname). body_size — Fließtext und Aufzählungspunkte (body_size − 0,5pt wird automatisch für ein paar kleinere sekundäre Textelemente verwendet). section_heading_size — die Abschnittsüberschriften selbst („EXPERIENCE“, „EDUCATION“), wobei section_heading_size − 1pt automatisch für kleinere Pillen/Fußnotentext verwendet wird."
+        },
+        "colors": {
+          "heading": "Farben",
+          "body": "Was jede Farbe steuert: heading_color — der Name und jeder Eintragstitel. body_color — Fließtext und Aufzählungspunkte. muted_color — Metadaten wie Firmennamen und Datumsbereiche. Pillen, Tags und Fußnotentext verwenden eine feste Farbe, die Stilparameter nicht überschreiben können."
+        },
+        "extras": {
+          "heading": "Schalter",
+          "body": "show_footer druckt ausschließlich die Seitenzahl (z. B. „2 / 5“) in kleiner Schrift unten rechts auf jeder Seite — sonst nichts. show_qr platziert einen kleinen QR-Code in der Kopfzeile, der auf qr_url verweist (oder auf den ersten linkedin-Kontakteintrag, falls qr_url leer bleibt); bei allen Vorlagen verfügbar. show_contact_icons und show_contact_labels sind nicht unabhängig voneinander: Ist show_contact_icons aktiviert, zeigt jeder Kontakteintrag sein Marken-Symbol, und show_contact_labels hat dann überhaupt keine Wirkung — Beschriftungen erscheinen nur, wenn die Symbole ausgeschaltet sind."
+        },
+        "common": {
+          "heading": "Hinweise zur Tabelle",
+          "body": "section_pre / section_post gehören technisch nicht zu einer gemeinsamen Parameterliste — jede Vorlage deklariert sie einzeln —, aber alle 10 verwenden denselben oben gezeigten Bereich außer sidebar, das beide erweitert (siehe die eigene Tabelle unten). headline_size und section_rule_gap sind vorlagenspezifisch, nicht universell; siehe die folgende Tabelle je Vorlage."
+        }
+      },
+      "accentHeading": "accent_color — jede Vorlage, mit jeweils eigenem Standardwert",
+      "accentIntro": "Alle 10 Vorlagen deklarieren einen Parameter <code>accent_color</code> unter genau diesem Schlüssel — im Sinne des Schemas ist er nicht gemeinsam/universell (jede Vorlage legt ihren eigenen Bereich und Standardwert fest), aber jede Vorlage hat einen. 7 der 10 haben außerdem <code>headline_size</code> (8–14pt, Standard 10) — alle außer minimal, sidebar und editorial. <code>section_rule_gap</code> (0–0.5em, Standard 0.2) existiert nur bei default, sidebar und timeline.",
+      "tableTemplate": "Vorlage",
+      "tableAccentDefault": "accent_color Standardwert",
+      "bannerHeading": "Vorlagenspezifisch —",
+      "tablePurpose": "Zweck",
+      "bannerPurpose": {
+        "header_bg": "Hintergrund des dunklen Kopfzeilenbands — nur banner"
+      },
+      "sidebarHeading": "Vorlagenspezifisch —",
+      "sidebarNote": "sidebar erweitert außerdem seine gemeinsamen Bereiche für section_pre/section_post: 0.2–1.5em (Standard 0.5) bzw. 0.05–0.8em (Standard 0.2), statt der 0.2–0.9 / 0.05–0.4, die alle anderen Vorlagen verwenden.",
+      "sidebarPurpose": {
+        "sidebar_bg": "Hintergrundfarbe der Seitenleiste",
+        "sidebar_accent": "Farbe der Abschnittsüberschriften in der Seitenleiste",
+        "sidebar_link_color": "Links und Symbole in der Seitenleiste",
+        "sidebar_text": "Fließtext in der Seitenleiste",
+        "sidebar_ink": "Farbe von Name und Eintragstiteln in der Seitenleiste",
+        "sidebar_width": "Breite der Seitenleiste in cm (4.5 – 9.0)",
+        "accent_color": "Links in der Hauptspalte"
+      },
+      "exampleHeading": "In das Layout eingebetteter Stil — Beispiel (Vorlage banner)",
+      "exampleNote": "<code>header.style</code> ist laut Schema weiterhin erforderlich, auch wenn banner es ignoriert (siehe §3) — wählen Sie einen beliebigen der beiden Werte."
+    },
+    "tips": {
+      "heading": "5 · Tipps für Agenten",
+      "tips": {
+        "contactTypes": {
+          "title": "Kontakttypen sorgfältig erfassen",
+          "body": "Verwenden Sie genau diese type-Zeichenketten (email, phone, location, linkedin, github, medium, facebook, web). Das Feld \"key\" ist die angezeigte Bezeichnung — es kann beliebig lauten (\"Email\", \"E-Mail\", \"Geschäftliche E-Mail\" werden alle korrekt dargestellt). Der \"value\" für linkedin/github kann die vollständige URL oder nur der Pfad sein (beides funktioniert)."
+        },
+        "summaryParagraphs": {
+          "title": "summary verwendet \\n\\n für Absätze",
+          "body": "Das Feld summary ist reiner Text. Um mehrere Absätze zu erzeugen, trennen Sie sie mit einem doppelten Zeilenumbruch (\\n\\n). Einzelne Zeilenumbrüche werden wie Leerzeichen behandelt."
+        },
+        "tags": {
+          "title": "Tags sind dekorative Pillen",
+          "body": "Das array \"tags\" bei experience, side_projects und certifications wird als kleine graue Pillen am Ende des Eintrags dargestellt. Halten Sie sie kurz (1–3 Wörter). Bei certifications wird der besondere Tag \"expired\" in einem Warnstil dargestellt."
+        },
+        "links": {
+          "title": "Links funktionieren in jedem Textfeld",
+          "body": "highlights, description und summary unterstützen alle Markdown-Links [Text](url). Sie können im PDF auch auf einen anderen Abschnitt verlinken mit [Text](#abschnitts-id) — z. B. [siehe meine Projekte](#side_projects)."
+        },
+        "omit": {
+          "title": "Lassen Sie Abschnitte ohne Daten weg",
+          "body": "Alle Abschnitte auf oberster Ebene außer identity sind optional. Sie ganz wegzulassen ist sauberer, als leere arrays anzugeben."
+        },
+        "subtitle": {
+          "title": "subtitle ist flexibel",
+          "body": "Für subtitle gibt es kein festes Format. Übliche Konventionen: \"Firma · Ort\" bei experience, \"Abschluss · Fachrichtung\" bei education, \"Aussteller · Jahr\" bei certifications. Das Trennzeichen · ist lediglich eine Darstellungskonvention."
+        }
+      }
+    },
+    "footerTagline": "Proof-Schema-Referenz",
+    "plainTextNote": "Auch als reiner Text verfügbar — zum direkten Einfügen in eine KI oder für Skripte:"
   }
 }

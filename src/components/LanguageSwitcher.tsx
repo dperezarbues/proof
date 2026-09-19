@@ -2,7 +2,9 @@
 
 import { useLocale, useTranslations } from 'next-intl'
 import { usePathname, useRouter } from '@/i18n/navigation'
+import type { Locale } from '@/i18n/routing'
 import { routing } from '@/i18n/routing'
+import { useLocaleOverride } from './ClientLocaleProvider'
 
 const LOCALE_LABELS: Record<string, string> = {
   en: 'EN',
@@ -16,9 +18,15 @@ export default function LanguageSwitcher() {
   const locale = useLocale()
   const router = useRouter()
   const pathname = usePathname()
+  const override = useLocaleOverride()
 
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    router.replace(pathname, { locale: e.target.value })
+    const next = e.target.value as Locale
+    // Inside the editor, switch in place (no navigation, no lost state) via
+    // ClientLocaleProvider. Elsewhere (marketing pages), a real per-locale
+    // page is the right thing to navigate to, so fall back to routing.
+    if (override) override.setLocale(next)
+    else router.replace(pathname, { locale: next })
   }
 
   return (

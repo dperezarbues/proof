@@ -1,5 +1,6 @@
 'use client'
 
+import type { CompileInput } from '@/app/templates/compile-input'
 import type {
   CompileRequest,
   CompileResponse,
@@ -49,6 +50,7 @@ function getWorker(): Worker {
       pending.delete(id)
     }
     readyListeners.length = 0
+    worker?.terminate()
     worker = null
     workerReady = false
   }
@@ -75,17 +77,20 @@ export function onCompilerReady(fn: () => void): void {
 
 const COMPILE_TIMEOUT_MS = 30_000
 
-export async function compileTypst(options: {
-  templateId: string
-  cvContent: string
-  layoutJson: string
-  qrSvg?: string
-}): Promise<string> {
+/**
+ * Public compile API — takes the typed `CompileInput`, not the worker's flat
+ * wire format. Serializing `cv`+`language` into the single JSON blob the
+ * worker shadows as /runtime/cv.json (Typst reads the language back out via
+ * `_cv_language`, see src/typst/sections.typ) is this function's job alone;
+ * nothing upstream needs to know that's how it's carried across the
+ * postMessage boundary.
+ */
+export async function compileTypst(input: CompileInput): Promise<string> {
   return new Promise((resolve, reject) => {
     const id = nextId++
     const timer = setTimeout(() => {
       pending.delete(id)
-      reject(new Error('Compile timed out after 30 s'))
+      reject(new Error(`Compile timed out after ${COMPILE_TIMEOUT_MS / 1000}s`))
     }, COMPILE_TIMEOUT_MS)
 
     pending.set(id, {
@@ -99,7 +104,15 @@ export async function compileTypst(options: {
       },
     })
 
-    const msg: CompileRequest = { id, ...options }
+    const cvContent = JSON.stringify({ ...input.cv, _cv_language: input.language })
+    const layoutJson = JSON.stringify(input.layoutData)
+    const msg: CompileRequest = {
+      id,
+      templateId: input.templateId,
+      cvContent,
+      layoutJson,
+      qrSvg: input.qrSvg,
+    }
     getWorker().postMessage(msg)
   })
 }

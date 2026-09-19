@@ -12,8 +12,8 @@
  * `_s` block and therefore reach every template automatically.
  */
 
-import { readFileSync } from 'fs'
-import { join } from 'path'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 // ── File helpers ──────────────────────────────────────────────────────────────
@@ -127,6 +127,7 @@ for (const key of [...universeKeys].sort()) {
   for (const t of templatesJson.templates) {
     const declaredHere = (t.styleParams ?? []).some((p) => p.key === key)
     const declaredAny = isShared || declaredHere
+    // biome-ignore lint/style/noNonNullAssertion: perTemplateConsumed is built from this exact templates list (line 111), so the entry is always present.
     const consumed = perTemplateConsumed.get(t.id)!.has(key)
     if (isClient) matrix[key][t.id] = isShared ? 'S' : ''
     else if (declaredAny && consumed)
@@ -138,7 +139,6 @@ for (const key of [...universeKeys].sort()) {
     else matrix[key][t.id] = ''
   }
 }
-console.table(matrix)
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
 

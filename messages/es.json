@@ -6,6 +6,7 @@
   "nav": {
     "editor": "Editor",
     "templates": "Plantillas",
+    "help": "Ayuda",
     "privacy": "Privacidad",
     "schema": "Esquema",
     "openEditor": "Abrir editor →",
@@ -28,28 +29,45 @@
     "h2Line1": "Traiga",
     "h2Line2": "su propia IA.",
     "body": "La mayoría de las herramientas atrapan sus datos detrás de un formulario. Proof le entrega un esquema abierto y se aparta — use la IA en la que ya confía.",
-    "step1Title": "Descargar el esquema",
-    "step1Body": "Un único archivo JSON documentado — el plano de un CV completo: identidad, experiencia, habilidades y todo lo demás.",
-    "step2Title": "Generar en cualquier IA",
-    "step2Body": "Péguelo en la IA de su elección y descríbase. Sin prompt que copiar, sin bloqueo de modelo. Usted controla la conversación.",
-    "step3Title": "Importar & verificar",
-    "step3Body": "Vuelva a cargar el JSON. Elija una plantilla, ajuste los detalles y compile a PDF — completamente en su dispositivo.",
     "worksWith": "Compatible con",
     "openFormat": "Formato abierto",
-    "downloadSchema": "↓ Descargar esquema"
+    "downloadSchema": "↓ Descargar esquema",
+    "steps": [
+      {
+        "title": "Descargar el esquema",
+        "body": "Un único archivo JSON documentado — el plano de un CV completo: identidad, experiencia, habilidades y todo lo demás."
+      },
+      {
+        "title": "Generar en cualquier IA",
+        "body": "Péguelo en la IA de su elección y descríbase — y el puesto que busca, si tiene uno. Sin prompt que copiar, sin bloqueo de modelo. Usted controla la conversación."
+      },
+      {
+        "title": "Importar & verificar",
+        "body": "Vuelva a cargar el JSON. Elija una plantilla, ajuste los detalles y compile a PDF — completamente en su dispositivo."
+      }
+    ],
+    "viewDocs": "Ver documentación →"
   },
   "makeYours": {
     "badge": "Luego hágalo suyo",
     "h2Line1": "Verifíquelo",
     "h2Line2": "a la perfección.",
     "body": "Un editor en vivo con vista previa de PDF en tiempo real. Reordene, rediseñe y recompile hasta que cada línea quede exactamente donde usted quiera.",
-    "feature1Title": "Diez plantillas profesionales",
-    "feature1Body": "Cambie de diseño al instante — más están en camino.",
-    "feature2Title": "Arrastrar para reordenar",
-    "feature2Body": "Reordene secciones, active o desactive saltos de página.",
-    "feature3Title": "Ajustar el estilo",
-    "feature3Body": "Color de acento, tipografía, espaciado — todo en vivo.",
-    "openEditor": "Abrir editor →"
+    "openEditor": "Abrir editor →",
+    "features": [
+      {
+        "title": "Diez plantillas profesionales",
+        "body": "Cambie de diseño al instante — más están en camino."
+      },
+      {
+        "title": "Arrastrar para reordenar",
+        "body": "Reordene secciones, active o desactive saltos de página."
+      },
+      {
+        "title": "Ajustar el estilo",
+        "body": "Color de acento, tipografía, espaciado — todo en vivo."
+      }
+    ]
   },
   "templates": {
     "badge": "Plantillas",
@@ -60,10 +78,12 @@
     "h2Line1": "Cero",
     "h2Line2": "almacenamiento.",
     "body": "La compilación se ejecuta en su navegador mediante WebAssembly. Sin servidor, sin base de datos, sin registros, sin cuenta. Su CV — y la conversación con la IA que lo generó — permanecen enteramente con usted.",
-    "chip1": "Sin cuenta",
-    "chip2": "Sin nube",
-    "chip3": "Sin rastreo",
-    "chip4": "Open source"
+    "chips": [
+      "Sin cuenta",
+      "Sin nube",
+      "Sin rastreo",
+      "Open source"
+    ]
   },
   "openSource": {
     "badge": "Open source",
@@ -96,19 +116,36 @@
     "openEditor": "Abrir el editor",
     "reportIssue": "Reportar un problema"
   },
+  "error": {
+    "headline": "Algo se rompió.",
+    "body": "Se produjo un error inesperado. Sus CVs guardados están intactos — viven en su navegador, no en nuestros servidores — así que reintentar debería devolverle a donde estaba.",
+    "retry": "Reintentar",
+    "backHome": "Volver al inicio",
+    "reportIssue": "Reportar un problema"
+  },
   "onboarding": {
     "title": "Bienvenido a Proof",
     "subtitle": "Un editor de CV respetuoso con la privacidad. Sus datos se almacenan en este navegador — nada se guarda en el servidor.",
-    "step1Title": "Añada su CV",
-    "step1Body": "Use « + Nuevo » para crear un CV desde la plantilla, o « ↑ Importar » para cargar un archivo JSON existente. Puede tener varios CV y cambiar entre ellos.",
-    "step2Title": "Elija una plantilla & personalice",
-    "step2Body": "Seleccione una plantilla de la lista. El panel central le permite reordenar secciones, activar saltos de página y ajustar colores, fuentes y espaciados.",
-    "step3Title": "Genere su PDF",
-    "step3Body": "Pulse « Generar PDF » en el panel del editor. Su CV se compila con Typst y el PDF aparece en la vista previa. Descárguelo cuando esté satisfecho.",
     "sharedComputer": "Estoy en un ordenador compartido",
     "sharedComputerNote": "Los datos se almacenarán en el almacenamiento de sesión y se borrarán automáticamente al cerrar esta pestaña.",
+    "confirmEnablePrivate": "Esto moverá sus CV guardados al almacenamiento temporal de esta pestaña. Se eliminarán permanentemente en cuanto cierre esta pestaña. ¿Continuar?",
+    "confirmDisablePrivate": "Esto guardará sus CV en el almacenamiento permanente de este navegador, donde persistirán después de cerrar la pestaña. No haga esto en un ordenador compartido o público. ¿Continuar?",
     "reopenHint": "Reabrir con el botón ?",
-    "getStarted": "Comenzar"
+    "getStarted": "Comenzar",
+    "steps": [
+      {
+        "title": "Añada su CV",
+        "body": "Use « + Nuevo » para crear un CV desde la plantilla, o « ↑ Importar » para cargar un archivo JSON existente. Puede tener varios CV y cambiar entre ellos."
+      },
+      {
+        "title": "Elija una plantilla & personalice",
+        "body": "Seleccione una plantilla de la lista. El panel central le permite reordenar secciones, activar saltos de página y ajustar colores, fuentes y espaciados."
+      },
+      {
+        "title": "Genere su PDF",
+        "body": "Pulse « Generar PDF » en el panel del editor. Su CV se compila con Typst y el PDF aparece en la vista previa. Descárguelo cuando esté satisfecho."
+      }
+    ]
   },
   "cvModal": {
     "titleNew": "Nuevo CV",
@@ -121,7 +158,11 @@
     "format": "Formatear",
     "dataStays": "Los datos permanecen en su navegador",
     "cancel": "Cancelar",
-    "save": "Guardar"
+    "save": "Guardar",
+    "saveStorageError": "No se pudo guardar: el almacenamiento del navegador está lleno o no disponible. Libere espacio o cambie a la pestaña JSON y copie sus datos en otro lugar.",
+    "nameRequired": "El nombre es obligatorio",
+    "invalidJson": "JSON no válido",
+    "invalidCvStructure": "Estructura de CV no válida"
   },
   "editor": {
     "tabData": "Datos",
@@ -132,14 +173,32 @@
     "noCVLoaded": "Ningún CV cargado",
     "noCVsYet": "Aún no hay CV — cree o importe uno.",
     "newCV": "+ Nuevo",
+    "newCvTitle": "Nuevo CV",
+    "help": "Ayuda",
+    "perSectionSpacing": "Espaciado por sección",
+    "resetToDefault": "Restablecer al valor predeterminado de la plantilla",
     "import": "↑ Importar",
+    "cvLanguage": "Idioma del CV",
+    "thisCv": "Este CV",
+    "cvLanguageHint": "Define los encabezados de sección del PDF — independiente del idioma de la interfaz.",
     "getSchema": "Obtener el esquema",
     "download": "↓ Descargar",
     "processedLocally": "PROCESADO LOCALMENTE · NADA SUBIDO",
     "chooseTemplate": "Elegir una plantilla",
     "templatesMoreOnWay": "plantillas — más en camino.",
     "layoutVariant": "Variante de diseño",
+    "saveLayoutAs": "Guardar como…",
     "savedLayouts": "Diseños guardados",
+    "layoutPresetTitle": "Guardar configuración",
+    "layoutPresetHint": "Guarda el diseño y el estilo en el almacenamiento del navegador",
+    "layoutPresetPlaceholder": "Mi barra lateral oscura",
+    "layoutPresetCancel": "Cancelar",
+    "layoutPresetSave": "Guardar",
+    "layoutPresetError": "No se pudo guardar: el almacenamiento del navegador está lleno o no disponible.",
+    "noLayoutPresets": "Aún no hay configuraciones guardadas",
+    "loadPreset": "Cargar",
+    "downloadPreset": "Descargar",
+    "autosaveError": "No se pudo guardar este cambio: el almacenamiento está lleno. Se perderá al recargar.",
     "noStyleParams": "Sin parámetros de estilo",
     "noLayoutForTemplate": "Sin diseño para esta plantilla",
     "editorSettings": "Ajustes del editor",
@@ -156,7 +215,9 @@
     "editCVDataTitle": "Editar datos del CV",
     "downloadJSON": "Descargar JSON",
     "delete": "Eliminar",
-    "beta": "Beta"
+    "beta": "Beta",
+    "dragToReorder": "Arrastrar para reordenar",
+    "removeSection": "Quitar sección"
   },
   "pdfPreview": {
     "preview": "vista previa",
@@ -246,26 +307,246 @@
     "subtitle": "En lenguaje claro. Sin jerga legal.",
     "openEditor": "Abrir editor →",
     "backHome": "← Inicio",
-    "s1Title": "Sus datos del CV",
-    "s1p1": "Sus datos del CV se almacenan exclusivamente en el localStorage de su navegador. Nunca abandonan su dispositivo, excepto durante la generación del PDF (ver más abajo). No tenemos base de datos, ni cuentas de usuario, ni almacenamiento del contenido del CV en el servidor.",
-    "s1p2": "Si borra el almacenamiento de su navegador, sus datos del CV se perderán. No hay copia de seguridad en la nube. Le recomendamos descargar periódicamente el JSON de su CV usando el botón Descargar del editor.",
-    "s2Title": "Generación de PDF",
-    "s2p1": "Cuando pulsa « Generar PDF », sus datos del CV nunca abandonan su dispositivo. El compilador Typst se ejecuta completamente en su navegador como módulo WebAssembly (~6 MB, descargado una vez y almacenado en caché). La compilación ocurre localmente; ningún contenido del CV se envía a ningún servidor en ningún momento.",
-    "s2p2": "Las únicas solicitudes de red son: cargar el propio compilador (desde este sitio), cargar fuentes (también desde este sitio) y la señal de análisis descrita a continuación. Sus datos del CV no están incluidos en ninguna de estas solicitudes.",
-    "s3Title": "Análisis",
-    "s3p1": "Este sitio usa GoatCounter para análisis básicos de tráfico. GoatCounter recopila páginas vistas, URL de referencia, tipo de navegador y país — sin cookies, sin fingerprinting, sin datos personales, sin rastreo entre sitios.",
-    "s3p2": "GoatCounter es open source y su política de privacidad está disponible en goatcounter.com/help/privacy.",
-    "s4Title": "Cookies",
-    "s4p1": "Proof no establece cookies. Los diseños guardados y los datos del CV se almacenan en localStorage, que no es una cookie y nunca se transmite automáticamente al servidor. GoatCounter tampoco establece cookies.",
-    "s5Title": "Open source",
-    "s5p1": "Proof es open source. Puede inspeccionar el código, alojarlo usted mismo o contribuir. El código fuente es la descripción más fiable de lo que la herramienta hace realmente.",
-    "s6Title": "Cambios",
-    "s6p1": "Si algo relevante cambia — especialmente en relación con el manejo de datos — esta página se actualizará. La fecha a continuación refleja la última revisión.",
-    "s6date": "Última actualización: mayo de 2025"
+    "sections": {
+      "cvData": {
+        "title": "Sus datos del CV",
+        "p1": "Sus datos del CV se almacenan exclusivamente en el localStorage de su navegador. Nunca abandonan su dispositivo, excepto durante la generación del PDF (ver más abajo). No tenemos base de datos, ni cuentas de usuario, ni almacenamiento del contenido del CV en el servidor.",
+        "p2": "Si borra el almacenamiento de su navegador, sus datos del CV se perderán. No hay copia de seguridad en la nube. Le recomendamos descargar periódicamente el JSON de su CV usando el botón Descargar del editor."
+      },
+      "pdfGeneration": {
+        "title": "Generación de PDF",
+        "p1": "Al hacer clic en «Generate PDF», sus datos de CV nunca salen de su dispositivo. El compilador <typst>Typst</typst> se ejecuta enteramente en su navegador como un módulo WebAssembly (~6 MB, descargado una vez y en caché). La compilación se realiza localmente; el contenido del CV nunca se envía a ningún servidor en ningún momento.",
+        "p2": "Las únicas solicitudes de red son: cargar el propio compilador (desde este sitio), cargar fuentes (también desde este sitio) y la señal de análisis descrita a continuación. Sus datos del CV no están incluidos en ninguna de estas solicitudes."
+      },
+      "analytics": {
+        "title": "Análisis",
+        "p1": "Este sitio usa <goatcounter>GoatCounter</goatcounter> para análisis básicos de tráfico. GoatCounter recopila páginas vistas, URLs de referencia, tipo de navegador y país — sin cookies, sin fingerprinting, sin datos personales, sin seguimiento entre sitios.",
+        "p2": "GoatCounter es de código abierto y su política de privacidad está disponible en <privacy>goatcounter.com/help/privacy</privacy>."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "p1": "Proof no establece cookies. Los diseños guardados y los datos del CV se almacenan en localStorage, que no es una cookie y nunca se transmite automáticamente al servidor. GoatCounter tampoco establece cookies."
+      },
+      "openSource": {
+        "title": "Open source",
+        "p1": "Proof es open source. Puede inspeccionar el código, alojarlo usted mismo o contribuir. El código fuente es la descripción más fiable de lo que la herramienta hace realmente."
+      },
+      "changes": {
+        "title": "Cambios",
+        "p1": "Si algo relevante cambia — especialmente en relación con el manejo de datos — esta página se actualizará. La fecha a continuación refleja la última revisión.",
+        "date": "Última actualización: mayo de 2025"
+      },
+      "noWarranty": {
+        "title": "Sin garantía",
+        "p1": "No prometemos que Proof esté libre de errores, disponible siempre o sea perfecto para lo que necesita — lo usa bajo su propio riesgo. No nos responsabilizamos de ningún daño, pérdida de datos u otro problema derivado de su uso, incluidos los CV que genera. Revise siempre su CV usted mismo antes de enviarlo a cualquier sitio.",
+        "p2": "Este es un proyecto gratuito y de código abierto mantenido de forma voluntaria y según disponibilidad, no un servicio comercial con soporte garantizado, SLA ni disponibilidad garantizada."
+      }
+    }
   },
-  "llms": {
-    "metaTitle": "Esquema de CV para LLMs — Proof",
-    "home": "← Inicio",
-    "openEditor": "Abrir editor →"
+  "help": {
+    "metaTitle": "Cómo funciona Proof — Ayuda",
+    "metaDescription": "Una guía rápida del editor de CV de Proof: plantillas, maquetación, estilo, idioma del CV y copias de seguridad.",
+    "title": "Cómo funciona Proof",
+    "subtitle": "Una guía rápida del editor — sin rodeos.",
+    "sections": {
+      "gettingStarted": {
+        "title": "Añadir su CV",
+        "p1": "Pulse «+ Nuevo» en la pestaña Datos para empezar desde un CV en blanco, o «Importar» para cargar un archivo JSON de CV existente. Puede tener varios CV y cambiar entre ellos desde la misma lista — útil para adaptar distintas versiones a distintos puestos.",
+        "p2": "Todo lo que escribe se guarda automáticamente en este navegador a medida que avanza — no hay un paso de guardado aparte, y nada se envía a ningún sitio hasta que decide generar un PDF."
+      },
+      "templates": {
+        "title": "Elegir una plantilla",
+        "p1": "La pestaña Plantilla muestra todos los diseños disponibles. Elija uno y la vista previa se recompila para reflejarlo. Si una plantilla ofrece más de una variante de maquetación — por ejemplo, cabeceras Split o Classic — aparecen como un pequeño selector debajo de la galería de plantillas.",
+        "p2": "Cambiar de plantilla no toca los datos de su CV, solo cómo se renderiza. Cada plantilla recuerda su propia personalización de maquetación y estilo por separado, así que probar otro aspecto y volver más tarde restaura exactamente lo que tenía."
+      },
+      "layout": {
+        "title": "Organizar las secciones",
+        "p1": "La pestaña Maquetación controla qué secciones aparecen y en qué orden. Arrastre una sección para reordenarla, o coloque dos una junto a otra como grupo de columnas. Cada sección tiene su propio espaciado y un interruptor «mantener junto» para que no se divida de forma incómoda entre páginas.",
+        "p2": "La plantilla Sidebar tiene una segunda lista, separada, para lo que va en la barra lateral frente a la columna principal — el resto funciona igual."
+      },
+      "style": {
+        "title": "Personalizar la apariencia",
+        "p1": "La pestaña Estilo está agrupada en Tipografía, Colores, Espaciado y Extras — se aplican igual en todas las plantillas. Extras incluye cosas como mostrar un código QR, un pie de página, o iconos de contacto en lugar de texto plano.",
+        "p2": "Algunas plantillas añaden sus propios grupos además de los compartidos — el color de acento de Modern, o el ancho y fondo de la barra lateral de Sidebar, por ejemplo. Esos solo aparecen en las plantillas que realmente los usan."
+      },
+      "cvLanguage": {
+        "title": "Idioma del CV",
+        "p1": "En la pestaña Datos, «Idioma del CV» fija el idioma de los encabezados de sección en su PDF compilado — Resumen, Experiencia, etc. — independientemente del idioma en el que esté usando la aplicación. Alguien que use Proof en español puede generar igualmente un CV en inglés."
+      },
+      "generatingPdf": {
+        "title": "Generar y descargar el PDF",
+        "p1": "Pulse «Generar PDF» cuando quiera ver el resultado — Proof lo compila enteramente en su navegador con Typst, sin ningún servidor de por medio. La vista previa se actualiza automáticamente mientras sigue editando.",
+        "p2": "Cuando esté conforme, descárguelo directamente desde el panel de vista previa."
+      },
+      "savingAndBackup": {
+        "title": "Guardar, exportar y copia de seguridad",
+        "p1": "Proof no tiene cuenta ni almacenamiento en la nube — todo vive solo en este navegador. El botón Descargar junto a cada CV en la pestaña Datos incluye los datos del CV junto con la plantilla, maquetación y estilo que tenga configurados en ese momento, en un único archivo JSON.",
+        "p2": "Ese archivo es a la vez su copia de seguridad y su forma de mover un CV a otro navegador o dispositivo: al importarlo más tarde se restauran los datos y se recrea el aspecto, no solo el texto. Un archivo JSON con solo el CV, sin diseño adjunto, también se importa sin problema.",
+        "p3": "Las maquetaciones que personalice en la pestaña Maquetación también pueden guardarse como ajustes con nombre, independientes de cualquier CV concreto, y exportarse/importarse de la misma forma si quiere reutilizar un aspecto entre distintos CV."
+      },
+      "privacy": {
+        "title": "Privacidad",
+        "p1": "Todo esto — compilación, almacenamiento, todo — ocurre localmente en su navegador. Consulte la página de <terms>Privacidad y Términos</terms> para ver el panorama completo, incluido qué análisis limitado recopila este sitio."
+      }
+    }
+  },
+  "forLlms": {
+    "metaTitle": "Referencia del esquema — Proof",
+    "metaDescription": "Referencia completa del esquema JSON del CV y de los parámetros de layout/estilo de Proof. Para LLMs y agentes que generan datos de CV.",
+    "breadcrumb": "Referencia del esquema",
+    "title": "Referencia del esquema",
+    "intro": "Referencia completa para generar datos válidos para Proof. Cubre el JSON de contenido del CV, la estructura del layout y todos los parámetros de estilo de cada plantilla. Pensada para LLMs y agentes que producen archivos de CV para importar.",
+    "toc": {
+      "cvJson": "JSON del CV",
+      "sections": "Secciones",
+      "layout": "JSON del layout",
+      "style": "Parámetros de estilo",
+      "tips": "Consejos"
+    },
+    "cvJson": {
+      "heading": "1 · Esquema JSON del CV",
+      "intro": "El CV es un único objeto JSON. Todas las secciones son opcionales excepto <code>identity</code>. Los campos de texto en <code>highlights</code>, <code>description</code> y <code>summary</code> admiten enlaces con sintaxis Markdown: <code>[texto](https://url)</code>.",
+      "contactHeading": "identity.contact — valores de type",
+      "contactTypes": {
+        "email": "Se muestra como enlace mailto:",
+        "phone": "Se muestra como enlace tel:",
+        "location": "Texto plano, sin enlace",
+        "linkedin": "Usa el icono de LinkedIn",
+        "github": "Usa el icono de GitHub",
+        "medium": "Usa el icono de Medium",
+        "facebook": "Usa el icono de Facebook",
+        "web": "Icono genérico de globo"
+      },
+      "contactNote": "El selector de type del editor visual solo ofrece 6 de estos (no incluye medium ni facebook) — escribiendo el JSON directamente se obtiene el conjunto completo de arriba."
+    },
+    "sectionIds": {
+      "heading": "2 · IDs de sección disponibles",
+      "intro": "Estos son los IDs de sección integrados que reconocen el editor y las plantillas. La plantilla sidebar también puede mostrar cualquiera de ellos en la columna izquierda.",
+      "tableId": "ID",
+      "tableKey": "Clave JSON",
+      "tableNotes": "Notas",
+      "notes": {
+        "summary": "string",
+        "experience": "array",
+        "education": "array",
+        "skills": "array de grupos",
+        "languages": "array",
+        "certifications": "array",
+        "awards": "array",
+        "side_projects": "array",
+        "contact": "solo en sidebar — se usa dentro de sidebar_sections; el mismo id en el array sections normal, o en cualquier otra plantilla, no muestra nada.",
+        "core_strengths": "array de strings cortos, se muestra como píldoras. Disponible en todas las plantillas — no es exclusivo de sidebar. El título de la sección está traducido (en/es/de/fr).",
+        "leadership_profile": "un único objeto, no un array: '{ subtitle?, highlights? }'. Sin title/name — se muestra bajo un encabezado fijo y traducido."
+      },
+      "customNote": "Secciones personalizadas: cualquier clave de nivel superior no listada arriba se muestra de forma genérica bajo un encabezado generado a partir del nombre de la clave. Formas admitidas: un string simple; un array de strings (se muestra como lista con viñetas); un array de objetos con title (o name)/subtitle/period y, además, highlights (array de strings) o description; o un único objeto (no un array) con subtitle y, además, highlights o description — la misma forma que usa leadership_profile."
+    },
+    "layout": {
+      "heading": "3 · Estructura del JSON del layout",
+      "intro": "Al generar un PDF desde el editor, se compila un JSON de layout junto con los datos del CV. También puede producir el JSON de layout directamente para controlar el orden de las secciones, las columnas y el espaciado por sección.",
+      "topLevelFields": "Campos de nivel superior",
+      "fields": {
+        "header": "Siempre obligatorio como {\"style\": \"split\" | \"stacked\"} — el validador de importación rechaza cualquier otro valor — pero solo la plantilla default lo utiliza realmente, alternando entre una cabecera con nombre/titular/contacto en paralelo o apilada. El resto de plantillas (minimal, modern, sidebar y las demás) tienen una única cabecera fija e ignoran silenciosamente este campo, así que puede elegir cualquiera de los dos valores para ellas; no tiene ningún efecto visible.",
+        "sections": "Array de entradas de sección de la columna principal (ver más abajo).",
+        "sidebar_sections": "Solo para la plantilla sidebar. Array de entradas de sección de la barra lateral.",
+        "style": "Sobrescrituras de estilo (ver §4). Se aplican sobre los valores por defecto de la plantilla."
+      },
+      "sectionEntryFull": "Entrada de sección — tipo completo",
+      "fieldsEntry": {
+        "id": "ID de sección del §2.",
+        "breakable": "Si Typst puede dividir el contenido de esta sección entre dos páginas. Con false la sección se mantiene íntegra — si no cabe en el espacio restante de la página, toda la sección pasa a la siguiente en lugar de empezar en una página y continuar en otra. Por defecto: true.",
+        "pre_spacing": "Espacio por encima del título de la sección. Sobrescribe el valor por defecto de la plantilla.",
+        "post_spacing": "Espacio por debajo de la línea de la sección. Sobrescribe el valor por defecto de la plantilla."
+      },
+      "sectionEntryColumns": "Entrada de sección — tipo columns",
+      "fieldsColumns": {
+        "type": "Debe ser \"columns\" para activar esta variante.",
+        "columns": "Número de columnas. Por defecto: 2.",
+        "content": "Array con el contenido de las columnas; cada elemento es un array de IDs de sección para esa columna."
+      },
+      "completeExamples": "Ejemplos completos de layout",
+      "exampleDefaultMinimal": "Default / Minimal",
+      "exampleSidebar": "Sidebar",
+      "columnsNote": "columns acepta cualquier número, pero solo 2, 3 y 4 tienen un ancho de separación (gutter) ajustado específicamente — el resto de valores usa el gutter de 2 columnas. columns debe coincidir con content.length; si no coinciden, la cuadrícula tendrá un número de columnas distinto al de las celdas proporcionadas."
+    },
+    "style": {
+      "heading": "4 · Parámetros de estilo",
+      "intro": "Los valores de estilo residen en la clave <code>style</code> del JSON de layout. Todos son opcionales — omita cualquiera para usar el valor por defecto de la plantilla.",
+      "commonHeading": "Comunes — todas las plantillas",
+      "tableKey": "Clave",
+      "tableType": "Tipo",
+      "tableRange": "Rango / opciones",
+      "tableDefault": "Por defecto",
+      "notes": {
+        "sizes": {
+          "heading": "Tamaños",
+          "body": "Qué controla cada tamaño: name_size — el nombre en la parte superior. headline_size (específico de cada plantilla, ver más abajo) — el titular/rol debajo del nombre. entry_size — el título de cada entrada (puesto, titulación, nombre del proyecto). body_size — el texto del cuerpo y los puntos destacados (body_size − 0.5pt se usa automáticamente para un par de elementos de texto secundarios más pequeños). section_heading_size — los propios títulos de sección («EXPERIENCE», «EDUCATION»), con section_heading_size − 1pt usado automáticamente para píldoras y notas al pie más pequeñas."
+        },
+        "colors": {
+          "heading": "Colores",
+          "body": "Qué controla cada color: heading_color — el nombre y el título de cada entrada. body_color — el texto del cuerpo y los puntos destacados. muted_color — metadatos como el nombre de la empresa y los rangos de fechas. Las píldoras, las etiquetas y el texto de notas al pie usan un color fijo que los parámetros de estilo no pueden sobrescribir."
+        },
+        "extras": {
+          "heading": "Interruptores",
+          "body": "show_footer solo imprime el número de página (p. ej. «2 / 5») en texto pequeño abajo a la derecha de cada página — nada más. show_qr coloca un pequeño código QR en la cabecera, enlazando a qr_url (o a la primera entrada de contacto linkedin si qr_url queda vacío); disponible en todas las plantillas. show_contact_icons y show_contact_labels no son independientes: con show_contact_icons activado, cada entrada de contacto muestra su icono de marca y show_contact_labels no tiene ningún efecto — las etiquetas solo aparecen cuando los iconos están desactivados."
+        },
+        "common": {
+          "heading": "Notas sobre la tabla",
+          "body": "section_pre / section_post no forman técnicamente parte de una lista de parámetros compartida — cada plantilla los declara individualmente — pero las 10 usan el mismo rango mostrado arriba excepto sidebar, que amplía ambos (ver su propia tabla más abajo). headline_size y section_rule_gap son específicos de cada plantilla, no universales; ver la siguiente tabla por plantilla."
+        }
+      },
+      "accentHeading": "accent_color — todas las plantillas, con un valor por defecto distinto en cada una",
+      "accentIntro": "Las 10 plantillas declaran un parámetro <code>accent_color</code> con exactamente esta clave — no es compartido/universal en el sentido del esquema (cada plantilla fija su propio rango y valor por defecto), pero todas lo tienen. 7 de las 10 también tienen <code>headline_size</code> (8–14pt, por defecto 10) — todas excepto minimal, sidebar y editorial. <code>section_rule_gap</code> (0–0.5em, por defecto 0.2) solo existe en default, sidebar y timeline.",
+      "tableTemplate": "Plantilla",
+      "tableAccentDefault": "accent_color por defecto",
+      "bannerHeading": "Específico de plantilla —",
+      "tablePurpose": "Propósito",
+      "bannerPurpose": {
+        "header_bg": "Fondo de la franja oscura de la cabecera — solo banner"
+      },
+      "sidebarHeading": "Específico de plantilla —",
+      "sidebarNote": "sidebar también amplía sus rangos compartidos de section_pre/section_post: 0.2–1.5em (por defecto 0.5) y 0.05–0.8em (por defecto 0.2) respectivamente, en lugar de 0.2–0.9 / 0.05–0.4 que usan el resto de plantillas.",
+      "sidebarPurpose": {
+        "sidebar_bg": "Color de fondo de la barra lateral",
+        "sidebar_accent": "Color de los encabezados de sección de la barra lateral",
+        "sidebar_link_color": "Enlaces e iconos en la barra lateral",
+        "sidebar_text": "Texto del cuerpo en la barra lateral",
+        "sidebar_ink": "Color del nombre y de los títulos de entrada en la barra lateral",
+        "sidebar_width": "Ancho de la barra lateral en cm (4.5 – 9.0)",
+        "accent_color": "Enlaces en la columna principal"
+      },
+      "exampleHeading": "Estilo embebido en el layout — ejemplo (plantilla banner)",
+      "exampleNote": "<code>header.style</code> sigue siendo obligatorio según el esquema aunque banner lo ignore (ver §3) — elija cualquiera de los dos valores."
+    },
+    "tips": {
+      "heading": "5 · Consejos para agentes",
+      "tips": {
+        "contactTypes": {
+          "title": "Recoja los tipos de contacto con cuidado",
+          "body": "Use exactamente estas cadenas de type (email, phone, location, linkedin, github, medium, facebook, web). El campo \"key\" es la etiqueta que se muestra — puede ser cualquier cosa (\"Email\", \"Correo\", \"Correo de trabajo\" se muestran todas bien). El \"value\" de linkedin/github puede ser la URL completa o solo la ruta (ambas funcionan)."
+        },
+        "summaryParagraphs": {
+          "title": "summary usa \\n\\n para los párrafos",
+          "body": "El campo summary es texto plano. Para crear varios párrafos, sepárelos con un salto de línea doble (\\n\\n). Los saltos de línea simples se tratan como espacios."
+        },
+        "tags": {
+          "title": "Los tags son píldoras decorativas",
+          "body": "El array \"tags\" en experience, side_projects y certifications se muestra como pequeñas píldoras grises al final de la entrada. Manténgalos cortos (1–3 palabras). En certifications, el tag especial \"expired\" se muestra con un estilo de advertencia."
+        },
+        "links": {
+          "title": "Los enlaces funcionan en cualquier campo de texto",
+          "body": "highlights, description y summary admiten todos enlaces Markdown [texto](url). También puede enlazar a otra sección dentro del PDF con [texto](#id-de-seccion) — por ejemplo [ver mis proyectos](#side_projects)."
+        },
+        "omit": {
+          "title": "Omita las secciones para las que no tenga datos",
+          "body": "Todas las secciones de nivel superior salvo identity son opcionales. Omitirlas por completo es más limpio que incluir arrays vacíos."
+        },
+        "subtitle": {
+          "title": "subtitle es flexible",
+          "body": "No existe un formato estricto para subtitle. Convenciones habituales: \"Empresa · Ubicación\" para experience, \"Titulación · Especialidad\" para education, \"Emisor · Año\" para certifications. El separador · es solo una convención visual."
+        }
+      }
+    },
+    "footerTagline": "Referencia del esquema de Proof",
+    "plainTextNote": "También disponible como texto plano — para pegar directamente en una IA o usar en scripts:"
   }
 }

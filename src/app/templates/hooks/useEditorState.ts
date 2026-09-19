@@ -20,12 +20,6 @@ export function useEditorState(initialLayout: Record<string, unknown>) {
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   )
 
-  // ── Header ────────────────────────────────────────────────────────────────────
-
-  function setHeader(style: 'split' | 'stacked') {
-    setLayout((prev) => ({ ...prev, header: { style } }))
-  }
-
   // ── Section mutations ─────────────────────────────────────────────────────────
 
   function updateSection(key: string, fn: (s: EditorSection) => EditorSection) {
@@ -141,7 +135,6 @@ export function useEditorState(initialLayout: Record<string, unknown>) {
     layout,
     setLayout,
     sensors,
-    setHeader,
     updateSection,
     handleDragEnd,
     handleSidebarDragEnd,

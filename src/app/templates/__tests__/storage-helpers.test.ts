@@ -5,31 +5,43 @@ import {
   loadLayoutOverride,
   loadSaves,
   loadStyleOverrides,
+  mutateSaves,
   persistLayoutOverride,
-  persistSaves,
   persistStyleOverride,
 } from '../storage-helpers'
 import type { SavedConfig } from '../types'
 
 const storageData: Record<string, string> = {}
 
-vi.mock('@/lib/storage', () => ({
-  KEYS: {
-    styleOverrides: 'cvault-style-overrides',
-    layoutOverrides: 'cvault-layout-overrides',
-    saves: 'cvault-saves',
-    cvs: 'cvault-cvs',
-    currentCv: 'cvault-current-cv',
-    onboarded: 'cvault-onboarded',
-    supportPrompted: 'cvault-support-prompted',
-  },
-  getItem: (k: string) => storageData[k] ?? null,
-  setItem: (k: string, v: string) => {
+vi.mock('@/lib/storage', () => {
+  const setItem = (k: string, v: string) => {
     storageData[k] = v
-  },
-}))
+    return true
+  }
+  return {
+    KEYS: {
+      styleOverrides: 'proof-style-overrides',
+      layoutOverrides: 'proof-layout-overrides',
+      saves: 'proof-saves',
+      cvs: 'proof-cvs',
+      currentCv: 'proof-current-cv',
+      onboarded: 'proof-onboarded',
+      supportPrompted: 'proof-support-prompted',
+    },
+    getItem: (k: string) => storageData[k] ?? null,
+    setItem,
+    // Mirrors the real mutateStored — kept separate from the real @/lib/storage module
+    // because intra-module calls (mutateStored -> setItem) bind to the original module's
+    // own scope, not this mock, so re-exporting the real mutateStored here would silently
+    // write through to actual localStorage instead of this test's in-memory storageData.
+    mutateStored: <T>(key: string, read: () => T, mutate: (current: T) => T): T | null => {
+      const next = mutate(read())
+      return setItem(key, JSON.stringify(next)) ? next : null
+    },
+  }
+})
 
-const KEY = 'cvault-style-overrides'
+const KEY = 'proof-style-overrides'
 
 beforeEach(() => {
   for (const k in storageData) delete storageData[k]
@@ -53,19 +65,19 @@ describe('loadSaves', () => {
       layout: minLayout,
       style: {},
     }
-    storageData['cvault-saves'] = JSON.stringify([save])
+    storageData['proof-saves'] = JSON.stringify([save])
     expect(loadSaves()).toHaveLength(1)
     expect(loadSaves()[0].name).toBe('My Save')
   })
 
   it('returns [] for corrupt storage', () => {
-    storageData['cvault-saves'] = 'not-json'
+    storageData['proof-saves'] = 'not-json'
     expect(loadSaves()).toEqual([])
   })
 })
 
-describe('persistSaves', () => {
-  it('writes saves to storage', () => {
+describe('mutateSaves', () => {
+  it('writes the mutated list to storage', () => {
     const save: SavedConfig = {
       id: '1',
       name: 'S',
@@ -74,68 +86,111 @@ describe('persistSaves', () => {
       layout: minLayout,
       style: {},
     }
-    persistSaves([save])
-    const stored = JSON.parse(storageData['cvault-saves'])
+    const result = mutateSaves(() => [save])
+    expect(result).toEqual([save])
+    const stored = JSON.parse(storageData['proof-saves'])
     expect(stored).toHaveLength(1)
     expect(stored[0].id).toBe('1')
+  })
+
+  it('mutates whatever is currently persisted, not a stale snapshot', () => {
+    storageData['proof-saves'] = JSON.stringify([
+      {
+        id: '1',
+        name: 'Existing',
+        templateId: 'default',
+        savedAt: 0,
+        layout: minLayout,
+        style: {},
+      },
+    ])
+    const result = mutateSaves((current) => [
+      ...current,
+      { id: '2', name: 'New', templateId: 'default', savedAt: 1, layout: minLayout, style: {} },
+    ])
+    expect(result).toHaveLength(2)
+    const stored = JSON.parse(storageData['proof-saves'])
+    expect(stored.map((s: SavedConfig) => s.id)).toEqual(['1', '2'])
   })
 })
 
 // ── loadLayoutOverride / persistLayoutOverride / clearLayoutOverride ──────────
+// Scoped by (templateId, layoutId): a template can have multiple structurally
+// distinct layout variants (e.g. default's Split/Classic/Alt), so an override
+// persisted on one variant must never bleed into another variant of the same
+// template — see storage-helpers.ts's scopeKey().
 
-const LAYOUT_KEY = 'cvault-layout-overrides'
+const LAYOUT_KEY = 'proof-layout-overrides'
 const sampleLayout = { header: { style: 'split' }, sections: [{ id: 'summary', breakable: true }] }
 
 describe('loadLayoutOverride', () => {
   it('returns null for empty storage', () => {
-    expect(loadLayoutOverride('default')).toBeNull()
+    expect(loadLayoutOverride('default', 'default')).toBeNull()
   })
 
-  it('returns the persisted layout for the requested template', () => {
-    storageData[LAYOUT_KEY] = JSON.stringify({ default: sampleLayout })
-    expect(loadLayoutOverride('default')).toEqual(sampleLayout)
+  it('returns the persisted layout for the requested template+layout pair', () => {
+    storageData[LAYOUT_KEY] = JSON.stringify({ 'default::default': sampleLayout })
+    expect(loadLayoutOverride('default', 'default')).toEqual(sampleLayout)
   })
 
   it('returns null for an unknown template', () => {
-    storageData[LAYOUT_KEY] = JSON.stringify({ default: sampleLayout })
-    expect(loadLayoutOverride('modern')).toBeNull()
+    storageData[LAYOUT_KEY] = JSON.stringify({ 'default::default': sampleLayout })
+    expect(loadLayoutOverride('modern', 'default')).toBeNull()
+  })
+
+  it('does not bleed across layout variants of the same template', () => {
+    storageData[LAYOUT_KEY] = JSON.stringify({ 'default::default': sampleLayout })
+    expect(loadLayoutOverride('default', 'classic')).toBeNull()
   })
 
   it('returns {} for corrupt storage', () => {
     storageData[LAYOUT_KEY] = 'not-json'
-    expect(loadLayoutOverride('default')).toBeNull()
+    expect(loadLayoutOverride('default', 'default')).toBeNull()
   })
 })
 
 describe('persistLayoutOverride', () => {
-  it('saves the layout under the template bucket', () => {
-    persistLayoutOverride('default', sampleLayout as Record<string, unknown>)
+  it('saves the layout under the template+layout bucket', () => {
+    persistLayoutOverride('default', 'default', sampleLayout as Record<string, unknown>)
     const saved = JSON.parse(storageData[LAYOUT_KEY])
-    expect(saved.default).toEqual(sampleLayout)
+    expect(saved['default::default']).toEqual(sampleLayout)
   })
 
   it('does not affect other templates', () => {
     storageData[LAYOUT_KEY] = JSON.stringify({
-      modern: { header: { style: 'stacked' }, sections: [] },
+      'modern::default': { header: { style: 'stacked' }, sections: [] },
     })
-    persistLayoutOverride('default', sampleLayout as Record<string, unknown>)
+    persistLayoutOverride('default', 'default', sampleLayout as Record<string, unknown>)
     const saved = JSON.parse(storageData[LAYOUT_KEY])
-    expect(saved.modern.header.style).toBe('stacked')
-    expect(saved.default).toEqual(sampleLayout)
+    expect(saved['modern::default'].header.style).toBe('stacked')
+    expect(saved['default::default']).toEqual(sampleLayout)
+  })
+
+  it('does not affect other layout variants of the same template', () => {
+    storageData[LAYOUT_KEY] = JSON.stringify({
+      'default::classic': { header: { style: 'stacked' }, sections: [] },
+    })
+    persistLayoutOverride('default', 'default', sampleLayout as Record<string, unknown>)
+    const saved = JSON.parse(storageData[LAYOUT_KEY])
+    expect(saved['default::classic'].header.style).toBe('stacked')
+    expect(saved['default::default']).toEqual(sampleLayout)
   })
 })
 
 describe('clearLayoutOverride', () => {
-  it('removes the template bucket', () => {
-    storageData[LAYOUT_KEY] = JSON.stringify({ default: sampleLayout, modern: {} })
-    clearLayoutOverride('default')
+  it('removes only the requested template+layout bucket', () => {
+    storageData[LAYOUT_KEY] = JSON.stringify({
+      'default::default': sampleLayout,
+      'default::classic': {},
+    })
+    clearLayoutOverride('default', 'default')
     const saved = JSON.parse(storageData[LAYOUT_KEY])
-    expect(saved.default).toBeUndefined()
-    expect(saved.modern).toBeDefined()
+    expect(saved['default::default']).toBeUndefined()
+    expect(saved['default::classic']).toBeDefined()
   })
 
   it('is a no-op for empty storage', () => {
-    expect(() => clearLayoutOverride('default')).not.toThrow()
+    expect(() => clearLayoutOverride('default', 'default')).not.toThrow()
   })
 })
 

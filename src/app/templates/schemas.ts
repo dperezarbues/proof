@@ -41,6 +41,30 @@ export const LayoutImportSchema = z
 
 export type LayoutImport = z.infer<typeof LayoutImportSchema>
 
+// ── Design bundle (template + layout + style) ─────────────────────────────────
+
+export const DesignSchema = z.object({
+  templateId: z.string(),
+  layoutId: z.string(),
+  layout: LayoutImportSchema,
+  style: z.record(z.string(), z.union([z.string(), z.number()])),
+})
+
+export type Design = z.infer<typeof DesignSchema>
+
+/**
+ * The full "everything about this CV" export/import shape: CV content plus,
+ * optionally, the template/layout/style it was rendered with. `design` is
+ * optional so a bare CV-only file — hand-edited, or exported before this
+ * existed — still imports exactly as it always has, data-only.
+ */
+export const ExportBundleSchema = z.object({
+  cv: CvSchema,
+  design: DesignSchema.optional(),
+})
+
+export type ExportBundle = z.infer<typeof ExportBundleSchema>
+
 // ── CV entry (localStorage) ───────────────────────────────────────────────────
 
 export const CvEntrySchema = z.object({

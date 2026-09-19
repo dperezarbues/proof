@@ -240,3 +240,79 @@ describe('round-trip fidelity', () => {
     expect(skills[0].entries).toEqual(['React', 'CSS'])
   })
 })
+
+// ── nested unknown-field preservation ──────────────────────────────────────────
+//
+// The top-level _extra bucket only covers unknown top-level keys (e.g. core_strengths).
+// A field nested INSIDE a known section — e.g. `location` on an experience entry,
+// `photo` on identity, `id` on a contact — used to be silently dropped the moment a
+// CV round-tripped through the visual editor, because parseItem/parseSkills/etc only
+// ever read the handful of fields the form UI knows how to render.
+describe('nested unknown-field preservation', () => {
+  it('preserves unknown fields on a generic item (experience/education/etc.)', () => {
+    const raw = {
+      experience: [
+        {
+          title: 'Staff Engineer',
+          location: 'Remote',
+          company_url: 'https://acme.example',
+          id: 'exp-1',
+        },
+      ],
+    }
+    const form = jsonToCvForm(raw)
+    expect(form.experience[0]._extra).toEqual({
+      location: 'Remote',
+      company_url: 'https://acme.example',
+      id: 'exp-1',
+    })
+    const back = cvFormToJson(form)
+    const exp = (back.experience as Record<string, unknown>[])[0]
+    expect(exp.location).toBe('Remote')
+    expect(exp.company_url).toBe('https://acme.example')
+    expect(exp.id).toBe('exp-1')
+    expect(exp.title).toBe('Staff Engineer')
+  })
+
+  it('preserves unknown fields on identity', () => {
+    const raw = { identity: { name: 'Alice', photo: 'photo.jpg', pronouns: 'she/her' } }
+    const form = jsonToCvForm(raw)
+    expect(form.identity._extra).toEqual({ photo: 'photo.jpg', pronouns: 'she/her' })
+    const back = cvFormToJson(form)
+    const id = back.identity as Record<string, unknown>
+    expect(id.photo).toBe('photo.jpg')
+    expect(id.pronouns).toBe('she/her')
+  })
+
+  it('preserves unknown fields on a contact entry', () => {
+    const raw = {
+      identity: {
+        name: 'Alice',
+        contact: [{ type: 'email', value: 'a@b.com', verified: true }],
+      },
+    }
+    const form = jsonToCvForm(raw)
+    expect(form.identity.contact[0]._extra).toEqual({ verified: true })
+    const back = cvFormToJson(form)
+    const contact = (back.identity as { contact: Record<string, unknown>[] }).contact
+    expect(contact[0].verified).toBe(true)
+  })
+
+  it('preserves unknown fields on a skills group', () => {
+    const raw = { skills: [{ name: 'Frontend', entries: ['React'], icon: 'code' }] }
+    const form = jsonToCvForm(raw)
+    expect(form.skills[0]._extra).toEqual({ icon: 'code' })
+    const back = cvFormToJson(form)
+    const skills = back.skills as Record<string, unknown>[]
+    expect(skills[0].icon).toBe('code')
+  })
+
+  it('preserves unknown fields on a language entry', () => {
+    const raw = { languages: [{ title: 'French', subtitle: 'C1', cefr_verified: true }] }
+    const form = jsonToCvForm(raw)
+    expect(form.languages[0]._extra).toEqual({ cefr_verified: true })
+    const back = cvFormToJson(form)
+    const langs = back.languages as Record<string, unknown>[]
+    expect(langs[0].cefr_verified).toBe(true)
+  })
+})

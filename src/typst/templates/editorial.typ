@@ -1,6 +1,7 @@
 #import "../styles.typ": *
 #import "../components.typ": *
-#import "../sections.typ": data
+#import "../sections.typ": data, lang
+#import "../i18n.typ": section-title
 
 #let id = data.identity
 #let layout-raw  = sys.inputs.at("layout", default: "default")
@@ -92,7 +93,7 @@
 ]
 
 #let render-experience(pre: section-pre, post: section-post) = [
-  #editorial-section("Experience", pre: pre, post: post, id: "experience")
+  #editorial-section(section-title("experience", lang), pre: pre, post: post, id: "experience")
   #for (ji, job) in data.experience.enumerate() {
     if ji > 0 { v(sp-xl) }
     block(breakable: false)[
@@ -122,7 +123,7 @@
 ]
 
 #let render-awards(pre: section-pre, post: section-post) = [
-  #editorial-section("Awards", pre: pre, post: post, id: "awards")
+  #editorial-section(section-title("awards", lang), pre: pre, post: post, id: "awards")
   #for (i, award) in data.awards.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -139,7 +140,7 @@
 ]
 
 #let render-side-projects(pre: section-pre, post: section-post) = [
-  #editorial-section("Projects", pre: pre, post: post, id: "side_projects")
+  #editorial-section(section-title("side_projects", lang), pre: pre, post: post, id: "side_projects")
   #for (i, proj) in data.side_projects.enumerate() {
     if i > 0 { v(sp-xl) }
     block(breakable: false)[
@@ -156,7 +157,7 @@
 ]
 
 #let render-certifications(pre: section-pre, post: section-post) = [
-  #editorial-section("Certifications", pre: pre, post: post, id: "certifications")
+  #editorial-section(section-title("certifications", lang), pre: pre, post: post, id: "certifications")
   #for (i, cert) in data.certifications.enumerate() {
     if i > 0 { v(sp-xs) }
     [

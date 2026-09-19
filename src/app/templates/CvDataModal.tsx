@@ -7,6 +7,7 @@ import cvStarter from '@/data/cv.starter.json'
 import { CvEditor } from './cv-editor/CvEditor'
 import { cvFormToJson, initFormData, jsonToCvForm } from './cv-editor/serialise'
 import type { CvFormData } from './cv-editor/types'
+import { useModalDialogA11y } from './hooks/useModalDialogA11y'
 import { CvSchema } from './schemas'
 
 export interface CvEntry {
@@ -20,7 +21,9 @@ interface Props {
   entry?: CvEntry // undefined = new
   initialContent?: string // for import mode
   initialName?: string // suggested name for import
-  onSave: (entry: CvEntry) => void
+  /** Returns false if the save failed (e.g. storage quota exceeded) — the modal stays open and
+   *  shows an error instead of closing as if the save had succeeded. */
+  onSave: (entry: CvEntry) => boolean
   onCancel: () => void
 }
 
@@ -55,6 +58,7 @@ export default function CvDataModal({
   const [formData, setFormData] = useState<CvFormData>(initial.formData)
   const [jsonContent, setJsonContent] = useState(defaultContent)
   const [error, setError] = useState<string | null>(null)
+  const dialogRef = useModalDialogA11y(onCancel)
 
   function switchToJson() {
     const json = cvFormToJson(formData)
@@ -70,7 +74,7 @@ export default function CvDataModal({
       setMode('editor')
       setError(null)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Invalid JSON')
+      setError(e instanceof Error ? e.message : t('invalidJson'))
     }
   }
 
@@ -79,13 +83,13 @@ export default function CvDataModal({
       setJsonContent(JSON.stringify(JSON.parse(jsonContent), null, 2))
       setError(null)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Invalid JSON')
+      setError(e instanceof Error ? e.message : t('invalidJson'))
     }
   }
 
   function handleSave() {
     if (!name.trim()) {
-      setError('Name is required')
+      setError(t('nameRequired'))
       return
     }
 
@@ -94,7 +98,7 @@ export default function CvDataModal({
       const json = cvFormToJson(formData)
       const result = CvSchema.safeParse(json)
       if (!result.success) {
-        setError(result.error.issues[0]?.message ?? 'Invalid CV structure')
+        setError(result.error.issues[0]?.message ?? t('invalidCvStructure'))
         return
       }
       content = JSON.stringify(json)
@@ -103,31 +107,34 @@ export default function CvDataModal({
       try {
         parsed = JSON.parse(jsonContent)
       } catch (e) {
-        setError(e instanceof Error ? e.message : 'Invalid JSON')
+        setError(e instanceof Error ? e.message : t('invalidJson'))
         return
       }
       const result = CvSchema.safeParse(parsed)
       if (!result.success) {
-        setError(result.error.issues[0]?.message ?? 'Invalid CV structure')
+        setError(result.error.issues[0]?.message ?? t('invalidCvStructure'))
         return
       }
       content = jsonContent
     }
 
-    onSave({
+    const ok = onSave({
       id: entry?.id ?? crypto.randomUUID(),
       name: name.trim(),
       content,
       updatedAt: Date.now(),
     })
+    if (!ok) setError(t('saveStorageError'))
   }
 
   return (
     <div className="fixed inset-0 z-50 flex sm:items-center sm:justify-center bg-black/60">
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="cv-modal-title"
+        tabIndex={-1}
         className="flex flex-col w-full sm:max-w-[672px] sm:mx-4 sm:rounded-[6px]"
         style={{
           background: 'var(--c-paper)',
@@ -334,10 +341,11 @@ export default function CvDataModal({
         {/* Error */}
         {error && (
           <p
+            role="alert"
             style={{
               padding: '0 1.25rem 4px',
               fontSize: 12,
-              color: 'var(--c-accent)',
+              color: 'var(--c-error)',
               flexShrink: 0,
             }}
           >

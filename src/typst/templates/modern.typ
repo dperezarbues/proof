@@ -1,6 +1,7 @@
 #import "../styles.typ": *
 #import "../components.typ": *
 #import "../sections.typ": *
+#import "../i18n.typ": section-title
 
 #let id = data.identity
 
@@ -60,7 +61,7 @@
 // ── Per-section render functions ───────────────────────────────────────────────
 
 #let render-summary(pre: section-pre, post: section-post) = [
-  #modern-section("Summary", pre: pre, post: post, id: "summary")
+  #modern-section(section-title("summary", lang), pre: pre, post: post, id: "summary")
   #text(size: fs-md)[
     #for (i, para) in data.summary.split("\n\n").enumerate() {
       if i > 0 { v(sp-xl) }
@@ -70,7 +71,7 @@
 ]
 
 #let render-experience(pre: section-pre, post: section-post) = [
-  #modern-section("Experience", pre: pre, post: post, id: "experience")
+  #modern-section(section-title("experience", lang), pre: pre, post: post, id: "experience")
   #for (ji, job) in data.experience.enumerate() {
     if ji > 0 { v(sp-xl) }
     block(breakable: false)[
@@ -100,7 +101,7 @@
 ]
 
 #let render-skills(pre: section-pre, post: section-post) = [
-  #modern-section("Skills", pre: pre, post: post, id: "skills")
+  #modern-section(section-title("skills", lang), pre: pre, post: post, id: "skills")
   #set par(justify: false)
   #set text(hyphenate: false)
   #let groups = data.skills
@@ -112,7 +113,7 @@
 ]
 
 #let render-education(pre: section-pre, post: section-post) = [
-  #modern-section("Education", pre: pre, post: post, id: "education")
+  #modern-section(section-title("education", lang), pre: pre, post: post, id: "education")
   #for (i, edu) in data.education.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -129,14 +130,14 @@
 ]
 
 #let render-languages(pre: section-pre, post: section-post) = [
-  #modern-section("Languages", pre: pre, post: post, id: "languages")
+  #modern-section(section-title("languages", lang), pre: pre, post: post, id: "languages")
   #for lang in data.languages [
     #text(weight: "bold", fill: c-ink)[#lang.title]#h(sp-sm)#text(fill: c-muted)[#lang.at("subtitle", default: "")] \
   ]
 ]
 
 #let render-certifications(pre: section-pre, post: section-post) = [
-  #modern-section("Certifications", pre: pre, post: post, id: "certifications")
+  #modern-section(section-title("certifications", lang), pre: pre, post: post, id: "certifications")
   #for (i, cert) in data.certifications.enumerate() {
     if i > 0 { v(sp-xs) }
     [
@@ -147,7 +148,7 @@
 ]
 
 #let render-awards(pre: section-pre, post: section-post) = [
-  #modern-section("Awards", pre: pre, post: post, id: "awards")
+  #modern-section(section-title("awards", lang), pre: pre, post: post, id: "awards")
   #for (i, award) in data.awards.enumerate() {
     if i > 0 { v(sp-md) }
     block(breakable: false)[
@@ -164,7 +165,7 @@
 ]
 
 #let render-side-projects(pre: section-pre, post: section-post) = [
-  #modern-section("Projects", pre: pre, post: post, id: "side_projects")
+  #modern-section(section-title("side_projects", lang), pre: pre, post: post, id: "side_projects")
   #for (i, proj) in data.side_projects.enumerate() {
     if i > 0 { v(sp-xl) }
     block(breakable: false)[

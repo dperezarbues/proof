@@ -1,6 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import { useModalDialogA11y } from '../hooks/useModalDialogA11y'
 
 type Props = {
   supportUrl: string
@@ -10,13 +11,20 @@ type Props = {
 
 export default function SupportPrompt({ supportUrl, downloadUrl, onDismiss }: Props) {
   const t = useTranslations('supportPrompt')
+  const dialogRef = useModalDialogA11y(onDismiss)
 
   return (
     <div
+      data-testid="support-prompt"
       className="fixed inset-0 z-50 flex items-center justify-center"
       style={{ background: 'rgba(23,19,14,0.46)' }}
     >
       <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="support-prompt-title"
+        tabIndex={-1}
         className="relative w-80 mx-4 overflow-hidden"
         style={{
           background: 'var(--c-paper)',
@@ -27,6 +35,7 @@ export default function SupportPrompt({ supportUrl, downloadUrl, onDismiss }: Pr
         {/* Top section */}
         <div className="px-6 pt-8 pb-5 flex flex-col items-center text-center">
           <p
+            id="support-prompt-title"
             className="text-lg font-black uppercase tracking-tight mb-1"
             style={{ color: 'var(--c-ink)' }}
           >

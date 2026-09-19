@@ -8,7 +8,15 @@ const ZOOM_STEP = 0.15
 const ZOOM_MIN = 0.5
 const ZOOM_MAX = 2.0
 
-export default function PdfJsViewer({ src }: { src: string }) {
+export default function PdfJsViewer({
+  src,
+  reserveBottom = false,
+}: {
+  src: string
+  /** True while a bottom banner (e.g. the sample-CTA bar) is covering the
+   * viewer's own bottom-right corner, so zoom controls need to sit higher. */
+  reserveBottom?: boolean
+}) {
   const containerRef = useRef<HTMLDivElement>(null)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   const [renderState, setRenderState] = useState<RenderState>('idle')
@@ -134,10 +142,16 @@ export default function PdfJsViewer({ src }: { src: string }) {
         <div ref={containerRef} />
       </div>
 
-      {renderState === 'loading' && (
+      {/* Covers stale content the instant `src` changes, not just once the effect below
+          gets around to setting renderState — React commits/paints the new `src` prop
+          before that effect runs, and without this the old canvas (bound to a template
+          that no longer matches currentPdf) is briefly visible underneath whatever chrome
+          (e.g. the sample banner) also reacted to the same prop change. */}
+      {(renderState === 'loading' || renderedSrc !== src) && (
         <div
           className="absolute inset-0 flex items-center justify-center"
           style={{ background: 'var(--c-paper-deep)' }}
+          data-testid="pdfjs-loading-cover"
         >
           <div
             className="w-8 h-8 border-[3px] border-t-transparent rounded-full animate-spin"
@@ -146,16 +160,20 @@ export default function PdfJsViewer({ src }: { src: string }) {
         </div>
       )}
       {renderState === 'error' && (
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ background: 'var(--c-paper-deep)' }}
+        >
           <p className="text-sm" style={{ color: 'var(--c-sub)' }}>
             {renderError || 'Failed to render PDF'}
           </p>
         </div>
       )}
 
-      {/* Zoom controls — outside scroll area so they stay fixed in place */}
+      {/* Zoom controls — outside scroll area so they stay fixed in place.
+          Shifted up when a bottom banner would otherwise sit underneath them. */}
       <div
-        className="absolute bottom-4 right-4 z-10 flex items-center rounded overflow-hidden shadow-lg"
+        className={`absolute ${reserveBottom ? 'bottom-16' : 'bottom-4'} right-4 z-10 flex items-center rounded overflow-hidden shadow-lg transition-[bottom]`}
         style={{ background: 'var(--c-ink)' }}
       >
         <button

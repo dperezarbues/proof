@@ -1,5 +1,5 @@
 /**
- * Shared Playwright helpers for the CVault e2e suite.
+ * Shared Playwright helpers for the Proof e2e suite.
  *
  * Extracted from the individual spec files to eliminate copy-paste duplication
  * across style-shared-params, style-template-params, layout-options, and

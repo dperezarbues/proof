@@ -6,6 +6,7 @@
   "nav": {
     "editor": "Éditeur",
     "templates": "Modèles",
+    "help": "Aide",
     "privacy": "Confidentialité",
     "schema": "Schéma",
     "openEditor": "Ouvrir l'éditeur →",
@@ -28,28 +29,45 @@
     "h2Line1": "Apportez",
     "h2Line2": "votre IA.",
     "body": "La plupart des outils enferment vos données derrière un formulaire. Proof vous remet un schéma ouvert et s'efface — utilisez l'IA en laquelle vous avez déjà confiance.",
-    "step1Title": "Télécharger le schéma",
-    "step1Body": "Un seul fichier JSON documenté — le plan d'un CV complet : identité, expérience, compétences, et tout le reste.",
-    "step2Title": "Générer dans n'importe quelle IA",
-    "step2Body": "Collez-le dans l'IA de votre choix et décrivez-vous. Aucun prompt à copier, aucun modèle imposé. La conversation vous appartient.",
-    "step3Title": "Importer & peaufiner",
-    "step3Body": "Redéposez le JSON. Choisissez un modèle, peaufinez les détails et compilez en PDF — entièrement sur votre appareil.",
     "worksWith": "Compatible avec",
     "openFormat": "Format ouvert",
-    "downloadSchema": "↓ Télécharger le schéma"
+    "downloadSchema": "↓ Télécharger le schéma",
+    "steps": [
+      {
+        "title": "Télécharger le schéma",
+        "body": "Un seul fichier JSON documenté — le plan d'un CV complet : identité, expérience, compétences, et tout le reste."
+      },
+      {
+        "title": "Générer dans n'importe quelle IA",
+        "body": "Collez-le dans l'IA de votre choix et décrivez-vous — et le poste visé, le cas échéant. Aucun prompt à copier, aucun modèle imposé. La conversation vous appartient."
+      },
+      {
+        "title": "Importer & peaufiner",
+        "body": "Redéposez le JSON. Choisissez un modèle, peaufinez les détails et compilez en PDF — entièrement sur votre appareil."
+      }
+    ],
+    "viewDocs": "Voir la documentation →"
   },
   "makeYours": {
     "badge": "Puis faites-en le vôtre",
     "h2Line1": "Peaufinez-le",
     "h2Line2": "à la perfection.",
     "body": "Un éditeur en direct avec aperçu PDF en temps réel. Réorganisez, restylisez et recompilez jusqu'à ce que chaque ligne soit exactement là où vous le souhaitez.",
-    "feature1Title": "Dix modèles professionnels",
-    "feature1Body": "Changez de mise en page instantanément — d'autres arrivent bientôt.",
-    "feature2Title": "Glisser pour réorganiser",
-    "feature2Body": "Réorganisez les sections, activez les sauts de page.",
-    "feature3Title": "Personnaliser le style",
-    "feature3Body": "Couleur d'accentuation, police, espacement — tout en direct.",
-    "openEditor": "Ouvrir l'éditeur →"
+    "openEditor": "Ouvrir l'éditeur →",
+    "features": [
+      {
+        "title": "Dix modèles professionnels",
+        "body": "Changez de mise en page instantanément — d'autres arrivent bientôt."
+      },
+      {
+        "title": "Glisser pour réorganiser",
+        "body": "Réorganisez les sections, activez les sauts de page."
+      },
+      {
+        "title": "Personnaliser le style",
+        "body": "Couleur d'accentuation, police, espacement — tout en direct."
+      }
+    ]
   },
   "templates": {
     "badge": "Modèles",
@@ -60,10 +78,12 @@
     "h2Line1": "Zéro",
     "h2Line2": "stockage.",
     "body": "La compilation s'exécute dans votre navigateur via WebAssembly. Pas de serveur, pas de base de données, pas de journaux, pas de compte. Votre CV — et la conversation IA qui l'a créé — restent entièrement avec vous.",
-    "chip1": "Pas de compte",
-    "chip2": "Pas de cloud",
-    "chip3": "Pas de suivi",
-    "chip4": "Open source"
+    "chips": [
+      "Pas de compte",
+      "Pas de cloud",
+      "Pas de suivi",
+      "Open source"
+    ]
   },
   "openSource": {
     "badge": "Open source",
@@ -96,19 +116,36 @@
     "openEditor": "Ouvrir l'éditeur",
     "reportIssue": "Signaler un problème"
   },
+  "error": {
+    "headline": "Quelque chose s'est cassé.",
+    "body": "Une erreur inattendue s'est produite. Vos CV enregistrés sont intacts — ils vivent dans votre navigateur, pas sur nos serveurs — réessayer devrait vous ramener où vous étiez.",
+    "retry": "Réessayer",
+    "backHome": "Retour à l'accueil",
+    "reportIssue": "Signaler un problème"
+  },
   "onboarding": {
     "title": "Bienvenue sur Proof",
     "subtitle": "Un éditeur de CV respectueux de la vie privée. Vos données sont stockées dans ce navigateur — rien n'est enregistré côté serveur.",
-    "step1Title": "Ajoutez votre CV",
-    "step1Body": "Utilisez « + Nouveau » pour créer un CV à partir du modèle, ou « ↑ Importer » pour charger un fichier JSON existant. Vous pouvez avoir plusieurs CV et passer de l'un à l'autre.",
-    "step2Title": "Choisissez un modèle & personnalisez",
-    "step2Body": "Sélectionnez un modèle dans la liste. Le panneau central vous permet de réorganiser les sections, d'activer les sauts de page et d'ajuster les couleurs, polices et espacements.",
-    "step3Title": "Générez votre PDF",
-    "step3Body": "Cliquez sur « Générer le PDF » dans le panneau éditeur. Votre CV est compilé avec Typst et le PDF apparaît dans l'aperçu. Téléchargez-le quand vous êtes satisfait.",
     "sharedComputer": "Je suis sur un ordinateur partagé",
     "sharedComputerNote": "Les données seront stockées en session et effacées automatiquement à la fermeture de cet onglet.",
+    "confirmEnablePrivate": "Ceci déplace vos CV enregistrés vers le stockage temporaire de cet onglet. Ils seront définitivement supprimés dès la fermeture de cet onglet. Continuer ?",
+    "confirmDisablePrivate": "Ceci enregistre vos CV dans le stockage permanent de ce navigateur, où ils resteront après la fermeture de l'onglet. Ne faites pas cela sur un ordinateur partagé ou public. Continuer ?",
     "reopenHint": "Rouvrir via le bouton ?",
-    "getStarted": "Commencer"
+    "getStarted": "Commencer",
+    "steps": [
+      {
+        "title": "Ajoutez votre CV",
+        "body": "Utilisez « + Nouveau » pour créer un CV à partir du modèle, ou « ↑ Importer » pour charger un fichier JSON existant. Vous pouvez avoir plusieurs CV et passer de l'un à l'autre."
+      },
+      {
+        "title": "Choisissez un modèle & personnalisez",
+        "body": "Sélectionnez un modèle dans la liste. Le panneau central vous permet de réorganiser les sections, d'activer les sauts de page et d'ajuster les couleurs, polices et espacements."
+      },
+      {
+        "title": "Générez votre PDF",
+        "body": "Cliquez sur « Générer le PDF » dans le panneau éditeur. Votre CV est compilé avec Typst et le PDF apparaît dans l'aperçu. Téléchargez-le quand vous êtes satisfait."
+      }
+    ]
   },
   "cvModal": {
     "titleNew": "Nouveau CV",
@@ -121,7 +158,11 @@
     "format": "Formater",
     "dataStays": "Les données restent dans votre navigateur",
     "cancel": "Annuler",
-    "save": "Enregistrer"
+    "save": "Enregistrer",
+    "saveStorageError": "Échec de l'enregistrement : le stockage du navigateur est plein ou indisponible. Libérez de l'espace ou passez à l'onglet JSON pour copier vos données ailleurs.",
+    "nameRequired": "Le nom est requis",
+    "invalidJson": "JSON invalide",
+    "invalidCvStructure": "Structure de CV invalide"
   },
   "editor": {
     "tabData": "Données",
@@ -132,14 +173,32 @@
     "noCVLoaded": "Aucun CV chargé",
     "noCVsYet": "Aucun CV pour l'instant — créez-en un ou importez-en un.",
     "newCV": "+ Nouveau",
+    "newCvTitle": "Nouveau CV",
+    "help": "Aide",
+    "perSectionSpacing": "Espacement par section",
+    "resetToDefault": "Réinitialiser à la valeur par défaut du modèle",
     "import": "↑ Importer",
+    "cvLanguage": "Langue du CV",
+    "thisCv": "Ce CV",
+    "cvLanguageHint": "Définit les titres de section du PDF — indépendamment de la langue de l'interface.",
     "getSchema": "Obtenir le schéma",
     "download": "↓ Télécharger",
     "processedLocally": "TRAITÉ LOCALEMENT · RIEN N'EST ENVOYÉ",
     "chooseTemplate": "Choisir un modèle",
     "templatesMoreOnWay": "modèles — d'autres arrivent bientôt.",
     "layoutVariant": "Variante de mise en page",
+    "saveLayoutAs": "Enregistrer sous…",
     "savedLayouts": "Mises en page sauvegardées",
+    "layoutPresetTitle": "Enregistrer la configuration",
+    "layoutPresetHint": "Enregistre la mise en page et le style dans le stockage du navigateur",
+    "layoutPresetPlaceholder": "Ma barre latérale sombre",
+    "layoutPresetCancel": "Annuler",
+    "layoutPresetSave": "Enregistrer",
+    "layoutPresetError": "Échec de l'enregistrement : le stockage du navigateur est plein ou indisponible.",
+    "noLayoutPresets": "Aucune configuration enregistrée pour l'instant",
+    "loadPreset": "Charger",
+    "downloadPreset": "Télécharger",
+    "autosaveError": "Impossible d'enregistrer cette modification : le stockage est plein. Elle sera perdue au rechargement.",
     "noStyleParams": "Pas de paramètres de style",
     "noLayoutForTemplate": "Pas de mise en page pour ce modèle",
     "editorSettings": "Paramètres de l'éditeur",
@@ -156,7 +215,9 @@
     "editCVDataTitle": "Modifier les données du CV",
     "downloadJSON": "Télécharger JSON",
     "delete": "Supprimer",
-    "beta": "Bêta"
+    "beta": "Bêta",
+    "dragToReorder": "Glisser pour réordonner",
+    "removeSection": "Supprimer la section"
   },
   "pdfPreview": {
     "preview": "aperçu",
@@ -246,26 +307,246 @@
     "subtitle": "En langage clair. Sans jargon juridique.",
     "openEditor": "Ouvrir l'éditeur →",
     "backHome": "← Accueil",
-    "s1Title": "Vos données de CV",
-    "s1p1": "Vos données de CV sont stockées exclusivement dans le localStorage de votre navigateur. Elles ne quittent jamais votre appareil, sauf lors de la génération du PDF (voir ci-dessous). Nous n'avons ni base de données, ni comptes utilisateurs, ni stockage côté serveur du contenu de CV.",
-    "s1p2": "Si vous effacez le stockage de votre navigateur, vos données de CV sont perdues. Il n'existe pas de sauvegarde cloud. Nous vous recommandons de télécharger régulièrement votre JSON de CV via le bouton Télécharger dans l'éditeur.",
-    "s2Title": "Génération du PDF",
-    "s2p1": "Lorsque vous cliquez sur « Générer le PDF », vos données de CV ne quittent jamais votre appareil. Le compilateur Typst s'exécute entièrement dans votre navigateur en tant que module WebAssembly (~6 MB, téléchargé une fois et mis en cache). La compilation se fait localement ; aucun contenu de CV n'est envoyé à un serveur à aucun moment.",
-    "s2p2": "Les seules requêtes réseau sont : le chargement du compilateur lui-même (depuis ce site), le chargement des polices (également depuis ce site) et le signal d'analyse décrit ci-dessous. Vos données de CV ne sont jamais incluses dans ces requêtes.",
-    "s3Title": "Analyses",
-    "s3p1": "Ce site utilise GoatCounter pour des analyses de trafic de base. GoatCounter collecte les pages vues, les URL de référence, le type de navigateur et le pays — pas de cookies, pas de fingerprinting, pas de données personnelles, pas de suivi inter-sites.",
-    "s3p2": "GoatCounter est open source et sa politique de confidentialité est disponible sur goatcounter.com/help/privacy.",
-    "s4Title": "Cookies",
-    "s4p1": "Proof ne pose aucun cookie. Les sauvegardes de mise en page et les données de CV sont stockées dans localStorage, qui n'est pas un cookie et n'est jamais transmis automatiquement au serveur. GoatCounter ne pose pas non plus de cookies.",
-    "s5Title": "Open source",
-    "s5p1": "Proof est open source. Vous êtes libre d'inspecter le code, de l'héberger vous-même ou d'y contribuer. Le code source est la description la plus fiable de ce que l'outil fait réellement.",
-    "s6Title": "Modifications",
-    "s6p1": "Si quelque chose de substantiel change — notamment concernant le traitement des données — cette page sera mise à jour. La date ci-dessous reflète la dernière révision.",
-    "s6date": "Dernière mise à jour : mai 2025"
+    "sections": {
+      "cvData": {
+        "title": "Vos données de CV",
+        "p1": "Vos données de CV sont stockées exclusivement dans le localStorage de votre navigateur. Elles ne quittent jamais votre appareil, sauf lors de la génération du PDF (voir ci-dessous). Nous n'avons ni base de données, ni comptes utilisateurs, ni stockage côté serveur du contenu de CV.",
+        "p2": "Si vous effacez le stockage de votre navigateur, vos données de CV sont perdues. Il n'existe pas de sauvegarde cloud. Nous vous recommandons de télécharger régulièrement votre JSON de CV via le bouton Télécharger dans l'éditeur."
+      },
+      "pdfGeneration": {
+        "title": "Génération du PDF",
+        "p1": "Lorsque vous cliquez sur « Generate PDF », vos données de CV ne quittent jamais votre appareil. Le compilateur <typst>Typst</typst> s'exécute entièrement dans votre navigateur sous forme de module WebAssembly (~6 Mo, téléchargé une fois et mis en cache). La compilation se fait localement ; aucun contenu du CV n'est jamais envoyé à un serveur.",
+        "p2": "Les seules requêtes réseau sont : le chargement du compilateur lui-même (depuis ce site), le chargement des polices (également depuis ce site) et le signal d'analyse décrit ci-dessous. Vos données de CV ne sont jamais incluses dans ces requêtes."
+      },
+      "analytics": {
+        "title": "Analyses",
+        "p1": "Ce site utilise <goatcounter>GoatCounter</goatcounter> pour des statistiques de trafic basiques. GoatCounter collecte les pages vues, les URL de provenance, le type de navigateur et le pays — sans cookies, sans empreinte numérique, sans données personnelles, sans suivi intersites.",
+        "p2": "GoatCounter est open source et sa politique de confidentialité est disponible sur <privacy>goatcounter.com/help/privacy</privacy>."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "p1": "Proof ne pose aucun cookie. Les sauvegardes de mise en page et les données de CV sont stockées dans localStorage, qui n'est pas un cookie et n'est jamais transmis automatiquement au serveur. GoatCounter ne pose pas non plus de cookies."
+      },
+      "openSource": {
+        "title": "Open source",
+        "p1": "Proof est open source. Vous êtes libre d'inspecter le code, de l'héberger vous-même ou d'y contribuer. Le code source est la description la plus fiable de ce que l'outil fait réellement."
+      },
+      "changes": {
+        "title": "Modifications",
+        "p1": "Si quelque chose de substantiel change — notamment concernant le traitement des données — cette page sera mise à jour. La date ci-dessous reflète la dernière révision.",
+        "date": "Dernière mise à jour : mai 2025"
+      },
+      "noWarranty": {
+        "title": "Aucune garantie",
+        "p1": "Nous ne garantissons pas que Proof soit sans bugs, toujours disponible ou parfaitement adapté à vos besoins — vous l'utilisez à vos propres risques. Nous ne sommes pas responsables des dommages, pertes de données ou autres problèmes liés à son utilisation, y compris les CV qu'il génère. Relisez toujours vous-même votre CV avant de l'envoyer où que ce soit.",
+        "p2": "Il s'agit d'un projet gratuit et open source maintenu bénévolement, dans la mesure du possible, et non d'un service commercial avec support garanti, SLA ou disponibilité garantie."
+      }
+    }
   },
-  "llms": {
-    "metaTitle": "Schéma de CV pour LLM — Proof",
-    "home": "← Accueil",
-    "openEditor": "Ouvrir l'éditeur →"
+  "help": {
+    "metaTitle": "Comment fonctionne Proof — Aide",
+    "metaDescription": "Un guide rapide de l'éditeur de CV de Proof : modèles, mise en page, style, langue du CV et sauvegardes.",
+    "title": "Comment fonctionne Proof",
+    "subtitle": "Un guide rapide de l'éditeur — sans détour.",
+    "sections": {
+      "gettingStarted": {
+        "title": "Ajouter votre CV",
+        "p1": "Cliquez sur « + Nouveau » dans l'onglet Données pour partir d'un CV vierge, ou sur « Importer » pour charger un fichier JSON de CV existant. Vous pouvez conserver plusieurs CV et passer de l'un à l'autre depuis la même liste — utile pour adapter différentes versions à différents postes.",
+        "p2": "Tout ce que vous saisissez est enregistré automatiquement dans ce navigateur au fur et à mesure — il n'y a pas d'étape de sauvegarde séparée, et rien n'est envoyé nulle part tant que vous n'avez pas généré de PDF."
+      },
+      "templates": {
+        "title": "Choisir un modèle",
+        "p1": "L'onglet Modèle affiche tous les designs disponibles. Choisissez-en un et l'aperçu se recompile en conséquence. Si un modèle propose plusieurs variantes de mise en page — par exemple des en-têtes Split ou Classic —, elles apparaissent sous forme d'un petit sélecteur sous la grille de modèles.",
+        "p2": "Changer de modèle ne touche jamais aux données de votre CV, seulement à son rendu. Chaque modèle conserve sa propre personnalisation de mise en page et de style séparément — essayer un autre look puis revenir plus tard restaure exactement ce que vous aviez."
+      },
+      "layout": {
+        "title": "Organiser les sections",
+        "p1": "L'onglet Mise en page contrôle quelles sections apparaissent et dans quel ordre. Faites glisser une section pour la réordonner, ou placez-en deux côte à côte comme groupe de colonnes. Chaque section a son propre espacement et un interrupteur « garder ensemble » pour éviter qu'elle ne se coupe maladroitement entre deux pages.",
+        "p2": "Le modèle Sidebar dispose d'une seconde liste, séparée, pour ce qui va dans la barre latérale par rapport à la colonne principale — le reste fonctionne de la même façon."
+      },
+      "style": {
+        "title": "Personnaliser l'apparence",
+        "p1": "L'onglet Style est regroupé en Typographie, Couleurs, Espacement et Extras — ils s'appliquent de la même façon à tous les modèles. Extras comprend par exemple l'affichage d'un QR code, d'un pied de page, ou d'icônes de contact à la place du texte brut.",
+        "p2": "Certains modèles ajoutent leurs propres groupes en plus des groupes partagés — la couleur d'accent de Modern, ou la largeur et le fond de la barre latérale de Sidebar, par exemple. Ceux-ci n'apparaissent que pour les modèles qui les utilisent réellement."
+      },
+      "cvLanguage": {
+        "title": "Langue du CV",
+        "p1": "Dans l'onglet Données, « Langue du CV » définit la langue des titres de section dans votre PDF compilé — Résumé, Expérience, etc. — indépendamment de la langue dans laquelle vous naviguez sur l'application elle-même. Quelqu'un utilisant Proof en français peut tout de même générer un CV en anglais."
+      },
+      "generatingPdf": {
+        "title": "Générer & télécharger le PDF",
+        "p1": "Cliquez sur « Générer le PDF » dès que vous voulez voir le résultat — Proof le compile entièrement dans votre navigateur avec Typst, sans aucun serveur impliqué. L'aperçu se met à jour automatiquement pendant que vous continuez à modifier.",
+        "p2": "Une fois satisfait, téléchargez-le directement depuis le panneau d'aperçu."
+      },
+      "savingAndBackup": {
+        "title": "Enregistrer, exporter & sauvegarder",
+        "p1": "Proof n'a ni compte ni stockage cloud — tout vit uniquement dans ce navigateur. Le bouton Télécharger à côté de chaque CV dans l'onglet Données regroupe les données du CV avec le modèle, la mise en page et le style actuellement configurés, dans un seul fichier JSON.",
+        "p2": "Ce fichier est à la fois votre sauvegarde et votre moyen de déplacer un CV vers un autre navigateur ou appareil : l'importer plus tard restaure les données et recrée l'apparence, pas seulement le texte. Un fichier JSON contenant uniquement le CV, sans design associé, s'importe aussi très bien.",
+        "p3": "Les mises en page personnalisées dans l'onglet Mise en page peuvent aussi être enregistrées comme préréglages nommés, indépendants d'un CV en particulier, et exportées/importées de la même façon si vous souhaitez réutiliser un look sur différents CV."
+      },
+      "privacy": {
+        "title": "Confidentialité",
+        "p1": "Tout cela — compilation, stockage, tout — se passe localement dans votre navigateur. Consultez la page <terms>Confidentialité & Conditions</terms> pour la vue d'ensemble complète, y compris les analyses limitées collectées par ce site."
+      }
+    }
+  },
+  "forLlms": {
+    "metaTitle": "Référence du schéma — Proof",
+    "metaDescription": "Référence complète du schéma JSON du CV et des paramètres de mise en page/style de Proof. Pour les LLM et agents qui génèrent des données de CV.",
+    "breadcrumb": "Référence du schéma",
+    "title": "Référence du schéma",
+    "intro": "Référence complète pour générer des données valides pour Proof. Couvre le JSON de contenu du CV, la structure de mise en page et tous les paramètres de style de chaque modèle. Destinée aux LLM et agents qui produisent des fichiers de CV à importer.",
+    "toc": {
+      "cvJson": "JSON du CV",
+      "sections": "Sections",
+      "layout": "JSON de mise en page",
+      "style": "Paramètres de style",
+      "tips": "Conseils"
+    },
+    "cvJson": {
+      "heading": "1 · Schéma JSON du CV",
+      "intro": "Le CV est un unique objet JSON. Toutes les sections sont optionnelles sauf <code>identity</code>. Les champs texte dans <code>highlights</code>, <code>description</code> et <code>summary</code> prennent en charge les liens de type Markdown : <code>[texte](https://url)</code>.",
+      "contactHeading": "identity.contact — valeurs de type",
+      "contactTypes": {
+        "email": "Affiché comme lien mailto:",
+        "phone": "Affiché comme lien tel:",
+        "location": "Texte brut, sans lien",
+        "linkedin": "Utilise l'icône LinkedIn",
+        "github": "Utilise l'icône GitHub",
+        "medium": "Utilise l'icône Medium",
+        "facebook": "Utilise l'icône Facebook",
+        "web": "Icône générique de globe"
+      },
+      "contactNote": "Le sélecteur de type de l'éditeur visuel n'en propose que 6 (ni medium ni facebook) — en écrivant le JSON directement, vous obtenez l'ensemble complet ci-dessus."
+    },
+    "sectionIds": {
+      "heading": "2 · IDs de section disponibles",
+      "intro": "Voici les IDs de section intégrés que connaissent l'éditeur et les modèles. Le modèle sidebar peut aussi afficher n'importe lequel d'entre eux dans la colonne de gauche.",
+      "tableId": "ID",
+      "tableKey": "Clé JSON",
+      "tableNotes": "Remarques",
+      "notes": {
+        "summary": "string",
+        "experience": "array",
+        "education": "array",
+        "skills": "array de groupes",
+        "languages": "array",
+        "certifications": "array",
+        "awards": "array",
+        "side_projects": "array",
+        "contact": "sidebar uniquement — utilisé dans sidebar_sections ; le même id dans le tableau sections habituel, ou sur tout autre modèle, n'affiche silencieusement rien.",
+        "core_strengths": "array de strings courts, affichés sous forme de pastilles. Disponible sur tous les modèles — pas réservé à sidebar. Le titre de la section est traduit (en/es/de/fr).",
+        "leadership_profile": "un objet unique, pas un array : '{ subtitle?, highlights? }'. Sans title/name — affiché sous un titre fixe et traduit."
+      },
+      "customNote": "Sections personnalisées : toute clé de premier niveau non listée ci-dessus est affichée de façon générique sous un titre construit à partir du nom de la clé. Formes prises en charge : un simple string ; un array de strings (affiché en liste à puces) ; un array d'objets avec title (ou name)/subtitle/period et, en plus, highlights (array de strings) ou description ; ou un objet unique (pas un array) avec subtitle et, en plus, highlights ou description — la même forme qu'utilise leadership_profile."
+    },
+    "layout": {
+      "heading": "3 · Structure du JSON de mise en page",
+      "intro": "Lorsque vous générez un PDF depuis l'éditeur, un JSON de mise en page est compilé avec les données du CV. Vous pouvez aussi produire ce JSON directement pour contrôler l'ordre des sections, les colonnes et l'espacement par section.",
+      "topLevelFields": "Champs de premier niveau",
+      "fields": {
+        "header": "Toujours requis sous la forme {\"style\": \"split\" | \"stacked\"} — le validateur d'import rejette toute autre valeur — mais seul le modèle default l'utilise réellement, en basculant entre un en-tête nom/titre/contact côte à côte ou empilé. Tous les autres modèles (minimal, modern, sidebar et les autres) ont une mise en page d'en-tête unique et fixe, et ignorent silencieusement ce champ — choisissez donc l'une ou l'autre valeur pour eux ; cela n'a aucun effet visible.",
+        "sections": "Array des entrées de section de la colonne principale (voir ci-dessous).",
+        "sidebar_sections": "Modèle sidebar uniquement. Array des entrées de section de la barre latérale.",
+        "style": "Surcharges de style (voir §4). Appliquées par-dessus les valeurs par défaut du modèle."
+      },
+      "sectionEntryFull": "Entrée de section — type complet",
+      "fieldsEntry": {
+        "id": "ID de section du §2.",
+        "breakable": "Si Typst peut répartir le contenu de cette section sur plusieurs pages. Avec false, la section reste d'un seul tenant — si elle ne tient pas dans l'espace restant sur la page, elle passe entièrement à la page suivante au lieu de commencer sur une page et de continuer sur une autre. Par défaut : true.",
+        "pre_spacing": "Espace au-dessus du titre de section. Remplace la valeur par défaut du modèle.",
+        "post_spacing": "Espace sous la ligne de section. Remplace la valeur par défaut du modèle."
+      },
+      "sectionEntryColumns": "Entrée de section — type columns",
+      "fieldsColumns": {
+        "type": "Doit être \"columns\" pour activer cette variante.",
+        "columns": "Nombre de colonnes. Par défaut : 2.",
+        "content": "Array du contenu des colonnes ; chaque élément est un array d'IDs de section pour cette colonne."
+      },
+      "completeExamples": "Exemples complets de mise en page",
+      "exampleDefaultMinimal": "Default / Minimal",
+      "exampleSidebar": "Sidebar",
+      "columnsNote": "columns accepte n'importe quel nombre, mais seuls 2, 3 et 4 ont une largeur de gouttière (gutter) prévue — les autres valeurs utilisent par défaut la gouttière à 2 colonnes. columns doit correspondre à content.length ; en cas d'écart, la grille aura un nombre de colonnes différent de celui des cellules fournies."
+    },
+    "style": {
+      "heading": "4 · Paramètres de style",
+      "intro": "Les valeurs de style se trouvent dans la clé <code>style</code> du JSON de mise en page. Toutes sont optionnelles — omettez-en une pour utiliser la valeur par défaut du modèle.",
+      "commonHeading": "Communs — tous les modèles",
+      "tableKey": "Clé",
+      "tableType": "Type",
+      "tableRange": "Plage / options",
+      "tableDefault": "Par défaut",
+      "notes": {
+        "sizes": {
+          "heading": "Tailles",
+          "body": "Ce que contrôle chaque taille : name_size — le nom en haut. headline_size (spécifique au modèle, voir plus bas) — le titre/poste en dessous. entry_size — le titre de chaque entrée (intitulé du poste, diplôme, nom du projet). body_size — le texte courant et les puces (body_size − 0,5pt est utilisé automatiquement pour quelques éléments de texte secondaires plus petits). section_heading_size — les titres de section eux-mêmes (« EXPERIENCE », « EDUCATION »), section_heading_size − 1pt étant utilisé automatiquement pour les pastilles et le texte de bas de page plus petits."
+        },
+        "colors": {
+          "heading": "Couleurs",
+          "body": "Ce que contrôle chaque couleur : heading_color — le nom et le titre de chaque entrée. body_color — le texte courant et les puces. muted_color — les métadonnées comme le nom de l'entreprise et les périodes. Les pastilles, tags et texte de bas de page utilisent une couleur fixe que les paramètres de style ne peuvent pas remplacer."
+        },
+        "extras": {
+          "heading": "Interrupteurs",
+          "body": "show_footer affiche uniquement le numéro de page (ex. « 2 / 5 ») en petit texte en bas à droite de chaque page — rien d'autre. show_qr place un petit code QR dans l'en-tête, pointant vers qr_url (ou vers la première entrée de contact linkedin si qr_url est laissé vide) ; pris en charge par tous les modèles. show_contact_icons et show_contact_labels ne sont pas indépendants : quand show_contact_icons est activé, chaque entrée de contact affiche son icône de marque et show_contact_labels n'a alors aucun effet — les libellés n'apparaissent que lorsque les icônes sont désactivées."
+        },
+        "common": {
+          "heading": "Remarques sur le tableau",
+          "body": "section_pre / section_post ne font pas techniquement partie d'une liste de paramètres partagée — chaque modèle les déclare individuellement — mais les 10 utilisent la même plage indiquée ci-dessus sauf sidebar, qui élargit les deux (voir son propre tableau plus bas). headline_size et section_rule_gap sont spécifiques à chaque modèle, pas universels ; voir le tableau par modèle qui suit."
+        }
+      },
+      "accentHeading": "accent_color — tous les modèles, avec une valeur par défaut différente pour chacun",
+      "accentIntro": "Les 10 modèles déclarent un paramètre <code>accent_color</code> sous exactement cette clé — il n'est pas partagé/universel au sens du schéma (chaque modèle fixe sa propre plage et sa propre valeur par défaut), mais chaque modèle en a un. 7 des 10 ont aussi <code>headline_size</code> (8–14pt, par défaut 10) — tous sauf minimal, sidebar et editorial. <code>section_rule_gap</code> (0–0.5em, par défaut 0.2) n'existe que pour default, sidebar et timeline.",
+      "tableTemplate": "Modèle",
+      "tableAccentDefault": "accent_color par défaut",
+      "bannerHeading": "Spécifique au modèle —",
+      "tablePurpose": "Rôle",
+      "bannerPurpose": {
+        "header_bg": "Fond de la bande sombre de l'en-tête — banner uniquement"
+      },
+      "sidebarHeading": "Spécifique au modèle —",
+      "sidebarNote": "sidebar élargit aussi ses plages partagées section_pre/section_post : 0.2–1.5em (par défaut 0.5) et 0.05–0.8em (par défaut 0.2) respectivement, au lieu de 0.2–0.9 / 0.05–0.4 utilisées par tous les autres modèles.",
+      "sidebarPurpose": {
+        "sidebar_bg": "Couleur de fond de la barre latérale",
+        "sidebar_accent": "Couleur des titres de section de la barre latérale",
+        "sidebar_link_color": "Liens et icônes dans la barre latérale",
+        "sidebar_text": "Texte courant dans la barre latérale",
+        "sidebar_ink": "Couleur du nom et des titres d'entrée dans la barre latérale",
+        "sidebar_width": "Largeur de la barre latérale en cm (4.5 – 9.0)",
+        "accent_color": "Liens dans la colonne principale"
+      },
+      "exampleHeading": "Style intégré dans la mise en page — exemple (modèle banner)",
+      "exampleNote": "<code>header.style</code> reste requis par le schéma même si banner l'ignore (voir §3) — choisissez l'une ou l'autre valeur."
+    },
+    "tips": {
+      "heading": "5 · Conseils pour les agents",
+      "tips": {
+        "contactTypes": {
+          "title": "Recueillez les types de contact avec soin",
+          "body": "Utilisez exactement ces chaînes de type (email, phone, location, linkedin, github, medium, facebook, web). Le champ \"key\" est le libellé affiché — il peut être n'importe quoi (\"Email\", \"E-mail\", \"Email professionnel\" s'affichent tous correctement). Le \"value\" de linkedin/github peut être l'URL complète ou seulement le chemin (les deux fonctionnent)."
+        },
+        "summaryParagraphs": {
+          "title": "summary utilise \\n\\n pour les paragraphes",
+          "body": "Le champ summary est du texte brut. Pour créer plusieurs paragraphes, séparez-les par un double saut de ligne (\\n\\n). Les sauts de ligne simples sont traités comme des espaces."
+        },
+        "tags": {
+          "title": "Les tags sont des pastilles décoratives",
+          "body": "L'array \"tags\" sur experience, side_projects et certifications s'affiche sous forme de petites pastilles grises en bas de l'entrée. Gardez-les courtes (1–3 mots). Pour certifications, le tag spécial \"expired\" s'affiche avec un style d'avertissement."
+        },
+        "links": {
+          "title": "Les liens fonctionnent dans n'importe quel champ texte",
+          "body": "highlights, description et summary prennent tous en charge les liens Markdown [texte](url). Vous pouvez aussi lier vers une autre section du PDF avec [texte](#id-de-section) — par exemple [voir mes projets](#side_projects)."
+        },
+        "omit": {
+          "title": "Omettez les sections pour lesquelles vous n'avez pas de données",
+          "body": "Toutes les sections de premier niveau sauf identity sont optionnelles. Les omettre entièrement est plus propre que d'inclure des arrays vides."
+        },
+        "subtitle": {
+          "title": "subtitle est flexible",
+          "body": "Il n'existe pas de format strict pour subtitle. Conventions courantes : \"Entreprise · Lieu\" pour experience, \"Diplôme · Spécialité\" pour education, \"Émetteur · Année\" pour certifications. Le séparateur · n'est qu'une convention d'affichage."
+        }
+      }
+    },
+    "footerTagline": "Référence du schéma Proof",
+    "plainTextNote": "Également disponible en texte brut — à coller directement dans une IA ou à utiliser dans un script :"
   }
 }

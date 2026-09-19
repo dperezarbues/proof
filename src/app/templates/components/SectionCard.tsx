@@ -2,6 +2,7 @@
 
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { DEFAULT_POST, DEFAULT_PRE } from '../layout-serializer'
 import SpacingRow from './SpacingRow'
@@ -29,6 +30,7 @@ export default function SectionCard({
   onSpacingChange,
   children,
 }: Props) {
+  const t = useTranslations('editor')
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: sortableId,
   })
@@ -65,6 +67,7 @@ export default function SectionCard({
           {...listeners}
           className="cursor-grab active:cursor-grabbing select-none text-base leading-none px-0.5"
           style={{ color: 'var(--c-faint)' }}
+          aria-label={t('dragToReorder')}
         >
           ⠿
         </button>
@@ -74,7 +77,9 @@ export default function SectionCard({
           onClick={toggleSpacing}
           className="text-xs px-1 leading-none transition-colors"
           style={{ color: hasCustomSpacing ? 'var(--c-accent)' : 'var(--c-faint)' }}
-          title="Per-section spacing"
+          title={t('perSectionSpacing')}
+          aria-label={t('perSectionSpacing')}
+          aria-expanded={spacingOpen}
         >
           ↕
         </button>
@@ -103,6 +108,7 @@ export default function SectionCard({
           onMouseLeave={(e) => {
             e.currentTarget.style.color = 'var(--c-line)'
           }}
+          aria-label={t('removeSection')}
         >
           ×
         </button>

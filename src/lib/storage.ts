@@ -10,6 +10,7 @@ const PRIVATE_FLAG = 'proof-private'
 export const KEYS = {
   cvs: 'proof-cvs',
   currentCv: 'proof-current-cv',
+  currentTemplate: 'proof-current-template',
   styleOverrides: 'proof-style-overrides',
   layoutOverrides: 'proof-layout-overrides',
   saves: 'proof-saves',
@@ -48,13 +49,34 @@ export function getItem(key: string): string | null {
   }
 }
 
-/** Writes a value to the active storage. Silently fails if storage is unavailable (e.g. quota exceeded). */
-export function setItem(key: string, value: string): void {
+/** Writes a value to the active storage. Returns false (instead of throwing) if storage is
+ *  unavailable — e.g. quota exceeded — so callers on a critical save path can surface this to
+ *  the user instead of the write silently vanishing. */
+export function setItem(key: string, value: string): boolean {
   try {
     store().setItem(key, value)
+    return true
   } catch (err) {
     devWarn('setItem', err)
+    return false
   }
+}
+
+/**
+ * Read-modify-write against whatever is CURRENTLY persisted at `key`, not a stale in-memory
+ * snapshot. This is the one place every storage domain (CVs, saved layouts, style/layout
+ * overrides) should go through to mutate a stored value — reading fresh immediately before
+ * writing closes the race where two tabs (or two rapid actions in the same tab) each compute
+ * their next value from an outdated snapshot and the second write silently clobbers the first.
+ *
+ * `read` supplies the current value already parsed/validated/defaulted by the caller (each
+ * domain knows its own shape and fallback); `mutate` derives the next value from it. Returns the
+ * new value on success, or null if the write failed (e.g. storage quota exceeded) so callers on
+ * a save path can surface that instead of assuming it worked.
+ */
+export function mutateStored<T>(key: string, read: () => T, mutate: (current: T) => T): T | null {
+  const next = mutate(read())
+  return setItem(key, JSON.stringify(next)) ? next : null
 }
 
 /** Removes a key from both localStorage and sessionStorage to ensure no stale data remains. */
@@ -81,18 +103,36 @@ export function isPrivateMode(): boolean {
   }
 }
 
-/** Activates private mode for the current tab — all data is stored in sessionStorage. */
+/** Moves every known key from one backend to the other, then purges the source. */
+function migrate(from: Storage, to: Storage): void {
+  for (const key of Object.values(KEYS)) {
+    try {
+      const val = from.getItem(key)
+      if (val !== null) to.setItem(key, val)
+      from.removeItem(key)
+    } catch (err) {
+      devWarn('migrate', err)
+    }
+  }
+}
+
+/**
+ * Activates private mode for the current tab: moves all data into sessionStorage
+ * and purges it from localStorage first, so nothing already on disk survives.
+ */
 export function enablePrivateMode(): void {
   try {
+    migrate(localStorage, sessionStorage)
     sessionStorage.setItem(PRIVATE_FLAG, '1')
   } catch (err) {
     devWarn('enablePrivateMode', err)
   }
 }
 
-/** Deactivates private mode for the current tab. */
+/** Deactivates private mode for the current tab, moving data back to localStorage. */
 export function disablePrivateMode(): void {
   try {
+    migrate(sessionStorage, localStorage)
     sessionStorage.removeItem(PRIVATE_FLAG)
   } catch (err) {
     devWarn('disablePrivateMode', err)

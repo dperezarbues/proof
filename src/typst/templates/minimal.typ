@@ -1,7 +1,8 @@
 #import "../styles.typ": *
 #import "../components.typ": *
 // Import data only — we render everything ourselves for full style control
-#import "../sections.typ": data
+#import "../sections.typ": data, lang
+#import "../i18n.typ": section-title
 
 #let id = data.identity
 
@@ -39,7 +40,7 @@
 // ── Per-section render functions ──────────────────────────────────────────────
 
 #let render-summary(pre: sp-unit * 2.2, post: sp-lg) = [
-  #section("Summary", pre: pre, post: post, id: "summary")
+  #section(section-title("summary", lang), pre: pre, post: post, id: "summary")
   #set text(size: fs-md, fill: c-body)
   #set par(justify: true)
   #for (i, para) in data.summary.split("\n\n").enumerate() {
@@ -49,7 +50,7 @@
 ]
 
 #let render-experience(pre: sp-unit * 2.2, post: sp-lg) = [
-  #section("Experience", pre: pre, post: post)
+  #section(section-title("experience", lang), pre: pre, post: post)
   #set text(size: fs-md, fill: c-body)
   #set par(justify: true)
   #for (ji, job) in data.experience.enumerate() {
@@ -81,7 +82,7 @@
 ]
 
 #let render-awards(pre: sp-unit * 2.2, post: sp-lg) = [
-  #section("Awards", pre: pre, post: post)
+  #section(section-title("awards", lang), pre: pre, post: post)
   #set text(size: fs-md, fill: c-body)
   #for (i, award) in data.awards.enumerate() {
     if i > 0 { v(sp-xl) }
@@ -104,7 +105,7 @@
 ]
 
 #let render-skills(pre: sp-unit * 2.2, post: sp-lg) = [
-  #section("Skills", pre: pre, post: post)
+  #section(section-title("skills", lang), pre: pre, post: post)
   #let dot = "\u{00a0}· "
   #set par(justify: false)
   #let groups = data.skills
@@ -120,7 +121,7 @@
 ]
 
 #let render-side-projects(pre: sp-unit * 2.2, post: sp-lg) = [
-  #section("Side Projects", pre: pre, post: post)
+  #section(section-title("side_projects", lang), pre: pre, post: post)
   #set text(size: fs-md, fill: c-body)
   #set par(justify: true)
   #for (i, proj) in data.side_projects.enumerate() {
@@ -140,7 +141,7 @@
 ]
 
 #let render-education(pre: sp-unit * 2.2, post: sp-lg) = [
-  #section("Education", pre: pre, post: post)
+  #section(section-title("education", lang), pre: pre, post: post)
   #set text(size: fs-md, fill: c-body)
   #for (i, edu) in data.education.enumerate() {
     if i > 0 { v(sp-xl) }
@@ -163,7 +164,7 @@
 ]
 
 #let render-certifications(pre: sp-unit * 2.2, post: sp-lg) = [
-  #section("Certifications", pre: pre, post: post)
+  #section(section-title("certifications", lang), pre: pre, post: post)
   #set text(size: fs-md, fill: c-body)
   #for (i, cert) in data.certifications.enumerate() {
     if i > 0 { v(sp-sm) }
@@ -177,7 +178,7 @@
 ]
 
 #let render-languages(pre: sp-unit * 2.2, post: sp-lg) = [
-  #section("Languages", pre: pre, post: post)
+  #section(section-title("languages", lang), pre: pre, post: post)
   #set text(size: fs-md, fill: c-body)
   #for lang in data.languages [
     #text(size: fs-md)[*#lang.title* ]#text(size: fs-sm, fill: c-muted, lang.at("subtitle", default: ""))#linebreak()
@@ -188,7 +189,7 @@
 #let render-core-strengths(pre: sp-unit * 2.2, post: sp-lg) = {
   if "core_strengths" not in data { return }
   [
-    #section("Core Strengths", pre: pre, post: post)
+    #section(section-title("core_strengths", lang), pre: pre, post: post)
     #set par(justify: false)
     #set text(hyphenate: false)
     #for s in data.core_strengths { pill(s); h(pill-gap) }
@@ -199,7 +200,7 @@
 #let render-leadership-profile(pre: sp-unit * 2.2, post: sp-lg) = {
   if "leadership_profile" not in data { return }
   [
-    #section("Leadership Profile", pre: pre, post: post)
+    #section(section-title("leadership_profile", lang), pre: pre, post: post)
     #let lp  = data.leadership_profile
     #let sub = lp.at("subtitle", default: "")
     #if sub != "" {

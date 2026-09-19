@@ -1,50 +1,93 @@
 'use client'
 
+import { useLocale, useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { downloadJson } from '../browser-utils'
+import { useModalDialogA11y } from '../hooks/useModalDialogA11y'
 import type { SavedConfig } from '../types'
+import { SbBtn } from './GalleryAtoms'
 
 export function SaveModal({
   onSave,
   onCancel,
 }: {
-  onSave: (name: string) => void
+  /** Returns false if the save failed (e.g. storage quota exceeded) — the modal stays open and
+   *  shows an error instead of closing as if it had succeeded. */
+  onSave: (name: string) => boolean
   onCancel: () => void
 }) {
+  const t = useTranslations('editor')
   const [name, setName] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const dialogRef = useModalDialogA11y(onCancel)
+
+  function trySave() {
+    if (!name.trim()) return
+    if (!onSave(name.trim())) {
+      setError(t('layoutPresetError'))
+    }
+  }
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="bg-white rounded-xl shadow-xl p-5 w-72 mx-4">
-        <p className="text-sm font-semibold text-gray-900 mb-1">Save configuration</p>
-        <p className="text-xs text-gray-400 mb-3">Saves layout + style to browser storage</p>
-        <input
-          // biome-ignore lint/a11y/noAutofocus: modal dialog — autofocus name field is the expected UX
-          autoFocus
-          type="text"
-          placeholder="My dark sidebar"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && name.trim()) onSave(name.trim())
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="save-preset-title"
+        tabIndex={-1}
+        className="w-full max-w-[320px] mx-4 rounded-[6px] p-5"
+        style={{ background: 'var(--c-paper)', boxShadow: '0 40px 100px rgba(0,0,0,0.4)' }}
+      >
+        <p
+          id="save-preset-title"
+          className="mb-1"
+          style={{
+            fontFamily: 'var(--f-display)',
+            fontWeight: 700,
+            fontSize: 13,
+            color: 'var(--c-ink)',
           }}
-          className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 mb-3"
+        >
+          {t('layoutPresetTitle')}
+        </p>
+        <p className="text-[12px] mb-3" style={{ color: 'var(--c-sub)' }}>
+          {t('layoutPresetHint')}
+        </p>
+        <input
+          type="text"
+          placeholder={t('layoutPresetPlaceholder')}
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value)
+            setError(null)
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') trySave()
+          }}
+          className="w-full mb-3"
+          style={{
+            fontSize: 13,
+            border: '1px solid var(--c-line)',
+            borderRadius: 4,
+            padding: '6px 12px',
+            outline: 'none',
+            background: 'var(--c-card)',
+            color: 'var(--c-ink)',
+          }}
         />
+        {error && (
+          <p role="alert" className="text-[12px] mb-3" style={{ color: 'var(--c-error)' }}>
+            {error}
+          </p>
+        )}
         <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="flex-1 text-sm text-gray-600 border border-gray-200 py-1.5 rounded-lg hover:bg-gray-50"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={() => name.trim() && onSave(name.trim())}
-            disabled={!name.trim()}
-            className="flex-1 text-sm bg-blue-600 text-white py-1.5 rounded-lg hover:bg-blue-700 disabled:opacity-40"
-          >
-            Save
-          </button>
+          <SbBtn full onClick={onCancel}>
+            {t('layoutPresetCancel')}
+          </SbBtn>
+          <SbBtn full variant="primary" onClick={trySave} disabled={!name.trim()}>
+            {t('layoutPresetSave')}
+          </SbBtn>
         </div>
       </div>
     </div>
@@ -62,28 +105,39 @@ export function SavedList({
   onLoad: (c: SavedConfig) => void
   onDelete: (id: string) => void
 }) {
+  const t = useTranslations('editor')
+  const locale = useLocale()
   const mine = saves.filter((s) => s.templateId === templateId)
   if (mine.length === 0)
-    return <p className="text-xs text-gray-400 italic">No saved configurations yet</p>
+    return (
+      <p className="text-[12px] italic" style={{ color: 'var(--c-faint)' }}>
+        {t('noLayoutPresets')}
+      </p>
+    )
 
   return (
     <div className="space-y-1.5">
       {mine.map((c) => (
         <div
           key={c.id}
-          className="flex items-center gap-1.5 px-2 py-1.5 bg-white border border-gray-200 rounded-lg group hover:border-gray-300"
+          className="flex items-center gap-1.5 px-2.5 py-2 rounded-[3px] group"
+          style={{ background: 'var(--c-card)', boxShadow: 'inset 0 0 0 1px var(--c-line)' }}
         >
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium text-gray-800 truncate">{c.name}</p>
-            <p className="text-xs text-gray-400">
-              {new Date(c.savedAt).toLocaleDateString('en', { month: 'short', day: 'numeric' })}
+            <p className="text-[12px] font-medium truncate" style={{ color: 'var(--c-ink)' }}>
+              {c.name}
+            </p>
+            <p className="text-[11px]" style={{ color: 'var(--c-faint)' }}>
+              {new Date(c.savedAt).toLocaleDateString(locale, { month: 'short', day: 'numeric' })}
             </p>
           </div>
           <button
             type="button"
             onClick={() => onLoad(c)}
-            className="text-xs text-blue-600 hover:text-blue-800 px-1"
-            title="Load"
+            className="px-1.5 py-1 text-[13px] transition-opacity hover:opacity-70"
+            style={{ color: 'var(--c-sub)' }}
+            title={t('loadPreset')}
+            aria-label={t('loadPreset')}
           >
             ↩
           </button>
@@ -101,16 +155,20 @@ export function SavedList({
                 `${c.templateId}-${c.name.toLowerCase().replace(/\s+/g, '-')}.json`,
               )
             }
-            className="text-xs text-gray-400 hover:text-gray-700 px-1"
-            title="Download"
+            className="px-1.5 py-1 text-[13px] opacity-0 group-hover:opacity-100 transition-opacity"
+            style={{ color: 'var(--c-sub)' }}
+            title={t('downloadPreset')}
+            aria-label={t('downloadPreset')}
           >
             ↓
           </button>
           <button
             type="button"
             onClick={() => onDelete(c.id)}
-            className="text-xs text-gray-300 hover:text-red-400 opacity-0 group-hover:opacity-100 px-1"
-            title="Delete"
+            className="px-1.5 py-1 text-[13px] opacity-0 group-hover:opacity-100 transition-opacity"
+            style={{ color: 'var(--c-sub)' }}
+            title={t('delete')}
+            aria-label={t('delete')}
           >
             ×
           </button>

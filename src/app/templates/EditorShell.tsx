@@ -17,6 +17,7 @@ type CompileInfo = { compileState: CompileState; compilerReady: boolean; error: 
 type Props = {
   initialLayout: Record<string, unknown>
   templateId: string
+  layoutId: string
   styleParams?: StyleParam[]
   sections?: SectionDef[]
   cvContent: string
@@ -30,6 +31,7 @@ type Props = {
 export default function EditorShell({
   initialLayout,
   templateId,
+  layoutId,
   styleParams = [],
   sections,
   cvContent,
@@ -40,9 +42,10 @@ export default function EditorShell({
   onCompileInfo,
 }: Props) {
   const t = useTranslations('editor')
-  const { editor, style, compiler, saved } = useLayoutEditor({
+  const { editor, style, compiler, saved, storageError } = useLayoutEditor({
     initialLayout,
     templateId,
+    layoutId,
     styleParams,
     sections,
     cvContent,
@@ -66,30 +69,21 @@ export default function EditorShell({
         <SaveModal onSave={saved.handleSave} onCancel={() => saved.setShowSaveModal(false)} />
       )}
 
+      {storageError && (
+        <p
+          role="alert"
+          className="text-[11px] px-4 pt-2"
+          style={{ color: 'var(--c-error)' }}
+          data-testid="autosave-error"
+        >
+          ⚠ {storageError}
+        </p>
+      )}
+
       <div className="flex-1 overflow-y-auto">
         {activeTab === 'layout' && (
           <div className="p-4">
-            <LayoutPanel
-              layout={editor.layout}
-              hasSidebar={editor.hasSidebar}
-              sensors={editor.sensors}
-              available={editor.available}
-              availableSb={editor.availableSb}
-              getLabel={editor.getLabel}
-              setHeader={editor.setHeader}
-              handleDragEnd={editor.handleDragEnd}
-              handleSidebarDragEnd={editor.handleSidebarDragEnd}
-              addFullSection={editor.addFullSection}
-              addColumnsGroup={editor.addColumnsGroup}
-              removeSection={editor.removeSection}
-              updateSection={editor.updateSection}
-              updateColumn={editor.updateColumn}
-              updateSpacing={editor.updateSpacing}
-              addSidebarSection={editor.addSidebarSection}
-              removeSidebarSection={editor.removeSidebarSection}
-              toggleSidebarBreakable={editor.toggleSidebarBreakable}
-              updateSidebarSpacing={editor.updateSidebarSpacing}
-            />
+            <LayoutPanel editor={editor} />
 
             {saved.mySavesCount > 0 && (
               <div className="mt-4 pt-4" style={{ borderTop: '1px solid var(--c-line)' }}>
@@ -117,6 +111,15 @@ export default function EditorShell({
                 onChange={saved.handleImport}
                 data-testid="layout-import-input"
               />
+              <button
+                type="button"
+                onClick={() => saved.setShowSaveModal(true)}
+                className="text-[11px] px-2.5 py-1 rounded-[3px] transition-opacity hover:opacity-70"
+                style={{ color: 'var(--c-ink2)', boxShadow: 'inset 0 0 0 1.3px var(--c-line)' }}
+                data-testid="save-layout-as-btn"
+              >
+                {t('saveLayoutAs')}
+              </button>
               <button
                 type="button"
                 onClick={() => saved.importRef.current?.click()}

@@ -6,6 +6,7 @@
   "nav": {
     "editor": "Editor",
     "templates": "Templates",
+    "help": "Help",
     "privacy": "Privacy",
     "schema": "Schema",
     "openEditor": "Open editor →",
@@ -28,28 +29,45 @@
     "h2Line1": "Bring your",
     "h2Line2": "own AI.",
     "body": "Most builders trap your data behind a form. Proof hands you an open schema and gets out of the way — use the AI you already trust.",
-    "step1Title": "Download the schema",
-    "step1Body": "One documented JSON file — the blueprint for a complete CV: identity, experience, skills, the lot.",
-    "step2Title": "Generate in any AI",
-    "step2Body": "Paste it into your AI of choice and describe yourself. No prompt to copy, no model lock-in. You own the conversation.",
-    "step3Title": "Import & proof",
-    "step3Body": "Drop the JSON back in. Pick a template, fine-tune, and compile to PDF — entirely on your device.",
     "worksWith": "Works with",
     "openFormat": "Open format",
-    "downloadSchema": "↓ Download schema"
+    "downloadSchema": "↓ Download schema",
+    "steps": [
+      {
+        "title": "Download the schema",
+        "body": "One documented JSON file — the blueprint for a complete CV: identity, experience, skills, the lot."
+      },
+      {
+        "title": "Generate in any AI",
+        "body": "Paste it into your AI of choice and describe yourself — and the role you're after, if you have one. No prompt to copy, no model lock-in. You own the conversation."
+      },
+      {
+        "title": "Import & proof",
+        "body": "Drop the JSON back in. Pick a template, fine-tune, and compile to PDF — entirely on your device."
+      }
+    ],
+    "viewDocs": "View documentation →"
   },
   "makeYours": {
     "badge": "Then make it yours",
     "h2Line1": "Proof it",
     "h2Line2": "to perfection.",
     "body": "A live editor with a real-time PDF preview. Reorder, restyle, and re-compile until every line sits exactly where you want it.",
-    "feature1Title": "Ten pro templates",
-    "feature1Body": "Swap layouts instantly — more on the way.",
-    "feature2Title": "Drag-to-reorder",
-    "feature2Body": "Reorder sections, toggle page breaks.",
-    "feature3Title": "Tune the style",
-    "feature3Body": "Accent, typeface, spacing — all live.",
-    "openEditor": "Open editor →"
+    "openEditor": "Open editor →",
+    "features": [
+      {
+        "title": "Ten pro templates",
+        "body": "Swap layouts instantly — more on the way."
+      },
+      {
+        "title": "Drag-to-reorder",
+        "body": "Reorder sections, toggle page breaks."
+      },
+      {
+        "title": "Tune the style",
+        "body": "Accent, typeface, spacing — all live."
+      }
+    ]
   },
   "templates": {
     "badge": "Templates",
@@ -60,10 +78,12 @@
     "h2Line1": "Zero",
     "h2Line2": "storage.",
     "body": "Compilation runs in your browser via WebAssembly. No server, no database, no logs, no account. Your CV — and the AI conversation that made it — stay entirely with you.",
-    "chip1": "No account",
-    "chip2": "No cloud",
-    "chip3": "No tracking",
-    "chip4": "Open source"
+    "chips": [
+      "No account",
+      "No cloud",
+      "No tracking",
+      "Open source"
+    ]
   },
   "openSource": {
     "badge": "Open source",
@@ -96,19 +116,36 @@
     "openEditor": "Open the editor",
     "reportIssue": "Report an issue"
   },
+  "error": {
+    "headline": "Something broke.",
+    "body": "An unexpected error occurred. Your saved CVs are untouched — they live in your browser, not on our servers — so retrying should get you right back to where you were.",
+    "retry": "Try again",
+    "backHome": "Back to home",
+    "reportIssue": "Report an issue"
+  },
   "onboarding": {
     "title": "Welcome to Proof",
     "subtitle": "A privacy-first CV editor. Your data is stored in this browser — nothing is saved server-side.",
-    "step1Title": "Add your CV",
-    "step1Body": "Use \"+ New\" to create a CV from the template, or \"↑ Import\" to load an existing JSON file. You can have multiple CVs and switch between them.",
-    "step2Title": "Pick a template & customise",
-    "step2Body": "Select a template from the list. The middle panel lets you reorder sections, toggle page breaks, and adjust colors, fonts, and spacing.",
-    "step3Title": "Generate your PDF",
-    "step3Body": "Hit \"Generate PDF\" in the editor panel. Your CV is compiled with Typst and the PDF appears in the preview. Download whenever you're happy.",
     "sharedComputer": "I'm on a shared computer",
     "sharedComputerNote": "Data will be stored in session storage and cleared automatically when this tab closes.",
+    "confirmEnablePrivate": "This moves your saved CVs into this tab's temporary storage. They'll be permanently deleted as soon as you close this tab. Continue?",
+    "confirmDisablePrivate": "This saves your CVs to this browser's permanent storage, where they'll persist after you close the tab. Don't do this on a shared or public computer. Continue?",
     "reopenHint": "Reopen via the ? button",
-    "getStarted": "Get started"
+    "getStarted": "Get started",
+    "steps": [
+      {
+        "title": "Add your CV",
+        "body": "Use \"+ New\" to create a CV from the template, or \"↑ Import\" to load an existing JSON file. You can have multiple CVs and switch between them."
+      },
+      {
+        "title": "Pick a template & customise",
+        "body": "Select a template from the list. The middle panel lets you reorder sections, toggle page breaks, and adjust colors, fonts, and spacing."
+      },
+      {
+        "title": "Generate your PDF",
+        "body": "Hit \"Generate PDF\" in the editor panel. Your CV is compiled with Typst and the PDF appears in the preview. Download whenever you're happy."
+      }
+    ]
   },
   "cvModal": {
     "titleNew": "New CV",
@@ -121,7 +158,11 @@
     "format": "Format",
     "dataStays": "Data stays in your browser",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "saveStorageError": "Couldn't save — your browser storage is full or unavailable. Try freeing up space, or switch to the JSON tab and copy your data somewhere safe.",
+    "nameRequired": "Name is required",
+    "invalidJson": "Invalid JSON",
+    "invalidCvStructure": "Invalid CV structure"
   },
   "editor": {
     "tabData": "Data",
@@ -132,14 +173,32 @@
     "noCVLoaded": "No CV loaded",
     "noCVsYet": "No CVs yet — create or import one.",
     "newCV": "+ New",
+    "newCvTitle": "New CV",
+    "help": "Help",
+    "perSectionSpacing": "Per-section spacing",
+    "resetToDefault": "Reset to template default",
     "import": "↑ Import",
+    "cvLanguage": "CV language",
+    "thisCv": "This CV",
+    "cvLanguageHint": "Sets the PDF's section headings — independent of the interface language.",
     "getSchema": "Get the schema",
     "download": "↓ Download",
     "processedLocally": "PROCESSED LOCALLY · NOTHING UPLOADED",
     "chooseTemplate": "Choose a template",
     "templatesMoreOnWay": "templates — more on the way.",
     "layoutVariant": "Layout variant",
+    "saveLayoutAs": "Save as…",
     "savedLayouts": "Saved layouts",
+    "layoutPresetTitle": "Save configuration",
+    "layoutPresetHint": "Saves layout + style to browser storage",
+    "layoutPresetPlaceholder": "My dark sidebar",
+    "layoutPresetCancel": "Cancel",
+    "layoutPresetSave": "Save",
+    "layoutPresetError": "Couldn't save — your browser storage is full or unavailable.",
+    "noLayoutPresets": "No saved configurations yet",
+    "loadPreset": "Load",
+    "downloadPreset": "Download",
+    "autosaveError": "Couldn't save this change — storage is full. It'll be lost on reload.",
     "noStyleParams": "No style params",
     "noLayoutForTemplate": "No layout for this template",
     "editorSettings": "Editor settings",
@@ -156,7 +215,9 @@
     "editCVDataTitle": "Edit CV data",
     "downloadJSON": "Download JSON",
     "delete": "Delete",
-    "beta": "Beta"
+    "beta": "Beta",
+    "dragToReorder": "Drag to reorder",
+    "removeSection": "Remove section"
   },
   "pdfPreview": {
     "preview": "preview",
@@ -246,26 +307,246 @@
     "subtitle": "Plain English. No legalese.",
     "openEditor": "Open editor →",
     "backHome": "← Home",
-    "s1Title": "Your CV data",
-    "s1p1": "Your CV data is stored exclusively in your browser's localStorage. It never leaves your device except during PDF generation (see below). We have no database, no user accounts, and no server-side storage of CV content.",
-    "s1p2": "If you clear your browser storage, your CV data is gone. There is no cloud backup. We recommend downloading your CV JSON periodically using the Download button in the editor.",
-    "s2Title": "PDF generation",
-    "s2p1": "When you click \"Generate PDF\", your CV data never leaves your device. The Typst compiler runs entirely in your browser as a WebAssembly module (~6 MB, downloaded once and cached). Compilation happens locally; no CV content is sent to any server at any point.",
-    "s2p2": "The only network requests are: loading the compiler itself (from this site), loading fonts (also from this site), and the analytics beacon described below. Your CV data is never included in any of these requests.",
-    "s3Title": "Analytics",
-    "s3p1": "This site uses GoatCounter for basic traffic analytics. GoatCounter collects page views, referrer URLs, browser type, and country — no cookies, no fingerprinting, no personal data, no cross-site tracking.",
-    "s3p2": "GoatCounter is open source and its privacy policy is available at goatcounter.com/help/privacy.",
-    "s4Title": "Cookies",
-    "s4p1": "Proof sets no cookies. Layout saves and CV data are stored in localStorage, which is not a cookie and is never transmitted to the server automatically. GoatCounter also sets no cookies.",
-    "s5Title": "Open source",
-    "s5p1": "Proof is open source. You are welcome to inspect the code, self-host it, or contribute. The source code is the most authoritative description of what the tool actually does.",
-    "s6Title": "Changes",
-    "s6p1": "If anything material changes — particularly around data handling — this page will be updated. The date below reflects the last revision.",
-    "s6date": "Last updated: May 2025"
+    "sections": {
+      "cvData": {
+        "title": "Your CV data",
+        "p1": "Your CV data is stored exclusively in your browser's localStorage. It never leaves your device except during PDF generation (see below). We have no database, no user accounts, and no server-side storage of CV content.",
+        "p2": "If you clear your browser storage, your CV data is gone. There is no cloud backup. We recommend downloading your CV JSON periodically using the Download button in the editor."
+      },
+      "pdfGeneration": {
+        "title": "PDF generation",
+        "p1": "When you click \"Generate PDF\", your CV data never leaves your device. The <typst>Typst</typst> compiler runs entirely in your browser as a WebAssembly module (~6 MB, downloaded once and cached). Compilation happens locally; no CV content is sent to any server at any point.",
+        "p2": "The only network requests are: loading the compiler itself (from this site), loading fonts (also from this site), and the analytics beacon described below. Your CV data is never included in any of these requests."
+      },
+      "analytics": {
+        "title": "Analytics",
+        "p1": "This site uses <goatcounter>GoatCounter</goatcounter> for basic traffic analytics. GoatCounter collects page views, referrer URLs, browser type, and country — no cookies, no fingerprinting, no personal data, no cross-site tracking.",
+        "p2": "GoatCounter is open source and its privacy policy is available at <privacy>goatcounter.com/help/privacy</privacy>."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "p1": "Proof sets no cookies. Layout saves and CV data are stored in localStorage, which is not a cookie and is never transmitted to the server automatically. GoatCounter also sets no cookies."
+      },
+      "openSource": {
+        "title": "Open source",
+        "p1": "Proof is open source. You are welcome to inspect the code, self-host it, or contribute. The source code is the most authoritative description of what the tool actually does."
+      },
+      "changes": {
+        "title": "Changes",
+        "p1": "If anything material changes — particularly around data handling — this page will be updated. The date below reflects the last revision.",
+        "date": "Last updated: May 2025"
+      },
+      "noWarranty": {
+        "title": "No warranty",
+        "p1": "We don't promise Proof is bug-free, always available, or a perfect fit for what you need — you use it at your own risk. We aren't responsible for any damage, lost data, or other problems that come from using it, including CVs it generates for you. Always double-check your CV yourself before sending it anywhere.",
+        "p2": "This is a free, open-source project maintained on a best-effort basis by volunteers, not a commercial service with guaranteed support, SLAs, or uptime."
+      }
+    }
   },
-  "llms": {
-    "metaTitle": "CV Schema for LLMs — Proof",
-    "home": "← Home",
-    "openEditor": "Open editor →"
+  "help": {
+    "metaTitle": "How Proof works — Help",
+    "metaDescription": "A quick guide to using Proof's CV editor: templates, layout, style, CV language, and backups.",
+    "title": "How Proof works",
+    "subtitle": "A quick guide to the editor — no fluff.",
+    "sections": {
+      "gettingStarted": {
+        "title": "Adding your CV",
+        "p1": "Click \"+ New\" in the Data tab to start from a blank CV, or \"Import\" to load an existing CV JSON file. You can keep multiple CVs and switch between them from the same list — useful for tailoring different versions for different roles.",
+        "p2": "Everything you type is saved to this browser automatically as you go — there's no separate save step, and nothing is sent anywhere until you choose to generate a PDF."
+      },
+      "templates": {
+        "title": "Choosing a template",
+        "p1": "The Template tab shows every available design. Pick one and the preview recompiles to match. If a template offers more than one layout variant — Split or Classic headers, for example — they appear as a small picker underneath the template grid.",
+        "p2": "Switching templates doesn't touch your CV data, only how it's rendered. Each template remembers its own layout and style customization separately, so trying a different look and coming back later restores exactly what you had."
+      },
+      "layout": {
+        "title": "Arranging sections",
+        "p1": "The Layout tab controls which sections appear and in what order. Drag a section to reorder it, or place two side by side as a column group. Each section has its own spacing and a \"keep together\" toggle so it doesn't awkwardly split across a page break.",
+        "p2": "The Sidebar template has a second, separate list for what goes in the sidebar versus the main column — everything else works the same way."
+      },
+      "style": {
+        "title": "Customizing appearance",
+        "p1": "The Style tab is grouped into Typography, Colors, Spacing, and Extras — these apply the same way across every template. Extras includes things like showing a QR code, a footer, or contact icons instead of plain text.",
+        "p2": "Some templates add their own groups on top of the shared ones — Modern's accent color, or Sidebar's width and background, for instance. Those only show up for templates that actually use them."
+      },
+      "cvLanguage": {
+        "title": "CV language",
+        "p1": "In the Data tab, \"CV language\" sets the language of the section headings in your compiled PDF — Summary, Experience, and so on — independent of whatever language you're using to browse the app itself. Someone using Proof in Spanish can still generate an English-language CV."
+      },
+      "generatingPdf": {
+        "title": "Generating & downloading the PDF",
+        "p1": "Click \"Generate PDF\" whenever you're ready to see the result — Proof compiles it entirely in your browser using Typst, no server involved. The preview updates automatically as you keep editing.",
+        "p2": "When you're happy with it, download it directly from the preview panel."
+      },
+      "savingAndBackup": {
+        "title": "Saving, exporting & backup",
+        "p1": "Proof has no account and no cloud storage — everything lives in this browser only. The Download button next to each CV in the Data tab bundles your CV data together with whatever template, layout, and style you currently have set up, in one JSON file.",
+        "p2": "That file is both your backup and your way to move a CV to another browser or device: importing it later restores the data and recreates the look, not just the words. A plain CV-only JSON file with no design attached still imports fine too.",
+        "p3": "Layouts you've customized in the Layout tab can also be saved as named presets independent of any one CV, and exported/imported the same way, if you want to reuse a look across different CVs."
+      },
+      "privacy": {
+        "title": "Privacy",
+        "p1": "All of this — compiling, storage, everything — happens locally in your browser. See the <terms>Privacy & Terms</terms> page for the full picture, including what limited analytics this site collects."
+      }
+    }
+  },
+  "forLlms": {
+    "metaTitle": "Schema Reference — Proof",
+    "metaDescription": "Complete CV JSON schema and layout/style reference for Proof. For LLMs and agents generating CV data.",
+    "breadcrumb": "Schema reference",
+    "title": "Schema Reference",
+    "intro": "Complete reference for generating valid Proof data. Covers the CV content JSON, layout structure, and all style parameters for each template. Intended for LLMs and agents producing CV files for import.",
+    "toc": {
+      "cvJson": "CV JSON",
+      "sections": "Sections",
+      "layout": "Layout JSON",
+      "style": "Style params",
+      "tips": "Tips"
+    },
+    "cvJson": {
+      "heading": "1 · CV JSON schema",
+      "intro": "The CV is a single JSON object. All sections are optional except <code>identity</code>. Text fields in <code>highlights</code>, <code>description</code>, and <code>summary</code> support Markdown-style links: <code>[text](https://url)</code>.",
+      "contactHeading": "identity.contact — type values",
+      "contactTypes": {
+        "email": "Renders as mailto: link",
+        "phone": "Renders as tel: link",
+        "location": "Plain text, no link",
+        "linkedin": "Uses LinkedIn icon",
+        "github": "Uses GitHub icon",
+        "medium": "Uses Medium icon",
+        "facebook": "Uses Facebook icon",
+        "web": "Generic globe icon"
+      },
+      "contactNote": "The visual editor's own type picker only offers 6 of these (no medium or facebook) — writing JSON directly gets you the full set above."
+    },
+    "sectionIds": {
+      "heading": "2 · Available section IDs",
+      "intro": "These are the built-in section IDs that the editor and templates know about. The sidebar template can also render any of these in the left column.",
+      "tableId": "ID",
+      "tableKey": "JSON key",
+      "tableNotes": "Notes",
+      "notes": {
+        "summary": "string",
+        "experience": "array",
+        "education": "array",
+        "skills": "array of groups",
+        "languages": "array",
+        "certifications": "array",
+        "awards": "array",
+        "side_projects": "array",
+        "contact": "sidebar only — usable inside sidebar_sections; the same id in the regular sections array, or on any other template, silently renders nothing.",
+        "core_strengths": "string[] of short strings, rendered as pills. Available on every template — not sidebar-only. Section title is translated (en/es/de/fr).",
+        "leadership_profile": "single object, not an array: '{ subtitle?, highlights? }'. No title/name — renders under a fixed, translated heading."
+      },
+      "customNote": "Custom sections: any top-level key not listed above is rendered generically under a heading made from the key name. Supported shapes: a plain string; a string[] (rendered as bullets); an array of objects with title (or name)/subtitle/period and either highlights (string[]) or description; or a single object (not an array) with subtitle and either highlights or description — the same shape leadership_profile uses."
+    },
+    "layout": {
+      "heading": "3 · Layout JSON structure",
+      "intro": "When you generate a PDF from the editor, a layout JSON is compiled alongside the CV data. You can also produce layout JSON directly to control section order, columns, and per-section spacing.",
+      "topLevelFields": "Top-level fields",
+      "fields": {
+        "header": "Always required as {\"style\": \"split\" | \"stacked\"} — the import validator rejects any other value — but only the default template actually reads it, toggling between a side-by-side and a stacked name/headline/contact header. Every other template (minimal, modern, sidebar, and the rest) has a single fixed header layout and silently ignores this field, so pick either value for them; it has no visible effect.",
+        "sections": "Array of main-column section entries (see below).",
+        "sidebar_sections": "Sidebar template only. Array of sidebar section entries.",
+        "style": "Style overrides (see §4). Applied on top of template defaults."
+      },
+      "sectionEntryFull": "Section entry — full type",
+      "fieldsEntry": {
+        "id": "Section ID from §2.",
+        "breakable": "Whether Typst may split this section's content across a page break. false keeps the section atomic — if it doesn't fit in the remaining space on the page, the whole section moves to the next page instead of starting on one page and continuing on another. Default: true.",
+        "pre_spacing": "Space above the section title. Overrides template default.",
+        "post_spacing": "Space below the section rule. Overrides template default."
+      },
+      "sectionEntryColumns": "Section entry — columns type",
+      "fieldsColumns": {
+        "type": "Must be \"columns\" to activate this variant.",
+        "columns": "Number of columns. Default: 2.",
+        "content": "Array of column contents; each element is an array of section IDs for that column."
+      },
+      "completeExamples": "Complete layout examples",
+      "exampleDefaultMinimal": "Default / Minimal",
+      "exampleSidebar": "Sidebar",
+      "columnsNote": "columns accepts any number, but only 2, 3, and 4 have a gutter width tuned for them — other values fall back to the 2-column gutter. columns should match content.length; a mismatch produces a grid with the wrong number of tracks for the cells you provided."
+    },
+    "style": {
+      "heading": "4 · Style parameters",
+      "intro": "Style values live in the <code>style</code> key of the layout JSON. All are optional — omit any to use the template default.",
+      "commonHeading": "Common — all templates",
+      "tableKey": "Key",
+      "tableType": "Type",
+      "tableRange": "Range / options",
+      "tableDefault": "Default",
+      "notes": {
+        "sizes": {
+          "heading": "Sizes",
+          "body": "What each size controls: name_size — the name at the top. headline_size (template-specific, see below) — the role/headline under it. entry_size — each entry's title (job title, degree, project name). body_size — body text and bullet highlights (body_size − 0.5pt is used automatically for a couple of smaller secondary text elements). section_heading_size — the section labels themselves (\"EXPERIENCE\", \"EDUCATION\"), with section_heading_size − 1pt used automatically for smaller pill/footnote text."
+        },
+        "colors": {
+          "heading": "Colors",
+          "body": "What each color controls: heading_color — the name and every entry title. body_color — body text and bullet highlights. muted_color — metadata like company names and date ranges. Pills, tags, and footnote text use a fixed color that style params can't override."
+        },
+        "extras": {
+          "heading": "Toggles",
+          "body": "show_footer prints only the page number (e.g. \"2 / 5\") in small text at the bottom-right of every page — nothing else. show_qr places a small QR code in the header, linking to qr_url (or the first linkedin contact entry if qr_url is left empty); supported on every template. show_contact_icons and show_contact_labels are not independent: when show_contact_icons is on, every contact entry shows its brand icon and show_contact_labels has no effect at all — labels only ever appear when icons are off."
+        },
+        "common": {
+          "heading": "Table notes",
+          "body": "section_pre / section_post aren't in a shared param list technically — every template declares them individually — but all 10 use the same range shown above except sidebar, which widens both (see its own table below). headline_size and section_rule_gap are template-specific, not universal; see the per-template table next."
+        }
+      },
+      "accentHeading": "accent_color — every template, different default per template",
+      "accentIntro": "All 10 templates declare an <code>accent_color</code> param under this exact key — it's not shared/universal in the schema sense (each template sets its own range and default), but every template has one. 7 of the 10 also have <code>headline_size</code> (8–14pt, default 10) — all except minimal, sidebar, and editorial. <code>section_rule_gap</code> (0–0.5em, default 0.2) exists on only default, sidebar, and timeline.",
+      "tableTemplate": "Template",
+      "tableAccentDefault": "accent_color default",
+      "bannerHeading": "Template-specific —",
+      "tablePurpose": "Purpose",
+      "bannerPurpose": {
+        "header_bg": "Dark band header background — banner only"
+      },
+      "sidebarHeading": "Template-specific —",
+      "sidebarNote": "Sidebar also widens its shared section_pre/section_post ranges: 0.2–1.5em (default 0.5) and 0.05–0.8em (default 0.2) respectively, instead of the 0.2–0.9 / 0.05–0.4 every other template uses.",
+      "sidebarPurpose": {
+        "sidebar_bg": "Sidebar background colour",
+        "sidebar_accent": "Sidebar section heading colour",
+        "sidebar_link_color": "Links and icons in the sidebar",
+        "sidebar_text": "Body text in the sidebar",
+        "sidebar_ink": "Name and entry-title colour in the sidebar",
+        "sidebar_width": "Sidebar width in cm (4.5 – 9.0)",
+        "accent_color": "Links in the main column"
+      },
+      "exampleHeading": "Style embedded in layout — example (banner template)",
+      "exampleNote": "<code>header.style</code> is still required by the schema even though banner ignores it (see §3) — pick either value."
+    },
+    "tips": {
+      "heading": "5 · Tips for agents",
+      "tips": {
+        "contactTypes": {
+          "title": "Collect contact types carefully",
+          "body": "Use the exact type strings (email, phone, location, linkedin, github, medium, facebook, web). The \"key\" field is the display label — it can be anything (\"Email\", \"E-mail\", \"Work email\" all render fine). The \"value\" for linkedin/github should be the full URL or just the path (both work)."
+        },
+        "summaryParagraphs": {
+          "title": "summary uses \\n\\n for paragraphs",
+          "body": "The summary field is plain text. To create multiple paragraphs, separate them with a double newline (\\n\\n). Single newlines are treated as spaces."
+        },
+        "tags": {
+          "title": "Tags are decorative pills",
+          "body": "The \"tags\" array on experience, side_projects, and certifications renders as small grey pills at the bottom of the entry. Keep them short (1–3 words). For certifications, the special tag \"expired\" renders a warning style."
+        },
+        "links": {
+          "title": "Links work anywhere in text fields",
+          "body": "highlights, description, and summary all support [text](url) Markdown links. You can also link to another section in the PDF with [text](#section-id) — e.g. [see my projects](#side_projects)."
+        },
+        "omit": {
+          "title": "Omit sections you have no data for",
+          "body": "All top-level sections except identity are optional. Omitting them entirely is cleaner than including empty arrays."
+        },
+        "subtitle": {
+          "title": "subtitle is flexible",
+          "body": "There is no strict format for subtitle. Common conventions: \"Company · Location\" for experience, \"Degree · Field\" for education, \"Issuer · Year\" for certifications. The · separator is just a display convention."
+        }
+      }
+    },
+    "footerTagline": "Proof schema reference",
+    "plainTextNote": "Also available as plain text — for pasting straight into an AI or scripting against:"
   }
 }

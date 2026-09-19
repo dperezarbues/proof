@@ -2,28 +2,45 @@
 
 import { useTranslations } from 'next-intl'
 import MarkProof from '@/components/proof/MarkProof'
+import { useModalDialogA11y } from './hooks/useModalDialogA11y'
 
 type Props = {
   privateMode: boolean
   onPrivateToggle: (enabled: boolean) => void
   onDismiss: () => void
+  /** How many CVs are currently saved — toggling private mode moves storage, so with
+   *  existing CVs on the line we confirm first rather than letting a stray click move
+   *  or expose someone's data without warning. */
+  cvCount: number
 }
 
-export default function OnboardingModal({ privateMode, onPrivateToggle, onDismiss }: Props) {
+export default function OnboardingModal({
+  privateMode,
+  onPrivateToggle,
+  onDismiss,
+  cvCount,
+}: Props) {
   const t = useTranslations('onboarding')
+  const dialogRef = useModalDialogA11y(onDismiss)
 
-  const steps = [
-    { step: '1', title: t('step1Title'), body: t('step1Body') },
-    { step: '2', title: t('step2Title'), body: t('step2Body') },
-    { step: '3', title: t('step3Title'), body: t('step3Body') },
-  ]
+  function handlePrivateToggle(enabled: boolean) {
+    if (cvCount > 0) {
+      const message = enabled ? t('confirmEnablePrivate') : t('confirmDisablePrivate')
+      if (!confirm(message)) return
+    }
+    onPrivateToggle(enabled)
+  }
+
+  const steps = t.raw('steps') as { title: string; body: string }[]
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm">
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="onboarding-title"
+        tabIndex={-1}
         className="w-full sm:max-w-[448px] sm:mx-4 sm:rounded-[6px] rounded-t-[12px] max-h-[90dvh] overflow-y-auto"
         style={{
           background: 'var(--c-paper)',
@@ -55,8 +72,8 @@ export default function OnboardingModal({ privateMode, onPrivateToggle, onDismis
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {steps.map((s) => (
-              <div key={s.step} style={{ display: 'flex', gap: 14 }}>
+            {steps.map((s, i) => (
+              <div key={s.title} style={{ display: 'flex', gap: 14 }}>
                 <div
                   style={{
                     flexShrink: 0,
@@ -75,7 +92,7 @@ export default function OnboardingModal({ privateMode, onPrivateToggle, onDismis
                     letterSpacing: '0',
                   }}
                 >
-                  {s.step}
+                  {i + 1}
                 </div>
                 <div>
                   <p
@@ -111,7 +128,7 @@ export default function OnboardingModal({ privateMode, onPrivateToggle, onDismis
               type="checkbox"
               id="private-mode-toggle"
               checked={privateMode}
-              onChange={(e) => onPrivateToggle(e.target.checked)}
+              onChange={(e) => handlePrivateToggle(e.target.checked)}
               style={{ marginTop: 2, flexShrink: 0 }}
             />
             <label

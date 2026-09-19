@@ -63,6 +63,12 @@
   --c-accent: #e2562e;
   --c-accent-deep: #c2431f;
   --c-accent-soft: #f8e2d8;
+  /* Same hue as --c-accent, darkened until it clears 4.5:1 (WCAG AA, normal text)
+     against every background it's used on (paper, paper-deep, card, white) —
+     --c-accent itself only reaches ~3.2:1 on paper, which fails for the error/status
+     text this is used for. Kept separate from --c-accent-deep (~4.3:1 on paper,
+     still short) since that token is tuned for other uses, not guaranteed AA text. */
+  --c-error: #b03a18;
   /* --f-display and --f-mono are injected by next/font via the variable props in layout.tsx */
 }
 

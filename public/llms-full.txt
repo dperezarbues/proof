@@ -1,16 +1,16 @@
-# CVault — Full Reference for LLMs
+# Proof — Full Reference for LLMs
 
-> Privacy-first CV editor that compiles PDFs using Typst. CV data is stored in the browser; sent to the server only transiently during PDF compilation and immediately discarded.
+> Privacy-first CV editor that compiles PDFs using Typst. CV data is stored in the browser and compiled to PDF entirely client-side via a WebAssembly build of Typst — nothing is ever sent to a server.
 
-This file contains the complete reference for generating valid CVault data — CV content JSON schema, layout structure, and all style parameters. No external links need to be followed.
+This file contains the complete reference for generating valid Proof data — CV content JSON schema, layout structure, and all style parameters. No external links need to be followed.
 
 ---
 
-## What CVault does
+## What Proof does
 
-Users maintain their CV as a JSON file stored locally in the browser. They select a template, customise layout and style through a visual editor, and generate a high-quality PDF compiled by Typst on the server. The data is processed transiently and immediately discarded — no server-side storage.
+Users maintain their CV as a JSON file stored locally in the browser. They select a template, customise layout and style through a visual editor, and generate a high-quality PDF compiled by Typst entirely in the browser via WebAssembly. No data ever leaves the device, and there is no server-side storage.
 
-**Templates available:** default, modern, minimal, sidebar
+**Templates available:** default, modern, minimal, sidebar, compact, banner, timeline, academic, tech, editorial
 
 **Workflow for an agent helping a user:**
 1. Collect the user's information
@@ -22,9 +22,9 @@ Users maintain their CV as a JSON file stored locally in the browser. They selec
 
 ## CV JSON Schema
 
-The CV is a single JSON object. All sections are optional except `identity`.
+The CV is a single JSON object. All sections are optional except `identity`, and within `identity` only `name` is required.
 
-### identity (required)
+### identity
 
 ```json
 {
@@ -43,11 +43,12 @@ The CV is a single JSON object. All sections are optional except `identity`.
 }
 ```
 
-Contact `type` values: `email`, `phone`, `location`, `linkedin`, `github`, `medium`, `web`
+Contact `type` values: `email`, `phone`, `location`, `linkedin`, `github`, `medium`, `facebook`, `web`
 - `email` → mailto: link; `phone` → tel: link; `location` → plain text (no link)
-- All others → URL link with matching icon
-- `key` is the display label (any string, e.g. "Email", "E-mail", "Work email")
+- All others → URL link with a matching brand icon when `show_contact_icons` is on (an unrecognised `type` still works — it just falls back to the generic web icon)
+- `key` is the display label (any string, e.g. "Email", "E-mail", "Work email") — shown when `show_contact_labels` is on
 - `value` for linkedin/github: full URL or path both work
+- The visual editor's own type picker only offers 6 of these (no medium or facebook) — writing JSON directly gets you the full set above
 
 ### summary
 
@@ -160,13 +161,41 @@ Array of groups. Each group has a `name` and an `entries` array of strings.
 }
 ```
 
+### core_strengths
+
+Array of short strings, rendered as pills — not the unified item shape used by the sections above. Available on every template, not just sidebar. Section title is translated (en/es/de/fr).
+
+```json
+{ "core_strengths": ["Systems design", "Incident leadership", "Mentoring"] }
+```
+
+### leadership_profile
+
+A single object, not an array. No `title`/`name` — renders under a fixed, translated heading.
+
+```json
+{
+  "leadership_profile": {
+    "subtitle": "Managed a team of 8 engineers across 2 time zones",
+    "highlights": [
+      "Grew the team from 3 to 8 while holding a sub-10% attrition rate.",
+      "Introduced a quarterly OKR process adopted org-wide."
+    ]
+  }
+}
+```
+
+### Custom sections
+
+Any other top-level key not covered above is rendered generically under a heading made from the key name. Supported shapes: a plain string; a string[] (rendered as bullets); an array of objects with title (or name)/subtitle/period and either highlights (string[]) or description; or a single object (not an array) with subtitle and either highlights or description — the same shape `leadership_profile` uses.
+
 ### Links in text fields
 
 `highlights`, `description`, and `summary` all support Markdown-style links:
 - External: `[display text](https://example.com)`
 - Internal PDF jump: `[display text](#section-id)` — e.g. `[see projects](#side_projects)`
 
-Section IDs for internal links: `summary`, `experience`, `education`, `skills`, `languages`, `certifications`, `awards`, `side_projects`
+Section IDs for internal links: `summary`, `experience`, `education`, `skills`, `languages`, `certifications`, `awards`, `side_projects`, `core_strengths`, `leadership_profile`
 
 ---
 
@@ -215,8 +244,8 @@ Layout JSON controls section ordering, page-break behaviour, multi-column layout
 
 | Field | Type | Description |
 |---|---|---|
-| `header` | object | `{"style": "split"}` for default/minimal, `{"style": "band"}` for modern, `{"style": "sidebar"}` for sidebar |
-| `sections` | array | Main column sections (see below) |
+| `header` | object, required | Always `{"style": "split" \| "stacked"}` — the import validator rejects any other value — but only the `default` template actually reads it, toggling between a side-by-side and a stacked name/headline/contact header. Every other template (minimal, modern, sidebar, and the rest) has a single fixed header layout and silently ignores this field, so pick either value for them; it has no visible effect. |
+| `sections` | array, required | Main column sections (see below) |
 | `sidebar_sections` | array | Sidebar template only — sections rendered in the left sidebar |
 | `style` | object | Style overrides (see Style parameters section) |
 
@@ -227,7 +256,7 @@ Layout JSON controls section ordering, page-break behaviour, multi-column layout
 ```
 
 - `id`: section ID string
-- `breakable`: whether Typst may insert a page break before this block (default: true)
+- `breakable`: whether Typst may split this section's content across a page break. false keeps the section atomic — if it doesn't fit in the remaining space on the page, the whole section moves to the next page instead of starting on one page and continuing on another (default: true)
 - `pre_spacing`: space above section title in em (optional, overrides template default)
 - `post_spacing`: space below section rule in em (optional, overrides template default)
 
@@ -241,6 +270,11 @@ Layout JSON controls section ordering, page-break behaviour, multi-column layout
   "content": [["education", "languages"], ["certifications"]]
 }
 ```
+
+`columns` accepts any number, but only 2, 3, and 4 have a gutter width tuned
+for them — other values fall back to the 2-column gutter. `columns` should
+match `content.length`; a mismatch produces a grid with the wrong number of
+tracks for the cells provided.
 
 ### Layout examples
 
@@ -280,45 +314,90 @@ Layout JSON controls section ordering, page-break behaviour, multi-column layout
 
 ## Style parameters
 
-All style values go in the `style` key of the layout JSON. All are optional.
+All style values go in the `style` key of the layout JSON. All are optional — omit any to use the template default.
 
 ### Common — all templates
 
 | Key | Type | Range / options | Default |
 |---|---|---|---|
-| `font_family` | string | New Computer Modern, Libertinus Serif, Helvetica Neue, Optima, Georgia | New Computer Modern |
+| `font_family` | select | New Computer Modern, EB Garamond, Crimson Pro, Lato, Source Sans 3 | New Computer Modern |
 | `name_size` | number (pt) | 12 – 24 | 17 |
-| `headline_size` | number (pt) | 8 – 14 | 10 |
 | `entry_size` | number (pt) | 8.5 – 12 | 9.5 |
 | `body_size` | number (pt) | 7.5 – 11 | 8.5 |
 | `section_heading_size` | number (pt) | 6 – 10 | 7.5 |
-| `body_color` | hex string | any | #333333 |
-| `heading_color` | hex string | any | #111111 |
-| `muted_color` | hex string | any | #666666 |
+| `body_color` | hex | any | #333333 |
+| `heading_color` | hex | any | #111111 |
+| `muted_color` | hex | any | #666666 |
 | `line_height` | number (em) | 0.5 – 1.2 | 0.7 |
 | `section_pre` | number (em) | 0.2 – 0.9 | 0.5 |
 | `section_post` | number (em) | 0.05 – 0.4 | 0.2 |
-| `section_rule_gap` | number (em) | 0 – 0.5 | 0.2 |
-| `show_footer` | "true" / "false" | — | "false" |
-| `show_qr` | "true" / "false" | — | "false" |
-| `qr_url` | string (URL) | — | "" |
-| `show_contact_icons` | "true" / "false" | — | "false" |
-| `show_contact_labels` | "true" / "false" | — | "false" |
+| `show_footer` | string | "true" \| "false" | "false" |
+| `show_qr` | string | "true" \| "false" | "false" |
+| `qr_url` | string | any URL | "" |
+| `show_contact_icons` | string | "true" \| "false" | "false" |
+| `show_contact_labels` | string | "true" \| "false" | "false" |
 
-### default & minimal template
+What each size controls: `name_size` — the name at the top. `headline_size`
+(template-specific, see below) — the role/headline under it. `entry_size` —
+each entry's title (job title, degree, project name). `body_size` — body
+text and bullet highlights (`body_size` − 0.5pt is used automatically for a
+couple of smaller secondary text elements). `section_heading_size` — the
+section labels themselves ("EXPERIENCE", "EDUCATION"), with
+`section_heading_size` − 1pt used automatically for smaller pill/footnote
+text.
+
+What each color controls: `heading_color` — the name and every entry title.
+`body_color` — body text and bullet highlights. `muted_color` — metadata
+like company names and date ranges. Pills, tags, and footnote text use a
+fixed color that style params can't override.
+
+`show_footer` prints only the page number (e.g. "2 / 5") in small text at
+the bottom-right of every page — nothing else. `show_qr` places a small QR
+code in the header, linking to `qr_url` (or the first `linkedin` contact
+entry if `qr_url` is left empty); supported on every template.
+`show_contact_icons` and `show_contact_labels` are not independent: when
+`show_contact_icons` is on, every contact entry shows its brand icon and
+`show_contact_labels` has no effect at all — labels only ever appear when
+icons are off.
+
+`section_pre`/`section_post` aren't in a shared param list technically — every
+template declares them individually — but all 10 use the range above except
+`sidebar`, which widens both (see below). `headline_size` and
+`section_rule_gap` are template-specific, not universal — see the table next.
+
+### accent_color — every template, different default per template
+
+All 10 templates declare an `accent_color` param under this exact key — it's
+not shared/universal in the schema sense (each template sets its own range
+and default), but every template has one. 7 of the 10 also have
+`headline_size` (8–14pt, default 10) — all except minimal, sidebar, and
+editorial. `section_rule_gap` (0–0.5em, default 0.2) exists on only default,
+sidebar, and timeline.
+
+| Template | accent_color default | headline_size | section_rule_gap |
+|---|---|---|---|
+| default | #1a56db | yes | yes |
+| minimal | #1a56db | — | — |
+| modern | #3b82f6 | yes | — |
+| sidebar | #1a56db | — | yes |
+| compact | #334155 | yes | — |
+| banner | #2bb0a4 | yes | — |
+| timeline | #0f766e | yes | yes |
+| academic | #1a56db | yes | — |
+| tech | #0e9f6e | yes | — |
+| editorial | #9b3a2e | — | — |
+
+### banner template
 
 | Key | Default | Purpose |
 |---|---|---|
-| `accent_color` | #1a56db | Hyperlinks and section accents |
-
-### modern template
-
-| Key | Default | Purpose |
-|---|---|---|
-| `header_bg` | #111827 | Dark band header background |
-| `accent` | #3b82f6 | Hyperlinks and accent elements |
+| `header_bg` | #243b53 | Dark band header background — banner only |
 
 ### sidebar template
+
+Also widens its shared `section_pre`/`section_post` ranges: 0.2–1.5em
+(default 0.5) and 0.05–0.8em (default 0.2) respectively, instead of the
+0.2–0.9 / 0.05–0.4 every other template uses.
 
 | Key | Default | Purpose |
 |---|---|---|
@@ -326,20 +405,26 @@ All style values go in the `style` key of the layout JSON. All are optional.
 | `sidebar_accent` | #5b9bd5 | Sidebar section heading colour |
 | `sidebar_link_color` | #5b9bd5 | Links and icons in the sidebar |
 | `sidebar_text` | #bcc8d4 | Body text in the sidebar |
-| `sidebar_width` | 6.5 | Sidebar width in cm (range: 4.5 – 9.0) |
-| `accent_color` | #1a56db | Hyperlinks in the main column |
+| `sidebar_ink` | #ffffff | Name and entry-title colour in the sidebar |
+| `sidebar_width` | 6.5 | Sidebar width in cm (4.5 – 9.0) |
+| `accent_color` | #1a56db | Links in the main column |
 
-### Style example
+### Style example (banner template)
+
+`header.style` is still required by the schema even though banner ignores it
+— pick either value.
 
 ```json
 {
+  "header": { "style": "split" },
   "style": {
-    "font_family": "Helvetica Neue",
-    "heading_color": "#0f172a",
-    "accent_color": "#f59e0b",
-    "body_size": 9.0,
-    "line_height": 0.75,
-    "show_footer": "true",
+    "font_family":    "Lato",
+    "header_bg":      "#0f172a",
+    "accent_color":   "#f59e0b",
+    "headline_size":  11,
+    "body_size":      9.0,
+    "line_height":    0.75,
+    "show_footer":    "true",
     "show_contact_icons": "true"
   }
 }
@@ -353,5 +438,5 @@ All style values go in the `style` key of the layout JSON. All are optional.
 - **Omit sections with no data.** All top-level sections except `identity` are optional. Empty arrays are noisier than omitting the field.
 - **tags are decorative pills.** Keep them short (1–3 words). For certifications, `"expired"` is a special tag that renders a warning style.
 - **summary paragraphs.** Use `\n\n` (literal double newline in JSON: `\\n\\n`) to separate paragraphs.
-- **contact key field.** The `key` is only shown when `show_contact_labels` is enabled. It can be any display string.
+- **contact key field.** The `key` is only shown when `show_contact_labels` is enabled AND `show_contact_icons` is off (icons take priority over labels). It can be any display string.
 - **Internal PDF links.** Use `[text](#section-id)` inside text fields to create clickable PDF cross-references. The link silently degrades to plain text if the target section is not rendered in the chosen layout.

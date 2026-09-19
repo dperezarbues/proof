@@ -17,16 +17,17 @@ interface LocaleFixture {
   save: string
   getStarted: string
   genPDFMobile: string
+  newCvTitle: string
 }
 
 const LOCALES: LocaleFixture[] = [
-  { locale: 'en', tabData: 'Data',    tabTemplate: 'Template', nameLabel: 'Name',   save: 'Save',        getStarted: 'Get started',  genPDFMobile: 'Gen PDF' },
-  { locale: 'fr', tabData: 'Données', tabTemplate: 'Modèle',   nameLabel: 'Nom',    save: 'Enregistrer', getStarted: 'Commencer',    genPDFMobile: 'Générer PDF' },
-  { locale: 'de', tabData: 'Daten',   tabTemplate: 'Vorlage',  nameLabel: 'Name',   save: 'Speichern',   getStarted: 'Loslegen',     genPDFMobile: 'PDF gen.' },
-  { locale: 'es', tabData: 'Datos',   tabTemplate: 'Plantilla',nameLabel: 'Nombre', save: 'Guardar',     getStarted: 'Comenzar',     genPDFMobile: 'Gen. PDF' },
+  { locale: 'en', tabData: 'Data',    tabTemplate: 'Template', nameLabel: 'Name',   save: 'Save',        getStarted: 'Get started',  genPDFMobile: 'Gen PDF',     newCvTitle: 'New CV' },
+  { locale: 'fr', tabData: 'Données', tabTemplate: 'Modèle',   nameLabel: 'Nom',    save: 'Enregistrer', getStarted: 'Commencer',    genPDFMobile: 'Générer PDF', newCvTitle: 'Nouveau CV' },
+  { locale: 'de', tabData: 'Daten',   tabTemplate: 'Vorlage',  nameLabel: 'Name',   save: 'Speichern',   getStarted: 'Loslegen',     genPDFMobile: 'PDF gen.',    newCvTitle: 'Neuer Lebenslauf' },
+  { locale: 'es', tabData: 'Datos',   tabTemplate: 'Plantilla',nameLabel: 'Nombre', save: 'Guardar',     getStarted: 'Comenzar',     genPDFMobile: 'Gen. PDF',    newCvTitle: 'Nuevo CV' },
 ]
 
-for (const { locale, tabData, tabTemplate, nameLabel, save, getStarted, genPDFMobile } of LOCALES) {
+for (const { locale, tabData, tabTemplate, nameLabel, save, getStarted, genPDFMobile, newCvTitle } of LOCALES) {
   test.describe(`Locale: ${locale}`, () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(`/${locale}/editor`)
@@ -69,7 +70,7 @@ for (const { locale, tabData, tabTemplate, nameLabel, save, getStarted, genPDFMo
     })
 
     test(`[${locale}] CV can be created and saved`, async ({ page }) => {
-      await page.getByTitle('New CV').click()
+      await page.getByTitle(newCvTitle).click()
       await page.getByRole('textbox', { name: nameLabel, exact: true }).fill(`Locale ${locale} CV`)
       await page.getByRole('button', { name: save, exact: true }).click()
       await expect(page.getByRole('button', { name: `Locale ${locale} CV` })).toBeVisible()
