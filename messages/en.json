@@ -436,7 +436,7 @@
         "side_projects": "array",
         "contact": "sidebar only — usable inside sidebar_sections; the same id in the regular sections array, or on any other template, silently renders nothing.",
         "core_strengths": "string[] of short strings, rendered as pills. Available on every template — not sidebar-only. Section title is translated (en/es/de/fr).",
-        "leadership_profile": "single object, not an array: { subtitle?, highlights? }. No title/name — renders under a fixed, translated heading."
+        "leadership_profile": "single object, not an array: '{ subtitle?, highlights? }'. No title/name — renders under a fixed, translated heading."
       },
       "customNote": "Custom sections: any top-level key not listed above is rendered generically under a heading made from the key name. Supported shapes: a plain string; a string[] (rendered as bullets); an array of objects with title (or name)/subtitle/period and either highlights (string[]) or description; or a single object (not an array) with subtitle and either highlights or description — the same shape leadership_profile uses."
     },

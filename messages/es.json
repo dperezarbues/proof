@@ -436,7 +436,7 @@
         "side_projects": "array",
         "contact": "solo en sidebar — se usa dentro de sidebar_sections; el mismo id en el array sections normal, o en cualquier otra plantilla, no muestra nada.",
         "core_strengths": "array de strings cortos, se muestra como píldoras. Disponible en todas las plantillas — no es exclusivo de sidebar. El título de la sección está traducido (en/es/de/fr).",
-        "leadership_profile": "un único objeto, no un array: { subtitle?, highlights? }. Sin title/name — se muestra bajo un encabezado fijo y traducido."
+        "leadership_profile": "un único objeto, no un array: '{ subtitle?, highlights? }'. Sin title/name — se muestra bajo un encabezado fijo y traducido."
       },
       "customNote": "Secciones personalizadas: cualquier clave de nivel superior no listada arriba se muestra de forma genérica bajo un encabezado generado a partir del nombre de la clave. Formas admitidas: un string simple; un array de strings (se muestra como lista con viñetas); un array de objetos con title (o name)/subtitle/period y, además, highlights (array de strings) o description; o un único objeto (no un array) con subtitle y, además, highlights o description — la misma forma que usa leadership_profile."
     },

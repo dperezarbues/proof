@@ -436,7 +436,7 @@
         "side_projects": "array",
         "contact": "nur sidebar — wird innerhalb von sidebar_sections verwendet; dieselbe id im regulären sections-Array oder bei jeder anderen Vorlage zeigt stillschweigend nichts an.",
         "core_strengths": "array kurzer strings, dargestellt als Pillen. Auf jeder Vorlage verfügbar — nicht nur bei sidebar. Der Abschnittstitel ist übersetzt (en/es/de/fr).",
-        "leadership_profile": "ein einzelnes Objekt, kein array: { subtitle?, highlights? }. Ohne title/name — wird unter einer festen, übersetzten Überschrift dargestellt."
+        "leadership_profile": "ein einzelnes Objekt, kein array: '{ subtitle?, highlights? }'. Ohne title/name — wird unter einer festen, übersetzten Überschrift dargestellt."
       },
       "customNote": "Benutzerdefinierte Abschnitte: Jeder oben nicht aufgeführte Schlüssel auf oberster Ebene wird generisch unter einer aus dem Schlüsselnamen gebildeten Überschrift dargestellt. Unterstützte Formen: ein einfacher string; ein string-array (als Aufzählung dargestellt); ein array von Objekten mit title (oder name)/subtitle/period sowie entweder highlights (string-array) oder description; oder ein einzelnes Objekt (kein array) mit subtitle sowie entweder highlights oder description — dieselbe Form, die leadership_profile verwendet."
     },

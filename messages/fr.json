@@ -436,7 +436,7 @@
         "side_projects": "array",
         "contact": "sidebar uniquement — utilisé dans sidebar_sections ; le même id dans le tableau sections habituel, ou sur tout autre modèle, n'affiche silencieusement rien.",
         "core_strengths": "array de strings courts, affichés sous forme de pastilles. Disponible sur tous les modèles — pas réservé à sidebar. Le titre de la section est traduit (en/es/de/fr).",
-        "leadership_profile": "un objet unique, pas un array : { subtitle?, highlights? }. Sans title/name — affiché sous un titre fixe et traduit."
+        "leadership_profile": "un objet unique, pas un array : '{ subtitle?, highlights? }'. Sans title/name — affiché sous un titre fixe et traduit."
       },
       "customNote": "Sections personnalisées : toute clé de premier niveau non listée ci-dessus est affichée de façon générique sous un titre construit à partir du nom de la clé. Formes prises en charge : un simple string ; un array de strings (affiché en liste à puces) ; un array d'objets avec title (ou name)/subtitle/period et, en plus, highlights (array de strings) ou description ; ou un objet unique (pas un array) avec subtitle et, en plus, highlights ou description — la même forme qu'utilise leadership_profile."
     },
