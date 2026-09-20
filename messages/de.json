@@ -445,7 +445,7 @@
       "intro": "Beim Erzeugen eines PDFs im Editor wird zusammen mit den CV-Daten ein Layout-JSON kompiliert. Sie können das Layout-JSON auch direkt erzeugen, um Abschnittsreihenfolge, Spalten und Abstände pro Abschnitt zu steuern.",
       "topLevelFields": "Felder auf oberster Ebene",
       "fields": {
-        "header": "Immer erforderlich als {\"style\": \"split\" | \"stacked\"} — der Import-Validator lehnt jeden anderen Wert ab — aber nur die Vorlage default liest den Wert tatsächlich aus und wechselt zwischen einer nebeneinander- und einer gestapelten Darstellung von Name/Headline/Kontakt. Alle anderen Vorlagen (minimal, modern, sidebar und die übrigen) haben ein einziges festes Kopfzeilen-Layout und ignorieren dieses Feld stillschweigend — wählen Sie für sie also einen beliebigen der beiden Werte; er hat keine sichtbare Wirkung.",
+        "header": "Immer erforderlich als '{\"style\": \"split\" | \"stacked\"}' — der Import-Validator lehnt jeden anderen Wert ab — aber nur die Vorlage default liest den Wert tatsächlich aus und wechselt zwischen einer nebeneinander- und einer gestapelten Darstellung von Name/Headline/Kontakt. Alle anderen Vorlagen (minimal, modern, sidebar und die übrigen) haben ein einziges festes Kopfzeilen-Layout und ignorieren dieses Feld stillschweigend — wählen Sie für sie also einen beliebigen der beiden Werte; er hat keine sichtbare Wirkung.",
         "sections": "Array der Abschnittseinträge der Hauptspalte (siehe unten).",
         "sidebar_sections": "Nur für die Vorlage sidebar. Array der Abschnittseinträge der Seitenleiste.",
         "style": "Stil-Überschreibungen (siehe §4). Werden über die Vorlagen-Standardwerte gelegt."

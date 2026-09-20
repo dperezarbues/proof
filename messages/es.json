@@ -445,7 +445,7 @@
       "intro": "Al generar un PDF desde el editor, se compila un JSON de layout junto con los datos del CV. También puede producir el JSON de layout directamente para controlar el orden de las secciones, las columnas y el espaciado por sección.",
       "topLevelFields": "Campos de nivel superior",
       "fields": {
-        "header": "Siempre obligatorio como {\"style\": \"split\" | \"stacked\"} — el validador de importación rechaza cualquier otro valor — pero solo la plantilla default lo utiliza realmente, alternando entre una cabecera con nombre/titular/contacto en paralelo o apilada. El resto de plantillas (minimal, modern, sidebar y las demás) tienen una única cabecera fija e ignoran silenciosamente este campo, así que puede elegir cualquiera de los dos valores para ellas; no tiene ningún efecto visible.",
+        "header": "Siempre obligatorio como '{\"style\": \"split\" | \"stacked\"}' — el validador de importación rechaza cualquier otro valor — pero solo la plantilla default lo utiliza realmente, alternando entre una cabecera con nombre/titular/contacto en paralelo o apilada. El resto de plantillas (minimal, modern, sidebar y las demás) tienen una única cabecera fija e ignoran silenciosamente este campo, así que puede elegir cualquiera de los dos valores para ellas; no tiene ningún efecto visible.",
         "sections": "Array de entradas de sección de la columna principal (ver más abajo).",
         "sidebar_sections": "Solo para la plantilla sidebar. Array de entradas de sección de la barra lateral.",
         "style": "Sobrescrituras de estilo (ver §4). Se aplican sobre los valores por defecto de la plantilla."

@@ -445,7 +445,7 @@
       "intro": "When you generate a PDF from the editor, a layout JSON is compiled alongside the CV data. You can also produce layout JSON directly to control section order, columns, and per-section spacing.",
       "topLevelFields": "Top-level fields",
       "fields": {
-        "header": "Always required as {\"style\": \"split\" | \"stacked\"} — the import validator rejects any other value — but only the default template actually reads it, toggling between a side-by-side and a stacked name/headline/contact header. Every other template (minimal, modern, sidebar, and the rest) has a single fixed header layout and silently ignores this field, so pick either value for them; it has no visible effect.",
+        "header": "Always required as '{\"style\": \"split\" | \"stacked\"}' — the import validator rejects any other value — but only the default template actually reads it, toggling between a side-by-side and a stacked name/headline/contact header. Every other template (minimal, modern, sidebar, and the rest) has a single fixed header layout and silently ignores this field, so pick either value for them; it has no visible effect.",
         "sections": "Array of main-column section entries (see below).",
         "sidebar_sections": "Sidebar template only. Array of sidebar section entries.",
         "style": "Style overrides (see §4). Applied on top of template defaults."

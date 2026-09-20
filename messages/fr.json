@@ -445,7 +445,7 @@
       "intro": "Lorsque vous générez un PDF depuis l'éditeur, un JSON de mise en page est compilé avec les données du CV. Vous pouvez aussi produire ce JSON directement pour contrôler l'ordre des sections, les colonnes et l'espacement par section.",
       "topLevelFields": "Champs de premier niveau",
       "fields": {
-        "header": "Toujours requis sous la forme {\"style\": \"split\" | \"stacked\"} — le validateur d'import rejette toute autre valeur — mais seul le modèle default l'utilise réellement, en basculant entre un en-tête nom/titre/contact côte à côte ou empilé. Tous les autres modèles (minimal, modern, sidebar et les autres) ont une mise en page d'en-tête unique et fixe, et ignorent silencieusement ce champ — choisissez donc l'une ou l'autre valeur pour eux ; cela n'a aucun effet visible.",
+        "header": "Toujours requis sous la forme '{\"style\": \"split\" | \"stacked\"}' — le validateur d'import rejette toute autre valeur — mais seul le modèle default l'utilise réellement, en basculant entre un en-tête nom/titre/contact côte à côte ou empilé. Tous les autres modèles (minimal, modern, sidebar et les autres) ont une mise en page d'en-tête unique et fixe, et ignorent silencieusement ce champ — choisissez donc l'une ou l'autre valeur pour eux ; cela n'a aucun effet visible.",
         "sections": "Array des entrées de section de la colonne principale (voir ci-dessous).",
         "sidebar_sections": "Modèle sidebar uniquement. Array des entrées de section de la barre latérale.",
         "style": "Surcharges de style (voir §4). Appliquées par-dessus les valeurs par défaut du modèle."
