@@ -1,9 +1,11 @@
+const HTTP_URL_RE = /^https?:\/\//i
+
 /** Resolves the URL to encode as a QR code. Falls back to the LinkedIn contact entry, then a placeholder. */
 export function resolveQrUrl(cvContent: string, style: Record<string, unknown>): string {
   const explicit = String(style.qr_url ?? '').trim()
   if (explicit) {
     try {
-      const url = explicit.startsWith('http') ? explicit : `https://${explicit}`
+      const url = HTTP_URL_RE.test(explicit) ? explicit : `https://${explicit}`
       new URL(url) // throws if malformed
       return url
     } catch {
@@ -18,7 +20,7 @@ export function resolveQrUrl(cvContent: string, style: Record<string, unknown>):
     const linkedinEntry = contact.find((e) => e.type === 'linkedin')
     const val = linkedinEntry?.value ?? cv.identity?.linkedin ?? ''
     if (!val) return 'https://linkedin.com'
-    const url = val.startsWith('http') ? val : `https://${val}`
+    const url = HTTP_URL_RE.test(val) ? val : `https://${val}`
     new URL(url) // throws if malformed
     return url
   } catch {

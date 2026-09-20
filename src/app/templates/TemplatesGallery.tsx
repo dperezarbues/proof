@@ -19,7 +19,7 @@ import { useCvRepository } from './hooks/useCvRepository'
 import { parseStyleValues } from './layout-serializer'
 import OnboardingModal from './OnboardingModal'
 import PdfPreview from './PdfPreview'
-import { type Design, ExportBundleSchema } from './schemas'
+import { type Design, ExportBundleSchema, SectionDefListSchema } from './schemas'
 import type { SectionDef } from './section-defs'
 import { DEFAULT_SECTIONS } from './section-defs'
 import {
@@ -138,8 +138,14 @@ export default function TemplatesGallery({
   const activeSections: SectionDef[] = useMemo(() => {
     if (!currentCv) return DEFAULT_SECTIONS
     try {
-      const parsed = JSON.parse(currentCv.content) as { _sections?: SectionDef[] }
-      return parsed._sections ?? DEFAULT_SECTIONS
+      const parsed = JSON.parse(currentCv.content) as { _sections?: unknown }
+      if (parsed._sections === undefined) return DEFAULT_SECTIONS
+      // This re-parses on every load of the active CV, so a malformed
+      // `_sections` (e.g. from an imported bundle) must never reach the
+      // layout editor unchecked — an unvalidated cast here used to crash on
+      // load and re-crash on every subsequent reload, with no recovery.
+      const result = SectionDefListSchema.safeParse(parsed._sections)
+      return result.success ? result.data : DEFAULT_SECTIONS
     } catch {
       return DEFAULT_SECTIONS
     }

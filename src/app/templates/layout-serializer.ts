@@ -58,17 +58,29 @@ export function serializeForTypst(
 /** Parses a raw LayoutData object (from JSON or localStorage) into the editor's LayoutStructure. */
 export function parseLayoutStructure(raw: Record<string, unknown>): LayoutStructure {
   const parsed = LayoutImportSchema.safeParse(raw)
-  const validated = parsed.success ? parsed.data : raw
-  const rawSections = (validated.sections as Record<string, unknown>[]) ?? []
+  if (!parsed.success) {
+    // Malformed shape (e.g. a hostile or corrupted import) — falling back to
+    // `raw` here used to let unvalidated data straight through, which was
+    // the root cause of a crash that re-triggered on every reload. An empty,
+    // valid layout is always safe to render; the user can rebuild it.
+    return { header: { style: 'stacked' }, sections: [] }
+  }
+  const validated = parsed.data
   let colIdx = 0
-  const sections: EditorSection[] = rawSections.map((s) => {
+  // Cast to Record<string, unknown> for the branch below: Zod's `.passthrough()`
+  // gives the plain-section arm an index signature, which defeats TS's
+  // literal-discriminant narrowing on `type` even though the runtime check
+  // is exact. Shape is already guaranteed by LayoutImportSchema above.
+  const sections: EditorSection[] = (
+    validated.sections as unknown as Record<string, unknown>[]
+  ).map((s) => {
     if (s.type === 'columns') {
       return {
         kind: 'columns' as const,
         key: `columns-${colIdx++}`,
-        columns: (s.columns as number) ?? 2,
-        content: (s.content as string[][]) ?? [[], []],
-        breakable: (s.breakable as boolean) ?? true,
+        columns: s.columns as number,
+        content: s.content as string[][],
+        breakable: s.breakable as boolean,
         ...(s.pre_spacing != null && { pre_spacing: s.pre_spacing as number }),
         ...(s.post_spacing != null && { post_spacing: s.post_spacing as number }),
       }
@@ -77,32 +89,28 @@ export function parseLayoutStructure(raw: Record<string, unknown>): LayoutStruct
       kind: 'full' as const,
       key: s.id as string,
       id: s.id as string,
-      breakable: (s.breakable as boolean) ?? true,
+      breakable: s.breakable as boolean,
       ...(s.pre_spacing != null && { pre_spacing: s.pre_spacing as number }),
       ...(s.post_spacing != null && { post_spacing: s.post_spacing as number }),
     }
   })
 
   let sidebarSections: SidebarSection[] | undefined
-  if (raw.sidebar_sections != null) {
-    sidebarSections = (
-      raw.sidebar_sections as Array<
-        string | { id: string; breakable?: boolean; pre_spacing?: number; post_spacing?: number }
-      >
-    ).map((s) =>
+  if (validated.sidebar_sections != null) {
+    sidebarSections = validated.sidebar_sections.map((s) =>
       typeof s === 'string'
         ? { id: s, breakable: true }
         : {
             id: s.id,
             breakable: s.breakable ?? true,
-            ...(s.pre_spacing != null && { pre_spacing: s.pre_spacing }),
-            ...(s.post_spacing != null && { post_spacing: s.post_spacing }),
+            ...(s.pre_spacing != null && { pre_spacing: s.pre_spacing as number }),
+            ...(s.post_spacing != null && { post_spacing: s.post_spacing as number }),
           },
     )
   }
 
   return {
-    header: (raw.header as LayoutStructure['header']) ?? { style: 'stacked' },
+    header: validated.header,
     sidebarSections,
     sections,
   }
