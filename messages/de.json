@@ -11,7 +11,8 @@
     "schema": "Schema",
     "openEditor": "Editor öffnen →",
     "editorMobile": "Editor →",
-    "langSwitcher": "Sprache"
+    "langSwitcher": "Sprache",
+    "menu": "Menü"
   },
   "hero": {
     "tagline": "Offenes Schema · Beliebige KI · Kein Speicher",
@@ -105,6 +106,7 @@
   },
   "footer": {
     "tagline": "Proof — open source, Datenschutz an erster Stelle",
+    "help": "So funktioniert's",
     "schemaRef": "Schema-Referenz",
     "privacyTerms": "Datenschutz & AGB",
     "support": "Unterstützen"

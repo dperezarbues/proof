@@ -3,11 +3,12 @@ import LanguageSwitcher from '@/components/LanguageSwitcher'
 import { Link } from '@/i18n/navigation'
 import Btn from './Btn'
 import MarkProof from './MarkProof'
+import MobileNav from './MobileNav'
 import MonoLabel from './MonoLabel'
 
-// Shared top nav for every marketing/docs page (landing, /for-llms, /terms).
-// The editor is a different app shell (sidebar UI, its own language switcher
-// in PdfPreview's top bar) and deliberately doesn't use this.
+// Shared top nav for every marketing/docs page (landing, /for-llms, /terms,
+// /help). The editor is a different app shell (sidebar UI, its own language
+// switcher in PdfPreview's top bar) and deliberately doesn't use this.
 //
 // Editor/Templates/Privacy are anchors on the landing page's own sections
 // (ids "editor"/"templates"/"privacy") — linking to "/#id" from any page
@@ -15,6 +16,13 @@ import MonoLabel from './MonoLabel'
 // works identically regardless of which page it's rendered on.
 export default async function SiteNav() {
   const t = await getTranslations('nav')
+  const navLinks = [
+    { href: '/#editor', label: t('editor') },
+    { href: '/#templates', label: t('templates') },
+    { href: '/help', label: t('help') },
+    { href: '/#privacy', label: t('privacy') },
+    { href: '/for-llms', label: t('schema') },
+  ]
   return (
     <nav
       className="flex items-center justify-between px-4 py-3 md:px-8 md:py-4 lg:px-14 lg:py-5"
@@ -36,42 +44,17 @@ export default async function SiteNav() {
       </Link>
 
       <div className="flex items-center gap-2.5 md:gap-5 lg:gap-8">
-        {/* Nav links — hidden on mobile */}
-        <Link
-          href="/#editor"
-          className="hidden md:inline font-semibold text-[13px] lg:text-[14px]"
-          style={{ color: 'var(--c-ink2)', textDecoration: 'none', cursor: 'pointer' }}
-        >
-          {t('editor')}
-        </Link>
-        <Link
-          href="/#templates"
-          className="hidden md:inline font-semibold text-[13px] lg:text-[14px]"
-          style={{ color: 'var(--c-ink2)', textDecoration: 'none', cursor: 'pointer' }}
-        >
-          {t('templates')}
-        </Link>
-        <Link
-          href="/help"
-          className="hidden md:inline font-semibold text-[13px] lg:text-[14px]"
-          style={{ color: 'var(--c-ink2)', textDecoration: 'none', cursor: 'pointer' }}
-        >
-          {t('help')}
-        </Link>
-        <Link
-          href="/#privacy"
-          className="hidden md:inline font-semibold text-[13px] lg:text-[14px]"
-          style={{ color: 'var(--c-ink2)', textDecoration: 'none', cursor: 'pointer' }}
-        >
-          {t('privacy')}
-        </Link>
-        <Link
-          href="/for-llms"
-          className="hidden md:inline font-semibold text-[13px] lg:text-[14px]"
-          style={{ color: 'var(--c-ink2)', textDecoration: 'none', cursor: 'pointer' }}
-        >
-          {t('schema')}
-        </Link>
+        {/* Nav links — inline on desktop, tucked behind MobileNav's hamburger below md */}
+        {navLinks.map((l) => (
+          <Link
+            key={l.href}
+            href={l.href}
+            className="hidden md:inline font-semibold text-[13px] lg:text-[14px]"
+            style={{ color: 'var(--c-ink2)', textDecoration: 'none', cursor: 'pointer' }}
+          >
+            {l.label}
+          </Link>
+        ))}
         <LanguageSwitcher />
         <span className="hidden md:inline">
           <Btn href="/editor" variant="dark">
@@ -83,6 +66,7 @@ export default async function SiteNav() {
             {t('editorMobile')}
           </Btn>
         </span>
+        <MobileNav links={navLinks} menuLabel={t('menu')} />
       </div>
     </nav>
   )

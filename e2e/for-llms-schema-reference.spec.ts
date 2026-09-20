@@ -94,6 +94,9 @@ test.describe('/for-llms schema reference page', () => {
     const sectionList = page.getByTestId('section-list')
     await expect(sectionList.getByText('Summary', { exact: true })).toBeVisible()
     await expect(sectionList.getByText('Experience', { exact: true })).toBeVisible()
-    expect(await sectionList.locator('> div').count()).toBe(2)
+    // toHaveCount, not a bare .count() snapshot — the import can still be
+    // removing the old default sections one render behind the two toBeVisible
+    // checks above resolving, so an un-retried count reads stale.
+    await expect(sectionList.locator('> div')).toHaveCount(2)
   })
 })

@@ -33,8 +33,8 @@ test.describe('Landing — mobile (375×667)', () => {
     await page.goto('/en/')
   })
 
-  test('nav links are hidden, mobile CTA is shown', async ({ page }) => {
-    // These links live in a `hidden md:flex` container — not visible on mobile
+  test('inline nav links are hidden, mobile CTA is shown', async ({ page }) => {
+    // These links live in a `hidden md:inline` container — not visible on mobile
     // Use href-based selector to target the specific anchor (getByRole skips display:none)
     const editorAnchor = page.locator('nav a[href$="#editor"]')
     await expect(editorAnchor).toBeHidden()
@@ -42,6 +42,26 @@ test.describe('Landing — mobile (375×667)', () => {
     // Mobile-only "Editor →" button is visible
     const mobileCta = page.getByRole('navigation').getByRole('link', { name: /^Editor →$/ })
     await expect(mobileCta).toBeVisible()
+  })
+
+  test('nav links are reachable via the mobile hamburger menu', async ({ page }) => {
+    // Regression: the inline nav links used to have no mobile equivalent at
+    // all once hidden below md — Help, Schema, and Privacy were completely
+    // unreachable from the header on a phone. MobileNav's hamburger now
+    // surfaces the same links.
+    const menuButton = page.getByRole('button', { name: 'Menu' })
+    await expect(menuButton).toBeVisible()
+    await expect(page.getByRole('menu')).not.toBeVisible()
+
+    await menuButton.click()
+    const menu = page.getByRole('menu')
+    await expect(menu).toBeVisible()
+    await expect(menu.getByRole('menuitem', { name: 'Help' })).toBeVisible()
+    await expect(menu.getByRole('menuitem', { name: 'Schema' })).toBeVisible()
+    await expect(menu.getByRole('menuitem', { name: 'Privacy' })).toBeVisible()
+
+    await menu.getByRole('menuitem', { name: 'Help' }).click()
+    await expect(page).toHaveURL(/\/en\/help/)
   })
 
   test('hero heading is visible and not horizontally clipped', async ({ page }) => {

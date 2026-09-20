@@ -11,7 +11,8 @@
     "schema": "Schema",
     "openEditor": "Open editor →",
     "editorMobile": "Editor →",
-    "langSwitcher": "Language"
+    "langSwitcher": "Language",
+    "menu": "Menu"
   },
   "hero": {
     "tagline": "Open schema · Any AI · Zero storage",
@@ -105,6 +106,7 @@
   },
   "footer": {
     "tagline": "Proof — open source, privacy-first",
+    "help": "How it works",
     "schemaRef": "Schema reference",
     "privacyTerms": "Privacy & Terms",
     "support": "Support"

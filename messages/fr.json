@@ -11,7 +11,8 @@
     "schema": "Schéma",
     "openEditor": "Ouvrir l'éditeur →",
     "editorMobile": "Éditeur →",
-    "langSwitcher": "Langue"
+    "langSwitcher": "Langue",
+    "menu": "Menu"
   },
   "hero": {
     "tagline": "Schéma ouvert · N'importe quelle IA · Zéro stockage",
@@ -105,6 +106,7 @@
   },
   "footer": {
     "tagline": "Proof — open source, vie privée d'abord",
+    "help": "Comment ça marche",
     "schemaRef": "Référence du schéma",
     "privacyTerms": "Confidentialité & Conditions",
     "support": "Soutenir"
