@@ -100,13 +100,19 @@ export default function SectionCard({
           type="button"
           data-testid="remove-section"
           onClick={onRemove}
-          className="opacity-0 group-hover:opacity-100 transition-opacity leading-none"
-          style={{ color: 'var(--c-line)' }}
+          className="opacity-0 pointer-coarse:opacity-100 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity leading-none"
+          style={{ color: 'var(--c-sub)' }}
           onMouseEnter={(e) => {
             e.currentTarget.style.color = 'var(--c-accent)'
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'var(--c-line)'
+            e.currentTarget.style.color = 'var(--c-sub)'
+          }}
+          onFocus={(e) => {
+            e.currentTarget.style.color = 'var(--c-accent)'
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.color = 'var(--c-sub)'
           }}
           aria-label={t('removeSection')}
         >
