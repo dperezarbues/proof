@@ -116,6 +116,7 @@
     "body": "Die gesuchte Seite existiert nicht, wurde verschoben oder hat die Qualitätskontrolle nicht bestanden. Lassen Sie uns zu etwas Echtem zurückkehren.",
     "backHome": "Zurück zur Startseite",
     "openEditor": "Editor öffnen",
+    "errorLabel": "Fehler 404",
     "reportIssue": "Problem melden"
   },
   "error": {
@@ -245,6 +246,7 @@
   },
   "cvEditor": {
     "identity": "Identität",
+    "contact": "Kontakt",
     "summary": "Zusammenfassung",
     "skills": "Fähigkeiten",
     "experience": "Erfahrung",

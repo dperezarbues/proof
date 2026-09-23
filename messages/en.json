@@ -116,6 +116,7 @@
     "body": "The page you're looking for doesn't exist, was moved, or failed quality control. Let's get you back to something real.",
     "backHome": "Back to home",
     "openEditor": "Open the editor",
+    "errorLabel": "Error 404",
     "reportIssue": "Report an issue"
   },
   "error": {
@@ -245,6 +246,7 @@
   },
   "cvEditor": {
     "identity": "Identity",
+    "contact": "Contact",
     "summary": "Summary",
     "skills": "Skills",
     "experience": "Experience",
