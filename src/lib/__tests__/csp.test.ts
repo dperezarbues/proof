@@ -42,6 +42,23 @@ describe('vercel.json Content-Security-Policy', () => {
     const workerSrc = csp.match(/worker-src ([^;]+);/)?.[1] ?? ''
     expect(workerSrc).toContain('blob:')
   })
+
+  // base-uri/form-action/frame-ancestors don't inherit from default-src like
+  // most fetch directives do — omitting them silently leaves those vectors
+  // wide open regardless of how strict default-src is. The app has no <form>
+  // elements and no legitimate embedding use case, so 'self' is safe on all
+  // three; these guard against a future edit reintroducing the gap.
+  it("restricts base-uri to 'self'", () => {
+    expect(csp).toContain("base-uri 'self'")
+  })
+
+  it("restricts form-action to 'self'", () => {
+    expect(csp).toContain("form-action 'self'")
+  })
+
+  it("restricts frame-ancestors to 'self'", () => {
+    expect(csp).toContain("frame-ancestors 'self'")
+  })
 })
 
 describe('vercel.json other security headers', () => {
