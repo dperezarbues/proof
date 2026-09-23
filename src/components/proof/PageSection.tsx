@@ -17,19 +17,20 @@ export default function PageSection({
         paddingBottom: '1.5rem',
       }}
     >
-      <p
+      <h2
         data-testid={testId}
         style={{
           fontFamily: 'var(--f-mono)',
           fontSize: 10,
+          fontWeight: 400,
           letterSpacing: '0.16em',
           textTransform: 'uppercase',
-          color: 'var(--c-accent)',
+          color: 'var(--c-accent-text)',
           marginBottom: '0.5rem',
         }}
       >
         {title}
-      </p>
+      </h2>
       <div style={{ fontSize: 14, color: 'var(--c-sub)', lineHeight: 1.65 }} className="space-y-2">
         {children}
       </div>
