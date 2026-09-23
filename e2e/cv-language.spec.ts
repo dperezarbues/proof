@@ -34,8 +34,13 @@ test.describe('CV language selector', () => {
     test.setTimeout(COMPILE_TIMEOUT * 2 + 20_000)
     const viewer = page.locator('[data-testid="pdfjs-viewer"]')
 
+    // Wait for the src to actually become a blob, not for the transient
+    // "Generating PDF…" overlay to disappear — that races the trigger
+    // itself: if this assertion's first poll lands before React has even
+    // rendered the overlay for a just-started compile, "not visible"
+    // trivially and immediately passes without waiting for the real compile.
     await page.getByRole('button', { name: 'Generate PDF' }).first().click()
-    await expect(page.getByText('Generating PDF…')).not.toBeVisible({ timeout: COMPILE_TIMEOUT })
+    await expect(viewer).toHaveAttribute('data-pdf-src', /^blob:/, { timeout: COMPILE_TIMEOUT })
     await expect(viewer).toHaveAttribute('data-render-state', 'ready', { timeout: 15_000 })
     const enText = (await viewer.locator('.textLayer').textContent()) || ''
     expect(enText).toMatch(/S\s*U\s*M\s*M\s*A\s*R\s*Y/)
@@ -67,7 +72,7 @@ test.describe('CV language selector', () => {
       await page.getByRole('tab', { name: /Template/i }).click()
       await page.getByTestId(`template-btn-${templateId}`).click()
       await page.getByRole('button', { name: 'Generate PDF' }).first().click()
-      await expect(page.getByText('Generating PDF…')).not.toBeVisible({ timeout: COMPILE_TIMEOUT })
+      await expect(viewer).toHaveAttribute('data-pdf-src', /^blob:/, { timeout: COMPILE_TIMEOUT })
       await expect(viewer).toHaveAttribute('data-render-state', 'ready', { timeout: 15_000 })
 
       const oldSrc = (await viewer.getAttribute('data-pdf-src')) ?? ''

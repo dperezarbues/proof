@@ -69,9 +69,22 @@ export function useCompiler({
     const layoutData = layoutRef.current()
     const cv = cvRef.current
 
-    setCompileState(isCompilerReady() ? 'compiling' : 'loading')
+    // compileStateRef must flip away from 'idle' in the same tick as the
+    // guard check above, not on the next render — the state->ref mirroring
+    // effect further down runs too late for that. Two effects can both call
+    // generate() in the same commit (e.g. the generateTrigger effect and the
+    // first-real-content debounce effect both fire on the very first CV
+    // save); without this, both read the still-'idle' ref and both proceed,
+    // racing two concurrent compiles against each other.
+    const nextState = isCompilerReady() ? 'compiling' : 'loading'
+    compileStateRef.current = nextState
+    setCompileState(nextState)
     onGeneratingRef.current(true)
-    if (!isCompilerReady()) onCompilerReady(() => setCompileState('compiling'))
+    if (!isCompilerReady())
+      onCompilerReady(() => {
+        compileStateRef.current = 'compiling'
+        setCompileState('compiling')
+      })
 
     try {
       let qrSvg: string | undefined

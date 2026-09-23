@@ -24,10 +24,13 @@ test.describe('PDF generation (WASM)', () => {
     const iframe = page.locator('[data-testid="pdfjs-viewer"]')
 
     // Creating this CV already auto-triggered a first compile (it's the very
-    // first CV in a fresh browser). Let that settle and reset back to a known
-    // sample state before testing an explicit Generate click, rather than
-    // racing the initial src check against that auto-compile.
-    await expect(page.getByText('Generating PDF…')).not.toBeVisible({ timeout: GENERATE_TIMEOUT })
+    // first CV in a fresh browser). Wait for it to actually produce a result
+    // — not for the transient "Generating PDF…" overlay to disappear, which
+    // races the trigger itself: if this assertion's first poll lands before
+    // React has even rendered the overlay for a just-started compile,
+    // "not visible" trivially and immediately passes without ever having
+    // waited for the real compile to finish.
+    await expect(iframe).toHaveAttribute('data-pdf-src', /^blob:/, { timeout: GENERATE_TIMEOUT })
     await page.getByRole('button', { name: 'Reset' }).click()
     const initialSrc = await iframe.getAttribute('data-pdf-src')
     expect(initialSrc).toMatch(/\.pdf$/) // starts as sample
@@ -35,14 +38,8 @@ test.describe('PDF generation (WASM)', () => {
     // Click Generate PDF in the layout editor panel
     await page.getByRole('button', { name: 'Generate PDF' }).first().click()
 
-    // Wait for generating overlay to disappear
-    await expect(page.getByText('Generating PDF…')).not.toBeVisible({
-      timeout: GENERATE_TIMEOUT,
-    })
-
-    // src should now be a blob URL and the text layer should be ready
-    const newSrc = await iframe.getAttribute('data-pdf-src')
-    expect(newSrc).toMatch(/^blob:/)
+    // src should become a blob URL and the text layer should be ready
+    await expect(iframe).toHaveAttribute('data-pdf-src', /^blob:/, { timeout: GENERATE_TIMEOUT })
     await expect(iframe).toHaveAttribute('data-render-state', 'ready', { timeout: 15_000 })
 
     // "preview" badge should appear
@@ -60,7 +57,7 @@ test.describe('PDF generation (WASM)', () => {
 
     // Generate from the test CV
     await page.getByRole('button', { name: 'Generate PDF' }).first().click()
-    await expect(page.getByText('Generating PDF…')).not.toBeVisible({ timeout: GENERATE_TIMEOUT })
+    await expect(viewer).toHaveAttribute('data-pdf-src', /^blob:/, { timeout: GENERATE_TIMEOUT })
 
     // Wait for render to finish — not just for a new URL but for canvas + text layer to paint.
     await expect(viewer).toHaveAttribute('data-render-state', 'ready', { timeout: 15_000 })
@@ -77,16 +74,16 @@ test.describe('PDF generation (WASM)', () => {
 
   test('Reset clears generated preview back to sample', async ({ page }) => {
     test.setTimeout(GENERATE_TIMEOUT + 10_000)
+    const iframe = page.locator('[data-testid="pdfjs-viewer"]')
+
     // Generate first
     await page.getByRole('button', { name: 'Generate PDF' }).first().click()
-    await expect(page.getByText('Generating PDF…')).not.toBeVisible({
-      timeout: GENERATE_TIMEOUT,
-    })
+    await expect(iframe).toHaveAttribute('data-pdf-src', /^blob:/, { timeout: GENERATE_TIMEOUT })
     await expect(page.getByRole('button', { name: 'Download', exact: true })).toBeVisible()
 
     // Reset
     await page.getByRole('button', { name: 'Reset' }).click()
-    const src = await page.locator('[data-testid="pdfjs-viewer"]').getAttribute('data-pdf-src')
+    const src = await iframe.getAttribute('data-pdf-src')
     expect(src).toMatch(/\.pdf$/) // back to sample
     await expect(page.getByText('preview', { exact: true })).not.toBeVisible()
   })

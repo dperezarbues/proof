@@ -25,14 +25,17 @@ test.describe('Locale switch preserves editor state', () => {
     // Pick a non-default template so a reset-to-default would be observable.
     await page.getByRole('tab', { name: /Template/i }).click()
     await page.getByTestId('template-btn-modern').click()
-    await page.getByRole('button', { name: 'Generate PDF' }).first().click()
-    await expect(page.getByText('Generating PDF…')).not.toBeVisible({ timeout: 60_000 })
-
+    // Wait for the src to actually become a blob, not for the transient
+    // "Generating PDF…" overlay to disappear — that races the trigger
+    // itself: if this assertion's first poll lands before React has even
+    // rendered the overlay for a just-started compile, "not visible"
+    // trivially and immediately passes without waiting for the real compile.
     const viewer = page.locator('[data-testid="pdfjs-viewer"]')
+    await page.getByRole('button', { name: 'Generate PDF' }).first().click()
+    await expect(viewer).toHaveAttribute('data-pdf-src', /^blob:/, { timeout: 60_000 })
     const srcBefore = await viewer.getAttribute('data-pdf-src')
-    expect(srcBefore).toMatch(/^blob:/)
 
-    await page.locator('select[aria-label]').selectOption('fr')
+    await page.getByLabel('Language', { exact: true }).selectOption('fr')
 
     // UI text must actually reflect the new locale...
     await expect(page.getByRole('tab', { name: /Modèle/ })).toBeVisible()
