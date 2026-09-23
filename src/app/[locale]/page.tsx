@@ -505,7 +505,7 @@ async function PPrivacy() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
         <h2
           className="font-black text-[44px] md:text-[50px] lg:text-[56px] tracking-[-0.03em] leading-[0.98] uppercase"
-          style={{ color: 'var(--c-ink)' }}
+          style={{ color: 'var(--c-ink)', overflowWrap: 'break-word', hyphens: 'auto' }}
         >
           {t('h2Line1')}
           <br />

@@ -82,6 +82,11 @@ body {
   font-family: var(--f-display, "Archivo", system-ui, sans-serif);
   background: var(--c-paper);
   color: var(--c-ink);
+  /* Backstop, not a fix: a long unbroken word in some future locale
+     shouldn't be able to push the whole page into horizontal scroll again
+     (see the Spanish landing heading's hyphens/overflow-wrap fix). Nothing
+     in this app's layout needs horizontal body scroll. */
+  overflow-x: hidden;
 }
 
 /* ── Utility ── */
