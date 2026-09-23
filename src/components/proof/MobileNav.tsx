@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from '@/i18n/navigation'
 
 export type NavLinkItem = { href: string; label: string }
@@ -19,10 +19,40 @@ export default function MobileNav({
   menuLabel: string
 }) {
   const [open, setOpen] = useState(false)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  // This is a disclosure, not a modal — no focus trap, no aria-modal: Tab
+  // should flow through it and back out normally. Escape and an outside
+  // click both close it and return focus to the trigger, matching how the
+  // editor's own mobile panel already dismisses (see TemplatesGallery.tsx).
+  useEffect(() => {
+    if (!open) return
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key !== 'Escape') return
+      setOpen(false)
+      triggerRef.current?.focus()
+    }
+    function handlePointerDown(e: PointerEvent) {
+      if (
+        !menuRef.current?.contains(e.target as Node) &&
+        !triggerRef.current?.contains(e.target as Node)
+      ) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('pointerdown', handlePointerDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('pointerdown', handlePointerDown)
+    }
+  }, [open])
 
   return (
     <div className="md:hidden relative">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
@@ -53,7 +83,8 @@ export default function MobileNav({
 
       {open && (
         <div
-          role="menu"
+          ref={menuRef}
+          data-testid="mobile-nav-menu"
           className="absolute right-0 top-full mt-2 flex flex-col min-w-[180px] py-2 rounded-[4px] z-50"
           style={{
             background: 'var(--c-paper)',
@@ -64,10 +95,8 @@ export default function MobileNav({
           {links.map((l) => (
             <Link
               key={l.href}
-              // biome-ignore lint/suspicious/noExplicitAny: hrefs mix typed internal routes ("/help") and anchor fragments ("/#editor") — next-intl's Link type only covers the former
-              href={l.href as any}
+              href={l.href}
               onClick={() => setOpen(false)}
-              role="menuitem"
               className="px-4 py-2.5 font-semibold text-[14px]"
               style={{ color: 'var(--c-ink2)', textDecoration: 'none' }}
             >
