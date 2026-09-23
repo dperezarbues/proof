@@ -141,12 +141,3 @@ export function persistLayoutOverride(
   }))
   return next !== null
 }
-
-export function clearLayoutOverride(templateId: string, layoutId: string): boolean {
-  const key = scopeKey(templateId, layoutId)
-  const next = mutateStored(KEYS.layoutOverrides, readScopedLayouts, (scoped) => {
-    const { [key]: _removed, ...rest } = scoped
-    return rest
-  })
-  return next !== null
-}

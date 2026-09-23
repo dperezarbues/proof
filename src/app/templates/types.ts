@@ -51,9 +51,6 @@ export type LayoutStructure = {
   sections: EditorSection[]
 }
 
-/** Full editor state — layout structure + style values combined. */
-export type EditorState = LayoutStructure & { style: StyleValues }
-
 export type SerializedSection =
   | { id: string; breakable: boolean; pre_spacing?: number; post_spacing?: number }
   | {

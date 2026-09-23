@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
-  clearLayoutOverride,
   clearStyleOverrides,
   loadLayoutOverride,
   loadSaves,
@@ -114,7 +113,7 @@ describe('mutateSaves', () => {
   })
 })
 
-// ── loadLayoutOverride / persistLayoutOverride / clearLayoutOverride ──────────
+// ── loadLayoutOverride / persistLayoutOverride ────────────────────────────────
 // Scoped by (templateId, layoutId): a template can have multiple structurally
 // distinct layout variants (e.g. default's Split/Classic/Alt), so an override
 // persisted on one variant must never bleed into another variant of the same
@@ -174,23 +173,6 @@ describe('persistLayoutOverride', () => {
     const saved = JSON.parse(storageData[LAYOUT_KEY])
     expect(saved['default::classic'].header.style).toBe('stacked')
     expect(saved['default::default']).toEqual(sampleLayout)
-  })
-})
-
-describe('clearLayoutOverride', () => {
-  it('removes only the requested template+layout bucket', () => {
-    storageData[LAYOUT_KEY] = JSON.stringify({
-      'default::default': sampleLayout,
-      'default::classic': {},
-    })
-    clearLayoutOverride('default', 'default')
-    const saved = JSON.parse(storageData[LAYOUT_KEY])
-    expect(saved['default::default']).toBeUndefined()
-    expect(saved['default::classic']).toBeDefined()
-  })
-
-  it('is a no-op for empty storage', () => {
-    expect(() => clearLayoutOverride('default', 'default')).not.toThrow()
   })
 })
 

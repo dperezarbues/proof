@@ -56,8 +56,6 @@ export const LayoutImportSchema = z
   })
   .passthrough()
 
-export type LayoutImport = z.infer<typeof LayoutImportSchema>
-
 // ── Design bundle (template + layout + style) ─────────────────────────────────
 
 export const DesignSchema = z
@@ -90,8 +88,6 @@ export const ExportBundleSchema = z.object({
   cv: CvSchema,
   design: DesignSchema.optional(),
 })
-
-export type ExportBundle = z.infer<typeof ExportBundleSchema>
 
 // ── CV entry (localStorage) ───────────────────────────────────────────────────
 
