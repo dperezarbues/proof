@@ -134,7 +134,7 @@ export function SavedList({
           <button
             type="button"
             onClick={() => onLoad(c)}
-            className="px-1.5 py-1 text-[13px] transition-opacity hover:opacity-70"
+            className="min-w-6 min-h-6 flex items-center justify-center px-1 py-1 text-[13px] transition-opacity hover:opacity-70"
             style={{ color: 'var(--c-sub)' }}
             title={t('loadPreset')}
             aria-label={t('loadPreset')}
@@ -155,7 +155,7 @@ export function SavedList({
                 `${c.templateId}-${c.name.toLowerCase().replace(/\s+/g, '-')}.json`,
               )
             }
-            className="px-1.5 py-1 text-[13px] opacity-0 pointer-coarse:opacity-100 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity"
+            className="min-w-6 min-h-6 flex items-center justify-center px-1 py-1 text-[13px] opacity-0 pointer-coarse:opacity-100 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity"
             style={{ color: 'var(--c-sub)' }}
             title={t('downloadPreset')}
             aria-label={t('downloadPreset')}
@@ -165,7 +165,7 @@ export function SavedList({
           <button
             type="button"
             onClick={() => onDelete(c.id)}
-            className="px-1.5 py-1 text-[13px] opacity-0 pointer-coarse:opacity-100 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity"
+            className="min-w-6 min-h-6 flex items-center justify-center px-1 py-1 text-[13px] opacity-0 pointer-coarse:opacity-100 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity"
             style={{ color: 'var(--c-sub)' }}
             title={t('delete')}
             aria-label={t('delete')}
