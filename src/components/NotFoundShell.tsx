@@ -16,14 +16,11 @@ type NotFoundStrings = typeof enMessages.notFound
  * A genuinely unmatched URL under static export (`output: 'export'`) has no
  * server-side router: every unmatched path — with or without a /xx/ locale
  * prefix — resolves to this single file, which is the only 404 the host can
- * ever serve (confirmed against the built output: there's exactly one
- * `_not-found` route, never a per-locale one). A `[locale]/not-found.tsx`
- * twin existed here previously, on the assumption Next would route a
- * locale-prefixed unmatched URL into it — it never did (nothing in this app
- * ever calls `notFound()` from inside that segment), so it was dead code and
- * was removed. This detects the browser's locale client-side (same
- * technique as LocaleRedirect) and swaps in that locale's strings, staying
- * on the same URL instead of redirecting away from it.
+ * ever serve (there's exactly one `_not-found` route in the build output,
+ * never a per-locale one, since nothing in this app calls `notFound()` from
+ * inside the `[locale]` segment). This detects the browser's locale
+ * client-side (same technique as LocaleRedirect) and swaps in that locale's
+ * strings, staying on the same URL instead of redirecting away from it.
  *
  * The root layout is a bare passthrough (see src/app/layout.tsx), so this
  * also has to supply its own <html>/<body> document — same reason

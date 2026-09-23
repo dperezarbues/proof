@@ -206,11 +206,11 @@ export default function TemplatesGallery({
     const matchedLayout =
       matchedTemplate.layouts.find((l) => l.id === design.layoutId) ?? matchedTemplate.layouts[0]
 
-    // Each of these can fail under storage-quota pressure — previously
-    // discarded, so the import appeared to apply (the UI updates below
-    // regardless, since this session's state already reflects it) and then
-    // silently reverted to the old design on the next reload, with nothing
-    // telling the user why.
+    // Each of these can fail under storage-quota pressure. A failed write
+    // doesn't stop the import from looking like it worked — the UI updates
+    // below regardless, since this render's own state already reflects it —
+    // so ignoring the result here would silently revert to the old design
+    // on the next reload with no explanation.
     const layoutOk = persistLayoutOverride(design.templateId, matchedLayout.id, design.layout)
     const styleOk = persistStyleOverrides(design.templateId, design.style)
     const templateOk = persistCurrentTemplate(design.templateId, matchedLayout.id)
