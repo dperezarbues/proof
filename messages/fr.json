@@ -116,6 +116,7 @@
     "body": "La page que vous recherchez n'existe pas, a été déplacée ou n'a pas passé le contrôle qualité. Retournons à quelque chose de concret.",
     "backHome": "Retour à l'accueil",
     "openEditor": "Ouvrir l'éditeur",
+    "errorLabel": "Erreur 404",
     "reportIssue": "Signaler un problème"
   },
   "error": {
@@ -245,6 +246,7 @@
   },
   "cvEditor": {
     "identity": "Identité",
+    "contact": "Contact",
     "summary": "Résumé",
     "skills": "Compétences",
     "experience": "Expérience",
