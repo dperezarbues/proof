@@ -173,4 +173,45 @@ test.describe('CV + design bundle export/import', () => {
     await page.getByRole('tab', { name: /Template/i }).click()
     await expect(page.getByTestId('template-btn-default')).toHaveAttribute('aria-pressed', 'true')
   })
+
+  // Regression: applyImportedDesign() discarded the boolean return of all
+  // three of its localStorage writes — under quota pressure, the import
+  // appeared to succeed (this session's own state already reflects it) and
+  // then silently reverted to the previous design on the next reload, with
+  // nothing telling the user why.
+  test('a design import that fails to persist surfaces an inline warning', async ({ page }) => {
+    await newCv(page, 'Quota Import CV')
+    await page.getByRole('tab', { name: /Template/i }).click()
+    await page.getByTestId('template-btn-modern').click()
+    await openStyleGroup(page, 'Typography')
+    await page.locator('select#font_family').selectOption('Lato')
+
+    await page.getByRole('tab', { name: /Data/i }).click()
+    const bundle = await downloadRow(page, 'Quota Import CV')
+
+    await page.getByRole('tab', { name: /Template/i }).click()
+    await page.getByTestId('template-btn-default').click()
+
+    await page.evaluate(() => {
+      const orig = Storage.prototype.setItem
+      Storage.prototype.setItem = function (key: string, value: string) {
+        if (key === 'proof-layout-overrides') {
+          throw new DOMException('The quota has been exceeded.', 'QuotaExceededError')
+        }
+        return orig.call(this, key, value)
+      }
+    })
+
+    await page.getByRole('tab', { name: /Data/i }).click()
+    await page.setInputFiles('[data-testid="cv-import-input"]', {
+      name: 'quota-import.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(bundle)),
+    })
+    await expect(page.getByRole('heading', { name: /New CV|Import/i })).toBeVisible()
+    await expect(page.getByTestId('design-import-error')).not.toBeVisible()
+    await page.getByRole('button', { name: 'Save', exact: true }).click()
+
+    await expect(page.getByTestId('design-import-error')).toBeVisible()
+  })
 })
