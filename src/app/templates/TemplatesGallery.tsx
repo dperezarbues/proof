@@ -21,7 +21,7 @@ import OnboardingModal from './OnboardingModal'
 import PdfPreview from './PdfPreview'
 import { type Design, ExportBundleSchema, SectionDefListSchema } from './schemas'
 import type { SectionDef } from './section-defs'
-import { DEFAULT_SECTIONS } from './section-defs'
+import { DEFAULT_SECTION_LABEL_KEYS, DEFAULT_SECTIONS } from './section-defs'
 import {
   loadCurrentTemplate,
   loadLayoutOverride,
@@ -50,6 +50,7 @@ export default function TemplatesGallery({
   layoutData: Record<string, Record<string, Record<string, unknown>>>
 }) {
   const t = useTranslations('editor')
+  const tSection = useTranslations('cvEditor')
   const [activeTab, setActiveTab] = useState<Tab>('data')
 
   /** Deep link from the landing gallery: /editor?template=<id>. Read via a lazy
@@ -135,21 +136,36 @@ export default function TemplatesGallery({
     setShowWelcome(false)
   }
 
+  // Localized DEFAULT_SECTIONS — the Data tab already shows these labels
+  // translated via the cvEditor namespace; the Layout tab was showing the
+  // raw English labels baked into DEFAULT_SECTIONS instead. Only applies to
+  // the app's own defaults: a section id/label from a user's own CV JSON
+  // (the `_sections` override below) is their real data and must always
+  // render verbatim, so it's deliberately left untouched by this.
+  const translatedDefaultSections: SectionDef[] = useMemo(
+    () =>
+      DEFAULT_SECTIONS.map((s) => ({
+        ...s,
+        label: tSection(DEFAULT_SECTION_LABEL_KEYS[s.id] ?? s.id),
+      })),
+    [tSection],
+  )
+
   const activeSections: SectionDef[] = useMemo(() => {
-    if (!currentCv) return DEFAULT_SECTIONS
+    if (!currentCv) return translatedDefaultSections
     try {
       const parsed = JSON.parse(currentCv.content) as { _sections?: unknown }
-      if (parsed._sections === undefined) return DEFAULT_SECTIONS
+      if (parsed._sections === undefined) return translatedDefaultSections
       // This re-parses on every load of the active CV, so a malformed
       // `_sections` (e.g. from an imported bundle) must never reach the
       // layout editor unchecked — an unvalidated cast here used to crash on
       // load and re-crash on every subsequent reload, with no recovery.
       const result = SectionDefListSchema.safeParse(parsed._sections)
-      return result.success ? result.data : DEFAULT_SECTIONS
+      return result.success ? result.data : translatedDefaultSections
     } catch {
-      return DEFAULT_SECTIONS
+      return translatedDefaultSections
     }
-  }, [currentCv])
+  }, [currentCv, translatedDefaultSections])
 
   const cvLanguage = useMemo(
     () => (currentCv ? getCvLanguage(currentCv.content) : 'en'),
@@ -592,7 +608,7 @@ export default function TemplatesGallery({
           <Link
             href="/"
             className="font-mono text-[11px] transition-opacity hover:opacity-70"
-            style={{ color: 'var(--c-faint)' }}
+            style={{ color: 'var(--c-sub)' }}
           >
             {t('home')}
           </Link>
@@ -600,7 +616,7 @@ export default function TemplatesGallery({
             {privateMode && (
               <span
                 className="font-mono text-[10px] tracking-widest uppercase"
-                style={{ color: 'var(--c-accent)' }}
+                style={{ color: 'var(--c-accent-text)' }}
               >
                 {t('private')}
               </span>
@@ -609,7 +625,7 @@ export default function TemplatesGallery({
               type="button"
               onClick={handleClearData}
               className="font-mono text-[11px] transition-opacity hover:opacity-70"
-              style={{ color: 'var(--c-faint)' }}
+              style={{ color: 'var(--c-sub)' }}
             >
               {t('clearData')}
             </button>
@@ -658,7 +674,7 @@ export default function TemplatesGallery({
                 data-testid={`mobile-tab-${tab}`}
                 onClick={() => openMobileTab(tab)}
                 className="flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors"
-                style={{ color: on ? 'var(--c-accent)' : 'var(--c-faint)' }}
+                style={{ color: on ? 'var(--c-accent-text)' : 'var(--c-sub)' }}
               >
                 <span className="font-mono text-[9px] tracking-wider">
                   {String(i + 1).padStart(2, '0')}
