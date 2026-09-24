@@ -3,10 +3,10 @@ import type { CvJson } from './schemas'
 
 /**
  * Everything the Typst compiler needs for one compile pass, as an explicit,
- * typed boundary. The alternative — what existed before this — was an opaque
- * pre-stringified `cvContent` blob with the CV's output language smuggled
- * inside it as a `_cv_language` field, which every caller had to know to dig
- * back out (or forget to, silently).
+ * typed boundary. Avoid collapsing this back into an opaque pre-stringified
+ * `cvContent` blob with the output language smuggled inside as a
+ * `_cv_language` field — every caller would have to know to dig it back out
+ * (or forget to, silently).
  */
 export interface CompileInput {
   templateId: string

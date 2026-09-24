@@ -260,8 +260,8 @@ export default function TemplatesGallery({
       // instead. Only the former needs splitting before it reaches the
       // modal, which only ever knows how to review/save plain CV JSON — for
       // anything else (bare CV, malformed JSON, a bundle that fails to
-      // validate) `content` stays exactly what was read, unchanged from
-      // before this existed, and the modal's own parsing/validation reports it.
+      // validate) `content` stays exactly what was read, and the modal's
+      // own parsing/validation reports it.
       let content = raw
       setPendingImportDesign(null)
       try {

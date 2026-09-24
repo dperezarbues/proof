@@ -70,8 +70,8 @@ test.describe('CV + design bundle export/import', () => {
     expect((bBundle.design as { templateId: string }).templateId).toBe('modern')
     expect((bBundle.design as { style: { font_family: string } }).style.font_family).toBe('Lato')
 
-    // Inactive CV (A): data-only, exactly as before this feature — no design
-    // to meaningfully attach, since design is global, not per-CV.
+    // Inactive CV (A): data-only — no design to meaningfully attach, since
+    // design is global, not per-CV.
     const aBundle = await downloadRow(page, 'Bundle CV A')
     expect(aBundle.design).toBeUndefined()
     expect(aBundle.cv).toBeUndefined() // bare CV shape — identity is top-level, not nested

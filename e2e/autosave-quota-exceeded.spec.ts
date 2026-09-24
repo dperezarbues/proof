@@ -5,8 +5,7 @@ import { openEditor } from './helpers'
 // (mutateStored), but every call site (the layout-change autosave effect, setStyleValue,
 // resetStyle) discarded that return value — so a quota-exceeded failure while dragging a
 // section or nudging a style slider failed completely silently, unlike an explicit CV save
-// or named-preset save, which do surface an error. Same bug class, one layer up: the write
-// now reports failure correctly, but nothing consumed that report until this fix.
+// or named-preset save, which do surface an error.
 test.describe('Layout/style autosave — storage quota exceeded', () => {
   test('a failed layout autosave surfaces an inline warning', async ({ page }) => {
     await openEditor(page)

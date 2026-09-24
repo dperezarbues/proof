@@ -82,9 +82,8 @@ export type Design = z.infer<typeof DesignSchema>
 
 /**
  * The full "everything about this CV" export/import shape: CV content plus,
- * optionally, the template/layout/style it was rendered with. `design` is
- * optional so a bare CV-only file — hand-edited, or exported before this
- * existed — still imports exactly as it always has, data-only.
+ * optionally, the template/layout/style it was rendered with. `design` stays
+ * optional so a bare, hand-edited CV-only file still imports as data-only.
  */
 export const ExportBundleSchema = z.object({
   cv: CvSchema,

@@ -42,7 +42,7 @@
   json("/src/layouts/editor.json").at("style", default: (:))
 } else { (:) }
 
-// Typography — every fs-* token is now connected to a style param.
+// Typography — every fs-* token is connected to a style param.
 // Derived sizes keep their proportional offset so defaults are preserved exactly:
 //   fs-sm  = body_size - 0.5pt            (8.5 - 0.5 = 8pt  ✓)
 //   fs-2xs = section_heading_size - 1.0pt (7.5 - 1.0 = 6.5pt ✓)
