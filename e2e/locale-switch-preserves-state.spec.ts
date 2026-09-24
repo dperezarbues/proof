@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { openEditor } from './helpers'
+import { openEditor, waitForSettledSrc } from './helpers'
 
 // Regression: switching the UI locale should only ever change chrome text.
 // The in-app language switcher used to call next-intl's router, navigating
@@ -25,15 +25,9 @@ test.describe('Locale switch preserves editor state', () => {
     // Pick a non-default template so a reset-to-default would be observable.
     await page.getByRole('tab', { name: /Template/i }).click()
     await page.getByTestId('template-btn-modern').click()
-    // Wait for the src to actually become a blob, not for the transient
-    // "Generating PDF…" overlay to disappear — that races the trigger
-    // itself: if this assertion's first poll lands before React has even
-    // rendered the overlay for a just-started compile, "not visible"
-    // trivially and immediately passes without waiting for the real compile.
     const viewer = page.locator('[data-testid="pdfjs-viewer"]')
     await page.getByRole('button', { name: 'Generate PDF' }).first().click()
-    await expect(viewer).toHaveAttribute('data-pdf-src', /^blob:/, { timeout: 60_000 })
-    const srcBefore = await viewer.getAttribute('data-pdf-src')
+    const srcBefore = await waitForSettledSrc(page)
 
     await page.getByLabel('Language', { exact: true }).selectOption('fr')
 
