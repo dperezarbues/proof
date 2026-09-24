@@ -205,7 +205,7 @@ export default function CvDataModal({
               fontSize: 10,
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
-              color: 'var(--c-faint)',
+              color: 'var(--c-sub)',
               flexShrink: 0,
             }}
           >

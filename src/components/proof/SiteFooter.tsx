@@ -29,7 +29,7 @@ export default async function SiteFooter() {
       </div>
       <div
         className="flex flex-wrap gap-4 md:gap-6 font-mono text-[12px]"
-        style={{ color: 'var(--c-faint)' }}
+        style={{ color: 'var(--c-sub)' }}
       >
         {links.map((l) =>
           l.external ? (

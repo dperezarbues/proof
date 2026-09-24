@@ -51,17 +51,40 @@ test.describe('Landing — mobile (375×667)', () => {
     // surfaces the same links.
     const menuButton = page.getByRole('button', { name: 'Menu' })
     await expect(menuButton).toBeVisible()
-    await expect(page.getByRole('menu')).not.toBeVisible()
+    const menu = page.getByTestId('mobile-nav-menu')
+    await expect(menu).not.toBeVisible()
 
     await menuButton.click()
-    const menu = page.getByRole('menu')
     await expect(menu).toBeVisible()
-    await expect(menu.getByRole('menuitem', { name: 'Help' })).toBeVisible()
-    await expect(menu.getByRole('menuitem', { name: 'Schema' })).toBeVisible()
-    await expect(menu.getByRole('menuitem', { name: 'Privacy' })).toBeVisible()
+    await expect(menu.getByRole('link', { name: 'Help' })).toBeVisible()
+    await expect(menu.getByRole('link', { name: 'Schema' })).toBeVisible()
+    await expect(menu.getByRole('link', { name: 'Privacy' })).toBeVisible()
 
-    await menu.getByRole('menuitem', { name: 'Help' }).click()
+    await menu.getByRole('link', { name: 'Help' }).click()
     await expect(page).toHaveURL(/\/en\/help/)
+  })
+
+  test('mobile hamburger menu closes on Escape and restores focus to the trigger', async ({
+    page,
+  }) => {
+    const menuButton = page.getByRole('button', { name: 'Menu' })
+    const menu = page.getByTestId('mobile-nav-menu')
+    await menuButton.click()
+    await expect(menu).toBeVisible()
+
+    await page.keyboard.press('Escape')
+    await expect(menu).not.toBeVisible()
+    await expect(menuButton).toBeFocused()
+  })
+
+  test('mobile hamburger menu closes on an outside click', async ({ page }) => {
+    const menuButton = page.getByRole('button', { name: 'Menu' })
+    const menu = page.getByTestId('mobile-nav-menu')
+    await menuButton.click()
+    await expect(menu).toBeVisible()
+
+    await page.mouse.click(10, 10)
+    await expect(menu).not.toBeVisible()
   })
 
   test('hero heading is visible and not horizontally clipped', async ({ page }) => {

@@ -116,6 +116,7 @@
     "body": "La página que busca no existe, fue movida o no pasó el control de calidad. Volvamos a algo real.",
     "backHome": "Volver al inicio",
     "openEditor": "Abrir el editor",
+    "errorLabel": "Error 404",
     "reportIssue": "Reportar un problema"
   },
   "error": {
@@ -245,6 +246,7 @@
   },
   "cvEditor": {
     "identity": "Identidad",
+    "contact": "Contacto",
     "summary": "Resumen",
     "skills": "Habilidades",
     "experience": "Experiencia",
