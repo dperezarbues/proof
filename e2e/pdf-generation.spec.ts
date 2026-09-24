@@ -8,6 +8,7 @@ test.describe('PDF generation (WASM)', () => {
     await page.goto('/en/editor')
     await page.evaluate(() => {
       localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
     })
     await page.reload()
     await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })

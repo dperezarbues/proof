@@ -1,6 +1,6 @@
 #import "../styles.typ": *
 #import "../components.typ": *
-#import "../sections.typ": data, lang
+#import "../sections.typ": data, lang, render-body-sections
 #import "../i18n.typ": section-title
 
 #let id = data.identity
@@ -48,19 +48,19 @@
   #set text(size: fs-sm)
   #set par(justify: false)
 
-  #meta-label("Contact")
+  #meta-label(section-title("contact", lang))
   #for entry in id.contact [
     #render-contact-entry(entry, show-icons: show-contact-icons, show-labels: show-contact-labels) \
   ]
 
-  #meta-label("Skills")
+  #meta-label(section-title("skills", lang))
   #for g in data.skills [
     #text(size: fs-sm, weight: "bold", fill: c-ink)[#g.name] \
     #text(size: fs-sm, fill: c-muted)[#g.entries.join(" · ")] \
     #v(sp-xs)
   ]
 
-  #meta-label("Education")
+  #meta-label(section-title("education", lang))
   #for edu in data.education [
     #text(size: fs-sm, weight: "bold", fill: c-ink)[#edu.title] \
     #text(size: fs-sm, fill: c-muted)[
@@ -69,7 +69,7 @@
     #v(sp-xs)
   ]
 
-  #meta-label("Languages")
+  #meta-label(section-title("languages", lang))
   #for lang in data.languages [
     #text(weight: "bold", fill: c-ink)[#lang.title]#h(sp-xs)#text(fill: c-muted)[#lang.at("subtitle", default: "")] \
   ]
@@ -178,22 +178,7 @@
 
 // ── Main column content (layout-driven) ───────────────────────────────────────
 #let render-main() = [
-  #for section in layout.sections {
-    let t    = section.at("type", default: "full")
-    let br   = section.at("breakable", default: true)
-    let pre  = if "pre_spacing"  in section { section.at("pre_spacing")  * 1em } else { section-pre }
-    let post = if "post_spacing" in section { section.at("post_spacing") * 1em } else { section-post }
-    if t == "columns" {
-      let n-cols = section.at("columns", default: 2)
-      let gutter = if n-cols == 3 { col-gutter-3 } else if n-cols == 4 { col-gutter-4 } else { col-gutter-2 }
-      let cells  = section.content.map(sids => [#for sid in sids { render-editorial(sid, pre: pre, post: post) }])
-      block(breakable: br)[
-        #grid(columns: range(n-cols).map(_ => 1fr), column-gutter: gutter, ..cells)
-      ]
-    } else {
-      block(breakable: br)[#render-editorial(section.id, pre: pre, post: post)]
-    }
-  }
+  #render-body-sections(layout, render-editorial)
 ]
 
 // ── Header ────────────────────────────────────────────────────────────────────

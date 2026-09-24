@@ -44,7 +44,10 @@ test.describe('Editor — initial load', () => {
 test.describe('Editor — template and layout selection', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(EDITOR_URL)
-    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+    await page.evaluate(() => {
+      localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
+    })
     await page.reload()
     await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
   })
@@ -73,7 +76,10 @@ test.describe('Editor — template and layout selection', () => {
 test.describe('Editor — CV management', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(EDITOR_URL)
-    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+    await page.evaluate(() => {
+      localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
+    })
     await page.reload()
     await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
   })
@@ -112,7 +118,10 @@ test.describe('Editor — CV management', () => {
 test.describe('Editor — layout and style tabs', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(EDITOR_URL)
-    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+    await page.evaluate(() => {
+      localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
+    })
     await page.reload()
     await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
     // Create a CV so Generate PDF becomes enabled

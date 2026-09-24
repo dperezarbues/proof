@@ -6,6 +6,13 @@
 // current tab and is never written to localStorage.
 
 const PRIVATE_FLAG = 'proof-private'
+// Tab-scoped (sessionStorage, so it naturally resets per tab/session) marker for
+// "this tab has been asked/confirmed a storage-mode choice" — distinct from
+// PRIVATE_FLAG, which only says which mode is CURRENTLY active. Without this,
+// a tab that never saw the choice (e.g. `proof-onboarded` already set from an
+// earlier tab on a shared browser profile) would be indistinguishable from one
+// that explicitly chose persistent storage.
+const STORAGE_CHOICE_FLAG = 'proof-storage-choice-made'
 
 export const KEYS = {
   cvs: 'proof-cvs',
@@ -100,6 +107,28 @@ export function isPrivateMode(): boolean {
   } catch (err) {
     devWarn('isPrivateMode', err)
     return false
+  }
+}
+
+/** True once this tab has explicitly been asked (or answered) the shared-computer
+ *  question — see STORAGE_CHOICE_FLAG. Fails open (true) if sessionStorage is
+ *  unavailable, so a storage error surfaces as "don't nag", not a broken prompt loop. */
+export function hasStorageChoice(): boolean {
+  try {
+    return !!sessionStorage.getItem(STORAGE_CHOICE_FLAG)
+  } catch (err) {
+    devWarn('hasStorageChoice', err)
+    return true
+  }
+}
+
+/** Records that this tab has been asked/confirmed its storage-mode choice, so the
+ *  shared-computer prompt doesn't re-surface again for the rest of this tab's life. */
+export function markStorageChoiceMade(): void {
+  try {
+    sessionStorage.setItem(STORAGE_CHOICE_FLAG, '1')
+  } catch (err) {
+    devWarn('markStorageChoiceMade', err)
   }
 }
 

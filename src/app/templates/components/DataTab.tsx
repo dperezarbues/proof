@@ -13,6 +13,7 @@ export function DataTab({
   importRef,
   cvLanguage,
   onNewCv,
+  onRequestImport,
   onImportFile,
   onSelectCv,
   onEditCv,
@@ -26,6 +27,7 @@ export function DataTab({
   importRef: React.RefObject<HTMLInputElement | null>
   cvLanguage: CvLanguage
   onNewCv: () => void
+  onRequestImport: () => void
   onImportFile: (e: React.ChangeEvent<HTMLInputElement>) => void
   onSelectCv: (id: string) => void
   onEditCv: (e: CvEntry) => void
@@ -49,7 +51,7 @@ export function DataTab({
               onChange={onImportFile}
               data-testid="cv-import-input"
             />
-            <SbBtn onClick={() => importRef.current?.click()}>{t('import')}</SbBtn>
+            <SbBtn onClick={onRequestImport}>{t('import')}</SbBtn>
             <SbBtn variant="dark" onClick={onNewCv} title={t('newCV')} data-testid="new-cv-btn">
               {t('newCV')}
             </SbBtn>

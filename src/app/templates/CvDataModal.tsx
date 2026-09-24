@@ -317,7 +317,7 @@ export default function CvDataModal({
                   setJsonContent(e.target.value)
                   setError(null)
                 }}
-                aria-label="CV JSON"
+                aria-label={t('jsonTextareaLabel')}
                 spellCheck={false}
                 style={{
                   flex: 1,

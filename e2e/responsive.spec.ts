@@ -15,7 +15,10 @@ import { expect, type Page, test } from '@playwright/test'
 
 async function gotoEditor(page: Page) {
   await page.goto('/en/editor')
-  await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+  await page.evaluate(() => {
+    localStorage.setItem('proof-onboarded', '1')
+    sessionStorage.setItem('proof-storage-choice-made', '1')
+  })
   await page.reload()
   // Suppress Next.js dev overlay so it doesn't intercept pointer events on fixed UI
   await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })

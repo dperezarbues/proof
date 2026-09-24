@@ -19,7 +19,10 @@ test.describe('Accessibility — axe-core regression', () => {
 
   test('editor page (onboarded) has no structural violations', async ({ page }) => {
     await page.goto('/en/editor')
-    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+    await page.evaluate(() => {
+      localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
+    })
     await page.reload()
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
@@ -32,7 +35,10 @@ test.describe('Accessibility — axe-core regression', () => {
 
   test('CV data modal (Editor tab) has no structural violations', async ({ page }) => {
     await page.goto('/en/editor')
-    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+    await page.evaluate(() => {
+      localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
+    })
     await page.reload()
     await page.getByTitle('New CV').click()
     await expect(page.getByRole('heading', { name: 'New CV' })).toBeVisible()
@@ -47,7 +53,10 @@ test.describe('Accessibility — axe-core regression', () => {
 
   test('CV data modal (JSON tab) has no structural violations', async ({ page }) => {
     await page.goto('/en/editor')
-    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+    await page.evaluate(() => {
+      localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
+    })
     await page.reload()
     await page.getByTitle('New CV').click()
     await page.getByRole('button', { name: 'JSON', exact: true }).click()
@@ -65,7 +74,10 @@ test.describe('Accessibility — axe-core regression', () => {
     page,
   }) => {
     await page.goto('/en/editor')
-    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+    await page.evaluate(() => {
+      localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
+    })
     await page.reload()
 
     // Open the layout editor panel where DnD drag handles live
@@ -85,7 +97,10 @@ test.describe('Accessibility — axe-core regression', () => {
   test('mobile panel (dialog role, aria-modal) has no structural violations', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 })
     await page.goto('/en/editor')
-    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+    await page.evaluate(() => {
+      localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
+    })
     await page.reload()
     await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
     // Open the panel so the dialog role and aria-modal are active during the scan
@@ -129,6 +144,24 @@ test.describe('Accessibility — axe-core regression', () => {
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
       .disableRules(DISABLED_RULES)
       // The PDF.js canvas viewer renders imperatively — exclude it from axe scan
+      .exclude('[data-testid="pdfjs-viewer"]')
+      .analyze()
+    expect(results.violations).toEqual([])
+  })
+
+  // Onboarded (so the welcome modal is skipped) but no per-tab storage
+  // choice recorded yet — the state SharedComputerPrompt is built for.
+  test('shared computer prompt has no structural violations', async ({ page }) => {
+    await page.goto('/en/editor')
+    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+    await page.reload()
+    await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
+    await page.getByTitle('New CV').click()
+    await expect(page.getByRole('dialog')).toBeVisible()
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+      .disableRules(DISABLED_RULES)
       .exclude('[data-testid="pdfjs-viewer"]')
       .analyze()
     expect(results.violations).toEqual([])

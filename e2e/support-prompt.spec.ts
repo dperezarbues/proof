@@ -11,6 +11,7 @@ test.describe('Support prompt (pre-download modal)', () => {
     await page.goto('/en/editor')
     await page.evaluate(() => {
       localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
       sessionStorage.removeItem('proof-support-prompted')
     })
     await page.reload()

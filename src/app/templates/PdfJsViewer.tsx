@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 
 type RenderState = 'idle' | 'loading' | 'ready' | 'error'
@@ -17,6 +18,7 @@ export default function PdfJsViewer({
    * viewer's own bottom-right corner, so zoom controls need to sit higher. */
   reserveBottom?: boolean
 }) {
+  const t = useTranslations('pdfPreview')
   const containerRef = useRef<HTMLDivElement>(null)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   const [renderState, setRenderState] = useState<RenderState>('idle')
@@ -182,7 +184,7 @@ export default function PdfJsViewer({
           onClick={() => setZoom((z) => Math.max(ZOOM_MIN, +(z - ZOOM_STEP).toFixed(2)))}
           className="px-3 py-1.5 text-sm font-bold disabled:opacity-30 hover:opacity-75 transition-opacity"
           style={{ color: 'var(--c-paper)' }}
-          aria-label="Zoom out"
+          aria-label={t('zoomOut')}
         >
           −
         </button>
@@ -198,7 +200,7 @@ export default function PdfJsViewer({
           onClick={() => setZoom((z) => Math.min(ZOOM_MAX, +(z + ZOOM_STEP).toFixed(2)))}
           className="px-3 py-1.5 text-sm font-bold disabled:opacity-30 hover:opacity-75 transition-opacity"
           style={{ color: 'var(--c-paper)' }}
-          aria-label="Zoom in"
+          aria-label={t('zoomIn')}
         >
           +
         </button>

@@ -58,139 +58,16 @@
   text(size: fs-2xs, fill: white, t),
 )
 
-// ── Per-section render functions ───────────────────────────────────────────────
-
-#let render-summary(pre: section-pre, post: section-post) = [
-  #modern-section(section-title("summary", lang), pre: pre, post: post, id: "summary")
-  #text(size: fs-md)[
-    #for (i, para) in data.summary.split("\n\n").enumerate() {
-      if i > 0 { v(sp-xl) }
-      parse-links(para)
-    }
-  ]
-]
-
-#let render-experience(pre: section-pre, post: section-post) = [
-  #modern-section(section-title("experience", lang), pre: pre, post: post, id: "experience")
-  #for (ji, job) in data.experience.enumerate() {
-    if ji > 0 { v(sp-xl) }
-    block(breakable: false)[
-      #let subtitle = job.at("subtitle", default: "")
-      #let period   = job.at("period",   default: "")
-      #bookmark(job.title, level: 2)
-      #grid(columns: (1fr, auto), gutter: sp-sm, align: (left + bottom, right + bottom),
-        text(size: fs-lg, weight: "bold", fill: c-ink, job.title),
-        text(size: fs-sm, fill: c-muted, period),
-      )
-      #if subtitle != "" { v(sp-sm); text(size: fs-sm, fill: c-muted, subtitle) }
-      #let highlights = job.at("highlights", default: ())
-      #if highlights.len() > 0 {
-        v(sp-sm)
-        for (hi, hl) in highlights.enumerate() {
-          if hi > 0 { v(sp-2xs) }
-          [• #text(size: fs-md)[#parse-links(hl)]]
-        }
-      }
-      #let tags = job.at("tags", default: ())
-      #if tags.len() > 0 {
-        v(sp-sm)
-        for t in tags { filled-pill(t); h(pill-gap) }
-      }
-    ]
-  }
-]
-
-#let render-skills(pre: section-pre, post: section-post) = [
-  #modern-section(section-title("skills", lang), pre: pre, post: post, id: "skills")
-  #set par(justify: false)
-  #set text(hyphenate: false)
-  #let groups = data.skills
-  #grid(columns: groups.map(_ => 1fr), column-gutter: skills-gutter, ..groups.map(g => [
-    #text(size: fs-2xs, weight: "bold", tracking: skills-label-tracking, fill: c-light)[#upper(g.name)]
-    #v(sp-sm, weak: true)
-    #text(size: fs-sm, fill: c-body, g.entries.join(" · "))
-  ]))
-]
-
-#let render-education(pre: section-pre, post: section-post) = [
-  #modern-section(section-title("education", lang), pre: pre, post: post, id: "education")
-  #for (i, edu) in data.education.enumerate() {
-    if i > 0 { v(sp-md) }
-    block(breakable: false)[
-      #let subtitle = edu.at("subtitle", default: "")
-      #let period   = edu.at("period",   default: "")
-      #bookmark(edu.title, level: 2)
-      #grid(columns: (1fr, auto), gutter: sp-sm, align: (left + bottom, right + bottom),
-        text(size: fs-md, weight: "bold", fill: c-ink, edu.title),
-        text(size: fs-sm, fill: c-muted, period),
-      )
-      #if subtitle != "" { v(sp-2xs); text(size: fs-sm, fill: c-muted, subtitle) }
-    ]
-  }
-]
-
-#let render-languages(pre: section-pre, post: section-post) = [
-  #modern-section(section-title("languages", lang), pre: pre, post: post, id: "languages")
-  #for lang in data.languages [
-    #text(weight: "bold", fill: c-ink)[#lang.title]#h(sp-sm)#text(fill: c-muted)[#lang.at("subtitle", default: "")] \
-  ]
-]
-
-#let render-certifications(pre: section-pre, post: section-post) = [
-  #modern-section(section-title("certifications", lang), pre: pre, post: post, id: "certifications")
-  #for (i, cert) in data.certifications.enumerate() {
-    if i > 0 { v(sp-xs) }
-    [
-      #text(size: fs-sm, weight: "bold", fill: c-ink, cert.title) \
-      #text(size: fs-sm, fill: c-muted, cert.at("subtitle", default: ""))
-    ]
-  }
-]
-
-#let render-awards(pre: section-pre, post: section-post) = [
-  #modern-section(section-title("awards", lang), pre: pre, post: post, id: "awards")
-  #for (i, award) in data.awards.enumerate() {
-    if i > 0 { v(sp-md) }
-    block(breakable: false)[
-      #let subtitle = award.at("subtitle", default: "")
-      #bookmark(award.title, level: 2)
-      #grid(columns: (1fr, auto), gutter: sp-sm, align: (left + bottom, right + bottom),
-        text(size: fs-md, weight: "bold", fill: c-ink, award.title),
-        text(size: fs-sm, fill: c-muted, subtitle),
-      )
-      #let desc = award.at("description", default: "")
-      #if desc != "" { v(sp-sm); text(size: fs-md)[#parse-links(desc)] }
-    ]
-  }
-]
-
-#let render-side-projects(pre: section-pre, post: section-post) = [
-  #modern-section(section-title("side_projects", lang), pre: pre, post: post, id: "side_projects")
-  #for (i, proj) in data.side_projects.enumerate() {
-    if i > 0 { v(sp-xl) }
-    block(breakable: false)[
-      #let subtitle = proj.at("subtitle", default: "")
-      #bookmark(proj.title, level: 2)
-      #text(size: fs-lg, weight: "bold", fill: c-ink, proj.title)
-      #if subtitle != "" { h(gap-xs); text(size: fs-xs, fill: c-muted, subtitle) }
-      #let desc = proj.at("description", default: "")
-      #if desc != "" { v(sp-sm); text(size: fs-md)[#parse-links(desc)] }
-      #let tags = proj.at("tags", default: ())
-      #if tags.len() > 0 { v(sp-sm); for t in tags { filled-pill(t); h(pill-gap) } }
-    ]
-  }
-]
-
 // ── Dispatcher ────────────────────────────────────────────────────────────────
 #let render-modern(sid, pre: section-pre, post: section-post) = {
-  if      sid == "summary"        { render-summary(pre: pre, post: post) }
-  else if sid == "experience"     { render-experience(pre: pre, post: post) }
-  else if sid == "skills"         { render-skills(pre: pre, post: post) }
-  else if sid == "education"      { render-education(pre: pre, post: post) }
-  else if sid == "languages"      { render-languages(pre: pre, post: post) }
-  else if sid == "certifications" { render-certifications(pre: pre, post: post) }
-  else if sid == "awards"         { render-awards(pre: pre, post: post) }
-  else if sid == "side_projects"  { render-side-projects(pre: pre, post: post) }
+  if      sid == "summary"        { flat-render-summary(modern-section, pre: pre, post: post) }
+  else if sid == "experience"     { flat-render-experience(modern-section, filled-pill, pre: pre, post: post) }
+  else if sid == "skills"         { flat-render-skills(modern-section, pre: pre, post: post) }
+  else if sid == "education"      { flat-render-education(modern-section, pre: pre, post: post) }
+  else if sid == "languages"      { flat-render-languages(modern-section, pre: pre, post: post) }
+  else if sid == "certifications" { flat-render-certifications(modern-section, pre: pre, post: post) }
+  else if sid == "awards"         { flat-render-awards(modern-section, pre: pre, post: post) }
+  else if sid == "side_projects"  { flat-render-side-projects(modern-section, filled-pill, pre: pre, post: post) }
 }
 
 // ── Header: two-tone name, contact right-aligned ──────────────────────────────
@@ -242,20 +119,5 @@
 
 // ── Body sections (layout-driven) ─────────────────────────────────────────────
 #pad(x: page-margin-x, top: margin-sm * 0.3)[
-  #for section in layout.sections {
-    let t    = section.at("type", default: "full")
-    let br   = section.at("breakable", default: true)
-    let pre  = if "pre_spacing"  in section { section.at("pre_spacing")  * 1em } else { section-pre  }
-    let post = if "post_spacing" in section { section.at("post_spacing") * 1em } else { section-post }
-    if t == "columns" {
-      let n-cols = section.at("columns", default: 2)
-      let gutter = if n-cols == 3 { col-gutter-3 } else if n-cols == 4 { col-gutter-4 } else { col-gutter-2 }
-      let cells  = section.content.map(sids => [#for sid in sids { render-modern(sid, pre: pre, post: post) }])
-      block(breakable: br)[
-        #grid(columns: range(n-cols).map(_ => 1fr), column-gutter: gutter, ..cells)
-      ]
-    } else {
-      block(breakable: br)[#render-modern(section.id, pre: pre, post: post)]
-    }
-  }
+  #render-body-sections(layout, render-modern)
 ]
