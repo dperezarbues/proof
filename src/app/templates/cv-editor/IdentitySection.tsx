@@ -58,7 +58,7 @@ export function IdentitySection({ identity, onChange }: Props) {
               <select
                 value={c.type}
                 onChange={(e) => setContact(i, 'type', e.target.value)}
-                aria-label={`Contact ${i + 1} type`}
+                aria-label={t('contactTypeLabel', { number: i + 1 })}
                 className="text-xs border border-gray-200 rounded px-1.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white"
               >
                 {CONTACT_TYPES.map((ct) => (

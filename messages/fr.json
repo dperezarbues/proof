@@ -159,6 +159,7 @@
     "editorTab": "Éditeur",
     "jsonTab": "JSON",
     "format": "Formater",
+    "jsonTextareaLabel": "JSON du CV",
     "dataStays": "Les données restent dans votre navigateur",
     "cancel": "Annuler",
     "save": "Enregistrer",
@@ -172,6 +173,7 @@
     "tabTemplate": "Modèle",
     "tabLayout": "Mise en page",
     "tabStyle": "Style",
+    "stepsLabel": "Étapes de l'éditeur",
     "yourCVs": "Vos CV",
     "noCVLoaded": "Aucun CV chargé",
     "noCVsYet": "Aucun CV pour l'instant — créez-en un ou importez-en un.",
@@ -235,7 +237,9 @@
     "addYourCV": "Ajoutez votre CV pour générer votre propre PDF",
     "generatePDF": "Générer le PDF",
     "newCV": "+ Nouveau CV",
-    "import": "↑ Importer"
+    "import": "↑ Importer",
+    "zoomOut": "Zoom arrière",
+    "zoomIn": "Zoom avant"
   },
   "supportPrompt": {
     "ready": "Votre PDF est prêt",
@@ -304,7 +308,8 @@
     "addContact": "+ Ajouter un contact",
     "labelPlaceholder": "Libellé",
     "valuePlaceholder": "Valeur",
-    "removeContact": "Supprimer le contact"
+    "removeContact": "Supprimer le contact",
+    "contactTypeLabel": "Type du contact {number}"
   },
   "terms": {
     "metaTitle": "Confidentialité & Conditions — Proof",
@@ -340,7 +345,7 @@
       "changes": {
         "title": "Modifications",
         "p1": "Si quelque chose de substantiel change — notamment concernant le traitement des données — cette page sera mise à jour. La date ci-dessous reflète la dernière révision.",
-        "date": "Dernière mise à jour : mai 2025"
+        "date": "Dernière mise à jour : septembre 2026"
       },
       "noWarranty": {
         "title": "Aucune garantie",

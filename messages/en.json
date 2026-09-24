@@ -159,6 +159,7 @@
     "editorTab": "Editor",
     "jsonTab": "JSON",
     "format": "Format",
+    "jsonTextareaLabel": "CV JSON",
     "dataStays": "Data stays in your browser",
     "cancel": "Cancel",
     "save": "Save",
@@ -172,6 +173,7 @@
     "tabTemplate": "Template",
     "tabLayout": "Layout",
     "tabStyle": "Style",
+    "stepsLabel": "Editor steps",
     "yourCVs": "Your CVs",
     "noCVLoaded": "No CV loaded",
     "noCVsYet": "No CVs yet — create or import one.",
@@ -235,7 +237,9 @@
     "addYourCV": "Add your CV to generate your own PDF",
     "generatePDF": "Generate PDF",
     "newCV": "+ New CV",
-    "import": "↑ Import"
+    "import": "↑ Import",
+    "zoomOut": "Zoom out",
+    "zoomIn": "Zoom in"
   },
   "supportPrompt": {
     "ready": "Your PDF is ready",
@@ -304,7 +308,8 @@
     "addContact": "+ Add contact",
     "labelPlaceholder": "Label",
     "valuePlaceholder": "Value",
-    "removeContact": "Remove contact"
+    "removeContact": "Remove contact",
+    "contactTypeLabel": "Contact {number} type"
   },
   "terms": {
     "metaTitle": "Privacy & Terms — Proof",
@@ -340,7 +345,7 @@
       "changes": {
         "title": "Changes",
         "p1": "If anything material changes — particularly around data handling — this page will be updated. The date below reflects the last revision.",
-        "date": "Last updated: May 2025"
+        "date": "Last updated: September 2026"
       },
       "noWarranty": {
         "title": "No warranty",

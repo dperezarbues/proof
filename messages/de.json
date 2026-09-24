@@ -159,6 +159,7 @@
     "editorTab": "Editor",
     "jsonTab": "JSON",
     "format": "Formatieren",
+    "jsonTextareaLabel": "Lebenslauf-JSON",
     "dataStays": "Daten verbleiben in Ihrem Browser",
     "cancel": "Abbrechen",
     "save": "Speichern",
@@ -172,6 +173,7 @@
     "tabTemplate": "Vorlage",
     "tabLayout": "Layout",
     "tabStyle": "Stil",
+    "stepsLabel": "Editor-Schritte",
     "yourCVs": "Ihre Lebensläufe",
     "noCVLoaded": "Kein Lebenslauf geladen",
     "noCVsYet": "Noch keine Lebensläufe — erstellen oder importieren Sie einen.",
@@ -235,7 +237,9 @@
     "addYourCV": "Fügen Sie Ihren Lebenslauf hinzu, um Ihr eigenes PDF zu generieren",
     "generatePDF": "PDF generieren",
     "newCV": "+ Neuer Lebenslauf",
-    "import": "↑ Importieren"
+    "import": "↑ Importieren",
+    "zoomOut": "Verkleinern",
+    "zoomIn": "Vergrößern"
   },
   "supportPrompt": {
     "ready": "Ihr PDF ist bereit",
@@ -304,7 +308,8 @@
     "addContact": "+ Kontakt hinzufügen",
     "labelPlaceholder": "Bezeichnung",
     "valuePlaceholder": "Wert",
-    "removeContact": "Kontakt entfernen"
+    "removeContact": "Kontakt entfernen",
+    "contactTypeLabel": "Kontakttyp {number}"
   },
   "terms": {
     "metaTitle": "Datenschutz & AGB — Proof",
@@ -340,7 +345,7 @@
       "changes": {
         "title": "Änderungen",
         "p1": "Wenn sich etwas Wesentliches ändert — insbesondere in Bezug auf den Umgang mit Daten — wird diese Seite aktualisiert. Das folgende Datum gibt die letzte Überarbeitung an.",
-        "date": "Zuletzt aktualisiert: Mai 2025"
+        "date": "Zuletzt aktualisiert: September 2026"
       },
       "noWarranty": {
         "title": "Keine Gewährleistung",
