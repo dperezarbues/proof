@@ -141,6 +141,28 @@ test.describe('Landing — mobile (375×667)', () => {
   })
 })
 
+// Regression: the Spanish privacy heading ("Cero almacenamiento.") renders
+// "ALMACENAMIENTO." as one unbroken 15-character uppercase word at 44px —
+// no other locale's equivalent string is long enough to hit this. With no
+// break opportunity, it pushed the whole page 106px past the viewport width
+// at 375px. Fixed via hyphens/overflow-wrap on that heading plus a page-wide
+// overflow-x backstop (globals.css) for any future locale hitting the same
+// class of bug elsewhere.
+test.describe('Landing — Spanish (375×667)', () => {
+  test('privacy heading does not push the page into horizontal scroll', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: MOBILE, locale: 'es-ES' })
+    const page = await context.newPage()
+    await page.goto('/es/')
+    await expect(page.getByRole('heading', { name: 'Cero almacenamiento.' })).toBeVisible()
+    const overflow = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }))
+    expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth)
+    await context.close()
+  })
+})
+
 test.describe('Landing — tablet (768×1024)', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize(TABLET)

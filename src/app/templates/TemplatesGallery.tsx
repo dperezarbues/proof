@@ -125,6 +125,7 @@ export default function TemplatesGallery({
   // changes, even when the imported design targets the template/layout
   // that's already active — see applyImportedDesign for why that case needs it.
   const [designImportNonce, setDesignImportNonce] = useState(0)
+  const [designImportError, setDesignImportError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!getItem(KEYS.onboarded)) setShowWelcome(true)
@@ -205,9 +206,15 @@ export default function TemplatesGallery({
     const matchedLayout =
       matchedTemplate.layouts.find((l) => l.id === design.layoutId) ?? matchedTemplate.layouts[0]
 
-    persistLayoutOverride(design.templateId, matchedLayout.id, design.layout)
-    persistStyleOverrides(design.templateId, design.style)
-    persistCurrentTemplate(design.templateId, matchedLayout.id)
+    // Each of these can fail under storage-quota pressure. A failed write
+    // doesn't stop the import from looking like it worked — the UI updates
+    // below regardless, since this render's own state already reflects it —
+    // so ignoring the result here would silently revert to the old design
+    // on the next reload with no explanation.
+    const layoutOk = persistLayoutOverride(design.templateId, matchedLayout.id, design.layout)
+    const styleOk = persistStyleOverrides(design.templateId, design.style)
+    const templateOk = persistCurrentTemplate(design.templateId, matchedLayout.id)
+    setDesignImportError(layoutOk && styleOk && templateOk ? null : t('autosaveError'))
 
     setActiveTemplate(matchedTemplate)
     setActiveLayout(matchedLayout)
@@ -253,8 +260,8 @@ export default function TemplatesGallery({
       // instead. Only the former needs splitting before it reaches the
       // modal, which only ever knows how to review/save plain CV JSON — for
       // anything else (bare CV, malformed JSON, a bundle that fails to
-      // validate) `content` stays exactly what was read, unchanged from
-      // before this existed, and the modal's own parsing/validation reports it.
+      // validate) `content` stays exactly what was read, and the modal's
+      // own parsing/validation reports it.
       let content = raw
       setPendingImportDesign(null)
       try {
@@ -497,6 +504,17 @@ export default function TemplatesGallery({
 
         {/* Step nav */}
         <StepNav active={activeTab} onChange={setActiveTab} />
+
+        {designImportError && (
+          <p
+            role="alert"
+            className="text-[11px] px-4 pt-2"
+            style={{ color: 'var(--c-error)' }}
+            data-testid="design-import-error"
+          >
+            ⚠ {designImportError}
+          </p>
+        )}
 
         {/* Tab content */}
         <div className="flex-1 overflow-y-auto min-h-0">

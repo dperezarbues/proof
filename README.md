@@ -23,6 +23,17 @@ cv.json  ──►  TemplatesGallery / EditorShell  ──►  Typst WASM Worker
 
 This is a plain static export (`output: 'export'` in `next.config.ts`) — there's no server at runtime, anywhere. Security headers (CSP, HSTS, `X-Frame-Options`, …) are defined in `vercel.json`, which is a **Vercel platform feature**, not something Next.js or the static export itself enforces. Deploying the `out/` directory to a different static host (S3, Netlify, GitHub Pages, …) ships with **none of those headers** unless you configure equivalent ones on that host yourself — the app still works, but without that hardening.
 
+If you're self-hosting, set these on every response (`vercel.json` is the source of truth for the exact values — copy them rather than retyping, so the two never drift):
+
+- `Content-Security-Policy` — the full policy string in `vercel.json`. Don't drop `'unsafe-eval'`/`'wasm-unsafe-eval'` from `script-src` (see below) or the Typst compiler breaks outright.
+- `Strict-Transport-Security`
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: SAMEORIGIN`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `Permissions-Policy: camera=(), microphone=(), geolocation=()`
+
+`src/lib/__tests__/csp.test.ts` guards the `vercel.json` CSP string itself against accidental regressions (e.g. `'unsafe-eval'` silently disappearing) — it doesn't verify headers actually reach the browser, which is the one part of this that's genuinely platform-specific and worth checking by hand after deploying elsewhere.
+
 `script-src` carries both `'wasm-unsafe-eval'` and `'unsafe-eval'`. Root-caused by enforcing the real CSP locally (Playwright response-header injection against a production build) with `'unsafe-eval'` removed: pdf.js's own preview rendering worked fine throughout — it never needs it — but the Typst compile step failed every time with a caught `EvalError`, surfaced through the app's own error banner. `'unsafe-eval'` is required by [`@myriaddreamin/typst-ts-web-compiler`](https://github.com/Myriad-Dreamin/typst.ts)'s wasm-bindgen JS glue, not pdfjs-dist — it's third-party generated code, not something this repo can remove independently.
 
 ## CV schema

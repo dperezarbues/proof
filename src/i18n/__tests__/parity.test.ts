@@ -11,7 +11,13 @@ import { routing } from '../routing'
 function flatten(obj: Record<string, unknown>, prefix = ''): string[] {
   return Object.entries(obj).flatMap(([key, value]) => {
     const path = prefix ? `${prefix}.${key}` : key
-    return value && typeof value === 'object' && !Array.isArray(value)
+    // Recurse into arrays too, not just plain objects — treating an array as
+    // a terminal leaf made every array-valued key invisible to this test:
+    // neither a shorter/longer array nor a renamed inner key in one locale
+    // would ever surface as a key-parity difference. Object.entries on an
+    // array yields index keys ("0", "1", ...), so array length differences
+    // become key-set differences the same way object key differences do.
+    return value && typeof value === 'object'
       ? flatten(value as Record<string, unknown>, path)
       : [path]
   })

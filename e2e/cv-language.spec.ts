@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { COMPILE_TIMEOUT, openEditor, waitForNewPdf } from './helpers'
+import { COMPILE_TIMEOUT, openEditor, waitForNewPdf, waitForSettledSrc } from './helpers'
 
 // Every template id except 'default' (covered by the test above) — each has
 // its own section-heading render function, so each is a separate regression
@@ -35,8 +35,7 @@ test.describe('CV language selector', () => {
     const viewer = page.locator('[data-testid="pdfjs-viewer"]')
 
     await page.getByRole('button', { name: 'Generate PDF' }).first().click()
-    await expect(page.getByText('Generating PDF…')).not.toBeVisible({ timeout: COMPILE_TIMEOUT })
-    await expect(viewer).toHaveAttribute('data-render-state', 'ready', { timeout: 15_000 })
+    const oldSrc = await waitForSettledSrc(page)
     const enText = (await viewer.locator('.textLayer').textContent()) || ''
     expect(enText).toMatch(/S\s*U\s*M\s*M\s*A\s*R\s*Y/)
 
@@ -44,7 +43,6 @@ test.describe('CV language selector', () => {
     // wait for that rather than re-clicking Generate, which can race ahead of
     // React committing the content change and read back stale, pre-switch
     // content (the click fires before the content-change effect's ref updates).
-    const oldSrc = await viewer.getAttribute('data-pdf-src')
     await page.getByTestId('cv-language-de').click()
     await expect(page.getByTestId('cv-language-de')).toHaveAttribute('aria-checked', 'true')
     await expect(viewer).not.toHaveAttribute('data-pdf-src', oldSrc ?? '', {
@@ -67,10 +65,8 @@ test.describe('CV language selector', () => {
       await page.getByRole('tab', { name: /Template/i }).click()
       await page.getByTestId(`template-btn-${templateId}`).click()
       await page.getByRole('button', { name: 'Generate PDF' }).first().click()
-      await expect(page.getByText('Generating PDF…')).not.toBeVisible({ timeout: COMPILE_TIMEOUT })
-      await expect(viewer).toHaveAttribute('data-render-state', 'ready', { timeout: 15_000 })
+      const oldSrc = await waitForSettledSrc(page)
 
-      const oldSrc = (await viewer.getAttribute('data-pdf-src')) ?? ''
       await page.getByRole('tab', { name: /Data/i }).click()
       await page.getByTestId('cv-language-de').click()
       await waitForNewPdf(page, oldSrc)

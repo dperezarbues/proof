@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { openEditor } from './helpers'
+import { openEditor, waitForSettledSrc } from './helpers'
 
 // Regression: switching the UI locale should only ever change chrome text.
 // The in-app language switcher used to call next-intl's router, navigating
@@ -25,14 +25,11 @@ test.describe('Locale switch preserves editor state', () => {
     // Pick a non-default template so a reset-to-default would be observable.
     await page.getByRole('tab', { name: /Template/i }).click()
     await page.getByTestId('template-btn-modern').click()
-    await page.getByRole('button', { name: 'Generate PDF' }).first().click()
-    await expect(page.getByText('Generating PDF…')).not.toBeVisible({ timeout: 60_000 })
-
     const viewer = page.locator('[data-testid="pdfjs-viewer"]')
-    const srcBefore = await viewer.getAttribute('data-pdf-src')
-    expect(srcBefore).toMatch(/^blob:/)
+    await page.getByRole('button', { name: 'Generate PDF' }).first().click()
+    const srcBefore = await waitForSettledSrc(page)
 
-    await page.locator('select[aria-label]').selectOption('fr')
+    await page.getByLabel('Language', { exact: true }).selectOption('fr')
 
     // UI text must actually reflect the new locale...
     await expect(page.getByRole('tab', { name: /Modèle/ })).toBeVisible()

@@ -12,7 +12,7 @@
 #let style       = layout.at("style", default: (:))
 
 // ── Modern-specific tokens (overridable via layout.style) ─────────────────────
-// No more header-bg — Modern is now a white-background, keyline-topped template
+// White-background, keyline-topped template — no header-bg token by design.
 #let accent       = if "accent_color" in style { rgb(style.accent_color) } else { rgb("#3b82f6") }
 #let font-family  = if "font_family"  in style { style.at("font_family") } else { font-family  }
 

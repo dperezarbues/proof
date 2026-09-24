@@ -47,16 +47,16 @@ const SidebarSectionEntrySchema = z.union([
 /**
  * Validates an imported layout config file. The exported file spreads LayoutData fields at the
  * top level; only `header` and `sections` are load-bearing — metadata fields are passed through.
+ * `header` is optional (parseLayoutStructure defaults it) and `style` allows every value actually
+ * used in src/layouts/*.json, including "sidebar".
  */
 export const LayoutImportSchema = z
   .object({
-    header: z.object({ style: z.enum(['split', 'stacked']) }),
+    header: z.object({ style: z.enum(['split', 'stacked', 'sidebar']) }).optional(),
     sidebar_sections: z.array(SidebarSectionEntrySchema).optional(),
     sections: z.array(SerializedSectionSchema),
   })
   .passthrough()
-
-export type LayoutImport = z.infer<typeof LayoutImportSchema>
 
 // ── Design bundle (template + layout + style) ─────────────────────────────────
 
@@ -82,16 +82,13 @@ export type Design = z.infer<typeof DesignSchema>
 
 /**
  * The full "everything about this CV" export/import shape: CV content plus,
- * optionally, the template/layout/style it was rendered with. `design` is
- * optional so a bare CV-only file — hand-edited, or exported before this
- * existed — still imports exactly as it always has, data-only.
+ * optionally, the template/layout/style it was rendered with. `design` stays
+ * optional so a bare, hand-edited CV-only file still imports as data-only.
  */
 export const ExportBundleSchema = z.object({
   cv: CvSchema,
   design: DesignSchema.optional(),
 })
-
-export type ExportBundle = z.infer<typeof ExportBundleSchema>
 
 // ── CV entry (localStorage) ───────────────────────────────────────────────────
 

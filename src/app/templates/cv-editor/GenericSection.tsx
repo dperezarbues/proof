@@ -160,7 +160,7 @@ export function GenericSection({ items, fields, addLabel, getTitle, onChange }: 
               aria-label={t('moveUp')}
               onClick={() => move(i, -1)}
               disabled={i === 0}
-              className="text-gray-300 hover:text-gray-500 disabled:opacity-30 text-xs px-0.5 py-1.5"
+              className="min-w-6 min-h-6 flex items-center justify-center text-gray-300 hover:text-gray-500 disabled:opacity-30 text-xs"
             >
               ↑
             </button>
@@ -169,7 +169,7 @@ export function GenericSection({ items, fields, addLabel, getTitle, onChange }: 
               aria-label={t('moveDown')}
               onClick={() => move(i, 1)}
               disabled={i === items.length - 1}
-              className="text-gray-300 hover:text-gray-500 disabled:opacity-30 text-xs px-0.5 py-1.5"
+              className="min-w-6 min-h-6 flex items-center justify-center text-gray-300 hover:text-gray-500 disabled:opacity-30 text-xs"
             >
               ↓
             </button>
@@ -177,7 +177,7 @@ export function GenericSection({ items, fields, addLabel, getTitle, onChange }: 
               type="button"
               aria-label={t('remove')}
               onClick={() => remove(i)}
-              className="text-gray-300 hover:text-red-400 text-sm px-0.5 py-1.5"
+              className="min-w-6 min-h-6 flex items-center justify-center text-gray-300 hover:text-red-400 text-sm"
             >
               ×
             </button>

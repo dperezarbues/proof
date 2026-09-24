@@ -46,13 +46,10 @@ export type EditorSection = FullSection | ColumnsSection
 export type SidebarSection = SectionWithSpacing
 
 export type LayoutStructure = {
-  header: { style: 'split' | 'stacked' }
+  header: { style: 'split' | 'stacked' | 'sidebar' }
   sidebarSections?: SidebarSection[]
   sections: EditorSection[]
 }
-
-/** Full editor state — layout structure + style values combined. */
-export type EditorState = LayoutStructure & { style: StyleValues }
 
 export type SerializedSection =
   | { id: string; breakable: boolean; pre_spacing?: number; post_spacing?: number }
@@ -66,7 +63,7 @@ export type SerializedSection =
     }
 
 export type LayoutData = {
-  header: { style: 'split' | 'stacked' }
+  header: { style: 'split' | 'stacked' | 'sidebar' }
   sidebar_sections?: Array<{
     id: string
     breakable: boolean

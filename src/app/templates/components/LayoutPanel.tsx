@@ -2,6 +2,7 @@
 
 import { closestCenter, DndContext } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { useTranslations } from 'next-intl'
 import { useContext } from 'react'
 import { LabelCtx } from '../contexts'
 import type { LayoutEditorHandle } from '../types'
@@ -34,6 +35,7 @@ export default function LayoutPanel({
   },
 }: Props) {
   const getLabel = useContext(LabelCtx)
+  const t = useTranslations('editor')
   return (
     <>
       {hasSidebar ? (
@@ -71,6 +73,7 @@ export default function LayoutPanel({
           </DndContext>
           {availableSb.length > 0 && (
             <select
+              aria-label={t('addToSidebar')}
               className="mt-2 w-full text-xs rounded px-2 py-1.5"
               style={{
                 border: '1px dashed var(--c-line)',
@@ -82,7 +85,7 @@ export default function LayoutPanel({
                 if (e.target.value) addSidebarSection(e.target.value)
               }}
             >
-              <option value="">+ add to sidebar</option>
+              <option value="">{t('addToSidebar')}</option>
               {availableSb.map((id) => (
                 <option key={id} value={id}>
                   {getLabel(id)}
@@ -134,6 +137,7 @@ export default function LayoutPanel({
         <div className="flex gap-1.5 pt-2">
           {available.length > 0 && (
             <select
+              aria-label={t('addSection')}
               className="flex-1 text-xs rounded px-2 py-1.5"
               style={{
                 border: '1px dashed var(--c-line)',
@@ -145,7 +149,7 @@ export default function LayoutPanel({
                 if (e.target.value) addFullSection(e.target.value)
               }}
             >
-              <option value="">+ add section</option>
+              <option value="">{t('addSection')}</option>
               {available.map((id) => (
                 <option key={id} value={id}>
                   {getLabel(id)}

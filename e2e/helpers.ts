@@ -37,6 +37,28 @@ export async function waitForNewPdf(page: Page, oldSrc: string) {
   }).toPass({ timeout: COMPILE_TIMEOUT + 20_000, intervals: [500] })
 }
 
+/**
+ * Waits for data-pdf-src to be a blob AND stay unchanged across two
+ * consecutive checks — a single check can land between two chained
+ * compiles (every fresh EditorShell mount runs one immediately followed by
+ * a queued retry, see useCompiler's pendingRef), so a bare blob check can
+ * return a value that's about to be superseded a few ms later.
+ */
+export async function waitForSettledSrc(page: Page): Promise<string> {
+  const viewer = page.locator('[data-testid="pdfjs-viewer"]')
+  await expect(viewer).toHaveAttribute('data-pdf-src', /^blob:/, { timeout: COMPILE_TIMEOUT })
+  let lastSeen: string | null = null
+  await expect(async () => {
+    const src = await viewer.getAttribute('data-pdf-src')
+    expect(src).toMatch(/^blob:/)
+    const unchanged = src === lastSeen
+    lastSeen = src
+    expect(unchanged).toBe(true)
+  }).toPass({ timeout: COMPILE_TIMEOUT, intervals: [300] })
+  if (!lastSeen) throw new Error('unreachable: toPass only resolves once lastSeen is a blob src')
+  return lastSeen
+}
+
 export async function setRange(page: Page, id: string, value: number) {
   await page.locator(`input#${id}`).evaluate((el: HTMLInputElement, v) => {
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!

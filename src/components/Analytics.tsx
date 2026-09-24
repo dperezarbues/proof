@@ -12,6 +12,14 @@ declare global {
 
 const GOATCOUNTER_URL = process.env.NEXT_PUBLIC_GOATCOUNTER_URL
 
+// Same check the inline config script below uses for the very first
+// pageview (window.goatcounter's own `no_onload` option) — duplicated here
+// because that one has to stay a literal string for the Script tag, while
+// every subsequent SPA navigation goes through this effect instead.
+export function isDoNotTrackEnabled(): boolean {
+  return 'doNotTrack' in navigator && navigator.doNotTrack === '1'
+}
+
 // count.js only auto-counts the page it's loaded on. This app navigates via
 // client-side routing (locale switches, editor <-> templates <-> terms), so
 // every route change after the first needs an explicit count() call or those
@@ -25,6 +33,7 @@ export default function Analytics() {
       isFirstRender.current = false
       return
     }
+    if (isDoNotTrackEnabled()) return
     window.goatcounter?.count({ path: pathname })
   }, [pathname])
 

@@ -2,19 +2,18 @@ import { expect, test } from '@playwright/test'
 
 // Every unmatched URL under static export resolves to the single root
 // /404.html — with or without a /xx/ locale prefix, since nothing in this
-// app ever calls notFound() from inside the [locale] segment (confirmed
-// against the built output: there's exactly one _not-found route, never a
-// per-locale one). This used to be English-only for every visitor, and
-// separately was missing its own <html>/<body> wrapper entirely.
-// NotFoundShell detects the locale client-side and swaps in that locale's
-// strings while staying on the same URL — see src/components/NotFoundShell.tsx.
+// app ever calls notFound() from inside the [locale] segment (there's
+// exactly one _not-found route in the build output, never a per-locale
+// one). NotFoundShell detects the locale client-side and swaps in that
+// locale's strings while staying on the same URL — see
+// src/components/NotFoundShell.tsx.
 //
 // Uses a multi-segment path (rather than a single bare segment) to sidestep
 // a `next dev`-only quirk where Turbopack's dev router tries to resolve a
 // single unmatched top-level segment as a `[locale]` param before falling
-// back to not-found, and throws on `output: 'export'` when it isn't one —
-// this doesn't happen in the actual static build (verified directly against
-// `out/404.html`), only against the dev server these tests run on.
+// back to not-found, and throws on `output: 'export'` when it isn't one.
+// The actual static build doesn't have this problem — only the dev server
+// these tests run on.
 test.describe('404 (static-export fallback)', () => {
   test('shows German content for a German browser locale', async ({ browser }) => {
     const context = await browser.newContext({ locale: 'de-DE' })
