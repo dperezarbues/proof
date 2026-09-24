@@ -48,19 +48,19 @@
   #set text(size: fs-sm)
   #set par(justify: false)
 
-  #meta-label("Contact")
+  #meta-label(section-title("contact", lang))
   #for entry in id.contact [
     #render-contact-entry(entry, show-icons: show-contact-icons, show-labels: show-contact-labels) \
   ]
 
-  #meta-label("Skills")
+  #meta-label(section-title("skills", lang))
   #for g in data.skills [
     #text(size: fs-sm, weight: "bold", fill: c-ink)[#g.name] \
     #text(size: fs-sm, fill: c-muted)[#g.entries.join(" · ")] \
     #v(sp-xs)
   ]
 
-  #meta-label("Education")
+  #meta-label(section-title("education", lang))
   #for edu in data.education [
     #text(size: fs-sm, weight: "bold", fill: c-ink)[#edu.title] \
     #text(size: fs-sm, fill: c-muted)[
@@ -69,7 +69,7 @@
     #v(sp-xs)
   ]
 
-  #meta-label("Languages")
+  #meta-label(section-title("languages", lang))
   #for lang in data.languages [
     #text(weight: "bold", fill: c-ink)[#lang.title]#h(sp-xs)#text(fill: c-muted)[#lang.at("subtitle", default: "")] \
   ]

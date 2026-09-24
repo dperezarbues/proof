@@ -82,6 +82,31 @@ test.describe('CV language selector', () => {
     })
   }
 
+  // Regression: editorial's left meta column (Contact/Skills/Education/
+  // Languages) hardcoded its English labels instead of using section-title(),
+  // so it stayed in English no matter the selected CV language — the main
+  // column's headings (checked above) are rendered by a separate function and
+  // were already correct, which is why this slipped past that coverage.
+  test('editorial template translates the meta column, not just the main column', async ({
+    page,
+  }) => {
+    test.setTimeout(COMPILE_TIMEOUT * 2 + 20_000)
+    const viewer = page.locator('[data-testid="pdfjs-viewer"]')
+
+    await page.getByRole('tab', { name: /Template/i }).click()
+    await page.getByTestId('template-btn-editorial').click()
+    await page.getByRole('button', { name: 'Generate PDF' }).first().click()
+    const oldSrc = await waitForSettledSrc(page)
+
+    await page.getByRole('tab', { name: /Data/i }).click()
+    await page.getByTestId('cv-language-de').click()
+    await waitForNewPdf(page, oldSrc)
+
+    const deText = (await viewer.locator('.textLayer').textContent()) || ''
+    expect(deText).toMatch(/A\s*U\s*S\s*B\s*I\s*L\s*D\s*U\s*N\s*G/i)
+    expect(deText).not.toMatch(/E\s*D\s*U\s*C\s*A\s*T\s*I\s*O\s*N/i)
+  })
+
   test('selection persists across reload', async ({ page }) => {
     await page.getByTestId('cv-language-fr').click()
     await expect(page.getByTestId('cv-language-fr')).toHaveAttribute('aria-checked', 'true')
