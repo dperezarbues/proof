@@ -5,6 +5,32 @@
 #let data = normalize-cv(json(sys.inputs.at("cv_file", default: "/src/data/cv.json")))
 #let lang = data.at("_cv_language", default: "en")
 
+// ── Shared layout-section dispatcher ────────────────────────────────────────────
+// Walks layout.sections (full-width or column groups) and renders each id
+// through render-fn. Shared by templates whose dispatch loop is otherwise
+// identical (academic, banner, editorial, modern, sidebar, tech, timeline).
+// minimal, compact, and default keep their own copies — they differ in real
+// ways (minimal's spacing defaults, compact's asymmetric 2-column width,
+// default's gutter_cm override), not just cosmetically.
+#let render-body-sections(layout, render-fn, default-pre: section-pre, default-post: section-post) = {
+  for section in layout.sections {
+    let t    = section.at("type", default: "full")
+    let br   = section.at("breakable", default: true)
+    let pre  = if "pre_spacing"  in section { section.at("pre_spacing")  * 1em } else { default-pre }
+    let post = if "post_spacing" in section { section.at("post_spacing") * 1em } else { default-post }
+    if t == "columns" {
+      let n-cols = section.at("columns", default: 2)
+      let gutter = if n-cols == 3 { col-gutter-3 } else if n-cols == 4 { col-gutter-4 } else { col-gutter-2 }
+      let cells  = section.content.map(sids => [#for sid in sids { render-fn(sid, pre: pre, post: post) }])
+      block(breakable: br)[
+        #grid(columns: range(n-cols).map(_ => 1fr), column-gutter: gutter, ..cells)
+      ]
+    } else {
+      block(breakable: br)[#render-fn(section.id, pre: pre, post: post)]
+    }
+  }
+}
+
 // ── Summary ───────────────────────────────────────────────────────────────────
 #let render-summary(pre: section-pre, post: section-post) = [
   #cv-section(section-title("summary", lang), pre: pre, post: post, id: "summary")

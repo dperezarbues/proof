@@ -242,20 +242,5 @@
 
 // ── Body sections (layout-driven) ─────────────────────────────────────────────
 #pad(x: page-margin-x, top: margin-sm * 0.3)[
-  #for section in layout.sections {
-    let t    = section.at("type", default: "full")
-    let br   = section.at("breakable", default: true)
-    let pre  = if "pre_spacing"  in section { section.at("pre_spacing")  * 1em } else { section-pre  }
-    let post = if "post_spacing" in section { section.at("post_spacing") * 1em } else { section-post }
-    if t == "columns" {
-      let n-cols = section.at("columns", default: 2)
-      let gutter = if n-cols == 3 { col-gutter-3 } else if n-cols == 4 { col-gutter-4 } else { col-gutter-2 }
-      let cells  = section.content.map(sids => [#for sid in sids { render-modern(sid, pre: pre, post: post) }])
-      block(breakable: br)[
-        #grid(columns: range(n-cols).map(_ => 1fr), column-gutter: gutter, ..cells)
-      ]
-    } else {
-      block(breakable: br)[#render-modern(section.id, pre: pre, post: post)]
-    }
-  }
+  #render-body-sections(layout, render-modern)
 ]
