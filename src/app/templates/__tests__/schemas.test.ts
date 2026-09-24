@@ -84,9 +84,17 @@ describe('LayoutImportSchema', () => {
     expect(result.success).toBe(true)
   })
 
-  it('rejects missing header', () => {
+  it('accepts missing header', () => {
     const result = LayoutImportSchema.safeParse({ sections: [] })
-    expect(result.success).toBe(false)
+    expect(result.success).toBe(true)
+  })
+
+  it('accepts "sidebar" as a header.style value', () => {
+    const result = LayoutImportSchema.safeParse({
+      header: { style: 'sidebar' },
+      sections: [],
+    })
+    expect(result.success).toBe(true)
   })
 
   it('rejects invalid header.style value', () => {

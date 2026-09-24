@@ -47,10 +47,12 @@ const SidebarSectionEntrySchema = z.union([
 /**
  * Validates an imported layout config file. The exported file spreads LayoutData fields at the
  * top level; only `header` and `sections` are load-bearing — metadata fields are passed through.
+ * `header` is optional (parseLayoutStructure defaults it) and `style` allows every value actually
+ * used in src/layouts/*.json, including "sidebar".
  */
 export const LayoutImportSchema = z
   .object({
-    header: z.object({ style: z.enum(['split', 'stacked']) }),
+    header: z.object({ style: z.enum(['split', 'stacked', 'sidebar']) }).optional(),
     sidebar_sections: z.array(SidebarSectionEntrySchema).optional(),
     sections: z.array(SerializedSectionSchema),
   })

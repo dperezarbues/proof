@@ -110,7 +110,7 @@ export function parseLayoutStructure(raw: Record<string, unknown>): LayoutStruct
   }
 
   return {
-    header: validated.header,
+    header: validated.header ?? { style: 'stacked' },
     sidebarSections,
     sections,
   }

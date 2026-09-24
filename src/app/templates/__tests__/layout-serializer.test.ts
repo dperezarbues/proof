@@ -1,3 +1,5 @@
+import { readdirSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { parseLayoutStructure } from '../layout-serializer'
 
@@ -64,13 +66,42 @@ describe('parseLayoutStructure', () => {
     expect(result).toEqual({ header: { style: 'stacked' }, sections: [] })
   })
 
-  it('falls back to an empty, safe layout on missing header', () => {
-    const result = parseLayoutStructure({ sections: [] })
-    expect(result).toEqual({ header: { style: 'stacked' }, sections: [] })
-  })
-
   it('falls back to an empty, safe layout on completely malformed input', () => {
     const result = parseLayoutStructure({ garbage: true })
     expect(result).toEqual({ header: { style: 'stacked' }, sections: [] })
+  })
+
+  // 7 of 12 shipped layout files omit header entirely; it must default, not reject.
+  it('defaults header to stacked when omitted, without discarding sections', () => {
+    const result = parseLayoutStructure({
+      sections: [{ id: 'summary', breakable: true }],
+    })
+    expect(result).toEqual({
+      header: { style: 'stacked' },
+      sections: [{ kind: 'full', key: 'summary', id: 'summary', breakable: true }],
+    })
+  })
+
+  // sidebar-default.json uses this value; it must be a valid header.style.
+  it('accepts "sidebar" as a valid header.style', () => {
+    const result = parseLayoutStructure({
+      header: { style: 'sidebar' },
+      sections: [{ id: 'summary', breakable: true }],
+    })
+    expect(result.header).toEqual({ style: 'sidebar' })
+    expect(result.sections).toHaveLength(1)
+  })
+
+  // Every layout file the app ships should round-trip through this too.
+  it('accepts every shipped default layout file without losing sections', () => {
+    const dir = join(__dirname, '../../../layouts')
+    const files = readdirSync(dir).filter((f) => f.endsWith('.json'))
+    expect(files.length).toBeGreaterThan(0)
+    for (const file of files) {
+      const raw = JSON.parse(readFileSync(join(dir, file), 'utf-8'))
+      const rawSectionCount = Array.isArray(raw.sections) ? raw.sections.length : 0
+      const result = parseLayoutStructure(raw)
+      expect(result.sections.length, `${file}: sections were dropped`).toBe(rawSectionCount)
+    }
   })
 })
