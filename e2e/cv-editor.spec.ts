@@ -3,7 +3,10 @@ import { expect, test } from '@playwright/test'
 test.describe('CV data modal — form editor', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/en/editor')
-    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+    await page.evaluate(() => {
+      localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
+    })
     await page.reload()
     await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
     await page.getByTitle('New CV').click()
@@ -98,7 +101,10 @@ test.describe('CV data modal — form editor', () => {
 test.describe('CV data modal — edit existing CV', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/en/editor')
-    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+    await page.evaluate(() => {
+      localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
+    })
     await page.reload()
     await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
     // Create a CV first

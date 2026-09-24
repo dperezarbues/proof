@@ -150,6 +150,13 @@
       }
     ]
   },
+  "sharedComputerPrompt": {
+    "title": "Is this a shared computer?",
+    "body": "You're about to save CV data on this device. If other people use this computer, choose temporary storage so nothing is left behind once you close this tab.",
+    "sharedButton": "Yes, use temporary storage",
+    "notSharedButton": "No, save normally on this device",
+    "ariaLabel": "Shared computer prompt"
+  },
   "cvModal": {
     "titleNew": "New CV",
     "titleEdit": "Edit CV data",

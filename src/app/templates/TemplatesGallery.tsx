@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import MarkProof from '@/components/proof/MarkProof'
 import { Link } from '@/i18n/navigation'
-import { getItem, KEYS, setItem } from '@/lib/storage'
+import { getItem, hasStorageChoice, KEYS, markStorageChoiceMade, setItem } from '@/lib/storage'
 import { initTypstWorker } from '@/lib/typst-compile'
 import CvDataModal, { type CvEntry } from './CvDataModal'
 import { DataTab } from './components/DataTab'
@@ -19,6 +19,7 @@ import { useCvRepository } from './hooks/useCvRepository'
 import { parseStyleValues } from './layout-serializer'
 import OnboardingModal from './OnboardingModal'
 import PdfPreview from './PdfPreview'
+import SharedComputerPrompt from './SharedComputerPrompt'
 import { type Design, ExportBundleSchema, SectionDefListSchema } from './schemas'
 import type { SectionDef } from './section-defs'
 import { DEFAULT_SECTION_LABEL_KEYS, DEFAULT_SECTIONS } from './section-defs'
@@ -117,6 +118,11 @@ export default function TemplatesGallery({
 
   const [cvModal, setCvModal] = useState<CvModalState | null>(null)
   const [showWelcome, setShowWelcome] = useState(false)
+  const [showSharedComputerPrompt, setShowSharedComputerPrompt] = useState(false)
+  // Holds whichever of requestNewCv/requestImport got deferred behind the shared-computer
+  // prompt, so it can run once the user answers — a ref rather than state since it stores a
+  // function (React would otherwise try to call it as a state updater).
+  const pendingStorageActionRef = useRef<(() => void) | null>(null)
   const importRef = useRef<HTMLInputElement>(null)
   // Design (template+layout+style) extracted from an in-progress bundle
   // import, applied once the CV part is actually saved — see handleSaveCv.
@@ -134,7 +140,39 @@ export default function TemplatesGallery({
 
   function dismissWelcome() {
     setItem(KEYS.onboarded, '1')
+    markStorageChoiceMade() // onboarding's own shared-computer checkbox already asked this
     setShowWelcome(false)
+  }
+
+  /** Gates New-CV/Import behind the shared-computer question the first time a tab is
+   *  about to persist CV data without ever having been asked — e.g. a returning visitor
+   *  whose browser already has `proof-onboarded` set from an earlier tab, so the
+   *  one-time onboarding modal (which asks the same question) won't show again for this
+   *  tab. Returns true if the action was deferred (caller must not proceed yet). */
+  function guardStorageChoice(action: () => void): boolean {
+    if (showWelcome || hasStorageChoice()) return false
+    pendingStorageActionRef.current = action
+    setShowSharedComputerPrompt(true)
+    return true
+  }
+
+  function requestNewCv() {
+    if (guardStorageChoice(requestNewCv)) return
+    setCvModal({ mode: 'new' })
+  }
+
+  function requestImport() {
+    if (guardStorageChoice(requestImport)) return
+    importRef.current?.click()
+  }
+
+  function handleSharedComputerChoice(shared: boolean) {
+    repo.togglePrivateMode(shared)
+    markStorageChoiceMade()
+    setShowSharedComputerPrompt(false)
+    const pending = pendingStorageActionRef.current
+    pendingStorageActionRef.current = null
+    pending?.()
   }
 
   // Localized DEFAULT_SECTIONS — the Data tab already shows these labels
@@ -469,11 +507,7 @@ export default function TemplatesGallery({
                 {currentCv ? currentCv.name : t('noCVLoaded')}
               </span>
             </div>
-            <SbBtn
-              variant="dark"
-              onClick={() => setCvModal({ mode: 'new' })}
-              title={t('newCvTitle')}
-            >
+            <SbBtn variant="dark" onClick={requestNewCv} title={t('newCvTitle')}>
               {t('newCV')}
             </SbBtn>
           </div>
@@ -525,7 +559,8 @@ export default function TemplatesGallery({
               hydrated={hydrated}
               importRef={importRef}
               cvLanguage={cvLanguage}
-              onNewCv={() => setCvModal({ mode: 'new' })}
+              onNewCv={requestNewCv}
+              onRequestImport={requestImport}
               onImportFile={handleImportFile}
               onSelectCv={repo.selectCv}
               onEditCv={(e) => setCvModal({ mode: 'edit', entry: e })}
@@ -673,8 +708,8 @@ export default function TemplatesGallery({
           currentCv={currentCv}
           onReset={() => replacePreviewPdf(null)}
           onGenerate={() => setGenerateTrigger((t) => t + 1)}
-          onNewCv={() => setCvModal({ mode: 'new' })}
-          onImport={() => importRef.current?.click()}
+          onNewCv={requestNewCv}
+          onImport={requestImport}
         />
 
         {/* Mobile bottom tab bar */}
@@ -722,6 +757,8 @@ export default function TemplatesGallery({
           cvCount={cvList.length}
         />
       )}
+
+      {showSharedComputerPrompt && <SharedComputerPrompt onChoose={handleSharedComputerChoice} />}
 
       {cvModal && (
         <CvDataModal

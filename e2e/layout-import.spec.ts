@@ -23,7 +23,10 @@ const EDITOR_URL = '/en/editor'
 test.describe('Layout import', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(EDITOR_URL)
-    await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+    await page.evaluate(() => {
+      localStorage.setItem('proof-onboarded', '1')
+      sessionStorage.setItem('proof-storage-choice-made', '1')
+    })
     await page.reload()
     // Suppress Next.js dev overlay so it doesn't intercept pointer events
     await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })

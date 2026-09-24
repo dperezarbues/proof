@@ -12,7 +12,14 @@ export const COMPILE_TIMEOUT = 60_000
 
 export async function openEditor(page: Page) {
   await page.goto('/en/editor')
-  await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+  await page.evaluate(() => {
+    localStorage.setItem('proof-onboarded', '1')
+    // Simulates a returning visitor who already answered the shared-computer
+    // question in an earlier tab — otherwise every spec's first New/Import
+    // click here would hit SharedComputerPrompt, which only
+    // shared-computer-prompt.spec.ts is meant to exercise.
+    sessionStorage.setItem('proof-storage-choice-made', '1')
+  })
   await page.reload()
   await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
 }

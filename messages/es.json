@@ -150,6 +150,13 @@
       }
     ]
   },
+  "sharedComputerPrompt": {
+    "title": "¿Es este un ordenador compartido?",
+    "body": "Está a punto de guardar datos de su CV en este dispositivo. Si otras personas usan este ordenador, elija almacenamiento temporal para que no quede nada al cerrar esta pestaña.",
+    "sharedButton": "Sí, usar almacenamiento temporal",
+    "notSharedButton": "No, guardar normalmente en este dispositivo",
+    "ariaLabel": "Aviso de ordenador compartido"
+  },
   "cvModal": {
     "titleNew": "Nuevo CV",
     "titleEdit": "Editar datos del CV",

@@ -10,7 +10,10 @@ import { expect, type Page, test } from '@playwright/test'
  *  query string — the helper hardcodes a bare /en/editor. */
 async function openEditorWith(page: Page, query: string) {
   await page.goto(`/en/editor${query}`)
-  await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+  await page.evaluate(() => {
+    localStorage.setItem('proof-onboarded', '1')
+    sessionStorage.setItem('proof-storage-choice-made', '1')
+  })
   await page.reload()
   await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
   await page.getByRole('tab', { name: /Template/i }).click()

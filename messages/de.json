@@ -150,6 +150,13 @@
       }
     ]
   },
+  "sharedComputerPrompt": {
+    "title": "Ist dies ein gemeinsam genutzter Computer?",
+    "body": "Sie sind dabei, Lebenslaufdaten auf diesem Gerät zu speichern. Wenn andere Personen diesen Computer nutzen, wählen Sie temporären Speicher, damit nach dem Schließen dieses Tabs nichts zurückbleibt.",
+    "sharedButton": "Ja, temporären Speicher verwenden",
+    "notSharedButton": "Nein, normal auf diesem Gerät speichern",
+    "ariaLabel": "Hinweis zu gemeinsam genutztem Computer"
+  },
   "cvModal": {
     "titleNew": "Neuer Lebenslauf",
     "titleEdit": "Lebenslaufdaten bearbeiten",

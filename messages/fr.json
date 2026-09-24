@@ -150,6 +150,13 @@
       }
     ]
   },
+  "sharedComputerPrompt": {
+    "title": "Est-ce un ordinateur partagé ?",
+    "body": "Vous êtes sur le point d'enregistrer des données de CV sur cet appareil. Si d'autres personnes utilisent cet ordinateur, choisissez le stockage temporaire pour que rien ne subsiste après la fermeture de cet onglet.",
+    "sharedButton": "Oui, utiliser le stockage temporaire",
+    "notSharedButton": "Non, enregistrer normalement sur cet appareil",
+    "ariaLabel": "Avis d'ordinateur partagé"
+  },
   "cvModal": {
     "titleNew": "Nouveau CV",
     "titleEdit": "Modifier les données du CV",

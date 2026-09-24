@@ -31,7 +31,10 @@ for (const { locale, tabData, tabTemplate, nameLabel, save, getStarted, genPDFMo
   test.describe(`Locale: ${locale}`, () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(`/${locale}/editor`)
-      await page.evaluate(() => localStorage.setItem('proof-onboarded', '1'))
+      await page.evaluate(() => {
+        localStorage.setItem('proof-onboarded', '1')
+        sessionStorage.setItem('proof-storage-choice-made', '1')
+      })
       await page.reload()
       await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
     })
