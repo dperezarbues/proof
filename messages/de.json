@@ -176,6 +176,8 @@
     "invalidCvStructure": "Ungültige Lebenslauf-Struktur"
   },
   "editor": {
+    "metaTitle": "Editor — Proof",
+    "metaDescription": "Erstellen Sie Ihren Lebenslauf in einem Live-Editor mit Echtzeit-PDF-Vorschau. Wählen Sie eine Vorlage, passen Sie Layout und Stil an und exportieren Sie — vollständig in Ihrem Browser.",
     "tabData": "Daten",
     "tabTemplate": "Vorlage",
     "tabLayout": "Layout",
