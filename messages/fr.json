@@ -176,6 +176,8 @@
     "invalidCvStructure": "Structure de CV invalide"
   },
   "editor": {
+    "metaTitle": "Éditeur — Proof",
+    "metaDescription": "Créez votre CV dans un éditeur en direct avec aperçu PDF en temps réel. Choisissez un modèle, personnalisez la mise en page et le style, puis exportez — entièrement dans votre navigateur.",
     "tabData": "Données",
     "tabTemplate": "Modèle",
     "tabLayout": "Mise en page",

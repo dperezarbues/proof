@@ -176,6 +176,8 @@
     "invalidCvStructure": "Invalid CV structure"
   },
   "editor": {
+    "metaTitle": "Editor — Proof",
+    "metaDescription": "Build your CV in a live editor with real-time PDF preview. Pick a template, customize layout and style, and export — entirely in your browser.",
     "tabData": "Data",
     "tabTemplate": "Template",
     "tabLayout": "Layout",

@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { setRequestLocale } from 'next-intl/server'
+import type { Metadata } from 'next'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Suspense } from 'react'
 import { ClientLocaleProvider } from '@/components/ClientLocaleProvider'
 import { type Locale, routing } from '@/i18n/routing'
@@ -9,6 +10,19 @@ import type { StyleParam, Template } from '../../templates/types'
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'editor' })
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription'),
+  }
 }
 
 function readJson<T>(filePath: string): T {

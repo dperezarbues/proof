@@ -176,6 +176,8 @@
     "invalidCvStructure": "Estructura de CV no válida"
   },
   "editor": {
+    "metaTitle": "Editor — Proof",
+    "metaDescription": "Cree su CV en un editor en vivo con vista previa de PDF en tiempo real. Elija una plantilla, personalice el diseño y el estilo, y expórtelo — todo en su navegador.",
     "tabData": "Datos",
     "tabTemplate": "Plantilla",
     "tabLayout": "Diseño",
