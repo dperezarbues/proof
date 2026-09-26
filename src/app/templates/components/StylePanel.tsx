@@ -14,6 +14,7 @@ type Props = {
 
 export default function StylePanel({ styleParams, style, setStyleValue, resetStyle }: Props) {
   const t = useTranslations('editor')
+  const tGroups = useTranslations('styleParams')
   const groupOrder: string[] = []
   const groupMap = new Map<string, StyleParam[]>()
   const ungrouped: StyleParam[] = []
@@ -40,7 +41,7 @@ export default function StylePanel({ styleParams, style, setStyleValue, resetSty
         </div>
       )}
       {groupOrder.map((g, i) => (
-        <StyleGroup key={g} title={g} defaultOpen={i === 0}>
+        <StyleGroup key={g} title={tGroups(`groups.${g}`)} defaultOpen={i === 0}>
           {(groupMap.get(g) ?? []).map((p) => (
             <StyleParamField key={p.key} p={p} value={style[p.key]} onChange={setStyleValue} />
           ))}

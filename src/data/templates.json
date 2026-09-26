@@ -1,23 +1,36 @@
 {
   "sharedStyleParams": [
     {
-      "group": "Typography",
+      "group": "typography",
       "key": "font_family",
-      "label": "Font",
       "type": "select",
       "options": [
-        { "label": "New Computer Modern", "value": "New Computer Modern" },
-        { "label": "EB Garamond", "value": "EB Garamond" },
-        { "label": "Crimson Pro", "value": "Crimson Pro" },
-        { "label": "Lato", "value": "Lato" },
-        { "label": "Source Sans 3", "value": "Source Sans 3" }
+        {
+          "label": "New Computer Modern",
+          "value": "New Computer Modern"
+        },
+        {
+          "label": "EB Garamond",
+          "value": "EB Garamond"
+        },
+        {
+          "label": "Crimson Pro",
+          "value": "Crimson Pro"
+        },
+        {
+          "label": "Lato",
+          "value": "Lato"
+        },
+        {
+          "label": "Source Sans 3",
+          "value": "Source Sans 3"
+        }
       ],
       "default": "New Computer Modern"
     },
     {
-      "group": "Typography",
+      "group": "typography",
       "key": "name_size",
-      "label": "Name",
       "type": "range",
       "min": 12,
       "max": 24,
@@ -26,9 +39,8 @@
       "default": 17
     },
     {
-      "group": "Typography",
+      "group": "typography",
       "key": "entry_size",
-      "label": "Entry titles",
       "type": "range",
       "min": 8.5,
       "max": 12,
@@ -37,9 +49,8 @@
       "default": 9.5
     },
     {
-      "group": "Typography",
+      "group": "typography",
       "key": "body_size",
-      "label": "Body text",
       "type": "range",
       "min": 7.5,
       "max": 11,
@@ -48,9 +59,8 @@
       "default": 8.5
     },
     {
-      "group": "Typography",
+      "group": "typography",
       "key": "section_heading_size",
-      "label": "Section labels",
       "type": "range",
       "min": 6,
       "max": 10,
@@ -59,30 +69,26 @@
       "default": 7.5
     },
     {
-      "group": "Colors",
+      "group": "colors",
       "key": "body_color",
-      "label": "Body text",
       "type": "color",
       "default": "#333333"
     },
     {
-      "group": "Colors",
+      "group": "colors",
       "key": "heading_color",
-      "label": "Headings",
       "type": "color",
       "default": "#111111"
     },
     {
-      "group": "Colors",
+      "group": "colors",
       "key": "muted_color",
-      "label": "Muted / meta",
       "type": "color",
       "default": "#666666"
     },
     {
-      "group": "Spacing",
+      "group": "spacing",
       "key": "line_height",
-      "label": "Line height",
       "type": "range",
       "min": 0.5,
       "max": 1.2,
@@ -91,39 +97,33 @@
       "default": 0.7
     },
     {
-      "group": "Extras",
+      "group": "extras",
       "key": "show_footer",
-      "label": "Page footer",
       "type": "toggle",
       "default": "false"
     },
     {
-      "group": "Extras",
+      "group": "extras",
       "key": "show_qr",
-      "label": "QR code",
       "type": "toggle",
       "default": "false"
     },
     {
-      "group": "Extras",
+      "group": "extras",
       "key": "qr_url",
-      "label": "QR target URL",
       "type": "text",
-      "placeholder": "linkedin.com/in/…  (leave empty for LinkedIn)",
       "default": "",
       "channel": "client"
     },
     {
-      "group": "Extras",
+      "group": "extras",
       "key": "show_contact_icons",
-      "label": "Contact icons",
       "type": "toggle",
       "default": "false"
     },
     {
-      "group": "Extras",
+      "group": "extras",
       "key": "show_contact_labels",
-      "label": "Contact labels",
       "type": "toggle",
       "default": "false"
     }
@@ -131,30 +131,25 @@
   "templates": [
     {
       "id": "default",
-      "name": "Default",
       "description": "Clean split header with name/headline left and contact right. Sections are configurable via layout JSON.",
       "layouts": [
         {
           "id": "default",
-          "name": "Split",
           "description": "Split header, 2-col education + certifications"
         },
         {
           "id": "classic",
-          "name": "Classic",
           "description": "Stacked header, all sections full-width"
         },
         {
           "id": "alt",
-          "name": "Alt",
           "description": "Split header, 2-col education + skills"
         }
       ],
       "styleParams": [
         {
-          "group": "Typography",
+          "group": "typography",
           "key": "headline_size",
-          "label": "Headline",
           "type": "range",
           "min": 8,
           "max": 14,
@@ -163,17 +158,15 @@
           "default": 10
         },
         {
-          "group": "Colors",
+          "group": "colors",
           "key": "accent_color",
-          "label": "Links / accent",
           "type": "color",
           "default": "#1a56db",
           "canonical": "cv_accent"
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_pre",
-          "label": "Before section",
           "type": "range",
           "min": 0.2,
           "max": 0.9,
@@ -182,9 +175,8 @@
           "default": 0.5
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_post",
-          "label": "After rule",
           "type": "range",
           "min": 0.05,
           "max": 0.4,
@@ -193,9 +185,8 @@
           "default": 0.2
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_rule_gap",
-          "label": "Title → rule",
           "type": "range",
           "min": 0,
           "max": 0.5,
@@ -207,20 +198,17 @@
     },
     {
       "id": "modern",
-      "name": "Modern",
       "description": "White background with a 4pt accent keyline at top. Two-tone name, split header, accent-bar section headings and filled pills.",
       "layouts": [
         {
           "id": "default",
-          "name": "Default",
           "description": "Accent keyline header, clean white body"
         }
       ],
       "styleParams": [
         {
-          "group": "Typography",
+          "group": "typography",
           "key": "headline_size",
-          "label": "Headline",
           "type": "range",
           "min": 8,
           "max": 14,
@@ -229,17 +217,15 @@
           "default": 10
         },
         {
-          "group": "Colors",
+          "group": "colors",
           "key": "accent_color",
-          "label": "Accent / links",
           "type": "color",
           "default": "#3b82f6",
           "canonical": "cv_accent"
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_pre",
-          "label": "Before section",
           "type": "range",
           "min": 0.2,
           "max": 0.9,
@@ -248,9 +234,8 @@
           "default": 0.5
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_post",
-          "label": "After rule",
           "type": "range",
           "min": 0.05,
           "max": 0.4,
@@ -262,28 +247,24 @@
     },
     {
       "id": "minimal",
-      "name": "Minimal",
       "description": "No horizontal rules, only spacing and tracking. Typography does all the work.",
       "layouts": [
         {
           "id": "default",
-          "name": "Default",
           "description": "Ultra-clean, rule-free, generous whitespace"
         }
       ],
       "styleParams": [
         {
-          "group": "Colors",
+          "group": "colors",
           "key": "accent_color",
-          "label": "Links / accent",
           "type": "color",
           "default": "#1a56db",
           "canonical": "cv_accent"
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_pre",
-          "label": "Before section",
           "type": "range",
           "min": 0.2,
           "max": 0.9,
@@ -292,9 +273,8 @@
           "default": 0.5
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_post",
-          "label": "After rule",
           "type": "range",
           "min": 0.05,
           "max": 0.4,
@@ -306,66 +286,57 @@
     },
     {
       "id": "sidebar",
-      "name": "Sidebar",
       "description": "Dark navy sidebar holding contact, skills, languages and certifications. Main column for experience.",
       "layouts": [
         {
           "id": "default",
-          "name": "Default",
           "description": "Dark navy sidebar, main content on the right"
         }
       ],
       "styleParams": [
         {
-          "group": "Colors",
+          "group": "colors",
           "key": "accent_color",
-          "label": "Links / accent",
           "type": "color",
           "default": "#1a56db",
           "canonical": "cv_accent"
         },
         {
-          "group": "Sidebar",
+          "group": "sidebar",
           "key": "sidebar_bg",
-          "label": "Background",
           "type": "color",
           "default": "#1e2d3d",
           "canonical": "cv_dark_bg"
         },
         {
-          "group": "Sidebar",
+          "group": "sidebar",
           "key": "sidebar_accent",
-          "label": "Section headings",
           "type": "color",
           "default": "#5b9bd5",
           "canonical": "cv_sidebar_accent"
         },
         {
-          "group": "Sidebar",
+          "group": "sidebar",
           "key": "sidebar_link_color",
-          "label": "Links / icons",
           "type": "color",
           "default": "#5b9bd5",
           "canonical": "cv_sidebar_link"
         },
         {
-          "group": "Sidebar",
+          "group": "sidebar",
           "key": "sidebar_text",
-          "label": "Text",
           "type": "color",
           "default": "#bcc8d4"
         },
         {
-          "group": "Sidebar",
+          "group": "sidebar",
           "key": "sidebar_ink",
-          "label": "Names & titles",
           "type": "color",
           "default": "#ffffff"
         },
         {
-          "group": "Sidebar",
+          "group": "sidebar",
           "key": "sidebar_width",
-          "label": "Width",
           "type": "range",
           "min": 4.5,
           "max": 9,
@@ -374,9 +345,8 @@
           "default": 6.5
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_pre",
-          "label": "Before section",
           "type": "range",
           "min": 0.2,
           "max": 1.5,
@@ -385,9 +355,8 @@
           "default": 0.5
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_post",
-          "label": "After rule",
           "type": "range",
           "min": 0.05,
           "max": 0.8,
@@ -396,9 +365,8 @@
           "default": 0.2
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_rule_gap",
-          "label": "Title → rule",
           "type": "range",
           "min": 0,
           "max": 0.5,
@@ -410,20 +378,17 @@
     },
     {
       "id": "compact",
-      "name": "Compact",
       "description": "Dense two-column body fits a long CV on one page. Bold name-and-headline header with a thick ink rule.",
       "layouts": [
         {
           "id": "default",
-          "name": "Default",
           "description": "Experience left, skills · education · languages right"
         }
       ],
       "styleParams": [
         {
-          "group": "Typography",
+          "group": "typography",
           "key": "headline_size",
-          "label": "Headline",
           "type": "range",
           "min": 8,
           "max": 14,
@@ -432,17 +397,15 @@
           "default": 10
         },
         {
-          "group": "Colors",
+          "group": "colors",
           "key": "accent_color",
-          "label": "Accent",
           "type": "color",
           "default": "#334155",
           "canonical": "cv_accent"
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_pre",
-          "label": "Before section",
           "type": "range",
           "min": 0.2,
           "max": 0.9,
@@ -451,9 +414,8 @@
           "default": 0.5
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_post",
-          "label": "After rule",
           "type": "range",
           "min": 0.05,
           "max": 0.4,
@@ -465,20 +427,17 @@
     },
     {
       "id": "banner",
-      "name": "Banner",
       "description": "Full-width dark header band with accent-coloured role and filled stack pills. Teal accent.",
       "layouts": [
         {
           "id": "default",
-          "name": "Default",
           "description": "Dark header, full-width body, 2-col education + skills at bottom"
         }
       ],
       "styleParams": [
         {
-          "group": "Typography",
+          "group": "typography",
           "key": "headline_size",
-          "label": "Headline",
           "type": "range",
           "min": 8,
           "max": 14,
@@ -487,25 +446,22 @@
           "default": 10
         },
         {
-          "group": "Header",
+          "group": "header",
           "key": "header_bg",
-          "label": "Header background",
           "type": "color",
           "default": "#243b53",
           "canonical": "cv_dark_bg"
         },
         {
-          "group": "Colors",
+          "group": "colors",
           "key": "accent_color",
-          "label": "Accent",
           "type": "color",
           "default": "#2bb0a4",
           "canonical": "cv_accent"
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_pre",
-          "label": "Before section",
           "type": "range",
           "min": 0.2,
           "max": 0.9,
@@ -514,9 +470,8 @@
           "default": 0.5
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_post",
-          "label": "After rule",
           "type": "range",
           "min": 0.05,
           "max": 0.4,
@@ -528,20 +483,17 @@
     },
     {
       "id": "timeline",
-      "name": "Timeline",
       "description": "Experience entries on a dated rail with circular markers. Accent-coloured section rules.",
       "layouts": [
         {
           "id": "default",
-          "name": "Default",
           "description": "Stacked header, timeline experience, 2-col skills + education"
         }
       ],
       "styleParams": [
         {
-          "group": "Typography",
+          "group": "typography",
           "key": "headline_size",
-          "label": "Headline",
           "type": "range",
           "min": 8,
           "max": 14,
@@ -550,17 +502,15 @@
           "default": 10
         },
         {
-          "group": "Colors",
+          "group": "colors",
           "key": "accent_color",
-          "label": "Accent",
           "type": "color",
           "default": "#0f766e",
           "canonical": "cv_accent"
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_pre",
-          "label": "Before section",
           "type": "range",
           "min": 0.2,
           "max": 0.9,
@@ -569,9 +519,8 @@
           "default": 0.5
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_post",
-          "label": "After rule",
           "type": "range",
           "min": 0.05,
           "max": 0.4,
@@ -580,9 +529,8 @@
           "default": 0.2
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_rule_gap",
-          "label": "Title → rule",
           "type": "range",
           "min": 0,
           "max": 0.5,
@@ -594,20 +542,17 @@
     },
     {
       "id": "academic",
-      "name": "Academic",
       "description": "Centred formal layout. Experience shows as Appointments, projects as Selected Work.",
       "layouts": [
         {
           "id": "default",
-          "name": "Default",
           "description": "Centred header, appointments, education, selected work"
         }
       ],
       "styleParams": [
         {
-          "group": "Typography",
+          "group": "typography",
           "key": "headline_size",
-          "label": "Headline",
           "type": "range",
           "min": 8,
           "max": 14,
@@ -616,17 +561,15 @@
           "default": 10
         },
         {
-          "group": "Colors",
+          "group": "colors",
           "key": "accent_color",
-          "label": "Links / accent",
           "type": "color",
           "default": "#1a56db",
           "canonical": "cv_accent"
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_pre",
-          "label": "Before section",
           "type": "range",
           "min": 0.2,
           "max": 0.9,
@@ -635,9 +578,8 @@
           "default": 0.5
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_post",
-          "label": "After rule",
           "type": "range",
           "min": 0.05,
           "max": 0.4,
@@ -649,20 +591,17 @@
     },
     {
       "id": "tech",
-      "name": "Tech",
       "description": "Monospace section headers with // prefix, left accent-bar, and a flat tag grid for skills.",
       "layouts": [
         {
           "id": "default",
-          "name": "Default",
           "description": "Left accent bar header, flat skill tags, 2-col footer"
         }
       ],
       "styleParams": [
         {
-          "group": "Typography",
+          "group": "typography",
           "key": "headline_size",
-          "label": "Headline",
           "type": "range",
           "min": 8,
           "max": 14,
@@ -671,17 +610,15 @@
           "default": 10
         },
         {
-          "group": "Colors",
+          "group": "colors",
           "key": "accent_color",
-          "label": "Accent",
           "type": "color",
           "default": "#0e9f6e",
           "canonical": "cv_accent"
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_pre",
-          "label": "Before section",
           "type": "range",
           "min": 0.2,
           "max": 0.9,
@@ -690,9 +627,8 @@
           "default": 0.5
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_post",
-          "label": "After rule",
           "type": "range",
           "min": 0.05,
           "max": 0.4,
@@ -704,28 +640,24 @@
     },
     {
       "id": "editorial",
-      "name": "Editorial",
       "description": "Magazine-style: large italic display name, narrow meta column, italic summary with accent border.",
       "layouts": [
         {
           "id": "default",
-          "name": "Default",
           "description": "Display name header, meta left column, experience right"
         }
       ],
       "styleParams": [
         {
-          "group": "Colors",
+          "group": "colors",
           "key": "accent_color",
-          "label": "Accent",
           "type": "color",
           "default": "#9b3a2e",
           "canonical": "cv_accent"
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_pre",
-          "label": "Before section",
           "type": "range",
           "min": 0.2,
           "max": 0.9,
@@ -734,9 +666,8 @@
           "default": 0.5
         },
         {
-          "group": "Spacing",
+          "group": "spacing",
           "key": "section_post",
-          "label": "After rule",
           "type": "range",
           "min": 0.05,
           "max": 0.4,

@@ -582,5 +582,164 @@
     },
     "footerTagline": "Proof schema reference",
     "plainTextNote": "Also available as plain text — for pasting straight into an AI or scripting against:"
+  },
+  "styleParams": {
+    "groups": {
+      "typography": "Typography",
+      "colors": "Colors",
+      "spacing": "Spacing",
+      "extras": "Extras",
+      "header": "Header",
+      "sidebar": "Sidebar"
+    },
+    "shared": {
+      "font_family": "Font",
+      "name_size": "Name",
+      "entry_size": "Entry titles",
+      "body_size": "Body text",
+      "section_heading_size": "Section labels",
+      "body_color": "Body text",
+      "heading_color": "Headings",
+      "muted_color": "Muted / meta",
+      "line_height": "Line height",
+      "show_footer": "Page footer",
+      "show_qr": "QR code",
+      "qr_url": "QR target URL",
+      "qr_url_placeholder": "linkedin.com/in/…  (leave empty for LinkedIn)",
+      "show_contact_icons": "Contact icons",
+      "show_contact_labels": "Contact labels"
+    }
+  },
+  "templateCatalog": {
+    "previewAlt": "{name} template preview",
+    "default": {
+      "name": "Default",
+      "layouts": {
+        "default": "Split",
+        "classic": "Classic",
+        "alt": "Alt"
+      },
+      "styleParams": {
+        "headline_size": "Headline",
+        "accent_color": "Links / accent",
+        "section_pre": "Before section",
+        "section_post": "After rule",
+        "section_rule_gap": "Title → rule"
+      }
+    },
+    "modern": {
+      "name": "Modern",
+      "layouts": {
+        "default": "Default"
+      },
+      "styleParams": {
+        "headline_size": "Headline",
+        "accent_color": "Accent / links",
+        "section_pre": "Before section",
+        "section_post": "After rule"
+      }
+    },
+    "minimal": {
+      "name": "Minimal",
+      "layouts": {
+        "default": "Default"
+      },
+      "styleParams": {
+        "accent_color": "Links / accent",
+        "section_pre": "Before section",
+        "section_post": "After rule"
+      }
+    },
+    "sidebar": {
+      "name": "Sidebar",
+      "layouts": {
+        "default": "Default"
+      },
+      "styleParams": {
+        "accent_color": "Links / accent",
+        "sidebar_bg": "Background",
+        "sidebar_accent": "Section headings",
+        "sidebar_link_color": "Links / icons",
+        "sidebar_text": "Text",
+        "sidebar_ink": "Names & titles",
+        "sidebar_width": "Width",
+        "section_pre": "Before section",
+        "section_post": "After rule",
+        "section_rule_gap": "Title → rule"
+      }
+    },
+    "compact": {
+      "name": "Compact",
+      "layouts": {
+        "default": "Default"
+      },
+      "styleParams": {
+        "headline_size": "Headline",
+        "accent_color": "Accent",
+        "section_pre": "Before section",
+        "section_post": "After rule"
+      }
+    },
+    "banner": {
+      "name": "Banner",
+      "layouts": {
+        "default": "Default"
+      },
+      "styleParams": {
+        "headline_size": "Headline",
+        "header_bg": "Header background",
+        "accent_color": "Accent",
+        "section_pre": "Before section",
+        "section_post": "After rule"
+      }
+    },
+    "timeline": {
+      "name": "Timeline",
+      "layouts": {
+        "default": "Default"
+      },
+      "styleParams": {
+        "headline_size": "Headline",
+        "accent_color": "Accent",
+        "section_pre": "Before section",
+        "section_post": "After rule",
+        "section_rule_gap": "Title → rule"
+      }
+    },
+    "academic": {
+      "name": "Academic",
+      "layouts": {
+        "default": "Default"
+      },
+      "styleParams": {
+        "headline_size": "Headline",
+        "accent_color": "Links / accent",
+        "section_pre": "Before section",
+        "section_post": "After rule"
+      }
+    },
+    "tech": {
+      "name": "Tech",
+      "layouts": {
+        "default": "Default"
+      },
+      "styleParams": {
+        "headline_size": "Headline",
+        "accent_color": "Accent",
+        "section_pre": "Before section",
+        "section_post": "After rule"
+      }
+    },
+    "editorial": {
+      "name": "Editorial",
+      "layouts": {
+        "default": "Default"
+      },
+      "styleParams": {
+        "accent_color": "Accent",
+        "section_pre": "Before section",
+        "section_post": "After rule"
+      }
+    }
   }
 }

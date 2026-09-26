@@ -19,6 +19,7 @@ export function TemplateTab({
   onSelectLayout: (l: Layout) => void
 }) {
   const t = useTranslations('editor')
+  const tCatalog = useTranslations('templateCatalog')
   return (
     <div className="p-4">
       <div
@@ -34,6 +35,7 @@ export function TemplateTab({
       <div className="grid grid-cols-2 gap-3">
         {templates.map((tpl) => {
           const on = activeTemplate.id === tpl.id
+          const tplName = tCatalog(`${tpl.id}.name`)
           return (
             <button
               key={tpl.id}
@@ -54,7 +56,7 @@ export function TemplateTab({
               >
                 <Image
                   src={`/thumbnails/${tpl.id}.png`}
-                  alt={`${tpl.name} template preview`}
+                  alt={tCatalog('previewAlt', { name: tplName })}
                   fill
                   className="object-cover object-top"
                   sizes="152px"
@@ -62,7 +64,7 @@ export function TemplateTab({
               </div>
               <div className="flex items-center justify-between">
                 <span className="font-bold text-[12px]" style={{ color: 'var(--c-ink)' }}>
-                  {tpl.name}
+                  {tplName}
                 </span>
                 {on && (
                   <span className="text-[18px]" style={{ color: 'var(--c-accent)' }}>
@@ -93,7 +95,7 @@ export function TemplateTab({
                   boxShadow: activeLayout.id === l.id ? 'none' : 'inset 0 0 0 1.3px var(--c-line)',
                 }}
               >
-                {l.name}
+                {tCatalog(`${activeTemplate.id}.layouts.${l.id}`)}
               </button>
             ))}
           </div>

@@ -13,21 +13,90 @@ interface LocaleFixture {
   locale: string
   tabData: string
   tabTemplate: string
+  tabStyle: string
   nameLabel: string
   save: string
   getStarted: string
   genPDFMobile: string
   newCvTitle: string
+  modernTemplateName: string
+  typographyGroup: string
+  fontLabel: string
 }
 
 const LOCALES: LocaleFixture[] = [
-  { locale: 'en', tabData: 'Data',    tabTemplate: 'Template', nameLabel: 'Name',   save: 'Save',        getStarted: 'Get started',  genPDFMobile: 'Gen PDF',     newCvTitle: 'New CV' },
-  { locale: 'fr', tabData: 'Données', tabTemplate: 'Modèle',   nameLabel: 'Nom',    save: 'Enregistrer', getStarted: 'Commencer',    genPDFMobile: 'Générer PDF', newCvTitle: 'Nouveau CV' },
-  { locale: 'de', tabData: 'Daten',   tabTemplate: 'Vorlage',  nameLabel: 'Name',   save: 'Speichern',   getStarted: 'Loslegen',     genPDFMobile: 'PDF gen.',    newCvTitle: 'Neuer Lebenslauf' },
-  { locale: 'es', tabData: 'Datos',   tabTemplate: 'Plantilla',nameLabel: 'Nombre', save: 'Guardar',     getStarted: 'Comenzar',     genPDFMobile: 'Gen. PDF',    newCvTitle: 'Nuevo CV' },
+  {
+    locale: 'en',
+    tabData: 'Data',
+    tabTemplate: 'Template',
+    tabStyle: 'Style',
+    nameLabel: 'Name',
+    save: 'Save',
+    getStarted: 'Get started',
+    genPDFMobile: 'Gen PDF',
+    newCvTitle: 'New CV',
+    modernTemplateName: 'Modern',
+    typographyGroup: 'Typography',
+    fontLabel: 'Font',
+  },
+  {
+    locale: 'fr',
+    tabData: 'Données',
+    tabTemplate: 'Modèle',
+    tabStyle: 'Style',
+    nameLabel: 'Nom',
+    save: 'Enregistrer',
+    getStarted: 'Commencer',
+    genPDFMobile: 'Générer PDF',
+    newCvTitle: 'Nouveau CV',
+    modernTemplateName: 'Moderne',
+    typographyGroup: 'Typographie',
+    fontLabel: 'Police',
+  },
+  {
+    locale: 'de',
+    tabData: 'Daten',
+    tabTemplate: 'Vorlage',
+    tabStyle: 'Stil',
+    nameLabel: 'Name',
+    save: 'Speichern',
+    getStarted: 'Loslegen',
+    genPDFMobile: 'PDF gen.',
+    newCvTitle: 'Neuer Lebenslauf',
+    modernTemplateName: 'Modern',
+    typographyGroup: 'Typografie',
+    fontLabel: 'Schriftart',
+  },
+  {
+    locale: 'es',
+    tabData: 'Datos',
+    tabTemplate: 'Plantilla',
+    tabStyle: 'Estilo',
+    nameLabel: 'Nombre',
+    save: 'Guardar',
+    getStarted: 'Comenzar',
+    genPDFMobile: 'Gen. PDF',
+    newCvTitle: 'Nuevo CV',
+    modernTemplateName: 'Moderno',
+    typographyGroup: 'Tipografía',
+    fontLabel: 'Fuente',
+  },
 ]
 
-for (const { locale, tabData, tabTemplate, nameLabel, save, getStarted, genPDFMobile, newCvTitle } of LOCALES) {
+for (const {
+  locale,
+  tabData,
+  tabTemplate,
+  tabStyle,
+  nameLabel,
+  save,
+  getStarted,
+  genPDFMobile,
+  newCvTitle,
+  modernTemplateName,
+  typographyGroup,
+  fontLabel,
+} of LOCALES) {
   test.describe(`Locale: ${locale}`, () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(`/${locale}/editor`)
@@ -51,6 +120,25 @@ for (const { locale, tabData, tabTemplate, nameLabel, save, getStarted, genPDFMo
       await expect(page.getByRole('tab', { name: tabTemplate })).toBeVisible()
     })
 
+    // Regression: template/layout names and every style-param label/group used
+    // to come straight from templates.json with no locale variants at all —
+    // the Template and Style tabs stayed English-only regardless of UI locale.
+    test(`[${locale}] Template tab shows a translated template name`, async ({ page }) => {
+      await page.getByRole('tab', { name: tabTemplate }).click()
+      await expect(page.getByTestId('template-btn-modern')).toContainText(modernTemplateName)
+    })
+
+    test(`[${locale}] Style tab shows a translated group name and param label`, async ({
+      page,
+    }) => {
+      await page.getByRole('tab', { name: tabStyle }).click()
+      const group = page.locator('button').filter({ hasText: typographyGroup }).first()
+      await expect(group).toBeVisible()
+      const text = await group.textContent({ timeout: 5_000 })
+      if (!text?.includes('▲')) await group.click()
+      await expect(page.getByText(fontLabel, { exact: true })).toBeVisible()
+    })
+
     test(`[${locale}] onboarding modal uses translated Get started button`, async ({ page }) => {
       // Clear all storage so the modal appears (both legacy and current keys)
       await page.evaluate(() => localStorage.clear())
@@ -68,7 +156,9 @@ for (const { locale, tabData, tabTemplate, nameLabel, save, getStarted, genPDFMo
       await page.reload()
       await page.addStyleTag({ content: 'nextjs-portal { display: none !important; }' })
 
-      const genBtn = page.getByTestId('mobile-tabbar').getByRole('button', { name: genPDFMobile, exact: true })
+      const genBtn = page
+        .getByTestId('mobile-tabbar')
+        .getByRole('button', { name: genPDFMobile, exact: true })
       await expect(genBtn).toBeVisible()
     })
 
