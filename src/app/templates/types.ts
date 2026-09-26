@@ -1,6 +1,10 @@
 import type { DragEndEvent, SensorDescriptor } from '@dnd-kit/core'
 
-type StyleParamBase = { key: string; label: string; group?: string; canonical?: string }
+// `labelKey` is a fully-qualified dotted path into messages/*.json (e.g.
+// "styleParams.shared.font_family" or "templateCatalog.modern.styleParams.accent_color"),
+// computed once in editor/page.tsx where the shared-vs-per-template distinction is known —
+// components resolve it with a root-scoped `useTranslations()`, no bucket-guessing needed.
+type StyleParamBase = { key: string; labelKey: string; group?: string; canonical?: string }
 
 export type StyleParam =
   | (StyleParamBase & { type: 'color'; default: string })
@@ -18,7 +22,7 @@ export type StyleParam =
       default: string
     })
   | (StyleParamBase & { type: 'toggle'; default: string })
-  | (StyleParamBase & { type: 'text'; placeholder?: string; default: string })
+  | (StyleParamBase & { type: 'text'; default: string })
 
 export type StyleValues = Record<string, string | number>
 
@@ -116,10 +120,11 @@ export type LayoutEditorHandle = {
 
 export type Tab = 'data' | 'template' | 'layout' | 'style'
 
-export type Layout = { id: string; name: string; description: string; pdf?: string }
+// `name`/layout-variant names live in messages/*.json (templateCatalog.<id>.name /
+// templateCatalog.<id>.layouts.<layoutId>) rather than here — see CODEBASE-ARCHITECTURE.md.
+export type Layout = { id: string; description: string; pdf?: string }
 export type Template = {
   id: string
-  name: string
   description: string
   layouts: Layout[]
   styleParams?: StyleParam[]

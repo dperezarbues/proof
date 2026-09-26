@@ -582,5 +582,164 @@
     },
     "footerTagline": "Referencia del esquema de Proof",
     "plainTextNote": "También disponible como texto plano — para pegar directamente en una IA o usar en scripts:"
+  },
+  "styleParams": {
+    "groups": {
+      "typography": "Tipografía",
+      "colors": "Colores",
+      "spacing": "Espaciado",
+      "extras": "Extras",
+      "header": "Cabecera",
+      "sidebar": "Barra lateral"
+    },
+    "shared": {
+      "font_family": "Fuente",
+      "name_size": "Nombre",
+      "entry_size": "Títulos de entrada",
+      "body_size": "Texto del cuerpo",
+      "section_heading_size": "Etiquetas de sección",
+      "body_color": "Texto del cuerpo",
+      "heading_color": "Encabezados",
+      "muted_color": "Atenuado / meta",
+      "line_height": "Interlineado",
+      "show_footer": "Pie de página",
+      "show_qr": "Código QR",
+      "qr_url": "URL de destino del QR",
+      "qr_url_placeholder": "linkedin.com/in/…  (déjelo vacío para LinkedIn)",
+      "show_contact_icons": "Iconos de contacto",
+      "show_contact_labels": "Etiquetas de contacto"
+    }
+  },
+  "templateCatalog": {
+    "previewAlt": "Vista previa de la plantilla {name}",
+    "default": {
+      "name": "Predeterminado",
+      "layouts": {
+        "default": "División",
+        "classic": "Clásico",
+        "alt": "Alternativo"
+      },
+      "styleParams": {
+        "headline_size": "Titular",
+        "accent_color": "Enlaces / acento",
+        "section_pre": "Antes de sección",
+        "section_post": "Después de la línea",
+        "section_rule_gap": "Título → línea"
+      }
+    },
+    "modern": {
+      "name": "Moderno",
+      "layouts": {
+        "default": "Predeterminado"
+      },
+      "styleParams": {
+        "headline_size": "Titular",
+        "accent_color": "Acento / enlaces",
+        "section_pre": "Antes de sección",
+        "section_post": "Después de la línea"
+      }
+    },
+    "minimal": {
+      "name": "Minimalista",
+      "layouts": {
+        "default": "Predeterminado"
+      },
+      "styleParams": {
+        "accent_color": "Enlaces / acento",
+        "section_pre": "Antes de sección",
+        "section_post": "Después de la línea"
+      }
+    },
+    "sidebar": {
+      "name": "Barra lateral",
+      "layouts": {
+        "default": "Predeterminado"
+      },
+      "styleParams": {
+        "accent_color": "Enlaces / acento",
+        "sidebar_bg": "Fondo",
+        "sidebar_accent": "Encabezados de sección",
+        "sidebar_link_color": "Enlaces / iconos",
+        "sidebar_text": "Texto",
+        "sidebar_ink": "Nombres y títulos",
+        "sidebar_width": "Ancho",
+        "section_pre": "Antes de sección",
+        "section_post": "Después de la línea",
+        "section_rule_gap": "Título → línea"
+      }
+    },
+    "compact": {
+      "name": "Compacto",
+      "layouts": {
+        "default": "Predeterminado"
+      },
+      "styleParams": {
+        "headline_size": "Titular",
+        "accent_color": "Acento",
+        "section_pre": "Antes de sección",
+        "section_post": "Después de la línea"
+      }
+    },
+    "banner": {
+      "name": "Banner",
+      "layouts": {
+        "default": "Predeterminado"
+      },
+      "styleParams": {
+        "headline_size": "Titular",
+        "header_bg": "Fondo de cabecera",
+        "accent_color": "Acento",
+        "section_pre": "Antes de sección",
+        "section_post": "Después de la línea"
+      }
+    },
+    "timeline": {
+      "name": "Cronología",
+      "layouts": {
+        "default": "Predeterminado"
+      },
+      "styleParams": {
+        "headline_size": "Titular",
+        "accent_color": "Acento",
+        "section_pre": "Antes de sección",
+        "section_post": "Después de la línea",
+        "section_rule_gap": "Título → línea"
+      }
+    },
+    "academic": {
+      "name": "Académico",
+      "layouts": {
+        "default": "Predeterminado"
+      },
+      "styleParams": {
+        "headline_size": "Titular",
+        "accent_color": "Enlaces / acento",
+        "section_pre": "Antes de sección",
+        "section_post": "Después de la línea"
+      }
+    },
+    "tech": {
+      "name": "Tecnológico",
+      "layouts": {
+        "default": "Predeterminado"
+      },
+      "styleParams": {
+        "headline_size": "Titular",
+        "accent_color": "Acento",
+        "section_pre": "Antes de sección",
+        "section_post": "Después de la línea"
+      }
+    },
+    "editorial": {
+      "name": "Editorial",
+      "layouts": {
+        "default": "Predeterminado"
+      },
+      "styleParams": {
+        "accent_color": "Acento",
+        "section_pre": "Antes de sección",
+        "section_post": "Después de la línea"
+      }
+    }
   }
 }

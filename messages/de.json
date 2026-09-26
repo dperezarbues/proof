@@ -582,5 +582,164 @@
     },
     "footerTagline": "Proof-Schema-Referenz",
     "plainTextNote": "Auch als reiner Text verfügbar — zum direkten Einfügen in eine KI oder für Skripte:"
+  },
+  "styleParams": {
+    "groups": {
+      "typography": "Typografie",
+      "colors": "Farben",
+      "spacing": "Abstände",
+      "extras": "Extras",
+      "header": "Kopfzeile",
+      "sidebar": "Seitenleiste"
+    },
+    "shared": {
+      "font_family": "Schriftart",
+      "name_size": "Name",
+      "entry_size": "Eintragstitel",
+      "body_size": "Fließtext",
+      "section_heading_size": "Abschnittsbeschriftungen",
+      "body_color": "Fließtext",
+      "heading_color": "Überschriften",
+      "muted_color": "Gedämpft / Meta",
+      "line_height": "Zeilenhöhe",
+      "show_footer": "Seitenfuß",
+      "show_qr": "QR-Code",
+      "qr_url": "QR-Ziel-URL",
+      "qr_url_placeholder": "linkedin.com/in/…  (für LinkedIn leer lassen)",
+      "show_contact_icons": "Kontaktsymbole",
+      "show_contact_labels": "Kontaktbeschriftungen"
+    }
+  },
+  "templateCatalog": {
+    "previewAlt": "Vorschau der Vorlage {name}",
+    "default": {
+      "name": "Standard",
+      "layouts": {
+        "default": "Geteilt",
+        "classic": "Klassisch",
+        "alt": "Alternativ"
+      },
+      "styleParams": {
+        "headline_size": "Berufsbezeichnung",
+        "accent_color": "Links / Akzent",
+        "section_pre": "Vor dem Abschnitt",
+        "section_post": "Nach der Linie",
+        "section_rule_gap": "Titel → Linie"
+      }
+    },
+    "modern": {
+      "name": "Modern",
+      "layouts": {
+        "default": "Standard"
+      },
+      "styleParams": {
+        "headline_size": "Berufsbezeichnung",
+        "accent_color": "Akzent / Links",
+        "section_pre": "Vor dem Abschnitt",
+        "section_post": "Nach der Linie"
+      }
+    },
+    "minimal": {
+      "name": "Minimalistisch",
+      "layouts": {
+        "default": "Standard"
+      },
+      "styleParams": {
+        "accent_color": "Links / Akzent",
+        "section_pre": "Vor dem Abschnitt",
+        "section_post": "Nach der Linie"
+      }
+    },
+    "sidebar": {
+      "name": "Seitenleiste",
+      "layouts": {
+        "default": "Standard"
+      },
+      "styleParams": {
+        "accent_color": "Links / Akzent",
+        "sidebar_bg": "Hintergrund",
+        "sidebar_accent": "Abschnittsüberschriften",
+        "sidebar_link_color": "Links / Symbole",
+        "sidebar_text": "Text",
+        "sidebar_ink": "Namen & Titel",
+        "sidebar_width": "Breite",
+        "section_pre": "Vor dem Abschnitt",
+        "section_post": "Nach der Linie",
+        "section_rule_gap": "Titel → Linie"
+      }
+    },
+    "compact": {
+      "name": "Kompakt",
+      "layouts": {
+        "default": "Standard"
+      },
+      "styleParams": {
+        "headline_size": "Berufsbezeichnung",
+        "accent_color": "Akzent",
+        "section_pre": "Vor dem Abschnitt",
+        "section_post": "Nach der Linie"
+      }
+    },
+    "banner": {
+      "name": "Banner",
+      "layouts": {
+        "default": "Standard"
+      },
+      "styleParams": {
+        "headline_size": "Berufsbezeichnung",
+        "header_bg": "Kopfzeilen-Hintergrund",
+        "accent_color": "Akzent",
+        "section_pre": "Vor dem Abschnitt",
+        "section_post": "Nach der Linie"
+      }
+    },
+    "timeline": {
+      "name": "Zeitleiste",
+      "layouts": {
+        "default": "Standard"
+      },
+      "styleParams": {
+        "headline_size": "Berufsbezeichnung",
+        "accent_color": "Akzent",
+        "section_pre": "Vor dem Abschnitt",
+        "section_post": "Nach der Linie",
+        "section_rule_gap": "Titel → Linie"
+      }
+    },
+    "academic": {
+      "name": "Akademisch",
+      "layouts": {
+        "default": "Standard"
+      },
+      "styleParams": {
+        "headline_size": "Berufsbezeichnung",
+        "accent_color": "Links / Akzent",
+        "section_pre": "Vor dem Abschnitt",
+        "section_post": "Nach der Linie"
+      }
+    },
+    "tech": {
+      "name": "Tech",
+      "layouts": {
+        "default": "Standard"
+      },
+      "styleParams": {
+        "headline_size": "Berufsbezeichnung",
+        "accent_color": "Akzent",
+        "section_pre": "Vor dem Abschnitt",
+        "section_post": "Nach der Linie"
+      }
+    },
+    "editorial": {
+      "name": "Redaktionell",
+      "layouts": {
+        "default": "Standard"
+      },
+      "styleParams": {
+        "accent_color": "Akzent",
+        "section_pre": "Vor dem Abschnitt",
+        "section_post": "Nach der Linie"
+      }
+    }
   }
 }

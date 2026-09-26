@@ -203,11 +203,11 @@ describe('parseLayoutStructure', () => {
 
 describe('parseStyleValues', () => {
   const params: StyleParam[] = [
-    { key: 'accent', type: 'color', label: 'Accent', default: '#000000' },
+    { key: 'accent', type: 'color', labelKey: 'test.accent', default: '#000000' },
     {
       key: 'font_size',
       type: 'range',
-      label: 'Font size',
+      labelKey: 'test.font_size',
       min: 8,
       max: 16,
       step: 0.5,
@@ -217,7 +217,7 @@ describe('parseStyleValues', () => {
     {
       key: 'font',
       type: 'select',
-      label: 'Font',
+      labelKey: 'test.font',
       options: [{ label: 'Inter', value: 'inter' }],
       default: 'inter',
     },

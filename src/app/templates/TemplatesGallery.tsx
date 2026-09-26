@@ -52,6 +52,7 @@ export default function TemplatesGallery({
 }) {
   const t = useTranslations('editor')
   const tSection = useTranslations('cvEditor')
+  const tCatalog = useTranslations('templateCatalog')
   const [activeTab, setActiveTab] = useState<Tab>('data')
 
   /** Deep link from the landing gallery: /editor?template=<id>. Read via a lazy
@@ -699,8 +700,8 @@ export default function TemplatesGallery({
       {/* ── Main area: PDF preview + mobile tab bar ───────────────────────── */}
       <div className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden">
         <PdfPreview
-          templateName={activeTemplate.name}
-          layoutName={activeLayout.name}
+          templateName={tCatalog(`${activeTemplate.id}.name`)}
+          layoutName={tCatalog(`${activeTemplate.id}.layouts.${activeLayout.id}`)}
           showLayoutSuffix={activeTemplate.layouts.length > 1}
           currentPdf={currentPdf}
           isSample={isSample}
