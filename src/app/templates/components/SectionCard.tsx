@@ -94,7 +94,7 @@ export default function SectionCard({
             className="w-3 h-3"
             style={{ accentColor: 'var(--c-accent)' }}
           />
-          <span>break</span>
+          <span>{t('breakToggleLabel')}</span>
         </label>
         <button
           type="button"

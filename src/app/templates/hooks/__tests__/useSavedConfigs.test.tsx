@@ -1,9 +1,18 @@
 // @vitest-environment jsdom
-import { act, cleanup, renderHook } from '@testing-library/react'
+import { act, cleanup, renderHook, waitFor } from '@testing-library/react'
+import { NextIntlClientProvider } from 'next-intl'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { loadSaves, mutateSaves } from '../../storage-helpers'
 import type { SavedConfig } from '../../types'
 import { useSavedConfigs } from '../useSavedConfigs'
+
+function wrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <NextIntlClientProvider locale="en" messages={{}}>
+      {children}
+    </NextIntlClientProvider>
+  )
+}
 
 vi.mock('../../storage-helpers', () => ({
   loadSaves: vi.fn(() => []),
@@ -31,15 +40,17 @@ function makeSave(overrides: Partial<SavedConfig> = {}): SavedConfig {
 function setup() {
   const onLoad = vi.fn()
   const onSaved = vi.fn()
-  const view = renderHook(() =>
-    useSavedConfigs({
-      templateId: 'default',
-      styleParams: [],
-      getLayoutSnapshot: () => minLayout,
-      style: {},
-      onLoad,
-      onSaved,
-    }),
+  const view = renderHook(
+    () =>
+      useSavedConfigs({
+        templateId: 'default',
+        styleParams: [],
+        getLayoutSnapshot: () => minLayout,
+        style: {},
+        onLoad,
+        onSaved,
+      }),
+    { wrapper },
   )
   return { ...view, onLoad, onSaved }
 }
@@ -111,5 +122,57 @@ describe('useSavedConfigs', () => {
     })
 
     expect(result.current.saves).toEqual([])
+  })
+
+  function fileChangeEvent(content: string) {
+    const file = new File([content], 'layout.json', { type: 'application/json' })
+    return {
+      target: { files: [file], value: '' },
+    } as unknown as React.ChangeEvent<HTMLInputElement>
+  }
+
+  // Regression: a malformed or schema-invalid import file used to fail silently —
+  // handleImport just `return`ed inside the try/catch with no error state at all,
+  // so the user got no indication anything happened.
+  it('sets an import error and does not call onLoad when the file is not valid JSON', async () => {
+    const { result, onLoad } = setup()
+
+    act(() => {
+      result.current.handleImport(fileChangeEvent('not json'))
+    })
+
+    await waitFor(() => expect(result.current.importError).not.toBeNull())
+    expect(onLoad).not.toHaveBeenCalled()
+  })
+
+  it('sets an import error and does not call onLoad when the JSON fails layout validation', async () => {
+    const { result, onLoad } = setup()
+
+    act(() => {
+      result.current.handleImport(fileChangeEvent(JSON.stringify({ not: 'a layout' })))
+    })
+
+    await waitFor(() => expect(result.current.importError).not.toBeNull())
+    expect(onLoad).not.toHaveBeenCalled()
+  })
+
+  it('clears any previous import error and calls onLoad when the file is a valid layout', async () => {
+    const { result, onLoad } = setup()
+
+    act(() => {
+      result.current.handleImport(fileChangeEvent('not json'))
+    })
+    await waitFor(() => expect(result.current.importError).not.toBeNull())
+
+    const validLayout = {
+      header: { style: 'split' },
+      sections: [{ id: 'summary', breakable: true }],
+    }
+    act(() => {
+      result.current.handleImport(fileChangeEvent(JSON.stringify(validLayout)))
+    })
+
+    await waitFor(() => expect(onLoad).toHaveBeenCalled())
+    expect(result.current.importError).toBeNull()
   })
 })

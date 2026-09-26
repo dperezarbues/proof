@@ -195,7 +195,7 @@ Any other top-level key not covered above is rendered generically under a headin
 - External: `[display text](https://example.com)`
 - Internal PDF jump: `[display text](#section-id)` — e.g. `[see projects](#side_projects)`
 
-Section IDs for internal links: `summary`, `experience`, `education`, `skills`, `languages`, `certifications`, `awards`, `side_projects`, `core_strengths`, `leadership_profile`
+Section IDs for internal links: `summary`, `experience`, `education`, `skills`, `languages`, `certifications`, `awards`, `side_projects`, `core_strengths`, `leadership_profile`, and `contact` (sidebar template only — the only template that renders a contact section with its own anchor)
 
 ---
 
@@ -244,7 +244,7 @@ Layout JSON controls section ordering, page-break behaviour, multi-column layout
 
 | Field | Type | Description |
 |---|---|---|
-| `header` | object, required | Always `{"style": "split" \| "stacked"}` — the import validator rejects any other value — but only the `default` template actually reads it, toggling between a side-by-side and a stacked name/headline/contact header. Every other template (minimal, modern, sidebar, and the rest) has a single fixed header layout and silently ignores this field, so pick either value for them; it has no visible effect. |
+| `header` | object, optional | `{"style": "split" \| "stacked" \| "sidebar"}` — omit it entirely and it defaults to `{"style": "stacked"}`. Only the `default` template actually reads this value, toggling between a side-by-side and a stacked name/headline/contact header. Every other template has a single fixed header layout and ignores this field entirely — `sidebar`'s own layout file sets `"style": "sidebar"` as a label only; `sidebar.typ` doesn't branch on it. Pick any value for templates other than `default`; it has no visible effect. |
 | `sections` | array, required | Main column sections (see below) |
 | `sidebar_sections` | array | Sidebar template only — sections rendered in the left sidebar |
 | `style` | object | Style overrides (see Style parameters section) |

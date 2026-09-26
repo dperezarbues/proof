@@ -45,7 +45,7 @@ Links in text fields use Markdown syntax: [text](https://url) or [text](#section
 - `compact` — dense two-column body, fits a long CV on one page
 - `banner` — full-width dark header band, filled stack pills
 - `timeline` — experience on a dated rail with circular markers
-- `academic` — centred formal layout (Appointments / Selected Work headings)
+- `academic` — centred formal layout; Experience and Side Projects render in an academic-CV citation style (organisation first, numbered entries) while keeping the standard translated section headings
 - `tech` — monospace `//`-prefixed section headers, flat tag grid for skills
 - `editorial` — magazine-style large italic display name, narrow meta column
 

@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import type { StyleParam, StyleValues } from '../types'
 import StyleGroup from './StyleGroup'
 import StyleParamField from './StyleParamField'
@@ -12,6 +13,7 @@ type Props = {
 }
 
 export default function StylePanel({ styleParams, style, setStyleValue, resetStyle }: Props) {
+  const t = useTranslations('editor')
   const groupOrder: string[] = []
   const groupMap = new Map<string, StyleParam[]>()
   const ungrouped: StyleParam[] = []
@@ -54,7 +56,7 @@ export default function StylePanel({ styleParams, style, setStyleValue, resetSty
             color: 'var(--c-ink2)',
           }}
         >
-          ↺ Reset to defaults
+          {t('resetStyleDefaults')}
         </button>
       </div>
     </div>

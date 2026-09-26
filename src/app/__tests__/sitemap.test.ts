@@ -6,9 +6,13 @@ describe('sitemap', () => {
   const entries = sitemap()
 
   it('emits one entry per real page per locale, and nothing for the /templates redirect', () => {
-    // 4 real content pages (/, /editor, /for-llms, /terms) x 4 locales
-    expect(entries).toHaveLength(4 * routing.locales.length)
+    // 5 real content pages (/, /editor, /for-llms, /help, /terms) x 4 locales
+    expect(entries).toHaveLength(5 * routing.locales.length)
     expect(entries.some((e) => e.url.includes('/templates'))).toBe(false)
+  })
+
+  it('includes /help — a real, indexable content page with no locale-redirect shim', () => {
+    expect(entries.some((e) => e.url.includes('/help'))).toBe(true)
   })
 
   it('every URL is locale-prefixed and trailing-slashed', () => {

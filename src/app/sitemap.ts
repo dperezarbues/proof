@@ -14,11 +14,14 @@ type PageDef = {
 // Real, indexable content lives at /[locale]/... — the bare /editor, /for-llms,
 // /terms routes are client-side locale-detection redirect shims (see
 // src/components/LocaleRedirect.tsx), not distinct pages search engines
-// should index directly.
+// should index directly. /help has no such shim (it's only ever reached via
+// /[locale]/help) but is real, indexable content just like /terms and
+// /for-llms, so it belongs here too.
 const PAGES: PageDef[] = [
   { path: '', changeFrequency: 'monthly', priority: 1.0 },
   { path: '/editor', changeFrequency: 'monthly', priority: 0.9 },
   { path: '/for-llms', changeFrequency: 'monthly', priority: 0.7 },
+  { path: '/help', changeFrequency: 'monthly', priority: 0.6 },
   { path: '/terms', changeFrequency: 'yearly', priority: 0.3 },
 ]
 

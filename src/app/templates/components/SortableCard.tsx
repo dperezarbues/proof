@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useContext, useState } from 'react'
 import { LabelCtx } from '../contexts'
 import type { EditorSection } from '../types'
@@ -22,6 +23,7 @@ export default function SortableCard({
   onSpacingChange: (pre: number | undefined, post: number | undefined) => void
 }) {
   const getLabel = useContext(LabelCtx)
+  const t = useTranslations('editor')
   const [expanded, setExpanded] = useState(false)
 
   if (item.kind === 'full') {
@@ -53,7 +55,7 @@ export default function SortableCard({
           className="flex-1 flex items-center gap-1.5 text-sm text-gray-700 text-left"
         >
           <span className="text-gray-400 text-xs">{expanded ? '▾' : '▸'}</span>
-          <span>{item.columns}-col group</span>
+          <span>{t('columnsGroupLabel', { n: item.columns })}</span>
           <span className="text-xs text-gray-400 ml-1">
             ({item.content.map((c) => c.length).join('+')})
           </span>
@@ -75,7 +77,7 @@ export default function SortableCard({
             <ColumnSlot
               // biome-ignore lint/suspicious/noArrayIndexKey: column order is stable; no identity beyond position
               key={ci}
-              label={`Col ${ci + 1}`}
+              label={t('columnLabel', { n: ci + 1 })}
               sections={col}
               available={available}
               onRemove={(si) =>
