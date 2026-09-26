@@ -25,7 +25,7 @@ export default function SpacingRow({
     >
       <span className="shrink-0">↕</span>
       <label className="flex items-center gap-1 shrink-0">
-        <span>before</span>
+        <span>{t('spacingBeforeLabel')}</span>
         <input
           type="number"
           min={0.05}
@@ -40,10 +40,10 @@ export default function SpacingRow({
             background: 'var(--c-card)',
           }}
         />
-        <span>em</span>
+        <span>{t('spacingUnitLabel')}</span>
       </label>
       <label className="flex items-center gap-1 shrink-0">
-        <span>after</span>
+        <span>{t('spacingAfterLabel')}</span>
         <input
           type="number"
           min={0.05}
@@ -58,7 +58,7 @@ export default function SpacingRow({
             background: 'var(--c-card)',
           }}
         />
-        <span>em</span>
+        <span>{t('spacingUnitLabel')}</span>
       </label>
       <button
         type="button"

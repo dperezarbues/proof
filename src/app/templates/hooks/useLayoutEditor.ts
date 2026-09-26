@@ -146,6 +146,7 @@ export function useLayoutEditor({
       saves: saved.saves,
       showSaveModal: saved.showSaveModal,
       setShowSaveModal: saved.setShowSaveModal,
+      importError: saved.importError,
       importRef: saved.importRef,
       mySavesCount: saved.mySavesCount,
       handleSave: saved.handleSave,

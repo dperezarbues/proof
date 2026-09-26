@@ -126,9 +126,19 @@ export default function EditorShell({
                 className="text-[11px] px-2.5 py-1 rounded-[3px] transition-opacity hover:opacity-70"
                 style={{ color: 'var(--c-ink2)', boxShadow: 'inset 0 0 0 1.3px var(--c-line)' }}
               >
-                Import ↑
+                {t('importLayoutPreset')}
               </button>
             </div>
+            {saved.importError && (
+              <p
+                role="alert"
+                className="text-[11px] pt-2"
+                style={{ color: 'var(--c-error)' }}
+                data-testid="layout-import-error"
+              >
+                ⚠ {saved.importError}
+              </p>
+            )}
           </div>
         )}
 

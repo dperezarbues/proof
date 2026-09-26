@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { KEYS } from '@/lib/storage'
 import { parseLayoutStructure, parseStyleValues } from '../layout-serializer'
@@ -22,8 +23,10 @@ export function useSavedConfigs({
   onLoad: (layout: LayoutStructure, style: StyleValues) => void
   onSaved: () => void
 }) {
+  const t = useTranslations('editor')
   const [saves, setSaves] = useState<SavedConfig[]>(() => loadSaves())
   const [showSaveModal, setShowSaveModal] = useState(false)
+  const [importError, setImportError] = useState<string | null>(null)
   const importRef = useRef<HTMLInputElement>(null)
 
   const mySavesCount = useMemo(
@@ -77,18 +80,23 @@ export function useSavedConfigs({
   function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
+    setImportError(null)
     const reader = new FileReader()
     reader.onload = (ev) => {
       try {
         const json = JSON.parse(ev.target?.result as string)
         const result = LayoutImportSchema.safeParse(json)
-        if (!result.success) return
+        if (!result.success) {
+          setImportError(t('layoutImportError'))
+          return
+        }
         const raw = result.data as Record<string, unknown>
         onLoad(parseLayoutStructure(raw), parseStyleValues(raw, styleParams))
       } catch {
-        /* ignore malformed files */
+        setImportError(t('layoutImportError'))
       }
     }
+    reader.onerror = () => setImportError(t('layoutImportError'))
     reader.readAsText(file)
     e.target.value = ''
   }
@@ -97,6 +105,7 @@ export function useSavedConfigs({
     saves,
     showSaveModal,
     setShowSaveModal,
+    importError,
     importRef,
     mySavesCount,
     handleSave,

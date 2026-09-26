@@ -41,13 +41,13 @@ export default function LayoutPanel({
       {hasSidebar ? (
         <div className="px-4 pb-3">
           <p className="text-xs mb-2" style={{ color: 'var(--c-faint)' }}>
-            Name &amp; headline always shown
+            {t('layoutSidebarNote')}
           </p>
           <p
             className="text-xs font-mono uppercase tracking-wide mb-1.5"
             style={{ color: 'var(--c-faint)' }}
           >
-            Sidebar
+            {t('layoutSidebarHeading')}
           </p>
           <DndContext
             sensors={sensors}
@@ -97,7 +97,7 @@ export default function LayoutPanel({
             className="text-xs font-mono uppercase tracking-wide mt-4 mb-1.5"
             style={{ color: 'var(--c-faint)' }}
           >
-            Main column
+            {t('layoutMainColumnHeading')}
           </p>
         </div>
       ) : (
@@ -106,7 +106,7 @@ export default function LayoutPanel({
             className="text-xs font-mono uppercase tracking-wide mb-1.5"
             style={{ color: 'var(--c-faint)' }}
           >
-            Sections
+            {t('layoutSectionsHeading')}
           </p>
         </div>
       )}
@@ -166,7 +166,7 @@ export default function LayoutPanel({
               color: 'var(--c-sub)',
             }}
           >
-            + columns
+            {t('addColumnsGroup')}
           </button>
         </div>
       </div>
